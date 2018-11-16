@@ -6,8 +6,6 @@ group='me.yifeiyuan.flap'
 android {
     compileSdkVersion 27
 
-
-
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 27

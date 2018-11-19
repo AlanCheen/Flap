@@ -13,21 +13,21 @@ import java.lang.reflect.Type;
 /**
  * Created by Fitz|mingjue on 2018/11/19.
  */
-public abstract class LayoutItemFactory<T, VH extends FlapViewHolder> implements ItemFactory<T> {
+public abstract class LayoutTypeItemFactory<T, VH extends FlapViewHolder> implements ItemFactory<T> {
 
     @NonNull
     @Override
-    public FlapViewHolder createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public VH createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
         View view = inflater.inflate(viewType, parent, false);
 
         Class clazz = getModelClassFromItemFactory(this);
 
-        FlapViewHolder vh = null;
+        VH vh = null;
         try {
             Constructor constructor = clazz.getConstructor(View.class);
             constructor.setAccessible(true);
-            vh = (FlapViewHolder) constructor.newInstance(view);
+            vh = (VH) constructor.newInstance(view);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

@@ -47,7 +47,7 @@ public abstract class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> i
 
     @Override
     public int getItemViewType(final int position) {
-        return flap.getItemViewType(getModel(position), position);
+        return flap.getItemViewType(getModel(position));
     }
 
     @Override

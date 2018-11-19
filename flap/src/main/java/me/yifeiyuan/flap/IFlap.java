@@ -9,7 +9,7 @@ import android.view.ViewGroup;
  */
 public interface IFlap extends ItemFactoryManager {
 
-    int getItemViewType(@NonNull Object var1, int position);
+    int getItemViewType(@NonNull Object model);
 
     @NonNull
     FlapViewHolder createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);

@@ -63,7 +63,7 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public int getItemViewType(@NonNull final Object model, final int position) {
+    public int getItemViewType(@NonNull final Object model) {
 
         Class modelClazz = model.getClass();
 

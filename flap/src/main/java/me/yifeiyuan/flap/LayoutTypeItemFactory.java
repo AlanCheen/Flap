@@ -11,13 +11,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public abstract class LayoutTypeItemFactory<T, VH extends FlapViewHolder> implements ItemFactory<T> {
 
     @NonNull
     @Override
-    public VH createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public VH onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
         View view = inflater.inflate(viewType, parent, false);
 

@@ -31,3 +31,20 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 }
+
+apply plugin: "guru.stefma.bintrayrelease"
+
+version = "0.1.0"
+group = "me.yifeiyuan.flap"
+androidArtifact { // 2
+    artifactId = "flap"
+}
+publish {
+    userOrg = 'alancheen'
+//    groupId = 'me.yifeiyuan.flap'
+//    artifactId = 'flap'
+//    publishVersion = '0.1.0'
+    dryRun = false
+    desc = 'Flap'
+    website = 'https://github.com/AlanCheen/Flap'
+}

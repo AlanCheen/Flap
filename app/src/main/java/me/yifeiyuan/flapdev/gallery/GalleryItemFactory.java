@@ -8,13 +8,13 @@ import me.yifeiyuan.flap.FlapViewHolder;
 import me.yifeiyuan.flap.ItemFactory;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public class GalleryItemFactory implements ItemFactory<GalleryModel> {
 
     @NonNull
     @Override
-    public FlapViewHolder createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public FlapViewHolder onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
         return null;
     }
 

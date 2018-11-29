@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public interface ItemFactory<T> {
 
     @NonNull
-    FlapViewHolder createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    FlapViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     int getItemViewType(T model);
 }

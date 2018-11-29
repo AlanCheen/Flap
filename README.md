@@ -17,7 +17,7 @@ Have a try , thanks !
 
 Add the latest Flap to your dependencies:
 
-```
+```groovy
 dependencies {
     implementation 'me.yifeiyuan.flap:flap:0.1.0'
 }
@@ -28,7 +28,7 @@ dependencies {
 
 ### Step 1 : create a model class , e.g.:
 
-```
+```java
 public class SimpleTextModel {
 
     @NonNull
@@ -40,9 +40,9 @@ public class SimpleTextModel {
 }
 ```
 
-Step 2 : create a class extends `LayoutTypeItemFactory` and override some methods:
+### Step 2 : create a class extends `LayoutTypeItemFactory` and override some methods:
 
-```
+```java
 public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemFactory.SimpleTextItemVH> {
 
     @Override
@@ -68,9 +68,9 @@ public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel
 }
 ```
 
-Step 3 : create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
+### Step 3 : create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
-```
+```java
     RecyclerView recyclerView = findViewById(R.id.rv_items);
 
     FlapAdapter adapter = new FlapAdapter();

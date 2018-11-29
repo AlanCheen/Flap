@@ -19,7 +19,7 @@ Add the latest Flap to your dependencies:
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:0.1.0'
+    implementation 'me.yifeiyuan.flap:flap:0.2.0'
 }
 ```
 

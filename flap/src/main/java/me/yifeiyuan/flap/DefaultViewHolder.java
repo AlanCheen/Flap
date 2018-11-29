@@ -3,11 +3,11 @@ package me.yifeiyuan.flap;
 import android.view.View;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
-public class DefaultViewHolder extends FlapViewHolder {
+class DefaultViewHolder extends FlapViewHolder {
 
-    public DefaultViewHolder(final View itemView) {
+    DefaultViewHolder(final View itemView) {
         super(itemView);
     }
 

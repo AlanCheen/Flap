@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 /**
- * Created by Fitz|mingjue on 2018/11/16.
+ * Created by 程序亦非猿
  */
 public interface IFlap extends ItemFactoryManager {
 
     int getItemViewType(@NonNull Object model);
 
     @NonNull
-    FlapViewHolder createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    FlapViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     @NonNull
     FlapViewHolder onCreateDefaultViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);

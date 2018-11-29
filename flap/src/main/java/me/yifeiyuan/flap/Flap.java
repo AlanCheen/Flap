@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Fitz|mingjue on 2018/11/16.
+ * Created by 程序亦非猿
  */
 public class Flap implements IFlap {
 
     private static final String TAG = "Flap";
 
-    private static final int DEFAULT_ITEM_TYPE = -1;
+    private static final int DEFAULT_ITEM_TYPE = -66666;
 
     private static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
@@ -38,12 +38,12 @@ public class Flap implements IFlap {
     }
 
     public Flap() {
-        itemFactories = new HashMap<>(getItemTypeCount());
-        factoryMapping = new SparseArray<>(getItemTypeCount());
+        this(DEFAULT_ITEM_TYPE_COUNT);
     }
 
-    protected int getItemTypeCount() {
-        return DEFAULT_ITEM_TYPE_COUNT;
+    public Flap(int typeCount) {
+        itemFactories = new HashMap<>(typeCount);
+        factoryMapping = new SparseArray<>(typeCount);
     }
 
     @Override
@@ -80,20 +80,20 @@ public class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapViewHolder createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public FlapViewHolder onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
         FlapViewHolder vh = null;
 
         ItemFactory factory = factoryMapping.get(viewType);
         if (null != factory) {
             try {
-                vh = factory.createViewHolder(inflater, parent, viewType);
+                vh = factory.onCreateViewHolder(inflater, parent, viewType);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, "Something went wrong when create item by ItemFactory:" + factory.getClass().getSimpleName());
+                Log.e(TAG, "Something went wrong when creating item by ItemFactory:" + factory.getClass().getSimpleName());
             }
         }
-        //in case that we got a null view holder , create a default one ,so won't crash the app
+        //in case that we get a null view holder , create a default one ,so won't crash the app
         if (vh == null) {
             vh = onCreateDefaultViewHolder(inflater, parent, viewType);
         }

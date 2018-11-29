@@ -6,30 +6,37 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static me.yifeiyuan.flap.Preconditions.checkNotNull;
+
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
-public abstract class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements ItemFactoryManager {
+public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements ItemFactoryManager {
 
     @NonNull
     private Flap flap = Flap.getDefault();
 
     private LifecycleOwner lifecycleOwner;
 
+    @NonNull
+    private List<?> models = new ArrayList<>();
+
     public void setLifecycleOwner(final LifecycleOwner lifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner;
     }
 
     public void setFlap(@NonNull final Flap flap) {
+        checkNotNull(flap);
         this.flap = flap;
     }
 
     @NonNull
     @Override
     public FlapViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-        return flap.createViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType);
+        return flap.onCreateViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType);
     }
 
     @Override
@@ -60,23 +67,31 @@ public abstract class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> i
         flap.unregisterItemFactory(itemFactory);
     }
 
-    protected Object getModel(final int position) {
+    private Object getModel(final int position) {
         return getModels().get(position);
     }
 
     @Override
     public int getItemCount() {
-        List<Object> models = getModels();
+        List<?> models = getModels();
         if (models == null || models.isEmpty()) {
             return 0;
         }
         return models.size();
     }
 
-    protected abstract List<Object> getModels();
+    public void setModels(@NonNull List<?> models) {
+        checkNotNull(models);
+        this.models = models;
+    }
+
+    @NonNull
+    public List<?> getModels() {
+        return models;
+    }
 
     @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         if (recyclerView.getContext() instanceof LifecycleOwner && lifecycleOwner == null) {
             setLifecycleOwner((LifecycleOwner) recyclerView.getContext());
@@ -84,19 +99,19 @@ public abstract class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> i
     }
 
     @Override
-    public void onViewAttachedToWindow(FlapViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull FlapViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.onViewAttachedToWindow();
     }
 
     @Override
-    public void onViewDetachedFromWindow(FlapViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull FlapViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         holder.onViewDetachedFromWindow();
     }
 
     @Override
-    public void onViewRecycled(FlapViewHolder holder) {
+    public void onViewRecycled(@NonNull FlapViewHolder holder) {
         super.onViewRecycled(holder);
         holder.onViewRecycled();
     }

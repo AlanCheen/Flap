@@ -1,7 +1,7 @@
 package me.yifeiyuan.flapdev.simpleimage;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public class SimpleImageModel {
 }

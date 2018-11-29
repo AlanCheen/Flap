@@ -7,7 +7,7 @@ import me.yifeiyuan.flap.LayoutTypeItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public class SimpleImageItemFactory extends LayoutTypeItemFactory<SimpleImageModel,SimpleImageItemFactory.SimpleImageVH> {
 

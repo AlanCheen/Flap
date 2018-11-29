@@ -1,6 +1,109 @@
 # Flap
 
+Flap is an Android library that make RecyclerView.Adapter more easier to use.
+
+Especially when you have to support lots of different type ViewHolders.
+
+Flap will make you enjoy developing ViewHolders.
+
+And you will save a lot of time by avoiding writing lots of boilerplate code with Flap.
+
+Btw , Flap integrated with Lifecycle , you can get the lifecycle callback easily which is very helpful.
+
+Have a try , thanks !
 
 
-# How to integrate Flap
+## Integrate Flap
 
+Add the latest Flap to your dependencies:
+
+```
+dependencies {
+    implementation 'me.yifeiyuan.flap:flap:0.1.0'
+}
+```
+
+## Usage
+
+
+### Step 1 : create a model class , e.g.:
+
+```
+public class SimpleTextModel {
+
+    @NonNull
+    public String content;
+
+    public SimpleTextModel(@NonNull final String content) {
+        this.content = content;
+    }
+}
+```
+
+Step 2 : create a class extends `LayoutTypeItemFactory` and override some methods:
+
+```
+public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemFactory.SimpleTextItemVH> {
+
+    @Override
+    public int getItemViewType(final SimpleTextModel model) {
+        //return the layout id here
+        return R.layout.flap_item_simple_text;
+    }
+
+    public static class SimpleTextItemVH extends FlapViewHolder<SimpleTextModel> {
+
+        TextView tvContent;
+        public SimpleTextItemVH(final View itemView) {
+            super(itemView);
+            tvContent = findViewById(R.id.tv_content);
+        }
+
+        @Override
+        protected void onBindData(final SimpleTextModel model) {
+            tvContent.setText(model.content);
+        }
+    }
+
+}
+```
+
+Step 3 : create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
+
+```
+    RecyclerView recyclerView = findViewById(R.id.rv_items);
+
+    FlapAdapter adapter = new FlapAdapter();
+
+    adapter.registerItemFactory(new SimpleTextItemFactory());
+
+    List<Object> models = new ArrayList<>();
+
+    models.add(new SimpleTextModel("Android"));
+    models.add(new SimpleTextModel("Java"));
+    models.add(new SimpleTextModel("Kotlin"));
+    adapter.setModels(models);
+
+    recyclerView.setAdapter(adapter);
+```
+
+You are good to go!
+
+![](./arts/flap-simple-showcase.png)
+
+## Change Log
+
+//todo
+
+## Contact Me
+
+//todo
+
+## Thanks
+
+This project is using https://github.com/StefMa/bintray-release to upload aar to jCenter.
+
+
+## License
+
+Apache 2

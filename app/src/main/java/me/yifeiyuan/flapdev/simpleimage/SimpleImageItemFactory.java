@@ -1,15 +1,24 @@
 package me.yifeiyuan.flapdev.simpleimage;
 
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import me.yifeiyuan.flap.FlapViewHolder;
-import me.yifeiyuan.flap.LayoutTypeItemFactory;
+import me.yifeiyuan.flap.ItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿
  */
-public class SimpleImageItemFactory extends LayoutTypeItemFactory<SimpleImageModel,SimpleImageItemFactory.SimpleImageVH> {
+public class SimpleImageItemFactory implements ItemFactory<SimpleImageModel> {
+
+    @NonNull
+    @Override
+    public FlapViewHolder onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        return new SimpleImageVH(inflater.inflate(viewType,parent,false));
+    }
 
     @Override
     public int getItemViewType(final SimpleImageModel model) {

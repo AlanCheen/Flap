@@ -1,10 +1,16 @@
 package me.yifeiyuan.flapdev.simpletext;
 
+import android.support.annotation.NonNull;
+
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public class SimpleTextModel {
 
-    public String title;
+    @NonNull
     public String content;
+
+    public SimpleTextModel(@NonNull final String content) {
+        this.content = content;
+    }
 }

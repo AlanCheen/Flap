@@ -8,39 +8,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.Flap;
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flapdev.gallery.GalleryItemFactory;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageItemFactory;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
+import me.yifeiyuan.flapdev.simpletext.SimpleTextItemFactory;
+import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    RecyclerView recyclerView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.rv_items);
-        initFlap();
+        RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        SampleAdapter adapter = new SampleAdapter();
+        FlapAdapter adapter = new FlapAdapter();
 
-        List<Object> models = mockModels();
+        adapter.registerItemFactory(new SimpleTextItemFactory());
+
+        List<Object> models = new ArrayList<>();
+
+        models.add(new SimpleTextModel("Android"));
+        models.add(new SimpleTextModel("Java"));
+        models.add(new SimpleTextModel("Kotlin"));
         adapter.setModels(models);
 
-//        adapter.registerItemFactory(new SimpleTextItemFactory());
-
         recyclerView.setAdapter(adapter);
+
+//        List<Object> models = mockModels();
+        //        initFlap();
     }
 
     private List<Object> mockModels() {
-        List<Object> models = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            models.add(new SimpleImageModel());
-        }
+        List<Object> models = new ArrayList<>();
+        models.add(new SimpleTextModel("Android"));
+        models.add(new SimpleTextModel("Java"));
+        models.add(new SimpleTextModel("Kotlin"));
 
         return models;
     }

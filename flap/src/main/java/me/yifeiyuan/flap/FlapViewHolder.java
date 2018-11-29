@@ -11,7 +11,7 @@ import android.view.View;
 import java.util.List;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 public abstract class FlapViewHolder<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 

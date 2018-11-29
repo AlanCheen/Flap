@@ -1,25 +1,34 @@
 package me.yifeiyuan.flapdev.simpletext;
 
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.TextView;
 
 import me.yifeiyuan.flap.FlapViewHolder;
-import me.yifeiyuan.flap.ItemFactory;
+import me.yifeiyuan.flap.LayoutTypeItemFactory;
+import me.yifeiyuan.flapdev.R;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
-public class SimpleTextItemFactory implements ItemFactory<SimpleTextModel> {
-
-    @NonNull
-    @Override
-    public FlapViewHolder createViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-        return null;
-    }
+public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemFactory.SimpleTextItemVH> {
 
     @Override
     public int getItemViewType(final SimpleTextModel model) {
-        return 0;
+        return R.layout.flap_item_simple_text;
     }
+
+    public static class SimpleTextItemVH extends FlapViewHolder<SimpleTextModel> {
+
+        TextView tvContent;
+        public SimpleTextItemVH(final View itemView) {
+            super(itemView);
+            tvContent = findViewById(R.id.tv_content);
+        }
+
+        @Override
+        protected void onBindData(final SimpleTextModel model) {
+            tvContent.setText(model.content);
+        }
+    }
+
 }

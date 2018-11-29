@@ -6,9 +6,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by Fitz|mingjue on 2018/11/19.
+ * Created by 程序亦非猿
  */
 final class ReflectUtils {
+
+    private ReflectUtils() {
+
+    }
 
     /**
      * Class<?> modelClazz = (Class<?>) types[0];
@@ -18,7 +22,6 @@ final class ReflectUtils {
      * @return
      */
     static Type[] getTypes(@NonNull Object obj) {
-
         Type[] types;
         if (obj.getClass().getGenericSuperclass() instanceof ParameterizedType) {
             types = ((ParameterizedType) (obj.getClass().getGenericSuperclass())).getActualTypeArguments();

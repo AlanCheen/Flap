@@ -11,6 +11,7 @@ import me.yifeiyuan.flap.Flap;
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flapdev.gallery.GalleryItemFactory;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageItemFactory;
+import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextItemFactory;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
@@ -26,12 +27,16 @@ public class MainActivity extends AppCompatActivity {
         FlapAdapter adapter = new FlapAdapter();
 
         adapter.registerItemFactory(new SimpleTextItemFactory());
+        adapter.registerItemFactory(new SimpleImageItemFactory());
 
         List<Object> models = new ArrayList<>();
 
         models.add(new SimpleTextModel("Android"));
         models.add(new SimpleTextModel("Java"));
         models.add(new SimpleTextModel("Kotlin"));
+
+        models.add(new SimpleImageModel());
+
         adapter.setModels(models);
 
         recyclerView.setAdapter(adapter);

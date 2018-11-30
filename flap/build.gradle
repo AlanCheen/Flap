@@ -41,9 +41,6 @@ androidArtifact { // 2
 }
 publish {
     userOrg = 'alancheen'
-//    groupId = 'me.yifeiyuan.flap'
-//    artifactId = 'flap'
-//    publishVersion = '0.1.0'
     dryRun = false
     desc = 'Flap'
     website = 'https://github.com/AlanCheen/Flap'

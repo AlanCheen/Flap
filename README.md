@@ -91,7 +91,7 @@ public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel
 
 You are good to go!
 
-![](./arts/flap-simple-showcase.png)
+![](art/flap-simple-showcase.png)
 
 ## Change Log
 

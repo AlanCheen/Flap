@@ -27,7 +27,9 @@ dependencies {
 ## Usage
 
 
-### Step 1 : Create a model class , e.g. :
+### Step 1 : Create a model class :
+
+A model class can be a POJO or Java bean.
 
 ```java
 public class SimpleTextModel {
@@ -41,8 +43,13 @@ public class SimpleTextModel {
 }
 ```
 
-### Step 2 : Create a ViewHolder class extends `FlapViewHolder` and override `onBind` method , BTW create a inner class
- SimpleTextItemFactory extends `LayoutTypeItemFactory`:
+### Step 2 : Create a `FlapViewHolder` and  `LayoutTypeItemFactory` :
+
+`FlapViewHolder` is the base ViewHolder class that Flap is using which provides useful methods.
+
+`LayoutTypeItemFactory` is a `ItemFactory` that tells Flap how to create a `FlapViewHolder`.
+
+Here is a sample :
 
 ```java
 public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
@@ -60,18 +67,18 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
     }
 
     public static class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
-
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
-
     }
 
 }
 ```
 
-### Step 3 : Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
+### Step 3 : Create a `FlapAdapter` and register the `LayoutTypeItemFactory`
+
+Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
 ```java
     RecyclerView recyclerView = findViewById(R.id.rv_items);
@@ -92,23 +99,52 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
 
 You are good to go!
 
+For more feature please refer [More Feature](https://github.com/AlanCheen/Flap#more-feature)
+
 ![](art/flap-simple-showcase.png)
 
 ## More Feature
 
-todo
+I add some features for FlapViewHolder : 
+
+1. Access a context directly by field `context`
+2. Call `findViewById()` instead of `itemView.findViewById`
+
+What's more , here are some methods for you that you can override if you need :
+
+1. Overrider `onBind(final T model, final FlapAdapter adapter, final List<Object> payloads)` If you wanna access your adapter or payloads.
+2. Overrider `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pause or resume a video.
+3. Overrider lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , FlapAdapter binds the LifecycleOwner automatically.
 
 ## Change Log
 
-//todo
+Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
+
+## Contribution
+
+Any feedback would be helpful , thanks.
 
 ## Contact Me
 
-//todo
+I'm Fitz , an Engineer working at Alibaba living in China .
+
+Follow me on :
+
+- 微信公众号：chengxuyifeiyuan （程序亦非猿的拼音）
+- [知乎](https://www.zhihu.com/people/yifeiyuan/activities)
+- [新浪微博](https://www.weibo.com/alancheeen)
+- [简书](https://www.jianshu.com/u/ec59bd61433a)
+- [掘金](https://juejin.im/user/558cc8dae4b0de86abc9cfda)
+
+Feel free to contact me.
+
+## Apps are using Flap
+
+Contact me if you are using Flap in your App.
 
 ## Thanks
 
-This project is using https://github.com/StefMa/bintray-release to upload aar to jCenter.
+I'm using [StefMa/bintray-release](https://github.com/StefMa/bintray-release) to publish Flap to jCenter.
 
 ## License
 

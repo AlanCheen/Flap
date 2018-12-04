@@ -1,6 +1,6 @@
 # Flap
 
-[ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.2.0) ](https://bintray.com/alancheen/maven/flap/0.2.0/link)
+[ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.3.0) ](https://bintray.com/alancheen/maven/flap/0.2.0/link)
  
 Flap is an Android library that make RecyclerView.Adapter more easier to use.
 
@@ -71,7 +71,7 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
 }
 ```
 
-### Step 3 : create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
+### Step 3 : Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
 ```java
     RecyclerView recyclerView = findViewById(R.id.rv_items);

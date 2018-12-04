@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Created by 程序亦非猿
+ *
+ * The base ViewHolder provides some useful convenient abilities.
  */
 public abstract class FlapViewHolder<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 
@@ -22,39 +24,30 @@ public abstract class FlapViewHolder<T> extends RecyclerView.ViewHolder implemen
         context = itemView.getContext();
     }
 
-    final void bindData(T model, FlapAdapter adapter, final List<Object> payloads) {
-        beforeBindData(model, adapter, payloads);
-        onBindData(model, adapter, payloads);
-        afterBindData(model, adapter, payloads);
+    final void bind(T model, FlapAdapter adapter, final List<Object> payloads) {
+        onBind(model, adapter, payloads);
     }
 
-    protected void onBindData(final T model, final FlapAdapter adapter, final List<Object> payloads) {
-        onBindData(model);
+    protected void onBind(final T model, final FlapAdapter adapter, final List<Object> payloads) {
+        onBind(model);
     }
 
-    protected abstract void onBindData(final T model);
+    protected abstract void onBind(final T model);
 
-    protected void afterBindData(final T model, final FlapAdapter adapter, final List<Object> payloads) {
-    }
-
-    protected void beforeBindData(final T model, final FlapAdapter adapter, final List<Object> payloads) {
-    }
-
-    protected <V extends View> V findViewById(@IdRes int viewId) {
+    protected final <V extends View> V findViewById(@IdRes int viewId) {
         return (V) itemView.findViewById(viewId);
     }
 
-    public void onViewDetachedFromWindow() {
+    /**
+     * @see FlapAdapter#onViewAttachedToWindow(FlapViewHolder)
+     */
+    void onViewAttachedToWindow() {
     }
 
-    public void onViewAttachedToWindow() {
-    }
-
-    public void onViewRecycled() {
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    public void onCreate() {
+    /**
+     * @see FlapAdapter#onViewDetachedFromWindow(FlapViewHolder)
+     */
+    void onViewDetachedFromWindow() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

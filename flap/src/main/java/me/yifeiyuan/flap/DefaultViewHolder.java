@@ -4,6 +4,8 @@ import android.view.View;
 
 /**
  * Created by 程序亦非猿
+ *
+ * It's the default ViewHolder would be used when something wrong was happened so that we won't get a crash.
  */
 class DefaultViewHolder extends FlapViewHolder {
 
@@ -12,7 +14,7 @@ class DefaultViewHolder extends FlapViewHolder {
     }
 
     @Override
-    protected void onBindData(final Object model) {
+    protected void onBind(final Object model) {
 
     }
 

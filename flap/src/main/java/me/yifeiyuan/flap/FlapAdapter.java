@@ -24,14 +24,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
     @NonNull
     private List<?> models = new ArrayList<>();
 
-    public void setLifecycleOwner(final LifecycleOwner lifecycleOwner) {
-        this.lifecycleOwner = lifecycleOwner;
-    }
-
-    public void setFlap(@NonNull final Flap flap) {
-        checkNotNull(flap);
-        this.flap = flap;
-    }
+    private boolean lifecycleEnable = true;
 
     @NonNull
     @Override
@@ -44,12 +37,18 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
         //ignore
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(@NonNull final FlapViewHolder holder, final int position, @NonNull final List<Object> payloads) {
-        if (null != lifecycleOwner) {
+        if (lifecycleEnable && null != lifecycleOwner) {
             lifecycleOwner.getLifecycle().addObserver(holder);
         }
-        holder.bindData(getModel(position), this, payloads);
+        holder.bind(getModel(position), this, payloads);
+    }
+
+    @Override
+    public int getItemCount() {
+        return getModels().size();
     }
 
     @Override
@@ -58,36 +57,15 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
     }
 
     @Override
-    public void registerItemFactory(@NonNull final ItemFactory itemFactory) {
+    public FlapAdapter registerItemFactory(@NonNull final ItemFactory itemFactory) {
         flap.registerItemFactory(itemFactory);
+        return this;
     }
 
     @Override
-    public void unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
+    public FlapAdapter unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
         flap.unregisterItemFactory(itemFactory);
-    }
-
-    private Object getModel(final int position) {
-        return getModels().get(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        List<?> models = getModels();
-        if (models == null || models.isEmpty()) {
-            return 0;
-        }
-        return models.size();
-    }
-
-    public void setModels(@NonNull List<?> models) {
-        checkNotNull(models);
-        this.models = models;
-    }
-
-    @NonNull
-    public List<?> getModels() {
-        return models;
+        return this;
     }
 
     @Override
@@ -110,9 +88,33 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
         holder.onViewDetachedFromWindow();
     }
 
-    @Override
-    public void onViewRecycled(@NonNull FlapViewHolder holder) {
-        super.onViewRecycled(holder);
-        holder.onViewRecycled();
+    public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
+        this.lifecycleOwner = lifecycleOwner;
+        return this;
+    }
+
+    public FlapAdapter setFlap(@NonNull final Flap flap) {
+        checkNotNull(flap);
+        this.flap = flap;
+        return this;
+    }
+
+    public FlapAdapter setLifecycleEnable(boolean lifecycleEnable) {
+        this.lifecycleEnable = lifecycleEnable;
+        return this;
+    }
+
+    private Object getModel(final int position) {
+        return getModels().get(position);
+    }
+
+    public void setModels(@NonNull List<?> models) {
+        checkNotNull(models);
+        this.models = models;
+    }
+
+    @NonNull
+    public List<?> getModels() {
+        return models;
     }
 }

@@ -14,21 +14,20 @@ Btw , Flap integrated with Lifecycle , you can get the lifecycle callback easily
 
 Have a try , thanks !
 
-
 ## Integrate Flap
 
 Add the latest Flap to your dependencies:
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:0.2.0'
+    implementation 'me.yifeiyuan.flap:flap:$lastest_version'
 }
 ```
 
 ## Usage
 
 
-### Step 1 : create a model class , e.g.:
+### Step 1 : Create a model class , e.g. :
 
 ```java
 public class SimpleTextModel {
@@ -42,29 +41,31 @@ public class SimpleTextModel {
 }
 ```
 
-### Step 2 : create a class extends `LayoutTypeItemFactory` and override some methods:
+### Step 2 : Create a ViewHolder class extends `FlapViewHolder` and override `onBind` method , BTW create a inner class
+ SimpleTextItemFactory extends `LayoutTypeItemFactory`:
 
 ```java
-public class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemFactory.SimpleTextItemVH> {
+public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
 
-    @Override
-    public int getItemViewType(final SimpleTextModel model) {
-        //return the layout id here
-        return R.layout.flap_item_simple_text;
+    private TextView tvContent;
+
+    public SimpleTextItemViewHolder(final View itemView) {
+        super(itemView);
+        tvContent = findViewById(R.id.tv_content);
     }
 
-    public static class SimpleTextItemVH extends FlapViewHolder<SimpleTextModel> {
+    @Override
+    protected void onBind(final SimpleTextModel model) {
+        tvContent.setText(model.content);
+    }
 
-        TextView tvContent;
-        public SimpleTextItemVH(final View itemView) {
-            super(itemView);
-            tvContent = findViewById(R.id.tv_content);
-        }
+    public static class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
 
         @Override
-        protected void onBindData(final SimpleTextModel model) {
-            tvContent.setText(model.content);
+        protected int getLayoutResId(final SimpleTextModel model) {
+            return R.layout.flap_item_simple_text;
         }
+
     }
 
 }
@@ -93,6 +94,10 @@ You are good to go!
 
 ![](art/flap-simple-showcase.png)
 
+## More Feature
+
+todo
+
 ## Change Log
 
 //todo
@@ -104,7 +109,6 @@ You are good to go!
 ## Thanks
 
 This project is using https://github.com/StefMa/bintray-release to upload aar to jCenter.
-
 
 ## License
 

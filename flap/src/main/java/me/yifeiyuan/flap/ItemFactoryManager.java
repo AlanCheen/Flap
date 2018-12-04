@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  */
 public interface ItemFactoryManager {
 
-    void registerItemFactory(@NonNull ItemFactory itemFactory);
+    ItemFactoryManager registerItemFactory(@NonNull ItemFactory itemFactory);
 
-    void unregisterItemFactory(@NonNull ItemFactory itemFactory);
+    ItemFactoryManager unregisterItemFactory(@NonNull ItemFactory itemFactory);
 }

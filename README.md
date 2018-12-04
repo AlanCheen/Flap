@@ -14,14 +14,13 @@ Btw , Flap integrated with Lifecycle , you can get the lifecycle callback easily
 
 Have a try , thanks !
 
-
 ## Integrate Flap
 
 Add the latest Flap to your dependencies:
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:0.2.0'
+    implementation 'me.yifeiyuan.flap:flap:$lastest_version'
 }
 ```
 
@@ -93,9 +92,7 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
 
 You are good to go!
 
-
 ![](art/flap-simple-showcase.png)
-
 
 ## More Feature
 
@@ -112,7 +109,6 @@ todo
 ## Thanks
 
 This project is using https://github.com/StefMa/bintray-release to upload aar to jCenter.
-
 
 ## License
 

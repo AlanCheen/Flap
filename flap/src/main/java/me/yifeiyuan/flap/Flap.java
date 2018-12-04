@@ -47,9 +47,10 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public void registerItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager registerItemFactory(@NonNull final ItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.put(modelClazz, itemFactory);
+        return this;
     }
 
     private Class<?> getModelClassFromItemFactory(final ItemFactory itemFactory) {
@@ -57,9 +58,10 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public void unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.remove(modelClazz);
+        return this;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class Flap implements IFlap {
                 Log.e(TAG, "Something went wrong when creating item by ItemFactory:" + factory.getClass().getSimpleName());
             }
         }
-        //in case that we get a null view holder , create a default one ,so won't crash the app
+        //In case that we get a null view holder , create a default one ,so won't crash the app
         if (vh == null) {
             vh = onCreateDefaultViewHolder(inflater, parent, viewType);
         }

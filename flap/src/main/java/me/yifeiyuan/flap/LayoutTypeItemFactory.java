@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap;
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,21 +8,20 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * Created by 程序亦非猿
  */
 public abstract class LayoutTypeItemFactory<T, VH extends FlapViewHolder> implements ItemFactory<T> {
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
         View view = inflater.inflate(viewType, parent, false);
 
-        Class clazz = getModelClassFromItemFactory(this);
+        Class clazz = (Class<?>) ReflectUtils.getTypes(this)[1];
 
         VH vh = null;
         try {
@@ -40,9 +40,11 @@ public abstract class LayoutTypeItemFactory<T, VH extends FlapViewHolder> implem
         return vh;
     }
 
-    private Class<?> getModelClassFromItemFactory(final Object obj) {
-        Type[] types = ((ParameterizedType) (obj.getClass().getGenericSuperclass())).getActualTypeArguments();
-        return (Class<?>) types[1];
+    @Override
+    public final int getItemViewType(final T model) {
+        return getLayoutResId(model);
     }
 
+    @LayoutRes
+    protected abstract int getLayoutResId(final T model);
 }

@@ -7,12 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.yifeiyuan.flap.Flap;
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flapdev.gallery.GalleryItemFactory;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageItemFactory;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextItemFactory;
+import me.yifeiyuan.flapdev.simpleimage.SimpleImageVH;
+import me.yifeiyuan.flapdev.simpletext.SimpleTextItemViewHolder;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         FlapAdapter adapter = new FlapAdapter();
 
-        adapter.registerItemFactory(new SimpleTextItemFactory());
-        adapter.registerItemFactory(new SimpleImageItemFactory());
+        adapter.registerItemFactory(new SimpleTextItemViewHolder.SimpleTextItemFactory())
+                .registerItemFactory(new SimpleImageVH.SimpleImageItemFactory());
 
         List<Object> models = new ArrayList<>();
 
@@ -42,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 //        List<Object> models = mockModels();
-        //        initFlap();
     }
 
     private List<Object> mockModels() {
@@ -55,8 +52,4 @@ public class MainActivity extends AppCompatActivity {
         return models;
     }
 
-    private void initFlap() {
-        Flap.getDefault().registerItemFactory(new SimpleImageItemFactory());
-        Flap.getDefault().registerItemFactory(new GalleryItemFactory());
-    }
 }

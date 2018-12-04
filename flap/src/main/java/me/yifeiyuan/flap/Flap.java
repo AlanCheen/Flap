@@ -47,9 +47,10 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public void registerItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager registerItemFactory(@NonNull final ItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.put(modelClazz, itemFactory);
+        return this;
     }
 
     private Class<?> getModelClassFromItemFactory(final ItemFactory itemFactory) {
@@ -57,9 +58,10 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public void unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.remove(modelClazz);
+        return this;
     }
 
     @Override

@@ -21,6 +21,6 @@ android:
     - sys-img-armeabi-v7a-android-17
 
 script:
-        - ./gradlew assembleRelease
+        - ./gradlew build
 before_install:
         - chmod +x gradlew

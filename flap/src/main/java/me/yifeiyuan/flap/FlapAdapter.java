@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 /**
  * Created by 程序亦非猿
  */
-public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements ItemFactoryManager {
+public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemFactoryManager {
 
     @NonNull
     private Flap flap = Flap.getDefault();
@@ -28,22 +29,26 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
 
     @NonNull
     @Override
-    public FlapViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+    public FlapItem onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return flap.onCreateViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType);
     }
 
     @Override
-    public final void onBindViewHolder(@NonNull final FlapViewHolder holder, final int position) {
+    public final void onBindViewHolder(@NonNull final FlapItem holder, final int position) {
         //ignore
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final FlapViewHolder holder, final int position, @NonNull final List<Object> payloads) {
-        if (lifecycleEnable && null != lifecycleOwner) {
-            lifecycleOwner.getLifecycle().addObserver(holder);
-        }
+    public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
+        attachLifecycleOwnerIfNeed(holder);
         holder.bind(getModel(position), this, payloads);
+    }
+
+    private void attachLifecycleOwnerIfNeed(final FlapItem holder) {
+        if (lifecycleEnable && lifecycleOwner != null && holder instanceof LifecycleObserver) {
+            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
+        }
     }
 
     @Override
@@ -77,13 +82,13 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapViewHolder> implements
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull FlapViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull FlapItem holder) {
         super.onViewAttachedToWindow(holder);
         holder.onViewAttachedToWindow();
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull FlapViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull FlapItem holder) {
         super.onViewDetachedFromWindow(holder);
         holder.onViewDetachedFromWindow();
     }

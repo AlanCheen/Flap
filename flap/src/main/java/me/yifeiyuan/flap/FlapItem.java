@@ -1,8 +1,5 @@
 package me.yifeiyuan.flap;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +12,11 @@ import java.util.List;
  *
  * The base ViewHolder provides some useful convenient abilities.
  */
-public abstract class FlapViewHolder<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
+public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     protected final Context context;
 
-    public FlapViewHolder(View itemView) {
+    public FlapItem(View itemView) {
         super(itemView);
         context = itemView.getContext();
     }
@@ -39,31 +36,15 @@ public abstract class FlapViewHolder<T> extends RecyclerView.ViewHolder implemen
     }
 
     /**
-     * @see FlapAdapter#onViewAttachedToWindow(FlapViewHolder)
+     * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
      */
     void onViewAttachedToWindow() {
     }
 
     /**
-     * @see FlapAdapter#onViewDetachedFromWindow(FlapViewHolder)
+     * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
      */
     void onViewDetachedFromWindow() {
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onResume() {
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void onPause() {
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onStop() {
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onDestroy() {
     }
 
 }

@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by 程序亦非猿
  */
-public abstract class LayoutTypeItemFactory<T, VH extends FlapViewHolder> implements ItemFactory<T> {
+public abstract class FlapItemFactory<T, VH extends FlapItem> implements ItemFactory<T> {
 
     @SuppressWarnings("unchecked")
     @NonNull

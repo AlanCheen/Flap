@@ -12,8 +12,8 @@ public interface IFlap extends ItemFactoryManager {
     int getItemViewType(@NonNull Object model);
 
     @NonNull
-    FlapViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     @NonNull
-    FlapViewHolder onCreateDefaultViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    FlapItem onCreateDefaultViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 }

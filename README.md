@@ -45,18 +45,18 @@ public class SimpleTextModel {
 
 #### Step 2 : Create a `FlapItem` and  `FlapItemFactory` :
 
-`FlapItem` is a base ViewHolder that Flap is using which provides useful methods.
+`FlapItem` is a base `ViewHolder` that Flap is using which provides useful methods.
 
-`FlapItemFactory` tells Flap the layout res id so used when creating a `FlapItem`.
+`FlapItemFactory` tells Flap the layout res id which is used when creating a `FlapItem`.
 
 Here is a sample :
 
 ```java
-public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
+public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItemViewHolder(final View itemView) {
+    public SimpleTextItem(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
@@ -66,11 +66,13 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
+    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
+
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
+
     }
 
 }
@@ -103,7 +105,7 @@ You are good to go!
 
 ## More Feature
 
-Flap adds some features for `FlapViewHolder` : 
+Flap adds some features for `FlapItem` : 
 
 1. Access a context directly by field `context`
 2. Call `findViewById()` instead of `itemView.findViewById`
@@ -111,8 +113,23 @@ Flap adds some features for `FlapViewHolder` :
 What's more , here are some methods for you that you can override if you need :
 
 1. Override `onBind(final T model, final FlapAdapter adapter, final List<Object> payloads)` when you wanna access your adapter or payloads.
-2. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pause or resume a video.
-3. Override lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , FlapAdapter binds the LifecycleOwner automatically.
+2. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pausing or resuming a video.
+
+
+
+### Enable Lifecycle
+
+Extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , so that you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , FlapAdapter binds the LifecycleOwner automatically.
+
+
+
+Releated methods :
+
+1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   enabled by default
+
+2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
+
+
 
 ## Change Log
 

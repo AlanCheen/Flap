@@ -19,7 +19,6 @@ licenses:
 before_install:
         - chmod +x gradlew
         - yes | sdkmanager "platforms;android-28"
-        - yes | sdkmanager "platforms;android-27"
 
 install:
   - sdkmanager --list || true

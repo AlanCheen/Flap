@@ -1,0 +1,27 @@
+language: android
+
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-28.0.3
+    - android-28
+    - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+licenses:
+    - 'android-sdk-license-.+'
+
+before_install:
+        - chmod +x gradlew
+        - yes | sdkmanager "platforms;android-28"
+
+install:
+  - sdkmanager --list || true
+
+script:
+        - ./gradlew build

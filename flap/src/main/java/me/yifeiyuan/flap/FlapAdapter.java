@@ -45,6 +45,10 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
         holder.bind(getModel(position), this, payloads);
     }
 
+    /**
+     * Attaches the holder to lifecycle if need.
+     * @param holder
+     */
     private void attachLifecycleOwnerIfNeed(final FlapItem holder) {
         if (lifecycleEnable && lifecycleOwner != null && holder instanceof LifecycleObserver) {
             lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
@@ -95,12 +99,6 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner;
-        return this;
-    }
-
-    public FlapAdapter setFlap(@NonNull final Flap flap) {
-        checkNotNull(flap);
-        this.flap = flap;
         return this;
     }
 

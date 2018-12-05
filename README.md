@@ -1,6 +1,6 @@
 # Flap
 
-[ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.3.0) ](https://bintray.com/alancheen/maven/flap/0.2.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap)
+[ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.3.0) ](https://bintray.com/alancheen/maven/flap/0.3.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap)
 
 Flap is an Android library that make RecyclerView.Adapter more easier to use.
 

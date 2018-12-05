@@ -2,15 +2,11 @@
 
 [ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.3.0) ](https://bintray.com/alancheen/maven/flap/0.3.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap)
 
-Flap is an Android library that make RecyclerView.Adapter more easier to use.
 
-Especially when you have to support lots of different type ViewHolders.
 
-Flap will make you enjoy developing ViewHolders.
+Flap is an library that makes RecyclerView.Adapter more easier to use , especially when you have to support lots of different type ViewHolders.
 
-And you will save a lot of time by avoiding writing lots of boilerplate code with Flap.
-
-Btw , Flap integrated with Lifecycle , you can get the lifecycle callback easily which is very helpful.
+Flap can save your day by keeping you from writing boilerplate codes.
 
 Have a try , thanks !
 
@@ -119,8 +115,7 @@ What's more , here are some methods for you that you can override if you need :
 
 ### Enable Lifecycle
 
-Extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , so that you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , FlapAdapter binds the LifecycleOwner automatically.
-
+By extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
 
 
 Releated methods :

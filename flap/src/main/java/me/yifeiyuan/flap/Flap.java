@@ -82,9 +82,9 @@ public class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapViewHolder onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
-        FlapViewHolder vh = null;
+        FlapItem vh = null;
 
         ItemFactory factory = factoryMapping.get(viewType);
         if (null != factory) {
@@ -104,7 +104,7 @@ public class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapViewHolder onCreateDefaultViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-        return new DefaultViewHolder(new View(parent.getContext()));
+    public FlapItem onCreateDefaultViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        return new DefaultFlapItem(new View(parent.getContext()));
     }
 }

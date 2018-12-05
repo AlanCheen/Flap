@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.yifeiyuan.flap.FlapViewHolder;
+import me.yifeiyuan.flap.FlapItem;
 import me.yifeiyuan.flap.ItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-public class SimpleImageVH extends FlapViewHolder<SimpleImageModel> {
+public class SimpleImageVH extends FlapItem<SimpleImageModel> {
 
     public SimpleImageVH(final View itemView) {
         super(itemView);
@@ -27,7 +27,7 @@ public class SimpleImageVH extends FlapViewHolder<SimpleImageModel> {
 
         @NonNull
         @Override
-        public FlapViewHolder onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             return new SimpleImageVH(inflater.inflate(viewType, parent, false));
         }
 

@@ -2,15 +2,11 @@
 
 [ ![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.3.0) ](https://bintray.com/alancheen/maven/flap/0.3.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap)
 
-Flap is an Android library that make RecyclerView.Adapter more easier to use.
 
-Especially when you have to support lots of different type ViewHolders.
 
-Flap will make you enjoy developing ViewHolders.
+Flap is an library that makes RecyclerView.Adapter more easier to use , especially when you have to support lots of different type ViewHolders.
 
-And you will save a lot of time by avoiding writing lots of boilerplate code with Flap.
-
-Btw , Flap integrated with Lifecycle , you can get the lifecycle callback easily which is very helpful.
+Flap can save your day by keeping you from writing boilerplate codes.
 
 Have a try , thanks !
 
@@ -43,20 +39,20 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : Create a `FlapViewHolder` and  `LayoutTypeItemFactory` :
+#### Step 2 : Create a `FlapItem` and  `FlapItemFactory` :
 
-`FlapViewHolder` is the base ViewHolder class that Flap is using which provides useful methods.
+`FlapItem` is a base `ViewHolder` that Flap is using which provides useful methods.
 
-`LayoutTypeItemFactory` is a `ItemFactory` that tells Flap how to create a `FlapViewHolder`.
+`FlapItemFactory` tells Flap the layout res id which is used when creating a `FlapItem`.
 
 Here is a sample :
 
 ```java
-public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
+public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItemViewHolder(final View itemView) {
+    public SimpleTextItem(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
@@ -66,17 +62,19 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
+    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
+
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
+
     }
 
 }
 ```
 
-#### Step 3 : Create a `FlapAdapter` and register the `LayoutTypeItemFactory`
+#### Step 3 : Create a `FlapAdapter` and register the `FlapItemFactory`
 
 Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
@@ -103,7 +101,7 @@ You are good to go!
 
 ## More Feature
 
-Flap adds some features for `FlapViewHolder` : 
+Flap adds some features for `FlapItem` : 
 
 1. Access a context directly by field `context`
 2. Call `findViewById()` instead of `itemView.findViewById`
@@ -111,8 +109,22 @@ Flap adds some features for `FlapViewHolder` :
 What's more , here are some methods for you that you can override if you need :
 
 1. Override `onBind(final T model, final FlapAdapter adapter, final List<Object> payloads)` when you wanna access your adapter or payloads.
-2. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pause or resume a video.
-3. Override lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , FlapAdapter binds the LifecycleOwner automatically.
+2. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pausing or resuming a video.
+
+
+
+### Enable Lifecycle
+
+By extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
+
+
+Releated methods :
+
+1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   enabled by default
+
+2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
+
+
 
 ## Change Log
 

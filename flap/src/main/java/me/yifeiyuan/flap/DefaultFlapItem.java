@@ -7,9 +7,9 @@ import android.view.View;
  *
  * It's the default ViewHolder would be used when something wrong was happened so that we won't get a crash.
  */
-class DefaultViewHolder extends FlapViewHolder {
+class DefaultFlapItem extends FlapItem {
 
-    DefaultViewHolder(final View itemView) {
+    DefaultFlapItem(final View itemView) {
         super(itemView);
     }
 

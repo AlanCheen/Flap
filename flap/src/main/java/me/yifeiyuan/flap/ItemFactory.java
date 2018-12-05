@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 /**
  * Created by 程序亦非猿
+ *
+ * An ItemFactory is used for creating FlapItem.
  */
 public interface ItemFactory<T> {
 

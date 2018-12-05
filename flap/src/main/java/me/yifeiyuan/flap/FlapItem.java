@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by 程序亦非猿
  *
- * The base ViewHolder provides some useful convenient abilities.
+ * The base ViewHolder provides some useful and convenient abilities.
  */
 public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 

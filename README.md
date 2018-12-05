@@ -43,11 +43,11 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : Create a `FlapViewHolder` and  `LayoutTypeItemFactory` :
+#### Step 2 : Create a `FlapItem` and  `FlapItemFactory` :
 
-`FlapViewHolder` is the base ViewHolder class that Flap is using which provides useful methods.
+`FlapItem` is a base ViewHolder that Flap is using which provides useful methods.
 
-`LayoutTypeItemFactory` is a `ItemFactory` that tells Flap how to create a `FlapViewHolder`.
+`FlapItemFactory` tells Flap the layout res id so used when creating a `FlapItem`.
 
 Here is a sample :
 
@@ -66,7 +66,7 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends LayoutTypeItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
+    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
@@ -76,7 +76,7 @@ public class SimpleTextItemViewHolder extends FlapViewHolder<SimpleTextModel> {
 }
 ```
 
-#### Step 3 : Create a `FlapAdapter` and register the `LayoutTypeItemFactory`
+#### Step 3 : Create a `FlapAdapter` and register the `FlapItemFactory`
 
 Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 

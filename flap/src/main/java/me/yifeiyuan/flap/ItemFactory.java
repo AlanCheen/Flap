@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 public interface ItemFactory<T> {
 
     @NonNull
-    FlapViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     int getItemViewType(T model);
 }

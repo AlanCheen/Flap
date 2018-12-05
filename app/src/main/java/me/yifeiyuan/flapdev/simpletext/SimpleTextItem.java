@@ -10,11 +10,11 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-public class SimpleTextItemViewHolder extends FlapItem<SimpleTextModel> {
+public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItemViewHolder(final View itemView) {
+    public SimpleTextItem(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
@@ -24,7 +24,7 @@ public class SimpleTextItemViewHolder extends FlapItem<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItemViewHolder> {
+    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
 
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {

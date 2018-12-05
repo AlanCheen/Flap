@@ -26,7 +26,7 @@ public class Flap implements IFlap {
 
     private static volatile Flap sInstance;
 
-    public static Flap getDefault() {
+    static Flap getDefault() {
         if (null == sInstance) {
             synchronized (Flap.class) {
                 if (null == sInstance) {
@@ -37,11 +37,11 @@ public class Flap implements IFlap {
         return sInstance;
     }
 
-    public Flap() {
+    private Flap() {
         this(DEFAULT_ITEM_TYPE_COUNT);
     }
 
-    public Flap(int typeCount) {
+    private Flap(int typeCount) {
         itemFactories = new HashMap<>(typeCount);
         factoryMapping = new SparseArray<>(typeCount);
     }
@@ -53,15 +53,15 @@ public class Flap implements IFlap {
         return this;
     }
 
-    private Class<?> getModelClassFromItemFactory(final ItemFactory itemFactory) {
-        return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
-    }
-
     @Override
     public ItemFactoryManager unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.remove(modelClazz);
         return this;
+    }
+
+    private Class<?> getModelClassFromItemFactory(final ItemFactory itemFactory) {
+        return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 /**
  * Created by 程序亦非猿
+ *
+ * A manager for managing ItemFactory.
  */
 public interface ItemFactoryManager {
 

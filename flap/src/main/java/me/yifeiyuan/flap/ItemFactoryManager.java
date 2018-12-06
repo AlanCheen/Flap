@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
  */
 public interface ItemFactoryManager {
 
-    ItemFactoryManager registerItemFactory(@NonNull ItemFactory itemFactory);
+    ItemFactoryManager registerItemFactory(@NonNull FlapItemFactory itemFactory);
 
-    ItemFactoryManager unregisterItemFactory(@NonNull ItemFactory itemFactory);
+    ItemFactoryManager unregisterItemFactory(@NonNull FlapItemFactory itemFactory);
 }

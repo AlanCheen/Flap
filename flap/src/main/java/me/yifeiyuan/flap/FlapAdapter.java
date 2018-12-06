@@ -47,6 +47,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
 
     /**
      * Attaches the holder to lifecycle if need.
+     *
      * @param holder
      */
     private void attachLifecycleOwnerIfNeed(final FlapItem holder) {
@@ -66,13 +67,13 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
     }
 
     @Override
-    public FlapAdapter registerItemFactory(@NonNull final ItemFactory itemFactory) {
+    public FlapAdapter registerItemFactory(@NonNull final FlapItemFactory itemFactory) {
         flap.registerItemFactory(itemFactory);
         return this;
     }
 
     @Override
-    public FlapAdapter unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
+    public FlapAdapter unregisterItemFactory(@NonNull final FlapItemFactory itemFactory) {
         flap.unregisterItemFactory(itemFactory);
         return this;
     }
@@ -98,6 +99,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
+        checkNotNull(lifecycleOwner);
         this.lifecycleOwner = lifecycleOwner;
         return this;
     }

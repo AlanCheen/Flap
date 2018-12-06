@@ -4,7 +4,7 @@
 
 
 
-Flap is an library that makes RecyclerView.Adapter more easier to use , especially when you have to support lots of different type ViewHolders.
+Flap is an library that makes `RecyclerView.Adapter` more easier to use , especially when you have to support lots of different type ViewHolders.
 
 Flap can save your day by keeping you from writing boilerplate codes.
 
@@ -25,7 +25,7 @@ dependencies {
 
 #### Step 1 : Create a model class :
 
-A model class can be a POJO or Java bean.
+A model class can be a POJO or Java Bean.
 
 ```java
 public class SimpleTextModel {
@@ -39,11 +39,11 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : Create a `FlapItem` and  `FlapItemFactory` :
+#### Step 2 : Create a `FlapItem` and a `FlapItemFactory` :
 
-`FlapItem` is a base `ViewHolder` that Flap is using which provides useful methods.
+`FlapItem` is the base `ViewHolder` that Flap is using which provides some useful methods.
 
-`FlapItemFactory` tells Flap the layout res id which is used when creating a `FlapItem`.
+`FlapItemFactory` tells Flap how to create a  `FlapItem` as you wish.
 
 Here is a sample :
 
@@ -62,15 +62,33 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
+    public static class SimpleTextItemFactory implements FlapItemFactory<SimpleTextModel> {
 
+        @NonNull
         @Override
-        protected int getLayoutResId(final SimpleTextModel model) {
-            return R.layout.flap_item_simple_text;
+        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+            return new SimpleTextItem(inflater.inflate(viewType, parent, false));
         }
 
+        @Override
+        public int getItemViewType(final SimpleTextModel model) {
+            return R.layout.flap_item_simple_text;
+        }
     }
+}
+```
 
+If you don't like writing `new SimpleTextItem(inflater.inflate(viewType, parent, false))` in every `ItemFactory` ,
+you can try `LayoutItemFactory` , which is more simple , but it contains reflection code you may hate. 
+
+
+
+```java
+public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel,SimpleTextItem> {
+    @Override
+    protected int getLayoutResId(final SimpleTextModel model) {
+        return R.layout.flap_item_simple_text;
+    }
 }
 ```
 
@@ -83,6 +101,7 @@ RecyclerView recyclerView = findViewById(R.id.rv_items);
 
 FlapAdapter adapter = new FlapAdapter();
 
+//register the ItemFactory
 adapter.registerItemFactory(new SimpleTextItemFactory());
 
 List<Object> models = new ArrayList<>();
@@ -90,6 +109,8 @@ List<Object> models = new ArrayList<>();
 models.add(new SimpleTextModel("Android"));
 models.add(new SimpleTextModel("Java"));
 models.add(new SimpleTextModel("Kotlin"));
+
+//set your models to FlapAdapter
 adapter.setModels(models);
 
 recyclerView.setAdapter(adapter);
@@ -103,8 +124,8 @@ You are good to go!
 
 Flap adds some features for `FlapItem` : 
 
-1. Access a context directly by field `context`
-2. Call `findViewById()` instead of `itemView.findViewById`
+1. Access a context directly by field `context`.
+2. Call `findViewById()` instead of `itemView.findViewById` when you want to find a view.
 
 What's more , here are some methods for you that you can override if you need :
 
@@ -114,6 +135,8 @@ What's more , here are some methods for you that you can override if you need :
 
 
 ### Enable Lifecycle
+
+
 
 By extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
 
@@ -130,9 +153,13 @@ Releated methods :
 
 Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
+
+
 ## Contribution
 
 Any feedback would be helpful , thanks.
+
+
 
 ## Contact Me
 
@@ -148,13 +175,19 @@ Follow me on :
 
 Feel free to contact me.
 
+
+
 ## Apps are using Flap
 
 Contact me if you are using Flap in your App.
 
+
+
 ## Thanks
 
 I'm using [StefMa/bintray-release](https://github.com/StefMa/bintray-release) to publish Flap to jCenter.
+
+
 
 ## License
 

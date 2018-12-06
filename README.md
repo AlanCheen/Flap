@@ -154,6 +154,10 @@ Releated methods :
 Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 
+## Todo List
+
+- Support AsyncListDiffer
+- Support Lifecycle
 
 ## Contribution
 

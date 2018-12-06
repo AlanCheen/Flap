@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageVH;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextItem;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
+/**
+ * todo support AsyncListDiffer
+ */
 public class DifferActivity extends AppCompatActivity {
 
     private static final String TAG = "DifferActivity";
@@ -32,8 +34,7 @@ public class DifferActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
         flapAdapter = new FlapAdapter();
-        flapAdapter.registerItemFactory(new SimpleTextItem.SimpleTextItemFactory())
-                .registerItemFactory(new SimpleImageVH.SimpleImageItemFactory());
+        flapAdapter.registerItemFactory(new SimpleTextItem.SimpleTextItemFactory());
 
         List<SimpleTextModel> models = new ArrayList<>();
 
@@ -74,6 +75,7 @@ public class DifferActivity extends AppCompatActivity {
                 newModels.add(new SimpleTextModel("iOS"));
                 newModels.add(new SimpleTextModel("OC"));
                 newModels.add(new SimpleTextModel("Kotlin"));
+                flapAdapter.setModels(newModels);
                 differ.submitList(newModels);
             }
         }, 5000);

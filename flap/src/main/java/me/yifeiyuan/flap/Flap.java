@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by 程序亦非猿
  */
-public class Flap implements IFlap {
+public final class Flap implements IFlap {
 
     private static final String TAG = "Flap";
 

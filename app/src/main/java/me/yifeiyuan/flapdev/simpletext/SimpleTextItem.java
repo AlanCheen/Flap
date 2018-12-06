@@ -1,6 +1,7 @@
 package me.yifeiyuan.flapdev.simpletext;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import me.yifeiyuan.flapdev.R;
  */
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
+    private static final String TAG = "SimpleTextItem";
+
     private TextView tvContent;
 
     public SimpleTextItem(final View itemView) {
@@ -24,6 +27,7 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     @Override
     protected void onBind(final SimpleTextModel model) {
+        Log.d(TAG, "onBind() called with: model = [" + model + "]");
         tvContent.setText(model.content);
     }
 

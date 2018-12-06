@@ -21,8 +21,8 @@ public class Flap implements IFlap {
 
     private static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
-    private final Map<Class<?>, ItemFactory> itemFactories;
-    private final SparseArray<ItemFactory> factoryMapping;
+    private final Map<Class<?>, FlapItemFactory> itemFactories;
+    private final SparseArray<FlapItemFactory> factoryMapping;
 
     private static volatile Flap sInstance;
 
@@ -47,20 +47,20 @@ public class Flap implements IFlap {
     }
 
     @Override
-    public ItemFactoryManager registerItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager registerItemFactory(@NonNull final FlapItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.put(modelClazz, itemFactory);
         return this;
     }
 
     @Override
-    public ItemFactoryManager unregisterItemFactory(@NonNull final ItemFactory itemFactory) {
+    public ItemFactoryManager unregisterItemFactory(@NonNull final FlapItemFactory itemFactory) {
         Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.remove(modelClazz);
         return this;
     }
 
-    private Class<?> getModelClassFromItemFactory(final ItemFactory itemFactory) {
+    private Class<?> getModelClassFromItemFactory(final FlapItemFactory itemFactory) {
         return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
     }
 
@@ -69,7 +69,7 @@ public class Flap implements IFlap {
 
         Class modelClazz = model.getClass();
 
-        ItemFactory factory = itemFactories.get(modelClazz);
+        FlapItemFactory factory = itemFactories.get(modelClazz);
         if (null != factory) {
             int itemViewType = factory.getItemViewType(model);
             factoryMapping.put(itemViewType, factory);
@@ -86,7 +86,7 @@ public class Flap implements IFlap {
 
         FlapItem vh = null;
 
-        ItemFactory factory = factoryMapping.get(viewType);
+        FlapItemFactory factory = factoryMapping.get(viewType);
         if (null != factory) {
             try {
                 vh = factory.onCreateViewHolder(inflater, parent, viewType);

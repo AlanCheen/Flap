@@ -1,6 +1,9 @@
 package me.yifeiyuan.flapdev.simpletext;
 
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import me.yifeiyuan.flap.FlapItem;
@@ -24,13 +27,18 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
+    public static class SimpleTextItemFactory implements FlapItemFactory<SimpleTextModel> {
 
+        @NonNull
         @Override
-        protected int getLayoutResId(final SimpleTextModel model) {
-            return R.layout.flap_item_simple_text;
+        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+            return new SimpleTextItem(inflater.inflate(viewType, parent, false));
         }
 
+        @Override
+        public int getItemViewType(final SimpleTextModel model) {
+            return R.layout.flap_item_simple_text;
+        }
     }
 
 }

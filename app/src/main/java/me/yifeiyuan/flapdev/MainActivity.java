@@ -3,6 +3,7 @@ package me.yifeiyuan.flapdev;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,13 @@ public class MainActivity extends AppCompatActivity {
 
         FlapAdapter adapter = new FlapAdapter();
 
+        long t1 = System.currentTimeMillis();
         adapter.registerItemFactory(new SimpleTextItem.SimpleTextItemFactory())
                 .registerItemFactory(new SimpleImageVH.SimpleImageItemFactory());
+
+        long t2 = System.currentTimeMillis();
+
+        Log.e("Flap", "time cost :" + (t2 - t1));
 
         List<Object> models = new ArrayList<>();
 

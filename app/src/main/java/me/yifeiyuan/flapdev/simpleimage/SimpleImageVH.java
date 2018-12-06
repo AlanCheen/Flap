@@ -1,12 +1,9 @@
 package me.yifeiyuan.flapdev.simpleimage;
 
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.ItemFactory;
+import me.yifeiyuan.flap.LayoutItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
@@ -23,17 +20,11 @@ public class SimpleImageVH extends FlapItem<SimpleImageModel> {
 
     }
 
-    public static class SimpleImageItemFactory implements ItemFactory<SimpleImageModel> {
-
-        @NonNull
-        @Override
-        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new SimpleImageVH(inflater.inflate(viewType, parent, false));
-        }
+    public static class SimpleImageItemFactory extends LayoutItemFactory<SimpleImageModel, SimpleImageVH> {
 
         @Override
-        public int getItemViewType(final SimpleImageModel model) {
-            return R.layout.item_simple_image;
+        protected int getLayoutResId(final SimpleImageModel model) {
+            return R.layout.flap_item_simple_image;
         }
     }
 

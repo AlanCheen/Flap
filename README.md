@@ -1,6 +1,6 @@
 # Flap
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.5.0) ](https://bintray.com/alancheen/maven/flap/0.5.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap)![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg)![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.5.0)](https://bintray.com/alancheen/maven/flap/0.5.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
 
 
 

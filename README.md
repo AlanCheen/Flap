@@ -2,11 +2,11 @@
 
 [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.5.0)](https://bintray.com/alancheen/maven/flap/0.5.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
 
-[![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](/LICENSE)
+[![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE)
 
-WARNING: Flap is still under development.
+**WARNING: Flap is still under development.**
 
-Flap is an library that makes `RecyclerView.Adapter` more easier to use , especially when you have to support lots of different type ViewHolders.
+Flap is a library that makes `RecyclerView.Adapter` more easier to use , especially when you have to support lots of different type ViewHolders.
 
 Flap can save your day by keeping you from writing boilerplate codes.
 

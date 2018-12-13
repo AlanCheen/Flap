@@ -6,7 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.view.View;
 
 /**
- * Flap
  * Created by 程序亦非猿 on 2018/12/5.
  */
 public abstract class LifecycleItem<T> extends FlapItem<T> implements LifecycleObserver {

@@ -19,8 +19,8 @@ public class FlapApplication extends Application {
 
         long t1 = System.currentTimeMillis();
 
-        Flap.getDefault().register(new SimpleTextItem.SimpleTextItemFactory());
-        Flap.getDefault().register(new SimpleImageItem.SimpleImageItemFactory());
+        Flap.getDefault().register(SimpleTextItem.class, new SimpleTextItem.SimpleTextItemFactory());
+        Flap.getDefault().register(SimpleImageItem.class, new SimpleImageItem.SimpleImageItemFactory());
 
         long t2 = System.currentTimeMillis();
 

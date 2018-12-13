@@ -1,5 +1,6 @@
 package me.yifeiyuan.flapdev.simpleimage;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class SimpleImageItem extends FlapItem<SimpleImageModel> {
     }
 
     @Override
-    protected void onBind(final SimpleImageModel model, final FlapAdapter adapter, final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleImageModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
 
     }
 

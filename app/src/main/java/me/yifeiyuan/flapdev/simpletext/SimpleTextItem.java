@@ -1,14 +1,14 @@
 package me.yifeiyuan.flapdev.simpletext;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.FlapItemFactory;
+import me.yifeiyuan.flap.LayoutItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
@@ -26,21 +26,15 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     }
 
     @Override
-    protected void onBind(final SimpleTextModel model) {
-        Log.d(TAG, "onBind() called with: model = [" + model + "]");
+    protected void onBind(final SimpleTextModel model, final FlapAdapter adapter, final List<Object> payloads) {
+        Log.d(TAG, "onBind() called with: model = [" + model + "], adapter = [" + adapter + "], payloads = [" + payloads + "]");
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory implements FlapItemFactory<SimpleTextModel> {
-
-        @NonNull
-        @Override
-        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new SimpleTextItem(inflater.inflate(viewType, parent, false));
-        }
+    public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
 
         @Override
-        public int getItemViewType(final SimpleTextModel model) {
+        protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
     }

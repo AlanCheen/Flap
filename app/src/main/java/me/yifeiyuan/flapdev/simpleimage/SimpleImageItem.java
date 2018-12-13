@@ -2,6 +2,9 @@ package me.yifeiyuan.flapdev.simpleimage;
 
 import android.view.View;
 
+import java.util.List;
+
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
 import me.yifeiyuan.flap.LayoutItemFactory;
 import me.yifeiyuan.flapdev.R;
@@ -9,18 +12,18 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-public class SimpleImageVH extends FlapItem<SimpleImageModel> {
+public class SimpleImageItem extends FlapItem<SimpleImageModel> {
 
-    public SimpleImageVH(final View itemView) {
+    public SimpleImageItem(final View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void onBind(final SimpleImageModel model) {
+    protected void onBind(final SimpleImageModel model, final FlapAdapter adapter, final List<Object> payloads) {
 
     }
 
-    public static class SimpleImageItemFactory extends LayoutItemFactory<SimpleImageModel, SimpleImageVH> {
+    public static class SimpleImageItemFactory extends LayoutItemFactory<SimpleImageModel, SimpleImageItem> {
 
         @Override
         protected int getLayoutResId(final SimpleImageModel model) {

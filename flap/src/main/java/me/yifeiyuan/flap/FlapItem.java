@@ -25,11 +25,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
         onBind(model, adapter, payloads);
     }
 
-    protected void onBind(final T model, final FlapAdapter adapter, final List<Object> payloads) {
-        onBind(model);
-    }
-
-    protected abstract void onBind(final T model);
+    protected abstract void onBind(final T model, final FlapAdapter adapter, final List<Object> payloads);
 
     protected final <V extends View> V findViewById(@IdRes int viewId) {
         return (V) itemView.findViewById(viewId);

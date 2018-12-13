@@ -19,14 +19,14 @@ public final class Flap implements IFlap {
 
     private static final int DEFAULT_ITEM_TYPE = -66666;
 
-    private static final int DEFAULT_ITEM_TYPE_COUNT = 32;
+    static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
     private final Map<Class<?>, FlapItemFactory> itemFactories;
     private final SparseArray<FlapItemFactory> factoryMapping;
 
     private static volatile Flap sInstance;
 
-    static Flap getDefault() {
+    public static Flap getDefault() {
         if (null == sInstance) {
             synchronized (Flap.class) {
                 if (null == sInstance) {
@@ -47,15 +47,13 @@ public final class Flap implements IFlap {
     }
 
     @Override
-    public ItemFactoryManager registerItemFactory(@NonNull final FlapItemFactory itemFactory) {
-        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
+    public ItemFactoryManager register(@NonNull final Class<?> modelClazz, @NonNull final FlapItemFactory itemFactory) {
         itemFactories.put(modelClazz, itemFactory);
         return this;
     }
 
     @Override
-    public ItemFactoryManager unregisterItemFactory(@NonNull final FlapItemFactory itemFactory) {
-        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
+    public ItemFactoryManager unregister(@NonNull final Class<?> modelClazz) {
         itemFactories.remove(modelClazz);
         return this;
     }

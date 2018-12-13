@@ -9,10 +9,10 @@ import android.view.ViewGroup;
  *
  * An ItemFactory is used for creating FlapItem.
  */
-public interface FlapItemFactory<T> {
+interface FlapItemFactory<T, VH extends FlapItem<T>> {
 
     @NonNull
-    FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    VH onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     int getItemViewType(T model);
 }

@@ -1,7 +1,6 @@
 package me.yifeiyuan.flap;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,10 +57,7 @@ public final class Flap implements IFlap {
         return this;
     }
 
-    private Class<?> getModelClassFromItemFactory(final FlapItemFactory itemFactory) {
-        return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public int getItemViewType(@NonNull final Object model) {
 
@@ -73,7 +69,7 @@ public final class Flap implements IFlap {
             factoryMapping.put(itemViewType, factory);
             return itemViewType;
         } else {
-            Log.e(TAG, "Can't find the ItemFactory for class: " + modelClazz + " ,please register first");
+            FlapDebug.throwIfDebugging(new ItemFactoryNotFoundException("Can't find the ItemFactory for : " + modelClazz + " , please register first!"));
         }
         return DEFAULT_ITEM_TYPE;
     }
@@ -90,7 +86,7 @@ public final class Flap implements IFlap {
                 vh = factory.onCreateViewHolder(inflater, parent, viewType);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(TAG, "Something went wrong when creating item by ItemFactory:" + factory.getClass().getSimpleName());
+                FlapDebug.throwIfDebugging(e);
             }
         }
         //In case that we get a null view holder , create a default one ,so won't crash the app
@@ -104,5 +100,9 @@ public final class Flap implements IFlap {
     @Override
     public FlapItem onCreateDefaultViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
         return new DefaultFlapItem(new View(parent.getContext()));
+    }
+
+    public static void setDebug(final boolean isDebugging) {
+        FlapDebug.setDebug(isDebugging);
     }
 }

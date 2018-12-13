@@ -1,16 +1,22 @@
 package me.yifeiyuan.flapdev.simpletext;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.FlapItemFactory;
+import me.yifeiyuan.flap.LayoutItemFactory;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
+
+    private static final String TAG = "SimpleTextItem";
 
     private TextView tvContent;
 
@@ -20,17 +26,16 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     }
 
     @Override
-    protected void onBind(final SimpleTextModel model) {
+    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends FlapItemFactory<SimpleTextModel, SimpleTextItem> {
+    public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
 
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
-
     }
 
 }

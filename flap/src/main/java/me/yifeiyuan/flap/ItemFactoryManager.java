@@ -5,11 +5,24 @@ import android.support.annotation.NonNull;
 /**
  * Created by 程序亦非猿
  *
- * A manager for managing ItemFactory.
+ * A manager for ItemFactories.
  */
 public interface ItemFactoryManager {
 
-    ItemFactoryManager registerItemFactory(@NonNull ItemFactory itemFactory);
+    /**
+     * Register a ItemFactory to ItemFactoryManager
+     *
+     * @param modelClazz  The class of your Model which is used in your FlapItem.
+     * @param itemFactory The ItemFactory creates FlapItem.
+     *
+     * @return An ItemFactoryManager usually it could be `this`.
+     */
+    ItemFactoryManager register(@NonNull final Class<?> modelClazz, @NonNull final FlapItemFactory itemFactory);
 
-    ItemFactoryManager unregisterItemFactory(@NonNull ItemFactory itemFactory);
+    /**
+     * @param modelClazz The class of your Model which is used in your FlapItem.
+     *
+     * @return An ItemFactoryManager usually it could be `this`.
+     */
+    ItemFactoryManager unregister(@NonNull final Class<?> modelClazz);
 }

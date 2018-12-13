@@ -9,8 +9,6 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageVH;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextItem;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
         FlapAdapter adapter = new FlapAdapter();
 
-        adapter.registerItemFactory(new SimpleTextItem.SimpleTextItemFactory())
-                .registerItemFactory(new SimpleImageVH.SimpleImageItemFactory());
-
         List<Object> models = new ArrayList<>();
 
         models.add(new SimpleTextModel("Android"));
         models.add(new SimpleTextModel("Java"));
         models.add(new SimpleTextModel("Kotlin"));
 
+        models.add(new SimpleImageModel());
+        models.add(new SimpleImageModel());
+        models.add(new SimpleImageModel());
         models.add(new SimpleImageModel());
 
         adapter.setModels(models);

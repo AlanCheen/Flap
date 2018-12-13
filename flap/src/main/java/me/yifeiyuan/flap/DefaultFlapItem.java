@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.util.List;
@@ -16,6 +17,8 @@ final class DefaultFlapItem extends FlapItem {
     }
 
     @Override
-    protected void onBind(final Object model, final FlapAdapter adapter, final List payloads) {}
+    protected void onBind(@NonNull final Object model, @NonNull final FlapAdapter adapter, @NonNull final List payloads) {
+
+    }
 
 }

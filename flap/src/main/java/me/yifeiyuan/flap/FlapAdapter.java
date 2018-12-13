@@ -15,7 +15,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 /**
  * Created by 程序亦非猿
  */
-public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemFactoryManager {
+public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @NonNull
     private Flap flap = Flap.getDefault();
@@ -64,18 +64,6 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> implements ItemF
     @Override
     public int getItemViewType(final int position) {
         return flap.getItemViewType(getModel(position));
-    }
-
-    @Override
-    public FlapAdapter registerItemFactory(@NonNull final FlapItemFactory itemFactory) {
-        flap.registerItemFactory(itemFactory);
-        return this;
-    }
-
-    @Override
-    public FlapAdapter unregisterItemFactory(@NonNull final FlapItemFactory itemFactory) {
-        flap.unregisterItemFactory(itemFactory);
-        return this;
     }
 
     @Override

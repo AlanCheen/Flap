@@ -1,8 +1,6 @@
 # Flap
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.5.0)](https://bintray.com/alancheen/maven/flap/0.5.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
-
-[![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE)
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.6.0)](https://bintray.com/alancheen/maven/flap/0.6.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE)
 
 **WARNING: Flap is still under development.**
 
@@ -43,7 +41,7 @@ public class SimpleTextModel {
 
 #### Step 2 : Create a `FlapItem` and a `FlapItemFactory` :
 
-`FlapItem` is the base `ViewHolder` that Flap is using which provides some useful methods.
+`FlapItem` is the base `ViewHolder` that `Flap` is used internally.
 
 `FlapItemFactory` tells Flap how to create a  `FlapItem` as you wish.
 
@@ -51,6 +49,8 @@ Here is a sample :
 
 ```java
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
+
+    private static final String TAG = "SimpleTextItem";
 
     private TextView tvContent;
 
@@ -60,51 +60,32 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     }
 
     @Override
-    protected void onBind(final SimpleTextModel model) {
+    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory implements FlapItemFactory<SimpleTextModel> {
-
-        @NonNull
-        @Override
-        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new SimpleTextItem(inflater.inflate(viewType, parent, false));
-        }
+    public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
 
         @Override
-        public int getItemViewType(final SimpleTextModel model) {
+        protected int getLayoutResId(final SimpleTextModel model) {
             return R.layout.flap_item_simple_text;
         }
     }
+
 }
 ```
 
-If you don't like writing `new SimpleTextItem(inflater.inflate(viewType, parent, false))` in every `ItemFactory` ,
-you can try `LayoutItemFactory` , which is more simple , but it contains reflection code you may hate. 
 
 
-
-```java
-public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel,SimpleTextItem> {
-    @Override
-    protected int getLayoutResId(final SimpleTextModel model) {
-        return R.layout.flap_item_simple_text;
-    }
-}
-```
-
-#### Step 3 : Create a `FlapAdapter` and register the `FlapItemFactory`
+#### Step 3 : Register the `FlapItemFactory` and create your `FlapAdapter`
 
 Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
 ```java
-RecyclerView recyclerView = findViewById(R.id.rv_items);
+//register your ItemFactory to Flap
+Flap.getDefault().register(SimpleTextModel.class, new SimpleTextItem.SimpleTextItemFactory());
 
 FlapAdapter adapter = new FlapAdapter();
-
-//register the ItemFactory
-adapter.registerItemFactory(new SimpleTextItemFactory());
 
 List<Object> models = new ArrayList<>();
 
@@ -118,7 +99,7 @@ adapter.setModels(models);
 recyclerView.setAdapter(adapter);
 ```
 
-You are good to go!
+Yeah , you are good to go!
 
 ![](art/flap-simple-showcase.png)
 
@@ -127,12 +108,8 @@ You are good to go!
 Flap adds some features for `FlapItem` : 
 
 1. Access a context directly by field `context`.
-2. Call `findViewById()` instead of `itemView.findViewById` when you want to find a view.
-
-What's more , here are some methods for you that you can override if you need :
-
-1. Override `onBind(final T model, final FlapAdapter adapter, final List<Object> payloads)` when you wanna access your adapter or payloads.
-2. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pausing or resuming a video.
+2. Call `findViewById()`  directlly instead of `itemView.findViewById` when you want to find a view.
+3. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pausing or resuming a video.
 
 
 
@@ -140,7 +117,7 @@ What's more , here are some methods for you that you can override if you need :
 
 
 
-By extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy` when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
+By extending `LifecycleItem`  , a lifecycle aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy`  by default , when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
 
 
 Releated methods :

@@ -32,6 +32,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     protected abstract void onBind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads);
 
+    @SuppressWarnings("unchecked")
     protected final <V extends View> V findViewById(@IdRes int viewId) {
         return (V) itemView.findViewById(viewId);
     }

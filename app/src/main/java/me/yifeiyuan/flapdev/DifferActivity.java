@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextItem;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 /**
@@ -36,7 +35,6 @@ public class DifferActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
         flapAdapter = new FlapAdapter();
-        flapAdapter.registerItemFactory(new SimpleTextItem.SimpleTextItemFactory());
 
         List<SimpleTextModel> models = new ArrayList<>();
 

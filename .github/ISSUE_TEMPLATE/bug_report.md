@@ -1,11 +1,14 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[Issue]"
-labels: ''
+title: "[Bug]"
+labels: question
 assignees: AlanCheen
 
 ---
+
+**Flap Version**
+Flap Version : $The version of Flap you are using.
 
 **Describe the bug**
 A clear and concise description of what the bug is.

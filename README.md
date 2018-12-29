@@ -101,7 +101,8 @@ recyclerView.setAdapter(adapter);
 
 Yeah , you are good to go!
 
-![](art/flap-simple-showcase.png)
+<div align=center><img width="360" height="640" src="art/flap-simple-showcase.png"/></div>
+
 
 ## More Feature
 

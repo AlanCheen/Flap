@@ -39,14 +39,32 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     /**
      * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
+     * @param flapAdapter
      */
-    protected void onViewAttachedToWindow() {
+    protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
     }
 
     /**
      * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
+     * @param flapAdapter
      */
-    protected void onViewDetachedFromWindow() {
+    protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
     }
 
+    /**
+     * @see FlapAdapter#onViewRecycled(FlapItem)
+     * @param flapAdapter
+     */
+    public void onViewRecycled(final FlapAdapter flapAdapter) {
+
+    }
+
+    /**
+     * @see FlapAdapter#onFailedToRecycleView(FlapItem)
+     * @return
+     * @param flapAdapter
+     */
+    public boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+        return false;
+    }
 }

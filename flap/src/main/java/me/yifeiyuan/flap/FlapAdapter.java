@@ -77,13 +77,27 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @Override
     public void onViewAttachedToWindow(@NonNull FlapItem holder) {
         super.onViewAttachedToWindow(holder);
-        holder.onViewAttachedToWindow();
+        holder.onViewAttachedToWindow(this);
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull FlapItem holder) {
         super.onViewDetachedFromWindow(holder);
-        holder.onViewDetachedFromWindow();
+        holder.onViewDetachedFromWindow(this);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull final FlapItem holder) {
+        super.onViewRecycled(holder);
+        holder.onViewRecycled(this);
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(@NonNull final FlapItem holder) {
+        if (holder.onFailedToRecycleView(this)) {
+            return true;
+        }
+        return super.onFailedToRecycleView(holder);
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {

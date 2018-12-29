@@ -18,7 +18,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @NonNull
-    private Flap flap = Flap.getDefault();
+    private final Flap flap = Flap.getDefault();
 
     private LifecycleOwner lifecycleOwner;
 

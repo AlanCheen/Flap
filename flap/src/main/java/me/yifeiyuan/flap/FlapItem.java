@@ -55,7 +55,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @see FlapAdapter#onViewRecycled(FlapItem)
      * @param flapAdapter
      */
-    public void onViewRecycled(final FlapAdapter flapAdapter) {
+    protected void onViewRecycled(final FlapAdapter flapAdapter) {
 
     }
 
@@ -64,7 +64,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @return
      * @param flapAdapter
      */
-    public boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+    protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
         return false;
     }
 }

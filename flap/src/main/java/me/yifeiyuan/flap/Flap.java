@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,15 +47,28 @@ public final class Flap implements IFlap {
     }
 
     @Override
-    public ItemFactoryManager register(@NonNull final Class<?> modelClazz, @NonNull final FlapItemFactory itemFactory) {
+    public ItemFactoryManager register(@NonNull final FlapItemFactory itemFactory) {
+        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.put(modelClazz, itemFactory);
         return this;
     }
 
     @Override
-    public ItemFactoryManager unregister(@NonNull final Class<?> modelClazz) {
+    public ItemFactoryManager unregister(@NonNull final FlapItemFactory itemFactory) {
+        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
         itemFactories.remove(modelClazz);
         return this;
+    }
+
+    @Override
+    public ItemFactoryManager clearAll() {
+        itemFactories.clear();
+        factoryMapping.clear();
+        return this;
+    }
+
+    private Class<?> getModelClassFromItemFactory(final FlapItemFactory itemFactory) {
+        return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
     }
 
     @SuppressWarnings("unchecked")
@@ -89,11 +103,16 @@ public final class Flap implements IFlap {
                 FlapDebug.throwIfDebugging(e);
             }
         }
-        //In case that we get a null view holder , create a default one ,so won't crash the app
         if (vh == null) {
             vh = onCreateDefaultViewHolder(inflater, parent, viewType);
         }
         return vh;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onBindViewHolder(@NonNull final FlapItem holder, final Object model, @NonNull final FlapAdapter flapAdapter, @NonNull final List<Object> payloads) {
+        holder.bind(model, flapAdapter, payloads);
     }
 
     @NonNull

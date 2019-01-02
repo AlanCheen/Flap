@@ -2,7 +2,6 @@ package me.yifeiyuan.flap;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Map;
 
 import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
 
@@ -18,7 +18,7 @@ import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
  */
 public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements FlapItemFactory<T, VH> {
 
-    private static final HashMap<Class<?>, Constructor> sConstructorCache = new HashMap<>(DEFAULT_ITEM_TYPE_COUNT);
+    private static final Map<Class<?>, Constructor> sConstructorCache = new HashMap<>(DEFAULT_ITEM_TYPE_COUNT);
 
     @SuppressWarnings("unchecked")
     @NonNull
@@ -30,7 +30,6 @@ public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements Fl
         Class clazz = (Class<?>) ReflectUtils.getTypes(this)[1];
 
         VH vh = null;
-        long t1 = System.currentTimeMillis();
         Constructor constructor = sConstructorCache.get(clazz);
         try {
             if (constructor == null) {
@@ -39,8 +38,6 @@ public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements Fl
                 sConstructorCache.put(clazz, constructor);
             }
             vh = (VH) constructor.newInstance(view);
-            long t2 = System.currentTimeMillis();
-            Log.d("Flap", "onCreateViewHolder time cost:" + (t2 - t1));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

@@ -6,14 +6,12 @@ import android.view.ViewGroup;
 
 /**
  * Created by 程序亦非猿
+ *
+ * IFlap is the core interface that define what Flap can do and how Flap works.
  */
-public interface IFlap extends ItemFactoryManager {
-
-    int getItemViewType(@NonNull Object model);
-
-    @NonNull
-    FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+public interface IFlap extends ItemFactoryManager, FlapAdapterDelegate {
 
     @NonNull
     FlapItem onCreateDefaultViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+
 }

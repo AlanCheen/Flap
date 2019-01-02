@@ -18,7 +18,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @NonNull
-    private Flap flap = Flap.getDefault();
+    private final Flap flap = Flap.getDefault();
 
     private LifecycleOwner lifecycleOwner;
 
@@ -42,7 +42,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @Override
     public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
-        holder.bind(getModel(position), this, payloads);
+        flap.onBindViewHolder(holder, getModel(position), this, payloads);
     }
 
     /**
@@ -77,17 +77,31 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @Override
     public void onViewAttachedToWindow(@NonNull FlapItem holder) {
         super.onViewAttachedToWindow(holder);
-        holder.onViewAttachedToWindow();
+        holder.onViewAttachedToWindow(this);
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull FlapItem holder) {
         super.onViewDetachedFromWindow(holder);
-        holder.onViewDetachedFromWindow();
+        holder.onViewDetachedFromWindow(this);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull final FlapItem holder) {
+        super.onViewRecycled(holder);
+        holder.onViewRecycled(this);
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(@NonNull final FlapItem holder) {
+        if (holder.onFailedToRecycleView(this)) {
+            return true;
+        }
+        return super.onFailedToRecycleView(holder);
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
-        checkNotNull(lifecycleOwner);
+        checkNotNull(lifecycleOwner, "lifecycleOwner can't be null.");
         this.lifecycleOwner = lifecycleOwner;
         return this;
     }
@@ -102,7 +116,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     }
 
     public void setModels(@NonNull List<?> models) {
-        checkNotNull(models);
+        checkNotNull(models, "models can't be null here");
         this.models = models;
     }
 

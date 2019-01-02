@@ -2,9 +2,9 @@
 
 [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.6.0)](https://bintray.com/alancheen/maven/flap/0.6.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE)
 
-**WARNING: Flap is still under development.**
+**[WIP]WARNING: Flap is still under development.**
 
-Flap is a library that makes `RecyclerView.Adapter` more easier to use , especially when you have to support lots of different type ViewHolders.
+`Flap` is a library that makes `RecyclerView.Adapter` more easier to use , especially when you have to support lots of different type ViewHolders.
 
 Flap can save your day by keeping you from writing boilerplate codes.
 
@@ -24,8 +24,6 @@ dependencies {
 
 
 #### Step 1 : Create a model class :
-
-A model class can be a POJO or Java Bean.
 
 ```java
 public class SimpleTextModel {
@@ -77,13 +75,13 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
 
 
-#### Step 3 : Register the `FlapItemFactory` and create your `FlapAdapter`
+#### Step 3 : Register `FlapItemFactory` and create your `FlapAdapter`
 
 Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
 ```java
 //register your ItemFactory to Flap
-Flap.getDefault().register(SimpleTextModel.class, new SimpleTextItem.SimpleTextItemFactory());
+Flap.getDefault().register(new SimpleTextItem.SimpleTextItemFactory());
 
 FlapAdapter adapter = new FlapAdapter();
 
@@ -133,19 +131,14 @@ Releated methods :
 
 Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
-
-## Todo List
+## Feature List
 
 - Support AsyncListDiffer
 - Support Lifecycle
 
-## Contribution
-
-Any feedback would be helpful , thanks.
-
-
-
 ## Contact Me
+
+Any feedback could be helpful , thanks.
 
 I'm Fitz , an Engineer working at Alibaba living in China .
 
@@ -157,36 +150,4 @@ Follow me on :
 - [简书](https://www.jianshu.com/u/ec59bd61433a)
 - [掘金](https://juejin.im/user/558cc8dae4b0de86abc9cfda)
 
-Feel free to contact me.
-
-
-
-## Apps are using Flap
-
-Contact me if you are using Flap in your App.
-
-
-
-## Thanks
-
-I'm using [StefMa/bintray-release](https://github.com/StefMa/bintray-release) to publish Flap to jCenter.
-
-
-
-## License
-
-```
-   Copyright 2018 程序亦非猿
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-```
+Feel free to contact me. 

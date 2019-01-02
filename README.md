@@ -39,9 +39,7 @@ public class SimpleTextModel {
 
 #### Step 2 : Create a `FlapItem` and a `FlapItemFactory` :
 
-`FlapItem` is the base `ViewHolder` that `Flap` is used internally.
-
-`FlapItemFactory` tells Flap how to create a  `FlapItem` as you wish.
+`FlapItem` is the base `ViewHolder` that `Flap` is using internally.
 
 Here is a sample :
 
@@ -62,7 +60,7 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-    public static class SimpleTextItemFactory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
+    public static class Factory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
 
         @Override
         protected int getLayoutResId(final SimpleTextModel model) {
@@ -73,15 +71,13 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 }
 ```
 
-
-
 #### Step 3 : Register `FlapItemFactory` and create your `FlapAdapter`
 
 Create your `FlapAdapter` and register the `SimpleTextItemFactory` that we already created , setup the models :
 
 ```java
 //register your ItemFactory to Flap
-Flap.getDefault().register(new SimpleTextItem.SimpleTextItemFactory());
+Flap.getDefault().register(new SimpleTextItem.Factory());
 
 FlapAdapter adapter = new FlapAdapter();
 

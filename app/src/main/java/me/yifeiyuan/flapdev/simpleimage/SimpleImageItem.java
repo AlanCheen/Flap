@@ -24,7 +24,7 @@ public class SimpleImageItem extends FlapItem<SimpleImageModel> {
 
     }
 
-    public static class SimpleImageItemFactory extends LayoutItemFactory<SimpleImageModel, SimpleImageItem> {
+    public static class Factory extends LayoutItemFactory<SimpleImageModel, SimpleImageItem> {
 
         @Override
         protected int getLayoutResId(final SimpleImageModel model) {

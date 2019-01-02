@@ -129,8 +129,12 @@ Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 ## Feature List
 
-- Support AsyncListDiffer
-- Support Lifecycle
+- [] Loadmore feature;
+- [] Empty and error status;
+- [] Support AsyncListDiffer feature;
+- [] Support setup global RecycledViewPool;
+- [x] Support Lifecycle for FlapItem;
+- [x] Decouple RecyclerView.Adapter and ViewHolder's creating and binding logic.
 
 ## Contact Me
 

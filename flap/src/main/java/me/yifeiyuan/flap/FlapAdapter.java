@@ -42,7 +42,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @Override
     public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
-        holder.bind(getModel(position), this, payloads);
+        flap.onBindViewHolder(holder, getModel(position), this, payloads);
     }
 
     /**
@@ -101,7 +101,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
-        checkNotNull(lifecycleOwner);
+        checkNotNull(lifecycleOwner, "lifecycleOwner can't be null.");
         this.lifecycleOwner = lifecycleOwner;
         return this;
     }
@@ -116,7 +116,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     }
 
     public void setModels(@NonNull List<?> models) {
-        checkNotNull(models);
+        checkNotNull(models, "models can't be null here");
         this.models = models;
     }
 

@@ -10,8 +10,12 @@ final class Preconditions {
     }
 
     static void checkNotNull(Object obj) {
+        checkNotNull(obj, "");
+    }
+
+    static void checkNotNull(Object obj, String msg) {
         if (obj == null) {
-            throw new NullPointerException();
+            throw new NullPointerException(msg);
         }
     }
 

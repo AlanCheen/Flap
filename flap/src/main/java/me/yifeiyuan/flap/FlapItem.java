@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Created by 程序亦非猿
  *
- * The base ViewHolder provides some useful and convenient abilities.
+ * FlapItem is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
  * By extending the LifecycleItem you can receive the lifecycle callbacks.
  *
- * @see LifecycleItem
+ * @see LifecycleItem also.
  */
 public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
@@ -30,6 +30,12 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
         onBind(model, adapter, payloads);
     }
 
+    /**
+     * Overriding `onBind` to bind your model to your FlapItem.
+     * @param model The model that you need to bind.
+     * @param adapter Your adapter.
+     * @param payloads The payloads you may need.
+     */
     protected abstract void onBind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads);
 
     @SuppressWarnings("unchecked")
@@ -38,15 +44,37 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     }
 
     /**
+     * @param flapAdapter
+     *
      * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
      */
-    protected void onViewAttachedToWindow() {
+    protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
     }
 
     /**
+     * @param flapAdapter
+     *
      * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
      */
-    protected void onViewDetachedFromWindow() {
+    protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
     }
 
+    /**
+     * @param flapAdapter
+     *
+     * @see FlapAdapter#onViewRecycled(FlapItem)
+     */
+    protected void onViewRecycled(final FlapAdapter flapAdapter) {
+
+    }
+
+    /**
+     * @param flapAdapter
+     *
+     * @return
+     * @see FlapAdapter#onFailedToRecycleView(FlapItem)
+     */
+    protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+        return false;
+    }
 }

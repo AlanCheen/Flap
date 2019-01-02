@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 /**
  * Created by 程序亦非猿
  *
- * An ItemFactory is used for creating FlapItem.
+ * An FlapItemFactory is used for creating FlapItem.
  */
 interface FlapItemFactory<T, VH extends FlapItem<T>> {
 

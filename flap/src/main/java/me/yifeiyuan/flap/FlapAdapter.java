@@ -20,12 +20,14 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @NonNull
     private final Flap flap = Flap.getDefault();
 
-    private LifecycleOwner lifecycleOwner;
-
     @NonNull
     private List<?> models = new ArrayList<>();
 
+    private LifecycleOwner lifecycleOwner;
+
     private boolean lifecycleEnable = true;
+
+    private boolean useGlobalPool = true;
 
     @NonNull
     @Override
@@ -72,24 +74,27 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         if (recyclerView.getContext() instanceof LifecycleOwner && lifecycleOwner == null) {
             setLifecycleOwner((LifecycleOwner) recyclerView.getContext());
         }
+        if (useGlobalPool) {
+            recyclerView.setRecycledViewPool(flap.getFlapItemPool());
+        }
     }
 
     @Override
     public void onViewAttachedToWindow(@NonNull FlapItem holder) {
         super.onViewAttachedToWindow(holder);
-        holder.onViewAttachedToWindow(this);
+        flap.onViewAttachedToWindow(holder, this);
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull FlapItem holder) {
         super.onViewDetachedFromWindow(holder);
-        holder.onViewDetachedFromWindow(this);
+        flap.onViewDetachedFromWindow(holder, this);
     }
 
     @Override
     public void onViewRecycled(@NonNull final FlapItem holder) {
         super.onViewRecycled(holder);
-        holder.onViewRecycled(this);
+        flap.onViewRecycled(holder, this);
     }
 
     @Override
@@ -115,13 +120,29 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         return getModels().get(position);
     }
 
-    public void setModels(@NonNull List<?> models) {
+    public FlapAdapter setModels(@NonNull List<?> models) {
         checkNotNull(models, "models can't be null here");
         this.models = models;
+        return this;
     }
 
     @NonNull
     public List<?> getModels() {
         return models;
     }
+
+    /**
+     * Set whether use the global RecycledViewPool or not.
+     *
+     * NOTE : Call this before you call RecyclerView.setAdapter.
+     *
+     * @param enable true by default
+     *
+     * @return this
+     */
+    public FlapAdapter setUseGlobalPool(final boolean enable) {
+        this.useGlobalPool = enable;
+        return this;
+    }
+
 }

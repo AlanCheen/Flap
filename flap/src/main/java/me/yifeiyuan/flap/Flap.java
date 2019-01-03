@@ -24,6 +24,8 @@ public final class Flap implements IFlap {
     private final Map<Class<?>, FlapItemFactory> itemFactories;
     private final SparseArray<FlapItemFactory> factoryMapping;
 
+    private final FlapItemPool GLOBAL_POOL = new FlapItemPool();
+
     private static volatile Flap sInstance;
 
     public static Flap getDefault() {
@@ -115,6 +117,21 @@ public final class Flap implements IFlap {
         holder.bind(model, flapAdapter, payloads);
     }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull final FlapItem holder, @NonNull final FlapAdapter flapAdapter) {
+        holder.onViewAttachedToWindow(flapAdapter);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull final FlapItem holder, @NonNull final FlapAdapter flapAdapter) {
+        holder.onViewDetachedFromWindow(flapAdapter);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull final FlapItem holder, @NonNull final FlapAdapter flapAdapter) {
+        holder.onViewRecycled(flapAdapter);
+    }
+
     @NonNull
     @Override
     public FlapItem onCreateDefaultViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
@@ -123,5 +140,9 @@ public final class Flap implements IFlap {
 
     public static void setDebug(final boolean isDebugging) {
         FlapDebug.setDebug(isDebugging);
+    }
+
+    public FlapItemPool getFlapItemPool() {
+        return GLOBAL_POOL;
     }
 }

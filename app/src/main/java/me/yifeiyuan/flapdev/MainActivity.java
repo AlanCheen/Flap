@@ -20,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
+        createSimpleTestCase(recyclerView);
+
+        createAdvanceTestCase(recyclerView);
+    }
+
+    private void createSimpleTestCase(final RecyclerView recyclerView) {
         FlapAdapter adapter = new FlapAdapter();
 
         List<Object> models = new ArrayList<>();
@@ -36,8 +42,19 @@ public class MainActivity extends AppCompatActivity {
         adapter.setModels(models);
 
         recyclerView.setAdapter(adapter);
+    }
 
-//        List<Object> models = mockModels();
+    private void createAdvanceTestCase(final RecyclerView recyclerView) {
+
+        List<Object> models = mockModels();
+
+        FlapAdapter adapter = new FlapAdapter();
+        adapter.setUseGlobalPool(true)
+                .setLifecycleEnable(true)
+                .setLifecycleOwner(this)
+                .setModels(models);
+
+        recyclerView.setAdapter(adapter);
     }
 
     private List<Object> mockModels() {

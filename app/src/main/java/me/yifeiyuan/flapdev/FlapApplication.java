@@ -28,5 +28,7 @@ public class FlapApplication extends Application {
 
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1));
 
+        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
+
     }
 }

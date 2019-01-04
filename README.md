@@ -5,13 +5,13 @@
 **[WIP]WARNING: Flap is still under development.**
 
 
-## What is Flap?
+## What is Flap
 
 `Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
 
 Have a try !
 
-## How to integrate Flap?
+## How to integrate Flap
 
 Add the latest Flap to your dependencies:
 
@@ -21,7 +21,7 @@ dependencies {
 }
 ```
 
-## Usage
+## How to use Flap
 
 
 #### Step 1 : Create a model class :

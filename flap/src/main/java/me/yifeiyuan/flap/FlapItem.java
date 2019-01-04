@@ -44,7 +44,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     }
 
     /**
-     * @param flapAdapter
+     * @param flapAdapter The adapter which is using your FlapItem.
      *
      * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
      */
@@ -52,7 +52,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     }
 
     /**
-     * @param flapAdapter
+     * @param flapAdapter The adapter which is using your FlapItem.
      *
      * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
      */
@@ -60,7 +60,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     }
 
     /**
-     * @param flapAdapter
+     * @param flapAdapter The adapter which is using your FlapItem.
      *
      * @see FlapAdapter#onViewRecycled(FlapItem)
      */
@@ -69,7 +69,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     }
 
     /**
-     * @param flapAdapter
+     * @param flapAdapter The adapter which is using your FlapItem.
      *
      * @return
      * @see FlapAdapter#onFailedToRecycleView(FlapItem)

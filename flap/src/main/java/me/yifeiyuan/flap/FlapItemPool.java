@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
  *
  * A global RecycledViewPool that can be shared among RecyclerViews , which is enabled by default.
  *
- * @see FlapAdapter#setUseGlobalPool(boolean)
+ * @see FlapAdapter#setUseFlapItemPool(boolean)
  */
 public class FlapItemPool extends RecyclerView.RecycledViewPool {
 

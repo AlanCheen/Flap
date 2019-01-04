@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         List<Object> models = mockModels();
 
         FlapAdapter adapter = new FlapAdapter();
-        adapter.setUseGlobalPool(true)
+        adapter.setUseFlapItemPool(true)
                 .setLifecycleEnable(true)
                 .setLifecycleOwner(this)
                 .setModels(models);

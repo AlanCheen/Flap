@@ -27,7 +27,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     private boolean lifecycleEnable = true;
 
-    private boolean useGlobalPool = true;
+    private boolean useFlapItemPool = true;
 
     @NonNull
     @Override
@@ -74,7 +74,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         if (recyclerView.getContext() instanceof LifecycleOwner && lifecycleOwner == null) {
             setLifecycleOwner((LifecycleOwner) recyclerView.getContext());
         }
-        if (useGlobalPool) {
+        if (useFlapItemPool) {
             recyclerView.setRecycledViewPool(flap.getFlapItemPool());
         }
     }
@@ -140,8 +140,8 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
      *
      * @return this
      */
-    public FlapAdapter setUseGlobalPool(final boolean enable) {
-        this.useGlobalPool = enable;
+    public FlapAdapter setUseFlapItemPool(final boolean enable) {
+        this.useFlapItemPool = enable;
         return this;
     }
 

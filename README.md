@@ -1,6 +1,8 @@
 # Flap
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.9.0)](https://bintray.com/alancheen/maven/flap/0.9.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) ![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=0.9.1)](https://bintray.com/alancheen/maven/flap/0.9.1/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) ![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)
+
+![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 **[WIP]WARNING: Flap is still under development.**
 
@@ -130,25 +132,19 @@ Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 ## Feature List
 
-- [ ] Loadmore feature;
-- [ ] Empty and error status;
+- [ ] Support load more feature(maybe);
+- [ ] Support empty and error status (maybe);
 - [ ] Support AsyncListDiffer feature;
-- [ ] Support setup global RecycledViewPool;
+- [x] Support setup global RecycledViewPool;
 - [x] Support Lifecycle for FlapItem;
 - [x] Decouple RecyclerView.Adapter and ViewHolder's creating and binding logic.
 
 ## Contact Me
 
-Any feedback could be helpful , thanks.
+Any feedback would be helpful , feel free to contact me , thanks.
 
-I'm Fitz , an Engineer working at Alibaba living in China .
+I'm Fitz , an Engineer working at Alibaba in China .
 
 Follow me on :
 
 - 微信公众号：chengxuyifeiyuan （程序亦非猿的拼音）
-- [知乎](https://www.zhihu.com/people/yifeiyuan/activities)
-- [新浪微博](https://www.weibo.com/alancheeen)
-- [简书](https://www.jianshu.com/u/ec59bd61433a)
-- [掘金](https://juejin.im/user/558cc8dae4b0de86abc9cfda)
-
-Feel free to contact me. 

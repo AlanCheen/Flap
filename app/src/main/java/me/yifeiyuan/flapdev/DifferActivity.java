@@ -62,14 +62,14 @@ public class DifferActivity extends AppCompatActivity {
     }
 
     private void testClear() {
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
 //                flapAdapter.getData().clear(); will throw UnsupportedOperationException
                 flapAdapter.setData(new ArrayList<>());
             }
-        },3000);
+        }, 3000);
     }
 
     private void changeModels() {
@@ -79,7 +79,8 @@ public class DifferActivity extends AppCompatActivity {
                 List<SimpleTextModel> newModels = new ArrayList<>();
 
                 for (int i = 0; i < 20; i++) {
-                    newModels.add(new SimpleTextModel("Android :" + i));
+//                    newModels.add(new SimpleTextModel("Android :" + i));
+                    newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
                 }
 
                 flapAdapter.setData(newModels);

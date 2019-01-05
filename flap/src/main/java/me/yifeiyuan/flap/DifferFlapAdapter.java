@@ -15,18 +15,18 @@ public class DifferFlapAdapter<T> extends FlapAdapter {
     private AsyncListDiffer<T> differ;
 
     public DifferFlapAdapter(final @NonNull DiffUtil.ItemCallback<T> itemCallback) {
-        this.differ = new AsyncListDiffer(this, itemCallback);
+        differ = new AsyncListDiffer(this, itemCallback);
     }
 
     @Override
     public FlapAdapter setData(@NonNull final List<?> data) {
-        this.differ.submitList((List<T>) data);
+        differ.submitList((List<T>) data);
         return this;
     }
 
     @Override
     protected T getItem(int position) {
-        return this.differ.getCurrentList().get(position);
+        return differ.getCurrentList().get(position);
     }
 
     @Override

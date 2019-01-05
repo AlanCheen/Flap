@@ -116,7 +116,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         return this;
     }
 
-    private Object getItem(final int position) {
+    protected Object getItem(final int position) {
         return getData().get(position);
     }
 

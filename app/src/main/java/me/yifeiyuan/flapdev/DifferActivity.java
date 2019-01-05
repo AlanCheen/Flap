@@ -22,7 +22,7 @@ public class DifferActivity extends AppCompatActivity {
 
     private static final String TAG = "DifferActivity";
 
-    private DifferFlapAdapter flapAdapter;
+    private DifferFlapAdapter<SimpleTextModel> flapAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +31,15 @@ public class DifferActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        flapAdapter = new DifferFlapAdapter();
-        flapAdapter.setDiffItemCallback(new DiffUtil.ItemCallback<SimpleTextModel>() {
+        flapAdapter = new DifferFlapAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
             @Override
             public boolean areItemsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                return false;
+                return simpleTextModel.equals(t1);
             }
         });
 
@@ -59,6 +58,18 @@ public class DifferActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         changeModels();
+//        testClear();
+    }
+
+    private void testClear() {
+        new Handler().postDelayed(new Runnable(){
+
+            @Override
+            public void run() {
+//                flapAdapter.getData().clear(); will throw UnsupportedOperationException
+                flapAdapter.setData(new ArrayList<>());
+            }
+        },3000);
     }
 
     private void changeModels() {
@@ -66,9 +77,11 @@ public class DifferActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<SimpleTextModel> newModels = new ArrayList<>();
-                newModels.add(new SimpleTextModel("iOS"));
-                newModels.add(new SimpleTextModel("OC"));
-                newModels.add(new SimpleTextModel("Kotlin"));
+
+                for (int i = 0; i < 20; i++) {
+                    newModels.add(new SimpleTextModel("Android :" + i));
+                }
+
                 flapAdapter.setData(newModels);
             }
         }, 5000);

@@ -42,7 +42,7 @@ public class DifferActivity extends AppCompatActivity {
         models.add(new SimpleTextModel("Java"));
         models.add(new SimpleTextModel("Kotlin"));
 
-        flapAdapter.setModels(models);
+        flapAdapter.setData(models);
 
         recyclerView.setAdapter(flapAdapter);
 
@@ -75,7 +75,7 @@ public class DifferActivity extends AppCompatActivity {
                 newModels.add(new SimpleTextModel("iOS"));
                 newModels.add(new SimpleTextModel("OC"));
                 newModels.add(new SimpleTextModel("Kotlin"));
-                flapAdapter.setModels(newModels);
+                flapAdapter.setData(newModels);
                 differ.submitList(newModels);
             }
         }, 5000);

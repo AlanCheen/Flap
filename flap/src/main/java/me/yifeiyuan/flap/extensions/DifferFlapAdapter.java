@@ -1,10 +1,14 @@
-package me.yifeiyuan.flap;
+package me.yifeiyuan.flap.extensions;
 
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
 import android.support.v7.recyclerview.extensions.AsyncListDiffer;
+import android.support.v7.util.AdapterListUpdateCallback;
 import android.support.v7.util.DiffUtil;
 
 import java.util.List;
+
+import me.yifeiyuan.flap.FlapAdapter;
 
 /**
  * Created by 程序亦非猿 on 2019/1/4.
@@ -18,8 +22,12 @@ public class DifferFlapAdapter<T> extends FlapAdapter {
         differ = new AsyncListDiffer(this, itemCallback);
     }
 
+    public DifferFlapAdapter(@NonNull AsyncDifferConfig<T> config) {
+        differ = new AsyncListDiffer(new AdapterListUpdateCallback(this), config);
+    }
+
     @Override
-    public FlapAdapter setData(@NonNull final List<?> data) {
+    public DifferFlapAdapter setData(@NonNull final List<?> data) {
         differ.submitList((List<T>) data);
         return this;
     }
@@ -36,7 +44,7 @@ public class DifferFlapAdapter<T> extends FlapAdapter {
 
     @NonNull
     @Override
-    public List<?> getData() {
+    public List<T> getData() {
         return differ.getCurrentList();
     }
 }

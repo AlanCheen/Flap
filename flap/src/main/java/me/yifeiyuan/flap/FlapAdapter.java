@@ -50,7 +50,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     /**
      * Attaches the holder to lifecycle if need.
      *
-     * @param holder
+     * @param holder The holder we are going to bind.
      */
     private void attachLifecycleOwnerIfNeed(final FlapItem holder) {
         if (lifecycleEnable && lifecycleOwner != null && holder instanceof LifecycleObserver) {
@@ -106,7 +106,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {
-        checkNotNull(lifecycleOwner, "lifecycleOwner can't be null.");
+        checkNotNull(lifecycleOwner, "lifecycleOwner can't be null here.");
         this.lifecycleOwner = lifecycleOwner;
         return this;
     }
@@ -121,11 +121,12 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     }
 
     public FlapAdapter setData(@NonNull List<?> data) {
-        checkNotNull(data, "data can't be null here");
+        checkNotNull(data, "data can't be null here.");
         this.data = data;
         return this;
     }
 
+    @SuppressWarnings("WeakerAccess")
     @NonNull
     public List<?> getData() {
         return data;

@@ -8,6 +8,8 @@ import android.view.View;
 
 import java.util.List;
 
+import me.yifeiyuan.flap.extensions.LifecycleItem;
+
 /**
  * Created by 程序亦非猿
  *

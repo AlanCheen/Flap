@@ -1,13 +1,16 @@
-package me.yifeiyuan.flap;
+package me.yifeiyuan.flap.extensions;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.view.View;
 
+import me.yifeiyuan.flap.FlapItem;
+
 /**
  * Created by 程序亦非猿 on 2018/12/5.
  */
+@SuppressWarnings({"EmptyMethod", "unused"})
 public abstract class LifecycleItem<T> extends FlapItem<T> implements LifecycleObserver {
 
     public LifecycleItem(final View itemView) {

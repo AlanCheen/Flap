@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @see LifecycleItem also.
  */
+@SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
 public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     protected final Context context;
@@ -32,8 +33,9 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     /**
      * Overriding `onBind` to bind your model to your FlapItem.
-     * @param model The model that you need to bind.
-     * @param adapter Your adapter.
+     *
+     * @param model    The model that you need to bind.
+     * @param adapter  Your adapter.
      * @param payloads The payloads you may need.
      */
     protected abstract void onBind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads);
@@ -65,13 +67,12 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @see FlapAdapter#onViewRecycled(FlapItem)
      */
     protected void onViewRecycled(final FlapAdapter flapAdapter) {
-
     }
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @return
+     * @return True if the View should be recycled, false otherwise.
      * @see FlapAdapter#onFailedToRecycleView(FlapItem)
      */
     protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {

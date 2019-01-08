@@ -4,28 +4,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.recyclerview.extensions.AsyncListDiffer;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.yifeiyuan.flap.FlapAdapter;
+import me.yifeiyuan.flap.extensions.DifferFlapAdapter;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 /**
- * todo support
- * AsyncListDiffer
- * ListAdapter
+ * Testing for DifferFlapAdapter
  */
 public class DifferActivity extends AppCompatActivity {
 
     private static final String TAG = "DifferActivity";
 
-    private FlapAdapter flapAdapter;
-    private AsyncListDiffer<SimpleTextModel> differ;
+    private DifferFlapAdapter<SimpleTextModel> flapAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,37 +29,45 @@ public class DifferActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        flapAdapter = new FlapAdapter();
-
-        List<SimpleTextModel> models = new ArrayList<>();
-
-        models.add(new SimpleTextModel("Android"));
-        models.add(new SimpleTextModel("Java"));
-        models.add(new SimpleTextModel("Kotlin"));
-
-        flapAdapter.setModels(models);
-
-        recyclerView.setAdapter(flapAdapter);
-
-        differ = new AsyncListDiffer<SimpleTextModel>(flapAdapter, new DiffUtil.ItemCallback<SimpleTextModel>() {
+        flapAdapter = new DifferFlapAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
             @Override
             public boolean areItemsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                Log.d(TAG, "areItemsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
-                return false;
+                return true;
             }
 
             @Override
             public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                Log.d(TAG, "areContentsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
-                return false;
+                return simpleTextModel.equals(t1);
             }
         });
+
+        List<SimpleTextModel> models = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            models.add(new SimpleTextModel("Android :" + i));
+        }
+
+        flapAdapter.setData(models);
+
+        recyclerView.setAdapter(flapAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         changeModels();
+//        testClear();
+    }
+
+    private void testClear() {
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+//                flapAdapter.getData().clear(); will throw UnsupportedOperationException
+                flapAdapter.setData(new ArrayList<>());
+            }
+        }, 3000);
     }
 
     private void changeModels() {
@@ -72,11 +75,13 @@ public class DifferActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<SimpleTextModel> newModels = new ArrayList<>();
-                newModels.add(new SimpleTextModel("iOS"));
-                newModels.add(new SimpleTextModel("OC"));
-                newModels.add(new SimpleTextModel("Kotlin"));
-                flapAdapter.setModels(newModels);
-                differ.submitList(newModels);
+
+                for (int i = 0; i < 20; i++) {
+//                    newModels.add(new SimpleTextModel("Android :" + i));
+                    newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
+                }
+
+                flapAdapter.setData(newModels);
             }
         }, 5000);
     }

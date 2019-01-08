@@ -14,9 +14,7 @@ import me.yifeiyuan.flap.extensions.DifferFlapAdapter;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
 /**
- * todo support
- * AsyncListDiffer
- * ListAdapter
+ * Testing for DifferFlapAdapter
  */
 public class DifferActivity extends AppCompatActivity {
 

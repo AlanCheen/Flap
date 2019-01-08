@@ -21,7 +21,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     private final Flap flap = Flap.getDefault();
 
     @NonNull
-    private List<?> models = new ArrayList<>();
+    private List<?> data = new ArrayList<>();
 
     private LifecycleOwner lifecycleOwner;
 
@@ -44,7 +44,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
     @Override
     public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
-        flap.onBindViewHolder(holder, getModel(position), this, payloads);
+        flap.onBindViewHolder(holder, getItem(position), this, payloads);
     }
 
     /**
@@ -60,12 +60,12 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @Override
     public int getItemCount() {
-        return getModels().size();
+        return getData().size();
     }
 
     @Override
     public int getItemViewType(final int position) {
-        return flap.getItemViewType(getModel(position));
+        return flap.getItemViewType(getItem(position));
     }
 
     @Override
@@ -116,19 +116,19 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         return this;
     }
 
-    private Object getModel(final int position) {
-        return getModels().get(position);
+    protected Object getItem(final int position) {
+        return getData().get(position);
     }
 
-    public FlapAdapter setModels(@NonNull List<?> models) {
-        checkNotNull(models, "models can't be null here");
-        this.models = models;
+    public FlapAdapter setData(@NonNull List<?> data) {
+        checkNotNull(data, "data can't be null here");
+        this.data = data;
         return this;
     }
 
     @NonNull
-    public List<?> getModels() {
-        return models;
+    public List<?> getData() {
+        return data;
     }
 
     /**

@@ -1,6 +1,7 @@
 package me.yifeiyuan.flapdev.simpletext;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     @Override
     protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+        Log.d(TAG, "onBind: " + getAdapterPosition());
         tvContent.setText(model.content);
     }
 

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         models.add(new SimpleImageModel());
         models.add(new SimpleImageModel());
 
-        adapter.setModels(models);
+        adapter.setData(models);
 
         recyclerView.setAdapter(adapter);
     }
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setUseFlapItemPool(true)
                 .setLifecycleEnable(true)
                 .setLifecycleOwner(this)
-                .setModels(models);
+                .setData(models);
 
         recyclerView.setAdapter(adapter);
     }

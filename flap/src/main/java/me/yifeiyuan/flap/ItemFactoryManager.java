@@ -10,7 +10,8 @@ import android.support.annotation.NonNull;
  *
  * All the ItemFactories would be used by Flap internally.
  */
-public interface ItemFactoryManager {
+@SuppressWarnings("unused")
+interface ItemFactoryManager {
 
     /**
      * Register a ItemFactory to ItemFactoryManager.

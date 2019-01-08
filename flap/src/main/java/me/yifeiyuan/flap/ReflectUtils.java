@@ -17,9 +17,9 @@ final class ReflectUtils {
     /**
      * Class<?> modelClazz = (Class<?>) types[0];
      *
-     * @param obj
+     * @param obj An obj instance.
      *
-     * @return
+     * @return Type[] of the class.
      */
     static Type[] getTypes(@NonNull Object obj) {
         Type[] types;

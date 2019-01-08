@@ -9,8 +9,9 @@ import android.view.ViewGroup;
  *
  * IFlap is the core interface that define what Flap can do and how Flap works.
  */
-public interface IFlap extends ItemFactoryManager, FlapAdapterDelegate {
+interface IFlap extends ItemFactoryManager, FlapAdapterDelegate {
 
+    @SuppressWarnings("unused")
     @NonNull
     FlapItem onCreateDefaultViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 

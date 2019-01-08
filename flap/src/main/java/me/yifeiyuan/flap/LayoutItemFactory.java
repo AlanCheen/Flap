@@ -20,7 +20,7 @@ public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements Fl
 
     private static final Map<Class<?>, Constructor> sConstructorCache = new HashMap<>(DEFAULT_ITEM_TYPE_COUNT);
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     @NonNull
     @Override
     public final VH onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {

@@ -11,6 +11,7 @@ import java.util.List;
  *
  * A delegate of FlapAdapter.
  */
+@SuppressWarnings("ALL")
 interface FlapAdapterDelegate {
 
     int getItemViewType(@NonNull Object model);

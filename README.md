@@ -97,6 +97,8 @@ adapter.setData(models);
 recyclerView.setAdapter(adapter);
 ```
 
+NOTE: Just register Factory one time is enough , so you can register your Factories in your custom Application.
+
 Yeah , you are good to go!
 
 <div align=center><img width="360" height="640" src="art/flap-simple-showcase.png"/></div>

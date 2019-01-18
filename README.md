@@ -150,13 +150,6 @@ Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 
 
-## Contact Me
+## Contribution
 
-I'm Fitz , an Engineer working at Alibaba in China .
-
-Any feedback would be helpful , feel free to contact me , thanks.
-
-Follow me on :
-
-- 微信公众号：chengxuyifeiyuan （程序亦非猿的拼音）
-
+Any feedback would be helpful , thanks!

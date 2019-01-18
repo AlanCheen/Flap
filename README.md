@@ -2,7 +2,7 @@
 
 [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.1.0)](https://bintray.com/alancheen/maven/flap/1.1.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
-
+[中文指南看这里(点我点我)](./README_CN.md)
 
 ## What is Flap
 
@@ -97,6 +97,8 @@ adapter.setData(models);
 recyclerView.setAdapter(adapter);
 ```
 
+NOTE: Just register Factory one time is enough , so you can register your Factories in your custom Application.
+
 Yeah , you are good to go!
 
 <div align=center><img width="360" height="640" src="art/flap-simple-showcase.png"/></div>
@@ -148,13 +150,6 @@ Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 
 
-## Contact Me
+## Contribution
 
-I'm Fitz , an Engineer working at Alibaba in China .
-
-Any feedback would be helpful , feel free to contact me , thanks.
-
-Follow me on :
-
-- 微信公众号：chengxuyifeiyuan （程序亦非猿的拼音）
-
+Any feedback would be helpful , thanks!

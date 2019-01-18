@@ -5,7 +5,7 @@
 
 ## Flap 介绍
 
-**Flap** 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，解决各种痛点，让你轻松而优雅的面对各种需求。
+**Flap** 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决各种开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
 
 
 
@@ -30,7 +30,7 @@
 
 
 
-## 入门指南
+## 一分钟入门指南
 
 
 
@@ -127,60 +127,78 @@ recyclerView.setAdapter(adapter);
 
 这样就完全 OK啦！ 怎么样？超简单吧？！
 
+欢迎使用喔！
+
 
 
 ## 更多其他的功能
 
 
 
-在 FlapItem 中我还添加了一些比较有用的功能，比如：
+结合实际开发的情况，我在 `FlapItem` 类中还添加了一些比较实用的功能，比如：
 
 
 
 1. FlapItem 中有 `context` 字段，你可以直接拿到 context ，轻松；
-2. FlapItem 提供 `findViewById()` 方法，你不需要调用  `itemView.findViewById` ，省事；
+2. FlapItem 提供 `findViewById()` 方法，你不需要写  `itemView.findViewById` 那么长，省事；
 3. FlapItem 提供  `onViewAttachedToWindow` & `onViewDetachedFromWindow` 的回调，可以用于暂停/重播视频等功能，方便；
 
 
 
-### Enable Lifecycle
+### 与 Lifecycle 完美结合的产物：LifecycleItem
 
 
 
-By extending `LifecycleItem`  , a lifecycle-aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy`  by default , when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
+在一些业务场景下我们在 `ViewHolder` 中需要感知生命周期，`Flap` 内置了一个 `LifecycleItem` ，通过继承它你就可以得到`onResume` 、`onPause`、`onStop`、`onDestroy`  的回调。
 
-Releated methods :
 
-1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   enabled by default
+
+如果觉得不够，你也加更多的方法，甚至你可以让你的 FlapItem 实现 `LifecycleObserver` 接口，`FlapAdapter` 会帮你自动绑定 `LifecycleOwner` ，生命周期问题从此不再出现。
+
+
+
+相关的方法：
+
+
+
+1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
 
 
 
 ### AsyncListDiffer 支持
 
-`Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，有这方面需求的可以使用。
+AsyncListDiffer 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
 
 
 ## 变更日志
 
-变更详情可以看： [Releases](https://github.com/AlanCheen/Flap/releases) 。
+版本变更详情请看： [Releases](https://github.com/AlanCheen/Flap/releases) 。
 
 
 
 ## 功能列表
 
 - [x] 支持 AsyncListDiffer，见 DifferFlapAdapter;
-
 - [x] 支持设置全局的 RecycledViewPool;
-
 - [x] 支持 Lifecycle;
 
-  
+
+
+## 贡献
+
+
+
+- 发现 Flap 有 Bug？提 issue 告诉我！
+
+- 发现 Flap 超好用？star 一波，安利给所有的好伙伴！
+- 发现 有需要的功能 Flap 不具有？ 提 issue 告诉我！
+- 任何意见和建议都可以提喔~
+
+
 
 ## 联系关注我
-
-非常欢迎给 Flap 提意见。
 
 也非常欢迎关注我的公众号啦：
 

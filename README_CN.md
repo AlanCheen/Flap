@@ -1,7 +1,7 @@
 # Flap
 
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.0.0)](https://bintray.com/alancheen/maven/flap/1.0.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.1.0)](https://bintray.com/alancheen/maven/flap/1.1.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ## Flap 介绍
 
@@ -202,5 +202,5 @@ AsyncListDiffer 能够非常高效的刷新数据的能力， `Flap`  内部提�
 
 也非常欢迎关注我的公众号啦：
 
-<p style="text-align: center;"><img alt="" src="https://cdn.nlark.com/yuque/0/2019/jpeg/138547/1546863515827-bd9dabf9-3e4b-4ea1-910f-e2f549b981cd.jpeg#align=left&display=inline&height=215&linkTarget=_blank&originHeight=430&originWidth=430&size=0&width=215" style="max-width: 250px; width: 215px;" /></p>
+<div align=center><img width="215" height="215" src="assets/public-wechat.jpeg"/></div>
 

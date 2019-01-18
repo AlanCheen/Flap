@@ -11,6 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.yifeiyuan.flap.internal.FlapItemFactory;
+
 import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
 
 /**

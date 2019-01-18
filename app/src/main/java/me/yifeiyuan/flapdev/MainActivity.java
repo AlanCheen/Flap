@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
+import me.yifeiyuan.flapdev.customviewtype.CustomModel;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         models.add(new SimpleTextModel("Android"));
         models.add(new SimpleTextModel("Java"));
         models.add(new SimpleTextModel("Kotlin"));
+
+        models.add(new SimpleImageModel());
+
+        models.add(new CustomModel());
 
         return models;
     }

@@ -204,3 +204,9 @@ AsyncListDiffer 能够非常高效的刷新数据的能力， `Flap`  内部提�
 
 <p style="text-align: center;"><img alt="" src="https://cdn.nlark.com/yuque/0/2019/jpeg/138547/1546863515827-bd9dabf9-3e4b-4ea1-910f-e2f549b981cd.jpeg#align=left&display=inline&height=215&linkTarget=_blank&originHeight=430&originWidth=430&size=0&width=215" style="max-width: 250px; width: 215px;" /></p>
 
+
+
+<img src="https://cdn.nlark.com/yuque/0/2019/jpeg/138547/1546863515827-bd9dabf9-3e4b-4ea1-910f-e2f549b981cd.jpeg" width="215" height="215" />
+
+
+

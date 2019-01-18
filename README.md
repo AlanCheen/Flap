@@ -101,7 +101,7 @@ NOTE: Just register Factory one time is enough , so you can register your Factor
 
 Yeah , you are good to go!
 
-<div align=center><img width="360" height="640" src="art/flap-simple-showcase.png"/></div>
+<div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
 
 
 ## More Advanced Features

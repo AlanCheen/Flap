@@ -16,7 +16,12 @@ public class FlapApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initFlap();
+    }
 
+    private void initFlap() {
+
+        //only setDebug(true) when you are testing
         Flap.setDebug(true);
 
         long t1 = System.currentTimeMillis();
@@ -29,6 +34,5 @@ public class FlapApplication extends Application {
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1));
 
         Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-
     }
 }

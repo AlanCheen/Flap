@@ -19,11 +19,13 @@ interface FlapAdapterDelegate {
     @NonNull
     FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull final FlapItem holder, Object model, @NonNull FlapAdapter flapAdapter, @NonNull List<Object> payloads);
+    void onBindViewHolder(@NonNull final FlapItem flapItem, Object model, @NonNull FlapAdapter flapAdapter, @NonNull List<Object> payloads);
 
-    void onViewAttachedToWindow(@NonNull FlapItem holder,@NonNull  FlapAdapter flapAdapter);
+    void onViewAttachedToWindow(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
 
-    void onViewDetachedFromWindow(@NonNull FlapItem holder,@NonNull  FlapAdapter flapAdapter);
+    void onViewDetachedFromWindow(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
 
-    void onViewRecycled(@NonNull FlapItem holder,@NonNull  FlapAdapter flapAdapter);
+    void onViewRecycled(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
+
+    boolean onFailedToRecycleView(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
 }

@@ -99,10 +99,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @Override
     public boolean onFailedToRecycleView(@NonNull final FlapItem holder) {
-        if (holder.onFailedToRecycleView(this)) {
-            return true;
-        }
-        return super.onFailedToRecycleView(holder);
+        return flap.onFailedToRecycleView(holder, this);
     }
 
     public FlapAdapter setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner) {

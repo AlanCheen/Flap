@@ -2,6 +2,8 @@ package me.yifeiyuan.flap;
 
 import android.support.annotation.NonNull;
 
+import me.yifeiyuan.flap.internal.FlapItemFactory;
+
 /**
  * Created by 程序亦非猿
  *

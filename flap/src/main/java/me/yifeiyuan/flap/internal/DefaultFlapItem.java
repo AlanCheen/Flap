@@ -1,18 +1,27 @@
-package me.yifeiyuan.flap;
+package me.yifeiyuan.flap.internal;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.RestrictTo;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
+
+import me.yifeiyuan.flap.FlapAdapter;
+import me.yifeiyuan.flap.FlapItem;
 
 /**
  * Created by 程序亦非猿
  *
  * It's the default ViewHolder would be used when something wrong was happened so that we won't get a crash.
  */
-final class DefaultFlapItem extends FlapItem {
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+public final class DefaultFlapItem extends FlapItem {
 
-    DefaultFlapItem(final View itemView) {
+    private static final int DEFAULT_ITEM_TYPE = -66666;
+
+    public DefaultFlapItem(final View itemView) {
         super(itemView);
     }
 
@@ -21,4 +30,17 @@ final class DefaultFlapItem extends FlapItem {
 
     }
 
+    public static class Factory implements FlapItemFactory {
+
+        @NonNull
+        @Override
+        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+            return new DefaultFlapItem(new View(parent.getContext()));
+        }
+
+        @Override
+        public int getItemViewType(final Object model) {
+            return DEFAULT_ITEM_TYPE;
+        }
+    }
 }

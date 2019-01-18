@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#ff00ff"
+    android:orientation="horizontal"
+    android:layout_marginBottom="4dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:singleLine="true"
+        android:text="Custom View Type Item"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        />
+
+</LinearLayout>

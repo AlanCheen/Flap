@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
+import me.yifeiyuan.flapdev.customviewtype.CustomViewTypeItem;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageItem;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextItem;
 
@@ -28,6 +29,7 @@ public class FlapApplication extends Application {
 
         Flap.getDefault().register(new SimpleTextItem.Factory());
         Flap.getDefault().register(new SimpleImageItem.Factory());
+        Flap.getDefault().register(new CustomViewTypeItem.Factory());
 
         long t2 = System.currentTimeMillis();
 

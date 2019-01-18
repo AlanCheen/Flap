@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.exception;
+package me.yifeiyuan.flap.exceptions;
 
 import android.support.annotation.RestrictTo;
 

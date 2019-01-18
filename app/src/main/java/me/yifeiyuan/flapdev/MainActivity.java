@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         models.add(new SimpleTextModel("Java"));
         models.add(new SimpleTextModel("Kotlin"));
 
+        models.add(new SimpleImageModel());
+
         return models;
     }
 

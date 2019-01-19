@@ -192,7 +192,7 @@ AsyncListDiffer 能够非常高效的刷新数据的能力， `Flap`  内部提�
 
 - 发现 Flap 有 Bug？提 issue 告诉我！
 
-- 发现 Flap 超好用？star 一波，安利给所有的好伙伴！
+- 发现 Flap 超好用？star 一波，安利给所有的小伙伴！
 - 发现 有需要的功能 Flap 不具有？ 提 issue 告诉我！
 - 任何意见和建议都可以提喔~
 

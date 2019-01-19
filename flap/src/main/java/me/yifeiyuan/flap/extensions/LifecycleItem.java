@@ -9,6 +9,12 @@ import me.yifeiyuan.flap.FlapItem;
 
 /**
  * Created by 程序亦非猿 on 2018/12/5.
+ *
+ * LifecycleItem is a lifecycle aware FlapItem so that can get the LifecycleEvent.
+ *
+ * You also can create your own lifecycle aware FlapItem by implementing LifecycleObserver.
+ *
+ * @see LifecycleObserver
  */
 @SuppressWarnings({"EmptyMethod", "unused"})
 public abstract class LifecycleItem<T> extends FlapItem<T> implements LifecycleObserver {

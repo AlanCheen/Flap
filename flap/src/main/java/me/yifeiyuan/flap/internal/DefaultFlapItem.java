@@ -14,7 +14,9 @@ import me.yifeiyuan.flap.FlapItem;
 /**
  * Created by 程序亦非猿
  *
- * It's the default ViewHolder would be used when something wrong was happened so that we won't get a crash.
+ * DefaultFlapItem is a build-in FlapItem that would be used when something went wrong .
+ *
+ * So that Flap won't crash your App.
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class DefaultFlapItem extends FlapItem {

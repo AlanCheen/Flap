@@ -103,7 +103,7 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
 将你的`LayoutItemFactory` 注册到 Flap，创建你的 `FlapAdapter` 并设置好 data。
 
-**注：**`LayoutItemFactory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
+**注意：**`LayoutItemFactory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
 
 ```java
 //注册你的 Factory 到 Flap

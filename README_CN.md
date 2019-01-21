@@ -184,6 +184,15 @@ recyclerView.setAdapter(adapter);
 - [x] 支持设置全局的 RecycledViewPool;
 - [x] 支持 Lifecycle;
 
+## FAQ
+
+一、如何设置 `FlapItem` 的点击事件？
+
+答：Flap并没有提供一个全局的点击事件处理方法，而是推荐在 FlapItem 的 onBind 方法里给 itemView 设置 onClick 事件，这样更清晰。
+
+二、我想在 `FlapItem` 里用 context 怎么办？
+
+答：`FlapItem` 有个字段 `context` 你可以直接访问使用。
 
 
 ## 贡献

@@ -205,7 +205,13 @@ recyclerView.setAdapter(adapter);
 - 发现 有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 任何意见和建议都可以提喔~
 
+## 贡献者列表
 
+感谢以下人员对 `Flap` 提供的帮助：
+
+- [dreamkong](https://github.com/dreamkong)
+- [Fitz](https://github.com/finalrose7)
+- [Halouyao](https://github.com/doooyao)
 
 ## 联系关注我
 

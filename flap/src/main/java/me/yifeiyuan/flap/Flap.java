@@ -27,14 +27,14 @@ public final class Flap implements IFlap {
 
     private final FlapItemPool GLOBAL_POOL = new FlapItemPool();
 
-    private final DefaultFlapItem.Factory DEFAULT = new DefaultFlapItem.Factory();
+    private final DefaultFlapItem.Factory DEFAULT_FACTORY = new DefaultFlapItem.Factory();
 
     private static volatile Flap sInstance;
 
     public static Flap getDefault() {
-        if (null == sInstance) {
+        if (sInstance == null) {
             synchronized (Flap.class) {
-                if (null == sInstance) {
+                if (sInstance == null) {
                     sInstance = new Flap();
                 }
             }
@@ -90,7 +90,7 @@ public final class Flap implements IFlap {
         } else {
             FlapDebug.throwIfDebugging(new ItemFactoryNotFoundException("Can't find the ItemFactory for : " + modelClazz + " , please register first!"));
         }
-        return DEFAULT.getItemViewType(model);
+        return DEFAULT_FACTORY.getItemViewType(model);
     }
 
     @NonNull
@@ -109,7 +109,7 @@ public final class Flap implements IFlap {
             }
         }
         if (vh == null) {
-            vh = DEFAULT.onCreateViewHolder(inflater, parent, viewType);
+            vh = DEFAULT_FACTORY.onCreateViewHolder(inflater, parent, viewType);
         }
         return vh;
     }

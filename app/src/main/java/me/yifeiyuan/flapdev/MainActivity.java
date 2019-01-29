@@ -9,6 +9,7 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flapdev.customviewtype.CustomModel;
+import me.yifeiyuan.flapdev.generictest.GenericModel;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         models.add(new SimpleImageModel());
 
         models.add(new CustomModel());
+        models.add(new GenericModel());
 
         return models;
     }

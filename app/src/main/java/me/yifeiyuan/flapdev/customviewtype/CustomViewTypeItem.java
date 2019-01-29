@@ -17,6 +17,8 @@ import me.yifeiyuan.flapdev.R;
  */
 public class CustomViewTypeItem extends FlapItem<CustomModel> {
 
+    private static final int CUSTOM_ITEM_VIEW_TYPE = 466;
+
     public CustomViewTypeItem(final View itemView) {
         super(itemView);
     }
@@ -36,7 +38,7 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
 
         @Override
         public int getItemViewType(final CustomModel model) {
-            return 3333;
+            return CUSTOM_ITEM_VIEW_TYPE;
         }
     }
 

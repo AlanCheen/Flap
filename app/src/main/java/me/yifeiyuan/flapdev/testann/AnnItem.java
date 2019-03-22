@@ -17,7 +17,7 @@ import me.yifeiyuan.flapdev.R;
  * Created by 程序亦非猿 on 2019-03-22.
  */
 
-@FlapItemFactory(itemViewType = R.layout.flap_item_ann, modelClass = AnnModel.class)
+@FlapItemFactory(itemViewType = R.layout.flap_item_ann)
 public class AnnItem extends FlapItem<AnnModel> {
 
     private static final String TAG = "SimpleTextItem";

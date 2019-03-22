@@ -5,10 +5,10 @@ import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
 import me.yifeiyuan.flap.ann.factories.AnnItemFactory;
+import me.yifeiyuan.flap.ann.factories.GenericFlapItemFactory;
+import me.yifeiyuan.flap.ann.factories.SimpleImageItemFactory;
+import me.yifeiyuan.flap.ann.factories.SimpleTextItemFactory;
 import me.yifeiyuan.flapdev.customviewtype.CustomViewTypeItem;
-import me.yifeiyuan.flapdev.generictest.GenericFlapItem;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageItem;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextItem;
 
 /**
  * Flap
@@ -28,11 +28,13 @@ public class FlapApplication extends Application {
         Flap.setDebug(true);
 
         long t1 = System.currentTimeMillis();
+        //Factories created by apt
+        Flap.getDefault().register(new SimpleTextItemFactory());
+        Flap.getDefault().register(new SimpleImageItemFactory());
+        Flap.getDefault().register(new GenericFlapItemFactory());
 
-        Flap.getDefault().register(new SimpleTextItem.Factory());
-        Flap.getDefault().register(new SimpleImageItem.Factory());
+        //自定义 itemViewType ; custom itemViewType
         Flap.getDefault().register(new CustomViewTypeItem.Factory());
-        Flap.getDefault().register(new GenericFlapItem.Factory());
 
         long t2 = System.currentTimeMillis();
 
@@ -40,6 +42,6 @@ public class FlapApplication extends Application {
 
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1));
 
-        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
+//        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
     }
 }

@@ -40,11 +40,6 @@ public final class DefaultFlapItem extends FlapItem {
             return new DefaultFlapItem(new View(parent.getContext()));
         }
 
-//        @Override
-//        public int getItemViewType() {
-//            return DEFAULT_ITEM_TYPE;
-//        }
-
         @Override
         public int getItemViewType(final Object model) {
             return DEFAULT_ITEM_TYPE;

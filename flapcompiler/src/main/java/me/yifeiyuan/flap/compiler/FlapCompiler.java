@@ -95,7 +95,7 @@ public class FlapCompiler extends AbstractProcessor {
      */
     private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final FlapItemFactory factory) {
 
-        ClassName flapIemClass = (ClassName) ClassName.get(flapItemElement.asType());
+        ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
         //要生成的类的名字
         String targetClassName = flapItemElement.getSimpleName().toString() + "Factory";
@@ -121,8 +121,8 @@ public class FlapCompiler extends AbstractProcessor {
                 .addParameter(layoutInflater, "inflater")
                 .addParameter(viewGroup, "parent")
                 .addParameter(TypeName.INT, "itemViewType")
-                .returns(flapIemClass)
-                .addStatement("return new $T(inflater.inflate(itemViewType,parent,false))", flapIemClass)
+                .returns(flapItemClass)
+                .addStatement("return new $T(inflater.inflate(itemViewType,parent,false))", flapItemClass)
                 .build();
 
         MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
@@ -135,7 +135,7 @@ public class FlapCompiler extends AbstractProcessor {
 
         ClassName flapItemFactoryInterface = ClassName.get("me.yifeiyuan.flap.internal", "FlapItemFactory");
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, modelklass, flapIemClass);
+        ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, modelklass, flapItemClass);
 
         TypeSpec flapItemFactoryTypeSpec = TypeSpec.classBuilder(targetClassName)
                 .addModifiers(Modifier.PUBLIC)

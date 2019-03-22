@@ -37,4 +37,6 @@ public interface FlapItemFactory<T, VH extends FlapItem<T>> {
      * @return the itemViewType of the FlapItem you are gonna create.
      */
     int getItemViewType(T model);
+
+//    Class<?> acceptModel();
 }

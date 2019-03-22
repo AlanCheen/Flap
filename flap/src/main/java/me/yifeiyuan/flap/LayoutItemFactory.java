@@ -18,7 +18,7 @@ import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
 /**
  * Created by 程序亦非猿
  */
-public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements FlapItemFactory<T, VH> {
+public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements FlapItemFactory<T,VH> {
 
     private static final Map<Class<?>, Constructor> sConstructorCache = new HashMap<>(DEFAULT_ITEM_TYPE_COUNT);
 
@@ -59,4 +59,9 @@ public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements Fl
 
     @LayoutRes
     protected abstract int getLayoutResId(final T model);
+
+//    @Override
+//    public Class<?> acceptModel() {
+//        return (Class)T;
+//    }
 }

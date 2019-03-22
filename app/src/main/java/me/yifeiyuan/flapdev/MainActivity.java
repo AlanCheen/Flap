@@ -12,6 +12,7 @@ import me.yifeiyuan.flapdev.customviewtype.CustomModel;
 import me.yifeiyuan.flapdev.generictest.GenericModel;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
+import me.yifeiyuan.flapdev.testann.AnnModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         models.add(new CustomModel());
         models.add(new GenericModel());
+
+        models.add(new AnnModel());
 
         return models;
     }

@@ -28,13 +28,18 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
 
     }
 
-    public static class Factory implements FlapItemFactory<CustomModel, CustomViewTypeItem> {
+    public static class Factory implements FlapItemFactory<CustomModel,CustomViewTypeItem> {
 
         @NonNull
         @Override
         public CustomViewTypeItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             return new CustomViewTypeItem(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
+
+//        @Override
+//        public int getItemViewType() {
+//            return CUSTOM_ITEM_VIEW_TYPE;
+//        }
 
         @Override
         public int getItemViewType(final CustomModel model) {

@@ -12,9 +12,6 @@ import me.yifeiyuan.flap.FlapItem;
  *
  * An abstraction of Factory used for creating FlapItem.
  *
- * Recommends using LayoutItemFactory.
- *
- * @see me.yifeiyuan.flap.LayoutItemFactory
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface FlapItemFactory<T, VH extends FlapItem<T>> {

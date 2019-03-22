@@ -18,7 +18,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
  *
  * Check these also if need :
- * @see LayoutItemFactory
+ *
  * @see FlapItem
  * @see me.yifeiyuan.flap.extensions.LifecycleItem
  * @see FlapItemPool

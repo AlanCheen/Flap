@@ -29,8 +29,8 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
     implementation project(':flap')
-    implementation project(':flapannotations')
+    implementation project(':flap-annotations')
 
-    annotationProcessor project(':flapcompiler')
+    annotationProcessor project(':flap-compiler')
 
 }

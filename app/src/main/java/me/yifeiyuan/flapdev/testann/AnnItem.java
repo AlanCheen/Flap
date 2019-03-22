@@ -3,13 +3,11 @@ package me.yifeiyuan.flapdev.testann;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.LayoutItemFactory;
 import me.yifeiyuan.flap.annotations.FlapItemFactory;
 import me.yifeiyuan.flapdev.R;
 
@@ -22,11 +20,8 @@ public class AnnItem extends FlapItem<AnnModel> {
 
     private static final String TAG = "SimpleTextItem";
 
-    private TextView tvContent;
-
     public AnnItem(final View itemView) {
         super(itemView);
-//        tvContent = findViewById(R.id.tv_content);
     }
 
     @Override
@@ -34,17 +29,13 @@ public class AnnItem extends FlapItem<AnnModel> {
         Log.d(TAG, "onBind: " + getAdapterPosition());
     }
 
-    public static class Factory extends LayoutItemFactory<AnnModel, AnnItem> {
-
-        @Override
-        protected int getLayoutResId(final AnnModel model) {
-            return R.layout.flap_item_simple_text;
-        }
-
+//    public static class Factory extends LayoutItemFactory<AnnModel, AnnItem> {
+//
 //        @Override
-//        protected int getLayoutResId() {
+//        protected int getLayoutResId(final AnnModel model) {
 //            return R.layout.flap_item_simple_text;
 //        }
-    }
+//
+//    }
 
 }

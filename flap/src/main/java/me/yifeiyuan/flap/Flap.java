@@ -20,7 +20,7 @@ public final class Flap implements IFlap {
 
     private static final String TAG = "Flap";
 
-    static final int DEFAULT_ITEM_TYPE_COUNT = 32;
+    static final int DEFAULT_ITEM_TYPE_COUNT = 16;
 
     private final Map<Class<?>, FlapItemFactory> itemFactories;
     private final SparseArray<FlapItemFactory> factoryMapping;

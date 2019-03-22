@@ -36,11 +36,6 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
             return new CustomViewTypeItem(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 
-//        @Override
-//        public int getItemViewType() {
-//            return CUSTOM_ITEM_VIEW_TYPE;
-//        }
-
         @Override
         public int getItemViewType(final CustomModel model) {
             return CUSTOM_ITEM_VIEW_TYPE;

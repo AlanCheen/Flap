@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
+import me.yifeiyuan.flap.ann.factories.AnnItemFactory;
 import me.yifeiyuan.flapdev.customviewtype.CustomViewTypeItem;
 import me.yifeiyuan.flapdev.generictest.GenericFlapItem;
 import me.yifeiyuan.flapdev.simpleimage.SimpleImageItem;
@@ -34,6 +35,8 @@ public class FlapApplication extends Application {
         Flap.getDefault().register(new GenericFlapItem.Factory());
 
         long t2 = System.currentTimeMillis();
+
+        Flap.getDefault().register(new AnnItemFactory());
 
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1));
 

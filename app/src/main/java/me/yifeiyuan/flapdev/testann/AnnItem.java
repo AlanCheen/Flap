@@ -17,7 +17,7 @@ import me.yifeiyuan.flapdev.R;
  * Created by 程序亦非猿 on 2019-03-22.
  */
 
-@FlapItemFactory(itemViewType = R.layout.flap_item_simple_text, modelClass = AnnModel.class)
+@FlapItemFactory(itemViewType = R.layout.flap_item_ann, modelClass = AnnModel.class)
 public class AnnItem extends FlapItem<AnnModel> {
 
     private static final String TAG = "SimpleTextItem";
@@ -36,15 +36,15 @@ public class AnnItem extends FlapItem<AnnModel> {
 
     public static class Factory extends LayoutItemFactory<AnnModel, AnnItem> {
 
-//        @Override
-//        protected int getLayoutResId(final AnnModel model) {
-//            return R.layout.flap_item_simple_text;
-//        }
-
         @Override
-        protected int getLayoutResId() {
+        protected int getLayoutResId(final AnnModel model) {
             return R.layout.flap_item_simple_text;
         }
+
+//        @Override
+//        protected int getLayoutResId() {
+//            return R.layout.flap_item_simple_text;
+//        }
     }
 
 }

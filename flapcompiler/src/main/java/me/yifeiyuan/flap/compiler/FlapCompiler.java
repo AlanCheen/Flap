@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
@@ -70,7 +71,7 @@ public class FlapCompiler extends AbstractProcessor {
             FlapItemFactory factory = element.getAnnotation(FlapItemFactory.class);
             if (null != factory) {
                 try {
-                    TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, element, factory);
+                    TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
                     if (flapItemFactoryTypeSpec == null) {
                         continue;
                     }
@@ -92,7 +93,7 @@ public class FlapCompiler extends AbstractProcessor {
      *
      * @return
      */
-    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final Element flapItemElement, final FlapItemFactory factory) {
+    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final FlapItemFactory factory) {
 
         ClassName flapIemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
@@ -116,6 +117,7 @@ public class FlapCompiler extends AbstractProcessor {
 
         MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("onCreateViewHolder")
                 .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
                 .addParameter(viewGroup, "parent")
                 .addParameter(TypeName.INT, "itemViewType")
@@ -123,12 +125,23 @@ public class FlapCompiler extends AbstractProcessor {
                 .addStatement("return new $T(inflater.inflate(itemViewType,parent,false))", flapIemClass)
                 .build();
 
+        MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(modelklass, "model")
+                .returns(Integer.TYPE)
+                .addStatement("return " + itemViewType)
+                .build();
+
         ClassName flapItemFactoryInterface = ClassName.get("me.yifeiyuan.flap.internal", "FlapItemFactory");
 
+        ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, modelklass, flapIemClass);
+
         TypeSpec flapItemFactoryTypeSpec = TypeSpec.classBuilder(targetClassName)
-                .addModifiers(Modifier.PUBLIC,Modifier.ABSTRACT)
+                .addModifiers(Modifier.PUBLIC)
                 .addMethod(onCreateViewHolderMethod)
-                .addSuperinterface(flapItemFactoryInterface)
+                .addMethod(getItemViewTypeMethod)
+                .addSuperinterface(name)//实现接口
                 .build();
 
         return flapItemFactoryTypeSpec;

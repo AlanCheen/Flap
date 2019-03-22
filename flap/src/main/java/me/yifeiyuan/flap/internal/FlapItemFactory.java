@@ -38,5 +38,4 @@ public interface FlapItemFactory<T, VH extends FlapItem<T>> {
      */
     int getItemViewType(T model);
 
-//    Class<?> acceptModel();
 }

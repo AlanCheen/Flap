@@ -10,6 +10,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -22,9 +23,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
@@ -100,17 +102,23 @@ public class FlapCompiler extends AbstractProcessor {
         //要生成的类的名字
         String targetClassName = flapItemElement.getSimpleName().toString() + "Factory";
 
-        ClassName modelklass = null;
         int itemViewType = factory.itemViewType();
+//        ClassName modelklass = null;
+//
+//        try {
+//            Class<?> modelClass = factory.modelClass();
+//            modelklass = ClassName.get(modelClass);
+//        } catch (MirroredTypeException e) {
+//            TypeMirror typeMirror = e.getTypeMirror();
+//            TypeElement el = (TypeElement) typeUtils.asElement(typeMirror);
+//            modelklass = ClassName.get(el);
+//        }
 
-        try {
-            Class<?> modelClass = factory.modelClass();
-        } catch (MirroredTypeException e) {
-            TypeMirror typeMirror = e.getTypeMirror();
-            TypeElement el = (TypeElement) typeUtils.asElement(typeMirror);
-            modelklass = ClassName.get(el);
-        }
+        DeclaredType declaredType = flapItemElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
+        List<? extends TypeMirror> args = declaredType.getTypeArguments();
+        TypeElement itemModelType = (TypeElement) typeUtils.asElement(args.get(0));
 
+        ClassName itemModelClass = ClassName.get(itemModelType);
 
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
@@ -128,14 +136,14 @@ public class FlapCompiler extends AbstractProcessor {
         MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(modelklass, "model")
+                .addParameter(itemModelClass, "model")
                 .returns(Integer.TYPE)
                 .addStatement("return " + itemViewType)
                 .build();
 
         ClassName flapItemFactoryInterface = ClassName.get("me.yifeiyuan.flap.internal", "FlapItemFactory");
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, modelklass, flapItemClass);
+        ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, itemModelClass, flapItemClass);
 
         TypeSpec flapItemFactoryTypeSpec = TypeSpec.classBuilder(targetClassName)
                 .addModifiers(Modifier.PUBLIC)
@@ -157,5 +165,13 @@ public class FlapCompiler extends AbstractProcessor {
         Set<String> anns = new LinkedHashSet<>();
         anns.add(FlapItemFactory.class.getCanonicalName());
         return anns;
+    }
+
+    public class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
+
+        @Override
+        public DeclaredType visitDeclared(DeclaredType declaredType, Void o) {
+            return declaredType;
+        }
     }
 }

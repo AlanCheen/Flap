@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface FlapItemFactory {
+public @interface Flap {
 
-    int itemViewType();
+    int layoutId() default -1;
 
 }

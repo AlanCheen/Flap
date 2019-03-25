@@ -9,13 +9,13 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.annotations.FlapItemFactory;
+import me.yifeiyuan.flap.annotations.Flap;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@FlapItemFactory(itemViewType = R.layout.flap_item_simple_text)
+@Flap(layoutId = R.layout.flap_item_simple_text)
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";

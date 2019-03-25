@@ -8,14 +8,14 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.annotations.FlapItemFactory;
+import me.yifeiyuan.flap.annotations.Flap;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2019-03-22.
  */
 
-@FlapItemFactory(itemViewType = R.layout.flap_item_ann)
+@Flap(layoutId = R.layout.flap_item_ann)
 public class AnnItem extends FlapItem<AnnModel> {
 
     private static final String TAG = "SimpleTextItem";

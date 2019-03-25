@@ -14,6 +14,14 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
  * Created by 程序亦非猿
+ *
+ * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
+ *
+ * Check these also if need :
+ *
+ * @see FlapItem
+ * @see me.yifeiyuan.flap.extensions.LifecycleItem
+ * @see FlapItemPool
  */
 public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 

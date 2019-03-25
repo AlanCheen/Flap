@@ -1,1 +1,1 @@
-include ':app', ':flap'
+include ':app', ':flap', ':flap-annotations', ':flap-compiler'

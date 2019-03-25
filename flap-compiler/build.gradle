@@ -1,0 +1,22 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':flap-annotations')
+    implementation 'com.squareup:javapoet:1.11.1'
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'alancheen'
+    groupId = 'me.yifeiyuan.flap'
+    artifactId = 'flap-compiler'
+    publishVersion = '1.2.0'
+    desc = 'flap annotations'
+    website = 'https://github.com/AlanCheen/Flap'
+}

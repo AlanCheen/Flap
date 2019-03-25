@@ -33,12 +33,4 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
         tvContent.setText(model.content);
     }
 
-//    public static class Factory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
-//
-//        @Override
-//        protected int getLayoutResId(final SimpleTextModel model) {
-//            return R.layout.flap_item_simple_text;
-//        }
-//    }
-
 }

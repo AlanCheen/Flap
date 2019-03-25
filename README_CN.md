@@ -1,9 +1,12 @@
 # Flap
 
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.1.0)](https://bintray.com/alancheen/maven/flap/1.1.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
+
 
 ## Flap 介绍
+
+
 
 `Flap` 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决各种开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
 
@@ -40,7 +43,7 @@
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+    implementation 'me.yifeiyuan.flap:flap:1.2.0'
 }
 ```
 
@@ -65,13 +68,16 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : 创建一个 `FlapItem` 和它的 `LayoutItemFactory` :
+#### Step 2 : 创建一个 `FlapItem` 并用`@Flap`修饰 :
 
 注：`FlapItem` 是一个 `ViewHolder` ，在 `Flap` 内部使用 ，是 `Flap` 的基础，把你原来的 `ViewHolder` 继承它即可。
+
+注意：@Flap 注解会自动帮助你生成一个 Factory，Factory 的名字是你的 FlapItem 类名+Factory。
 
 举个🌰 ：
 
 ```java
+@Flap(layoutId = R.layout.flap_item_simple_text)
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
@@ -87,27 +93,20 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
         tvContent.setText(model.content);
     }
-
-    public static class Factory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
-
-        @Override
-        protected int getLayoutResId(final SimpleTextModel model) {
-            return R.layout.flap_item_simple_text;
-        }
-    }
-
 }
 ```
 
-#### Step 3 : 注册你的 `LayoutItemFactory` and 创建你的 `FlapAdapter` 并设置 data
+这里生成的 Factory 就是 SimpleTextItemFactory
 
-将你的`LayoutItemFactory` 注册到 `Flap`，创建你的 `FlapAdapter` 并设置好 data。
+#### Step 3 : 注册你的 `Factory` and 创建你的 `FlapAdapter` 并设置 data
+
+将你的 Factory 注册到 `Flap`，创建你的 `FlapAdapter` 并设置好 data。
 
 **注意：**`LayoutItemFactory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
 
 ```java
 //注册你的 Factory 到 Flap
-Flap.getDefault().register(new SimpleTextItem.Factory());
+Flap.getDefault().register(new SimpleTextItemFactory());
 
 FlapAdapter adapter = new FlapAdapter();
 
@@ -125,7 +124,7 @@ recyclerView.setAdapter(adapter);
 
 
 
-这样就完全 OK啦！ 怎么样？超简单吧？！
+这样就完全 OK 啦！ 怎么样？超简单吧？！
 
 欢迎使用喔！
 
@@ -168,31 +167,41 @@ recyclerView.setAdapter(adapter);
 
 ### AsyncListDiffer 支持
 
+
+
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
 
 
 ## 变更日志
 
-版本变更详情请看： [Releases](https://github.com/AlanCheen/Flap/releases) 。
+
+
+版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
 
 
 
 ## 功能列表
 
+
+
 - [x] 支持 AsyncListDiffer，见 DifferFlapAdapter;
 - [x] 支持设置全局的 RecycledViewPool;
 - [x] 支持 Lifecycle;
 
+
+
 ## FAQ
 
-一、如何设置 `FlapItem` 的点击事件？
+#### 一、如何设置 `FlapItem` 的点击事件？
 
 答：Flap并没有提供一个全局的点击事件处理方法，而是推荐在 FlapItem 的 onBind 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
-二、我想在 `FlapItem` 里用 context 怎么办？
+#### 二、我想在 `FlapItem` 里用 context 怎么办？
 
 答：`FlapItem` 有个字段 `context` 你可以直接访问使用。
+
+
 
 
 ## 贡献
@@ -200,12 +209,15 @@ recyclerView.setAdapter(adapter);
 
 
 - 发现 `Flap` 有 Bug？提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
-
 - 发现 `Flap` 超好用？**star 一波，安利给所有的小伙伴！**
 - 发现 有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 任何意见和建议都可以提喔~
 
+
+
 ## 贡献者列表
+
+
 
 感谢以下人员对 `Flap` 提供的帮助：
 
@@ -216,6 +228,8 @@ recyclerView.setAdapter(adapter);
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
+
+
 
 ## 联系关注我
 

@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.annotations.FlapItemFactory;
+import me.yifeiyuan.flap.annotations.Flap;
 import me.yifeiyuan.flapdev.R;
 import me.yifeiyuan.flapdev.base.BaseFlapItem;
 
@@ -14,7 +14,7 @@ import me.yifeiyuan.flapdev.base.BaseFlapItem;
  * Created by 程序亦非猿 on 2019/1/29.
  */
 
-@FlapItemFactory(itemViewType = R.layout.flap_item_generic_type)
+@Flap(layoutId = R.layout.flap_item_generic_type)
 public class GenericFlapItem extends BaseFlapItem<GenericModel> {
 
     public GenericFlapItem(final View itemView) {

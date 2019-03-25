@@ -30,21 +30,24 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.FlapItemFactory;
-
+import me.yifeiyuan.flap.annotations.Flap;
 
 @AutoService(Processor.class)
-//@SupportedAnnotationTypes("")
-public class FlapCompiler extends AbstractProcessor {
+public class FlapProcessor extends AbstractProcessor {
 
-    private Filer filer;       // File util, write class file into disk.
+    private static final String PKG_NAME_FACTORIES = "me.yifeiyuan.flap.apt.factories";
+
+    private static final String FACTORY_NAME_SUFFIX = "Factory";
+    private static final String PKG_NAME_FLAP_ITEM_FACTORY = "me.yifeiyuan.flap.internal";
+
+    private Filer filer;
     private Elements elementUtils;
     private Types typeUtils;
     private Messager messager;
 
     @Override
-    public synchronized void init(final ProcessingEnvironment processingEnvironment) {
-        super.init(processingEnvironment);
+    public synchronized void init(final ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
         filer = processingEnv.getFiler();               // Generate class.
         typeUtils = processingEnv.getTypeUtils();            // Get type utils.
         elementUtils = processingEnv.getElementUtils();      // Get class meta.
@@ -57,7 +60,7 @@ public class FlapCompiler extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (FlapItemFactory.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+            if (Flap.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processFlapItemFactory(roundEnvironment, typeElement);
             }
         }
@@ -67,17 +70,17 @@ public class FlapCompiler extends AbstractProcessor {
 
     private void processFlapItemFactory(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(FlapItemFactory.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Flap.class);
 
         for (final Element element : elements) {
-            FlapItemFactory factory = element.getAnnotation(FlapItemFactory.class);
+            Flap factory = element.getAnnotation(Flap.class);
             if (null != factory) {
                 try {
                     TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
                     if (flapItemFactoryTypeSpec == null) {
                         continue;
                     }
-                    JavaFile.builder("me.yifeiyuan.flap.ann.factories", flapItemFactoryTypeSpec)
+                    JavaFile.builder(PKG_NAME_FACTORIES, flapItemFactoryTypeSpec)
                             .build()
                             .writeTo(filer);
                 } catch (IOException e) {
@@ -95,14 +98,14 @@ public class FlapCompiler extends AbstractProcessor {
      *
      * @return
      */
-    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final FlapItemFactory factory) {
+    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Flap factory) {
 
         ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
         //要生成的类的名字
-        String targetClassName = flapItemElement.getSimpleName().toString() + "Factory";
+        String targetClassName = flapItemElement.getSimpleName().toString() + FACTORY_NAME_SUFFIX;
 
-        int itemViewType = factory.itemViewType();
+        int layoutId = factory.layoutId();
 //        ClassName modelklass = null;
 //
 //        try {
@@ -128,9 +131,9 @@ public class FlapCompiler extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
                 .addParameter(viewGroup, "parent")
-                .addParameter(TypeName.INT, "itemViewType")
+                .addParameter(TypeName.INT, "layoutId")
                 .returns(flapItemClass)
-                .addStatement("return new $T(inflater.inflate(itemViewType,parent,false))", flapItemClass)
+                .addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass)
                 .build();
 
         MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
@@ -138,21 +141,19 @@ public class FlapCompiler extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(itemModelClass, "model")
                 .returns(Integer.TYPE)
-                .addStatement("return " + itemViewType)
+                .addStatement("return " + layoutId)
                 .build();
 
-        ClassName flapItemFactoryInterface = ClassName.get("me.yifeiyuan.flap.internal", "FlapItemFactory");
+        ClassName flapItemFactoryInterface = ClassName.get(PKG_NAME_FLAP_ITEM_FACTORY, "FlapItemFactory");
 
         ParameterizedTypeName name = ParameterizedTypeName.get(flapItemFactoryInterface, itemModelClass, flapItemClass);
 
-        TypeSpec flapItemFactoryTypeSpec = TypeSpec.classBuilder(targetClassName)
+        return TypeSpec.classBuilder(targetClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .addMethod(onCreateViewHolderMethod)
                 .addMethod(getItemViewTypeMethod)
                 .addSuperinterface(name)//实现接口
                 .build();
-
-        return flapItemFactoryTypeSpec;
     }
 
     @Override
@@ -163,7 +164,7 @@ public class FlapCompiler extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> anns = new LinkedHashSet<>();
-        anns.add(FlapItemFactory.class.getCanonicalName());
+        anns.add(Flap.class.getCanonicalName());
         return anns;
     }
 

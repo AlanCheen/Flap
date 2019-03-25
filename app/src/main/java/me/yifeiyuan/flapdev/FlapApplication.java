@@ -4,10 +4,10 @@ import android.app.Application;
 import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
-import me.yifeiyuan.flap.ann.factories.AnnItemFactory;
-import me.yifeiyuan.flap.ann.factories.GenericFlapItemFactory;
-import me.yifeiyuan.flap.ann.factories.SimpleImageItemFactory;
-import me.yifeiyuan.flap.ann.factories.SimpleTextItemFactory;
+import me.yifeiyuan.flap.apt.factories.AnnItemFactory;
+import me.yifeiyuan.flap.apt.factories.GenericFlapItemFactory;
+import me.yifeiyuan.flap.apt.factories.SimpleImageItemFactory;
+import me.yifeiyuan.flap.apt.factories.SimpleTextItemFactory;
 import me.yifeiyuan.flapdev.customviewtype.CustomViewTypeItem;
 
 /**
@@ -33,7 +33,7 @@ public class FlapApplication extends Application {
         Flap.getDefault().register(new SimpleImageItemFactory());
         Flap.getDefault().register(new GenericFlapItemFactory());
 
-        //自定义 itemViewType ; custom itemViewType
+        //自定义 layoutId ; custom layoutId
         Flap.getDefault().register(new CustomViewTypeItem.Factory());
 
         long t2 = System.currentTimeMillis();

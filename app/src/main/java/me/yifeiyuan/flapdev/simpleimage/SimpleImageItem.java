@@ -25,12 +25,4 @@ public class SimpleImageItem extends FlapItem<SimpleImageModel> {
 
     }
 
-//    public static class Factory extends LayoutItemFactory<SimpleImageModel, SimpleImageItem> {
-//
-//        @Override
-//        protected int getLayoutResId(final SimpleImageModel model) {
-//            return R.layout.flap_item_simple_image;
-//        }
-//    }
-
 }

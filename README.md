@@ -1,10 +1,16 @@
 # Flap
 
-[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.1.0)](https://bintray.com/alancheen/maven/flap/1.1.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
+
+
+[![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 [中文指南看这里(点我点我)](./README_CN.md)
 
+
+
 ## What is Flap
+
+
 
 `Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
 
@@ -16,18 +22,25 @@
 
 ### Integrate Flap
 
+
+
 Add the latest `Flap` to your dependencies:
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+    implementation 'me.yifeiyuan.flap:flap:1.2.0'
 }
 ```
+
+
 
 ### Usage
 
 
+
 #### Step 1 : Create a model class :
+
+
 
 ```java
 public class SimpleTextModel {
@@ -41,13 +54,18 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : Create a `FlapItem` and a `LayoutItemFactory` :
+
+
+#### Step 2 : Create a `FlapItem`  :
+
+
 
 `FlapItem` is the base `ViewHolder` that `Flap` is using internally.
 
 Here is a sample :
 
 ```java
+@Flap(layoutId = R.layout.flap_item_simple_text)
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
@@ -63,25 +81,23 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
         tvContent.setText(model.content);
     }
-
-    public static class Factory extends LayoutItemFactory<SimpleTextModel, SimpleTextItem> {
-
-        @Override
-        protected int getLayoutResId(final SimpleTextModel model) {
-            return R.layout.flap_item_simple_text;
-        }
-    }
-
 }
 ```
 
-#### Step 3 : Register `LayoutItemFactory` and create your `FlapAdapter`
+
+
+#### Step 3 : Register `SimpleTextItemFactory` and create your `FlapAdapter`
+
+
 
 Create your `FlapAdapter` and register the `Factory`  , setup the data by the way :
 
+NOTE: Flap will generate a Factory for your FlapItem automatically , so build after creating a FlapItem first.
+
 ```java
 //register your ItemFactory to Flap
-Flap.getDefault().register(new SimpleTextItem.Factory());
+// Flap will generate SimpleTextItemFactory class for you.
+Flap.getDefault().register(new SimpleTextItemFactory());
 
 FlapAdapter adapter = new FlapAdapter();
 
@@ -104,7 +120,10 @@ Yeah , you are good to go!
 <div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
 
 
+
 ## More Advanced Features
+
+
 
 `Flap` adds some features for `FlapItem` : 
 
@@ -130,6 +149,8 @@ Releated methods :
 
 
 ### AsyncListDiffer supported
+
+
 
 `Flap` provides a build-in adapter `DifferFlapAdapter` that supports `AsyncListDiffer` feature.
 

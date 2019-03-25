@@ -1,9 +1,6 @@
-package me.yifeiyuan.flapdev;
+package me.yifeiyuan.flapdev.base;
 
-import android.support.annotation.NonNull;
 import android.view.View;
-
-import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
@@ -11,15 +8,10 @@ import me.yifeiyuan.flap.FlapItem;
 /**
  * Created by 程序亦非猿 on 2018/12/29.
  */
-public class BaseFlapItem<T> extends FlapItem<T> {
+public abstract class BaseFlapItem<T extends BaseModel> extends FlapItem<T> {
 
     public BaseFlapItem(final View itemView) {
         super(itemView);
-    }
-
-    @Override
-    protected void onBind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
-
     }
 
     @Override

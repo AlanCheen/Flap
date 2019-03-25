@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by 程序亦非猿 on 2019/1/2.
  *
- * A delegate of FlapAdapter.
+ * A delegate class that delegates some methods of FlapAdapter.
  */
 @SuppressWarnings("ALL")
 interface FlapAdapterDelegate {

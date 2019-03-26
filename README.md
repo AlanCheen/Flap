@@ -20,9 +20,9 @@
 
 
 
-| module  | flap  | flap-annotations | flap-compiler |
-| ------- | ----- | ---------------- | ------------- |
-| Version | 1.2.0 | 1.2.0            | 1.2.0         |
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
 
 
 

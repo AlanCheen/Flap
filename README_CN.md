@@ -37,9 +37,9 @@
 
 
 
-| module  | flap  | flap-annotations | flap-compiler |
-| ------- | ----- | ---------------- | ------------- |
-| Version | 1.2.0 | 1.2.0            | 1.2.0         |
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
 
 
 
@@ -49,7 +49,7 @@
 
 ### 集成 Flap
 
-添加 `Flap` 到你的依赖：
+添加 `Flap` 的各个模块的最新版本到你的依赖：
 
 ```groovy
 dependencies {
@@ -63,7 +63,7 @@ dependencies {
 
 
 
-### 基本使用
+### Flap 基本使用教程
 
 
 
@@ -86,7 +86,7 @@ public class SimpleTextModel {
 
 注：`FlapItem` 是一个 `ViewHolder` ，在 `Flap` 内部使用 ，是 `Flap` 的基础，把你原来的 `ViewHolder` 继承它即可。
 
-注意：@Flap 注解会自动帮助你生成一个 Factory，Factory 的名字是你的 FlapItem 类名+Factory。
+注意：@Flap 注解会自动帮助你生成一个 Factory，**Factory 的名字是你的 FlapItem 类名+Factory**。
 
 举个🌰 ：
 
@@ -110,13 +110,21 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 }
 ```
 
+
+
 这里生成的 Factory 就是 SimpleTextItemFactory 。
 
+
+
 #### Step 3 : 注册你的 `Factory` and 创建你的 `FlapAdapter` 并设置 data
+
+
 
 将你的 Factory 注册到 `Flap`，创建你的 `FlapAdapter` 并设置好 data。
 
 **注意：**`Factory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
+
+
 
 ```java
 //注册你的 Factory 到 Flap
@@ -179,7 +187,7 @@ recyclerView.setAdapter(adapter);
 
 
 
-### AsyncListDiffer 支持
+### AsyncListDiffer 完全支持
 
 
 

@@ -2,17 +2,27 @@
 
 
 
+`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
+
+
+
+------
+
+
+
 [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 [中文指南看这里(点我点我)](./README_CN.md)
 
 
 
-## What is Flap
+### Lastest Version
 
 
 
-`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
+| module  | flap  | flap-annotations | flap-compiler |
+| ------- | ----- | ---------------- | ------------- |
+| Version | 1.2.0 | 1.2.0            | 1.2.0         |
 
 
 
@@ -28,7 +38,12 @@ Add the latest `Flap` to your dependencies:
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:1.2.0'
+  
+  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+  
+  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
+    
+  annotationProcessor 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
 }
 ```
 
@@ -56,7 +71,7 @@ public class SimpleTextModel {
 
 
 
-#### Step 2 : Create a `FlapItem`  :
+#### Step 2 : Create a custom `FlapItem`  :
 
 
 

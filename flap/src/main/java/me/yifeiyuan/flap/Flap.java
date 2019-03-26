@@ -5,6 +5,8 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,25 @@ public final class Flap implements IFlap {
     private Flap(int typeCount) {
         itemFactories = new HashMap<>(typeCount);
         factoryMapping = new SparseArray<>(typeCount);
+        injectFactories(this);
+    }
+
+    private void injectFactories(final Flap flap) {
+
+        try {
+            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.FlapItemFactoryManager");
+            Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
+            method.setAccessible(true);
+            method.invoke(null, flap);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

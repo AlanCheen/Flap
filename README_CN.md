@@ -33,6 +33,16 @@
 
 
 
+### 你没集成过的全新版本
+
+
+
+| module  | flap  | flap-annotations | flap-compiler |
+| ------- | ----- | ---------------- | ------------- |
+| Version | 1.2.0 | 1.2.0            | 1.2.0         |
+
+
+
 ## 一分钟入门指南
 
 
@@ -43,7 +53,11 @@
 
 ```groovy
 dependencies {
-    implementation 'me.yifeiyuan.flap:flap:1.2.0'
+  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+  
+  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
+    
+  annotationProcessor 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
 }
 ```
 
@@ -96,13 +110,13 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 }
 ```
 
-这里生成的 Factory 就是 SimpleTextItemFactory
+这里生成的 Factory 就是 SimpleTextItemFactory 。
 
 #### Step 3 : 注册你的 `Factory` and 创建你的 `FlapAdapter` 并设置 data
 
 将你的 Factory 注册到 `Flap`，创建你的 `FlapAdapter` 并设置好 data。
 
-**注意：**`LayoutItemFactory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
+**注意：**`Factory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
 
 ```java
 //注册你的 Factory 到 Flap
@@ -130,7 +144,7 @@ recyclerView.setAdapter(adapter);
 
 
 
-## 更多其他的功能
+## 解锁更多更强大的功能
 
 
 
@@ -233,7 +247,7 @@ recyclerView.setAdapter(adapter);
 
 ## 联系关注我
 
-也非常欢迎关注我的公众号啦：
+如果你觉得 Flap 有用的话，也非常欢迎关注我的公众号啦：
 
 <div align=center><img width="215" height="215" src="assets/public-wechat.jpeg"/></div>
 

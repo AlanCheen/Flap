@@ -74,8 +74,7 @@ public class SimpleTextModel {
 #### Step 2 : Create a custom `FlapItem`  :
 
 
-
-`FlapItem` is the base `ViewHolder` that `Flap` is using internally.
+NOTE: `FlapItem` is the base `ViewHolder` that `Flap` is using internally.
 
 Here is a sample :
 
@@ -100,19 +99,13 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 ```
 
 
-
-#### Step 3 : Register `SimpleTextItemFactory` and create your `FlapAdapter`
-
+#### Step 3 : Create a `FlapAdapter` and setup your data
 
 
-Create your `FlapAdapter` and register the `Factory`  , setup the data by the way :
+Create your `FlapAdapter` and setup data :
 
-NOTE: Flap will generate a Factory for your FlapItem automatically , so build after creating a FlapItem first.
 
 ```java
-//register your ItemFactory to Flap
-// Flap will generate SimpleTextItemFactory class for you.
-Flap.getDefault().register(new SimpleTextItemFactory());
 
 FlapAdapter adapter = new FlapAdapter();
 
@@ -128,16 +121,12 @@ adapter.setData(models);
 recyclerView.setAdapter(adapter);
 ```
 
-NOTE: Just register Factory one time is enough , so you can register your Factories in your custom Application.
-
 Yeah , you are good to go!
 
 <div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
 
 
-
 ## More Advanced Features
-
 
 
 `Flap` adds some features for `FlapItem` : 

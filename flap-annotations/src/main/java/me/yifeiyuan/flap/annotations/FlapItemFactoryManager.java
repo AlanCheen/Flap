@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by 程序亦非猿 on 2019-03-26.
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface FlapItemFactoryManager {
 }

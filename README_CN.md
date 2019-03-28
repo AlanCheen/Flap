@@ -3,38 +3,53 @@
 [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg?version=1.2.0)](https://bintray.com/alancheen/maven/flap/1.2.0/link) [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 
-
 ## Flap 介绍
 
-
-
-`Flap` 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决各种开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
-
-
-
-`Flap` 有超多的优点与特性，包括但不限于以下几点：
+`Flap` 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
 
 
 
-0. **简单、简洁、易懂以及无门槛**：Flap 在保留原生 RecyclerView 的各种概念基础之上，提供超级简单的 API，非常易于使用，可以说毫无门槛；
-1. **清晰而优秀的架构**：`Flap` 的**每一行代码都是我经过我深思熟虑而诞生**，遵守 SOLID 设计原则
-2. **完全解耦 ViewHolder 的创建以及绑定过程**：让你**不再迷失于混乱的创建以及绑定逻辑之中**，**把你从if else switch 中解救出来**，轻松面对各种加类型的需求；
-3. **优化 ViewHolder 与 ItemViewType 的对应关系以及其绑定**：默认**使用 ViewHolder 的 布局Id 作为 ItemViewType** , 并做自动关联，**你再也不需要自定义多余且烦人的常量**；
-4. **使用工厂模式为 ViewHolder 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
-5. **默认提供 ViewHolder 的绑定的最佳实践**：你只需要关注 `onBind()` 方法来处理你的绑定逻辑；
-6. **完美支持最高效的刷新数据的方法**：让你一次集成达到最佳的优化效果；
-7. **完美结合 AAC 框架中的 Lifecycle**：赋予 `ViewHolder` 感知生命周期的能力，**让你轻松面对类似 暂停/重启视频 这种依赖于生命周期的需求**；
-8. **默认提供全局 RecycledViewPool** ：让每个创建过的 `ViewHolder` 得到充分使用；
-9. 更多优点等你发现喔；
+
+概念先知：
+
+- `Flap` 内置了 `FlapItem`，它是对原生 `ViewHolder` 的封装扩展，提供了更多优秀的功能以及便捷的方法，将你原来的 ViewHolder 继承它即可（可以理解为一个有更多功能的 ViewHolder）；
+- `FlapAdapter` 是对 `RecyclerView.Adapter` 的封装扩展，优化了大量逻辑，如解耦了 ViewHolder 创建以及绑定等相关逻辑，让 Adapter 更加易用；
 
 
 
-还在等什么，马上来试试吧！
+### `Flap` 的优点与特性
+
+  
+
+### Flap 的优点
+
+
+
+可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
+
+
+
+1. [x] `Flap` 优化了 `FlapItem` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
+2. [x] **使用工厂模式为 FlapItem 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
+3. **优化 FlapItem 的创建过程**：FlapItem 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
+4. [x] **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 FlapItem 的创建以及绑定过程**，你不需要关注 FlapItem 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+
+
+
+#### Flap 的功能特性
+
+
+
+1. [x] `FlapItem` 内置成员变量 `context` 可以轻松获取 `context` 对象；
+2. [x] `FlapItem` 内置 `findViewById(@IdRes int viewId)` 方法，替代`itemView.findViewById`，提高效率；
+3. [x] `FlapItem` 提供 `onViewAttachedToWindow` 和 `onViewDetachedFromWindow` 方法的回调，你可以通过重写轻松获取；
+4. [x] 内置 `DifferFlapAdapter` 支持 `AsyncListDiffer` ——目前 RecyclerView **最高效的刷新数据的方式**，让你一次集成就达到最佳的优化效果;
+5. [x] 默认设置全局的 `RecycledViewPool` ，并支持自定义设置：让每个创建过的 `FlapItem` 得到充分使用;
+6. [x] 内置 `LifecycleItem` ：支持感知 Activity/Fragment 的生命周期事件，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**;
 
 
 
 ### 你没集成过的全新版本
-
 
 
 | module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
@@ -86,7 +101,7 @@ public class SimpleTextModel {
 
 注：`FlapItem` 是一个 `ViewHolder` ，在 `Flap` 内部使用 ，是 `Flap` 的基础，把你原来的 `ViewHolder` 继承它即可。
 
-注意：@Flap 注解会自动帮助你生成一个 Factory，**Factory 的名字是你的 FlapItem 类名+Factory**。
+需要在 @Flap 注解中给 `layoutId` 赋值为该 Item 的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
 
 举个🌰 ：
 
@@ -112,24 +127,13 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
 
 
-这里生成的 Factory 就是 SimpleTextItemFactory 。
+#### Step 3 : 创建你的 `FlapAdapter` 并设置 data
 
 
-
-#### Step 3 : 注册你的 `Factory` and 创建你的 `FlapAdapter` 并设置 data
-
-
-
-将你的 Factory 注册到 `Flap`，创建你的 `FlapAdapter` 并设置好 data。
-
-**注意：**`Factory` **只需要被注册一次**，所以你可以把注册的逻辑放到你的 `Application.onCreate` 中去。
-
-
+创建你的 `FlapAdapter` 并设置好 data 即可。（FlapAdapter 是一个内置的 Adapter）
 
 ```java
-//注册你的 Factory 到 Flap
-Flap.getDefault().register(new SimpleTextItemFactory());
-
+//创建你的 FlapAdapter
 FlapAdapter adapter = new FlapAdapter();
 
 List<Object> models = new ArrayList<>();
@@ -147,22 +151,6 @@ recyclerView.setAdapter(adapter);
 
 
 这样就完全 OK 啦！ 怎么样？超简单吧？！
-
-欢迎使用喔！
-
-
-
-## 解锁更多更强大的功能
-
-
-
-结合实际开发的情况，我在 `FlapItem` 类中还添加了一些比较实用的功能，比如：
-
-
-
-1. `FlapItem` 中有 `context` 字段，你可以直接拿到 context ，**轻松**；
-2. `FlapItem` 提供 `findViewById()` 方法，你不需要写  `itemView.findViewById` 那么长，**省事**；
-3. `FlapItem` 提供  `onViewAttachedToWindow` & `onViewDetachedFromWindow` 的回调，可以用于暂停/重播视频等功能，**方便**；
 
 
 
@@ -202,14 +190,6 @@ recyclerView.setAdapter(adapter);
 版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
 
 
-
-## 功能列表
-
-
-
-- [x] 支持 AsyncListDiffer，见 DifferFlapAdapter;
-- [x] 支持设置全局的 RecycledViewPool;
-- [x] 支持 Lifecycle;
 
 
 

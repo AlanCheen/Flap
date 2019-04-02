@@ -212,6 +212,14 @@ recyclerView.setAdapter(adapter);
 答：没有，Flap 的目标不在此，可以自行扩展。
 
 
+
+### 谁在使用 Flap ？
+
+如果你在你的 App 使用了 Flap 开发，请一定要联系我，将会在这里展示哟。
+
+
+
+
 ## 贡献
 
 - 发现 `Flap` 有 Bug？提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！

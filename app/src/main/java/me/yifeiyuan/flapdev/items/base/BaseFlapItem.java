@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.base;
+package me.yifeiyuan.flapdev.items.base;
 
 import android.view.View;
 

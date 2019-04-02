@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.extensions.DifferFlapAdapter;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
+import me.yifeiyuan.flapdev.items.simpletext.SimpleTextModel;
 
 /**
  * Testing for DifferFlapAdapter

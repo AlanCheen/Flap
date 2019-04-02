@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.customviewtype;
+package me.yifeiyuan.flapdev.items.customviewtype;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;

@@ -1,18 +1,20 @@
 package me.yifeiyuan.flapdev;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flapdev.customviewtype.CustomModel;
-import me.yifeiyuan.flapdev.generictest.GenericModel;
-import me.yifeiyuan.flapdev.simpleimage.SimpleImageModel;
-import me.yifeiyuan.flapdev.simpletext.SimpleTextModel;
-import me.yifeiyuan.flapdev.testann.AnnModel;
+import me.yifeiyuan.flapdev.items.customviewtype.CustomModel;
+import me.yifeiyuan.flapdev.items.generictest.GenericModel;
+import me.yifeiyuan.flapdev.items.simpleimage.SimpleImageModel;
+import me.yifeiyuan.flapdev.items.simpletext.SimpleTextModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        createSimpleTestCase(recyclerView);
-
+//        createSimpleTestCase(recyclerView);
         createAdvanceTestCase(recyclerView);
     }
 
@@ -72,9 +73,26 @@ public class MainActivity extends AppCompatActivity {
         models.add(new CustomModel());
         models.add(new GenericModel());
 
-        models.add(new AnnModel());
-
         return models;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.differ:
+                startActivity(new Intent(MainActivity.this,DifferActivity.class));
+                break;
+
+            case R.id.kotlin:
+                startActivity(new Intent(MainActivity.this,KotlinTestActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

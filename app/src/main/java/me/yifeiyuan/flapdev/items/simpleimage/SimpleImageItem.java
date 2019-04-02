@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.simpleimage;
+package me.yifeiyuan.flapdev.items.simpleimage;
 
 import android.support.annotation.NonNull;
 import android.view.View;

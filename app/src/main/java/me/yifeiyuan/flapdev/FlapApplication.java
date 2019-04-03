@@ -23,8 +23,7 @@ public class FlapApplication extends Application {
         Flap.setDebug(true);
 
         long t1 = System.currentTimeMillis();
-        //Factories created by apt
-        //自定义 layoutId ; custom item view type
+        //自定义 item view type ; custom item view type
         Flap.getDefault().register(new CustomViewTypeItem.Factory());
 
         long t2 = System.currentTimeMillis();

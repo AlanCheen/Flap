@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.internal;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

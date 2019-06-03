@@ -37,7 +37,11 @@ public final class DefaultFlapItem extends FlapItem {
         @NonNull
         @Override
         public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new DefaultFlapItem(new View(parent.getContext()));
+
+            View view = new View(parent.getContext());
+            RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+            view.setLayoutParams(layoutParams);
+            return new DefaultFlapItem(view);
         }
 
         @Override

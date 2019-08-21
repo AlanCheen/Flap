@@ -18,18 +18,19 @@ import me.yifeiyuan.flap.internal.FlapItemFactory;
 /**
  * Created by 程序亦非猿
  */
+@SuppressWarnings("unchecked")
 public final class Flap implements IFlap {
 
     private static final String TAG = "Flap";
 
-    static final int DEFAULT_ITEM_TYPE_COUNT = 16;
+    static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
     private final Map<Class<?>, FlapItemFactory> itemFactories;
     private final SparseArray<FlapItemFactory> factoryMapping;
 
-    private final FlapItemPool GLOBAL_POOL = new FlapItemPool();
+    private static final FlapItemPool GLOBAL_POOL = new FlapItemPool();
 
-    private final DefaultFlapItem.Factory DEFAULT_FACTORY = new DefaultFlapItem.Factory();
+    private static final DefaultFlapItem.Factory DEFAULT_FACTORY = new DefaultFlapItem.Factory();
 
     private static volatile Flap sInstance;
 
@@ -74,15 +75,13 @@ public final class Flap implements IFlap {
 
     @Override
     public ItemFactoryManager register(@NonNull final FlapItemFactory itemFactory) {
-        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
-        itemFactories.put(modelClazz, itemFactory);
+        itemFactories.put(itemFactory.getItemModelClass(), itemFactory);
         return this;
     }
 
     @Override
     public ItemFactoryManager unregister(@NonNull final FlapItemFactory itemFactory) {
-        Class<?> modelClazz = getModelClassFromItemFactory(itemFactory);
-        itemFactories.remove(modelClazz);
+        itemFactories.remove(itemFactory.getItemModelClass());
         return this;
     }
 
@@ -93,11 +92,6 @@ public final class Flap implements IFlap {
         return this;
     }
 
-    private Class<?> getModelClassFromItemFactory(final FlapItemFactory itemFactory) {
-        return (Class<?>) ReflectUtils.getTypes(itemFactory)[0];
-    }
-
-    @SuppressWarnings("unchecked")
     @Override
     public int getItemViewType(@NonNull final Object model) {
 

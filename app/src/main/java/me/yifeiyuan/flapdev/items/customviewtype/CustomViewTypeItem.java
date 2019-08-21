@@ -40,6 +40,11 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
         public int getItemViewType(final CustomModel model) {
             return CUSTOM_ITEM_VIEW_TYPE;
         }
+
+        @Override
+        public Class<CustomModel> getItemModelClass() {
+            return CustomModel.class;
+        }
     }
 
 }

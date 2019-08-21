@@ -48,5 +48,10 @@ public final class DefaultFlapItem extends FlapItem {
         public int getItemViewType(final Object model) {
             return DEFAULT_ITEM_TYPE;
         }
+
+        @Override
+        public Class getItemModelClass() {
+            return null;
+        }
     }
 }

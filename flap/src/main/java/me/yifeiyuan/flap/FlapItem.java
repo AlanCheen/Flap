@@ -29,18 +29,19 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
         context = itemView.getContext();
     }
 
-    final void bind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
-        onBind(model, adapter, payloads);
+    final void bind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
+        onBind(model, position, payloads, adapter);
     }
 
     /**
      * Overriding `onBind` to bind your model to your FlapItem.
      *
      * @param model    The model that you need to bind.
+     * @param position position
      * @param adapter  Your adapter.
      * @param payloads The payloads you may need.
      */
-    protected abstract void onBind(@NonNull final T model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads);
+    protected abstract void onBind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter);
 
     @SuppressWarnings("unchecked")
     protected final <V extends View> V findViewById(@IdRes int viewId) {
@@ -75,6 +76,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @param flapAdapter The adapter which is using your FlapItem.
      *
      * @return True if the View should be recycled, false otherwise.
+     *
      * @see FlapAdapter#onFailedToRecycleView(FlapItem)
      */
     protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {

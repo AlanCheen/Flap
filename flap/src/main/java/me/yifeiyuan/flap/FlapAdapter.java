@@ -22,6 +22,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
  * @see FlapItem
  * @see me.yifeiyuan.flap.extensions.LifecycleItem
  * @see FlapItemPool
+ * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
  */
 public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
@@ -48,11 +49,10 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         //ignore
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
-        flap.onBindViewHolder(holder, getItem(position), this, payloads);
+        flap.onBindViewHolder(holder, position, getItem(position), payloads, this);
     }
 
     /**

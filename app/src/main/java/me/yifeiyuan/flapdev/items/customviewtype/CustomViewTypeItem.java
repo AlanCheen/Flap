@@ -24,8 +24,8 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
     }
 
     @Override
-    protected void onBind(@NonNull final CustomModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
-
+    protected void onBind(@NonNull final CustomModel model, final int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
+        
     }
 
     public static class Factory implements FlapItemFactory<CustomModel,CustomViewTypeItem> {
@@ -39,6 +39,11 @@ public class CustomViewTypeItem extends FlapItem<CustomModel> {
         @Override
         public int getItemViewType(final CustomModel model) {
             return CUSTOM_ITEM_VIEW_TYPE;
+        }
+
+        @Override
+        public Class<CustomModel> getItemModelClass() {
+            return CustomModel.class;
         }
     }
 

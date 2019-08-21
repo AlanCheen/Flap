@@ -137,8 +137,8 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final FlapItem flapItem, final Object model, @NonNull final FlapAdapter flapAdapter, @NonNull final List<Object> payloads) {
-        flapItem.bind(model, flapAdapter, payloads);
+    public void onBindViewHolder(@NonNull final FlapItem flapItem, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+        flapItem.bind(model, position, payloads, flapAdapter);
     }
 
     @Override

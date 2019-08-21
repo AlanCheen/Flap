@@ -131,6 +131,12 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
         return this;
     }
 
+    public void setDataAndNotify(@NonNull List<?> data) {
+        checkNotNull(data, "data can't be null here.");
+        this.data = data;
+        notifyDataSetChanged();
+    }
+
     @SuppressWarnings("WeakerAccess")
     @NonNull
     public List<?> getData() {

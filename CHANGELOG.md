@@ -2,8 +2,11 @@
 
 
 
-### 1.3.1
+### 1.4.1
 
+1. FlapItem.onBind 方法参数调整，新增 position
+2. Flap 注解新增`autoRegister`配置，支持是否自动注册，默认情况下 Processor 会自动注册，可以通过该参数修改
+3. FlapAdapter 新增 `setDataAndNotify(@NonNull List<?> data)`方法，支持设置 data 后自动调用 notifyDataSetChanged
 
 ### 1.3
 

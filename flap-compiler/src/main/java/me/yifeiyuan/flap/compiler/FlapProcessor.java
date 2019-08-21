@@ -153,6 +153,13 @@ public class FlapProcessor extends AbstractProcessor {
                 .addStatement("return " + layoutId)
                 .build();
 
+        MethodSpec getItemModelClass = MethodSpec.methodBuilder("getItemModelClass")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(Class.class)
+                .addStatement("return " + itemModelClass + ".class")
+                .build();
+
         ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_FLAP_ITEM_FACTORY, itemModelClass, flapItemClass);
 
         TypeSpec.Builder builder =
@@ -161,6 +168,7 @@ public class FlapProcessor extends AbstractProcessor {
                         .addAnnotation(CLASS_KEEP)
                         .addMethod(onCreateViewHolderMethod)
                         .addMethod(getItemViewTypeMethod)
+                        .addMethod(getItemModelClass)
                         .addSuperinterface(name);//实现接口
 
         if (autoRegister) {

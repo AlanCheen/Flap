@@ -29,7 +29,7 @@ public final class DefaultFlapItem extends FlapItem {
     }
 
     @Override
-    protected void onBind(@NonNull final Object model, @NonNull final FlapAdapter adapter, @NonNull final List payloads) {
+    protected void onBind(@NonNull final Object model, final int position, @NonNull final List payloads, @NonNull final FlapAdapter adapter) {
 
     }
 
@@ -38,7 +38,6 @@ public final class DefaultFlapItem extends FlapItem {
         @NonNull
         @Override
         public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-
             View view = new View(parent.getContext());
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             view.setLayoutParams(layoutParams);

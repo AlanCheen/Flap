@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -31,8 +32,8 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.FlapItemFactoryManager;
 import me.yifeiyuan.flap.annotations.Flap;
+import me.yifeiyuan.flap.annotations.FlapItemFactoryManager;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
@@ -46,10 +47,17 @@ public class FlapProcessor extends AbstractProcessor {
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_FLAP_ITEM_FACTORY = ClassName.bestGuess("me.yifeiyuan.flap.internal.FlapItemFactory");
 
+    private static final String KEY_OPTION_AUTOREGISTER = "autoRegister";
+
     private Filer filer;
     private Elements elementUtils;
     private Types typeUtils;
     private Messager messager;
+
+    /**
+     * 是否自动注册 Factories
+     */
+    private boolean autoRegisterFactories = true;
 
     @Override
     public synchronized void init(final ProcessingEnvironment processingEnv) {
@@ -59,6 +67,11 @@ public class FlapProcessor extends AbstractProcessor {
         elementUtils = processingEnv.getElementUtils();      // Get class meta.
         messager = processingEnv.getMessager();
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
+
+        Map<String, String> options = processingEnv.getOptions();
+        if (options.containsKey(KEY_OPTION_AUTOREGISTER)) {
+            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTOREGISTER));
+        }
     }
 
     @Override
@@ -111,6 +124,7 @@ public class FlapProcessor extends AbstractProcessor {
         String targetClassName = flapItemElement.getSimpleName().toString() + FACTORY_NAME_SUFFIX;
 
         int layoutId = factory.layoutId();
+        boolean autoRegister = factory.autoRegister();
 
         DeclaredType declaredType = flapItemElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
@@ -141,19 +155,25 @@ public class FlapProcessor extends AbstractProcessor {
 
         ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_FLAP_ITEM_FACTORY, itemModelClass, flapItemClass);
 
-        return TypeSpec.classBuilder(targetClassName)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addAnnotation(CLASS_KEEP)
-                .addAnnotation(FlapItemFactoryManager.class)
-                .addMethod(onCreateViewHolderMethod)
-                .addMethod(getItemViewTypeMethod)
-                .addSuperinterface(name)//实现接口
-                .build();
-    }
+        TypeSpec.Builder builder =
+                TypeSpec.classBuilder(targetClassName)
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                        .addAnnotation(CLASS_KEEP)
+                        .addMethod(onCreateViewHolderMethod)
+                        .addMethod(getItemViewTypeMethod)
+                        .addSuperinterface(name);//实现接口
 
+        if (autoRegister) {
+            builder.addAnnotation(FlapItemFactoryManager.class);
+        }
+        return builder.build();
+    }
 
     private void processFlapItemFactoryManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
+        if (!autoRegisterFactories) {
+            return;
+        }
         List<ClassName> factories = new ArrayList<>();
 
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(FlapItemFactoryManager.class);

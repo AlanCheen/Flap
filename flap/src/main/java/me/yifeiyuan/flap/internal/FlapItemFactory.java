@@ -11,7 +11,6 @@ import me.yifeiyuan.flap.FlapItem;
  * Created by 程序亦非猿
  *
  * An abstraction of Factory used for creating FlapItem.
- *
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface FlapItemFactory<T, VH extends FlapItem<T>> {
@@ -34,5 +33,11 @@ public interface FlapItemFactory<T, VH extends FlapItem<T>> {
      * @return the itemViewType of the FlapItem you are gonna create.
      */
     int getItemViewType(T model);
+
+    /**
+     * @return the class of Model
+     */
+    @NonNull
+    Class<T> getItemModelClass();
 
 }

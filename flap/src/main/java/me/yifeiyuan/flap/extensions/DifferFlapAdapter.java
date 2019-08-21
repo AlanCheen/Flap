@@ -13,7 +13,7 @@ import me.yifeiyuan.flap.FlapAdapter;
 /**
  * Created by 程序亦非猿 on 2019/1/4.
  *
- * DifferFlapAdapter supports AsyncListDiffer feature .
+ * DifferFlapAdapter supports AsyncListDiffer feature.
  */
 @SuppressWarnings({"unchecked", "unused"})
 public class DifferFlapAdapter<T> extends FlapAdapter {

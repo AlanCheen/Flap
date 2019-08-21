@@ -21,7 +21,7 @@ public class SimpleImageItem extends FlapItem<SimpleImageModel> {
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleImageModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleImageModel model, final int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
 
     }
 

@@ -22,7 +22,7 @@ public class GenericFlapItem extends BaseFlapItem<GenericModel> {
     }
 
     @Override
-    protected void onBind(@NonNull final GenericModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final GenericModel model, final int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
 
     }
 

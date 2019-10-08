@@ -47,7 +47,7 @@ public class FlapProcessor extends AbstractProcessor {
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_FLAP_ITEM_FACTORY = ClassName.bestGuess("me.yifeiyuan.flap.internal.FlapItemFactory");
 
-    private static final String KEY_OPTION_AUTOREGISTER = "autoRegister";
+    private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
 
     private Filer filer;
     private Elements elementUtils;
@@ -69,8 +69,8 @@ public class FlapProcessor extends AbstractProcessor {
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
 
         Map<String, String> options = processingEnv.getOptions();
-        if (options.containsKey(KEY_OPTION_AUTOREGISTER)) {
-            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTOREGISTER));
+        if (options.containsKey(KEY_OPTION_AUTO_REGISTER)) {
+            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTO_REGISTER));
         }
     }
 

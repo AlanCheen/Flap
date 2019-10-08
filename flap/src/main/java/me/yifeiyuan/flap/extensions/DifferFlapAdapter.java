@@ -16,8 +16,8 @@ import me.yifeiyuan.flap.FlapAdapter;
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
  * @since 2019/1/4
+ * @since 0.9.3
  */
 @SuppressWarnings({"unchecked", "unused"})
 public class DifferFlapAdapter<T> extends FlapAdapter {

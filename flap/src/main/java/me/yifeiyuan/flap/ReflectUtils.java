@@ -6,7 +6,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Created by 程序亦非猿
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 final class ReflectUtils {
 

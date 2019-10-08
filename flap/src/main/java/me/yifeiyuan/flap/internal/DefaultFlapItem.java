@@ -13,11 +13,14 @@ import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
 
 /**
- * Created by 程序亦非猿
- *
  * DefaultFlapItem is a build-in FlapItem that would be used when something went wrong .
  *
  * So that Flap won't crash your App.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class DefaultFlapItem extends FlapItem {

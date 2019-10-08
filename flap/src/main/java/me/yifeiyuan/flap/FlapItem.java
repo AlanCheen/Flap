@@ -11,13 +11,15 @@ import java.util.List;
 import me.yifeiyuan.flap.extensions.LifecycleItem;
 
 /**
- * Created by 程序亦非猿
- *
  * FlapItem is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
  * By extending the LifecycleItem you can receive the lifecycle callbacks.
  *
  * @see LifecycleItem also.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
 public abstract class FlapItem<T> extends RecyclerView.ViewHolder {

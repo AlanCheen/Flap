@@ -8,13 +8,16 @@ import android.view.View;
 import me.yifeiyuan.flap.FlapItem;
 
 /**
- * Created by 程序亦非猿 on 2018/12/5.
+ * LifecycleItem is a lifecycle-aware FlapItem so that can receive the LifecycleEvents.
  *
- * LifecycleItem is a lifecycle aware FlapItem so that can get the LifecycleEvent.
+ * You also can create your own lifecycle-aware FlapItem by implementing LifecycleObserver.
  *
- * You also can create your own lifecycle aware FlapItem by implementing LifecycleObserver.
- *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  * @see LifecycleObserver
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @since 2018/12/5
  */
 @SuppressWarnings({"EmptyMethod", "unused"})
 public abstract class LifecycleItem<T> extends FlapItem<T> implements LifecycleObserver {

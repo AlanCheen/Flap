@@ -19,7 +19,7 @@ interface FlapAdapterDelegate {
     @NonNull
     FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull final FlapItem flapItem, Object model, @NonNull FlapAdapter flapAdapter, @NonNull List<Object> payloads);
+    void onBindViewHolder(@NonNull final FlapItem flapItem, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
 
     void onViewAttachedToWindow(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
 

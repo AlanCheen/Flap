@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.internal;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public final class DefaultFlapItem extends FlapItem {
     }
 
     @Override
-    protected void onBind(@NonNull final Object model, @NonNull final FlapAdapter adapter, @NonNull final List payloads) {
+    protected void onBind(@NonNull final Object model, final int position, @NonNull final List payloads, @NonNull final FlapAdapter adapter) {
 
     }
 
@@ -37,12 +38,20 @@ public final class DefaultFlapItem extends FlapItem {
         @NonNull
         @Override
         public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new DefaultFlapItem(new View(parent.getContext()));
+            View view = new View(parent.getContext());
+            RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+            view.setLayoutParams(layoutParams);
+            return new DefaultFlapItem(view);
         }
 
         @Override
         public int getItemViewType(final Object model) {
             return DEFAULT_ITEM_TYPE;
+        }
+
+        @Override
+        public Class getItemModelClass() {
+            return null;
         }
     }
 }

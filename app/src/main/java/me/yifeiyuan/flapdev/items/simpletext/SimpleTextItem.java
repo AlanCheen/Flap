@@ -15,7 +15,7 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@Flap(layoutId = R.layout.flap_item_simple_text)
+@Flap(layoutId = R.layout.flap_item_simple_text, autoRegister = true)
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
@@ -28,7 +28,7 @@ public class SimpleTextItem extends FlapItem<SimpleTextModel> {
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleTextModel model, final int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
         Log.d(TAG, "onBind: " + getAdapterPosition());
         tvContent.setText(model.content);
     }

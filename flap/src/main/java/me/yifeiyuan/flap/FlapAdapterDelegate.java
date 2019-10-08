@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by 程序亦非猿 on 2019/1/2.
- *
  * A delegate class that delegates some methods of FlapAdapter.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
+ * @since 2019/1/2
  */
 @SuppressWarnings("ALL")
 interface FlapAdapterDelegate {

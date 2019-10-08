@@ -13,8 +13,6 @@ import java.util.List;
 import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
- * Created by 程序亦非猿
- *
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
  *
  * Check these also if need :
@@ -23,6 +21,10 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
  * @see me.yifeiyuan.flap.extensions.LifecycleItem
  * @see FlapItemPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 

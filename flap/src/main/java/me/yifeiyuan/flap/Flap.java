@@ -16,7 +16,10 @@ import me.yifeiyuan.flap.internal.DefaultFlapItem;
 import me.yifeiyuan.flap.internal.FlapItemFactory;
 
 /**
- * Created by 程序亦非猿
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @SuppressWarnings("unchecked")
 public final class Flap implements IFlap {

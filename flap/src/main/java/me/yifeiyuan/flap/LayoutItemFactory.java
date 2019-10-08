@@ -16,9 +16,12 @@ import me.yifeiyuan.flap.internal.FlapItemFactory;
 import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
 
 /**
- * Created by 程序亦非猿
- *
  * Please use annotation @Flap instead.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @Deprecated
 public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements FlapItemFactory<T, VH> {

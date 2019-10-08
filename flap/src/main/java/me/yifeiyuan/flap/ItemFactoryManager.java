@@ -5,12 +5,14 @@ import android.support.annotation.NonNull;
 import me.yifeiyuan.flap.internal.FlapItemFactory;
 
 /**
- * Created by 程序亦非猿
- *
  * A manager for managing ItemFactories.
  * You can register or unregister your ItemFactory.
  *
  * All the ItemFactories would be used by Flap internally.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @SuppressWarnings("unused")
 interface ItemFactoryManager {

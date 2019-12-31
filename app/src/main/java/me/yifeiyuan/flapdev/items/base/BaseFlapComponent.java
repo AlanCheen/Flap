@@ -8,9 +8,9 @@ import me.yifeiyuan.flap.FlapItem;
 /**
  * Created by 程序亦非猿 on 2018/12/29.
  */
-public abstract class BaseFlapItem<T extends BaseModel> extends FlapItem<T> {
+public abstract class BaseFlapComponent<T extends BaseModel> extends FlapItem<T> {
 
-    public BaseFlapItem(final View itemView) {
+    public BaseFlapComponent(final View itemView) {
         super(itemView);
     }
 

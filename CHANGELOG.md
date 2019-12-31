@@ -1,6 +1,12 @@
 # 更新日志（CHANGELOG）
 
 
+### 1.5.x 计划
+
+对齐组件化
+
+修改命名，FlapItem --> Component  等等
+
 
 ### 1.4.1
 

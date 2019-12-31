@@ -24,7 +24,7 @@ import static me.yifeiyuan.flap.Flap.DEFAULT_ITEM_TYPE_COUNT;
  * @version 1.0
  */
 @Deprecated
-public abstract class LayoutItemFactory<T, VH extends FlapItem<T>> implements FlapItemFactory<T, VH> {
+public abstract class LayoutItemFactory<T, VH extends Component<T>> implements FlapItemFactory<T, VH> {
 
     private static final Map<Class<?>, Constructor> sConstructorCache = new HashMap<>(DEFAULT_ITEM_TYPE_COUNT);
 

@@ -21,15 +21,15 @@ interface FlapAdapterDelegate {
     int getItemViewType(@NonNull Object model);
 
     @NonNull
-    FlapItem onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    Component onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull final FlapItem flapItem, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
+    void onBindViewHolder(@NonNull final Component flapItem, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
 
-    void onViewAttachedToWindow(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewAttachedToWindow(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
 
-    void onViewDetachedFromWindow(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewDetachedFromWindow(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
 
-    void onViewRecycled(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewRecycled(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
 
-    boolean onFailedToRecycleView(@NonNull FlapItem flapItem, @NonNull FlapAdapter flapAdapter);
+    boolean onFailedToRecycleView(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
 }

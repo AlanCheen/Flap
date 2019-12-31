@@ -5,7 +5,7 @@ import android.support.annotation.RestrictTo;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import me.yifeiyuan.flap.FlapItem;
+import me.yifeiyuan.flap.Component;
 
 /**
  * An abstraction of Factory used for creating FlapItem.
@@ -16,7 +16,7 @@ import me.yifeiyuan.flap.FlapItem;
  * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public interface FlapItemFactory<T, VH extends FlapItem<T>> {
+public interface FlapItemFactory<T, VH extends Component<T>> {
 
     /**
      * Create a new instance of FlapItem.

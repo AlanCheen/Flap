@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.yifeiyuan.flap.exceptions.ItemFactoryNotFoundException;
-import me.yifeiyuan.flap.internal.DefaultFlapItem;
+import me.yifeiyuan.flap.internal.DefaultComponent;
 import me.yifeiyuan.flap.internal.FlapItemFactory;
 
 /**
@@ -33,7 +33,7 @@ public final class Flap implements IFlap {
 
     private static final FlapItemPool GLOBAL_POOL = new FlapItemPool();
 
-    private static final DefaultFlapItem.Factory DEFAULT_FACTORY = new DefaultFlapItem.Factory();
+    private static final DefaultComponent.Factory DEFAULT_FACTORY = new DefaultComponent.Factory();
 
     private static volatile Flap sInstance;
 
@@ -113,9 +113,9 @@ public final class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
-        FlapItem vh = null;
+        Component vh = null;
 
         FlapItemFactory factory = factoryMapping.get(viewType);
         if (factory != null) {
@@ -134,27 +134,27 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final FlapItem flapItem, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+    public void onBindViewHolder(@NonNull final Component flapItem, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
         flapItem.bind(model, position, payloads, flapAdapter);
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final FlapItem flapItem, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewAttachedToWindow(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
         flapItem.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final FlapItem flapItem, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewDetachedFromWindow(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
         flapItem.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final FlapItem flapItem, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewRecycled(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
         flapItem.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final FlapItem flapItem, @NonNull final FlapAdapter flapAdapter) {
+    public boolean onFailedToRecycleView(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
         return flapItem.onFailedToRecycleView(flapAdapter);
     }
 

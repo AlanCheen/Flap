@@ -1,5 +1,8 @@
 package me.yifeiyuan.flap;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -8,27 +11,22 @@ import android.view.View;
 
 import java.util.List;
 
-import me.yifeiyuan.flap.extensions.LifecycleItem;
-
 /**
  * FlapItem is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
- * By extending the LifecycleItem you can receive the lifecycle callbacks.
- *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
- * @see LifecycleItem also.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
-public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
+public abstract class Component<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 
     protected final Context context;
 
     private boolean isVisible = false;
 
-    public FlapItem(View itemView) {
+    public Component(View itemView) {
         super(itemView);
         context = itemView.getContext();
     }
@@ -64,7 +62,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
+     * @see FlapAdapter#onViewAttachedToWindow(Component)
      */
     protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
         onVisibilityChanged(true);
@@ -73,7 +71,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
+     * @see FlapAdapter#onViewDetachedFromWindow(Component)
      */
     protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
         onVisibilityChanged(false);
@@ -96,7 +94,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @see FlapAdapter#onViewRecycled(FlapItem)
+     * @see FlapAdapter#onViewRecycled(Component)
      */
     protected void onViewRecycled(final FlapAdapter flapAdapter) {
     }
@@ -106,9 +104,26 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      *
      * @return True if the View should be recycled, false otherwise.
      *
-     * @see FlapAdapter#onFailedToRecycleView(FlapItem)
+     * @see FlapAdapter#onFailedToRecycleView(Component)
      */
     protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
         return false;
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResume() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onPause() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onStop() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroy() {
+    }
+
 }

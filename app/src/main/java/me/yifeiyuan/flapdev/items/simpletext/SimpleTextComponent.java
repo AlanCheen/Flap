@@ -5,15 +5,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import me.yifeiyuan.flap.FlapItem;
-import me.yifeiyuan.flap.annotations.Component;
+import me.yifeiyuan.flap.Component;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@Component(layoutId = R.layout.flap_item_simple_text, autoRegister = true)
-public class SimpleTextComponent extends FlapItem<SimpleTextModel> {
+@me.yifeiyuan.flap.annotations.Component(layoutId = R.layout.flap_item_simple_text, autoRegister = true)
+public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
 

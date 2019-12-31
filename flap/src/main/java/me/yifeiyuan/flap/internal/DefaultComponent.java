@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.yifeiyuan.flap.FlapItem;
+import me.yifeiyuan.flap.Component;
 
 /**
  * DefaultFlapItem is a build-in FlapItem that would be used when something went wrong .
@@ -20,11 +20,11 @@ import me.yifeiyuan.flap.FlapItem;
  * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public final class DefaultFlapItem extends FlapItem {
+public final class DefaultComponent extends Component {
 
     private static final int DEFAULT_ITEM_TYPE = -66666;
 
-    public DefaultFlapItem(final View itemView) {
+    public DefaultComponent(final View itemView) {
         super(itemView);
     }
 
@@ -37,11 +37,11 @@ public final class DefaultFlapItem extends FlapItem {
 
         @NonNull
         @Override
-        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             View view = new View(parent.getContext());
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             view.setLayoutParams(layoutParams);
-            return new DefaultFlapItem(view);
+            return new DefaultComponent(view);
         }
 
         @Override

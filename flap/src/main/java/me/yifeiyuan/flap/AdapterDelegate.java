@@ -16,20 +16,20 @@ import java.util.List;
  * @since 2019/1/2
  */
 @SuppressWarnings("ALL")
-interface FlapAdapterDelegate {
+interface AdapterDelegate {
 
     int getItemViewType(@NonNull Object model);
 
     @NonNull
     Component onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull final Component flapItem, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
+    void onBindViewHolder(@NonNull final Component component, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
 
-    void onViewAttachedToWindow(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewAttachedToWindow(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
 
-    void onViewDetachedFromWindow(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewDetachedFromWindow(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
 
-    void onViewRecycled(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
+    void onViewRecycled(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
 
-    boolean onFailedToRecycleView(@NonNull Component flapItem, @NonNull FlapAdapter flapAdapter);
+    boolean onFailedToRecycleView(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
 }

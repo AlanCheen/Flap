@@ -12,9 +12,9 @@ import android.support.annotation.RestrictTo;
  * @since 2018/12/13
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public final class ItemFactoryNotFoundException extends IllegalArgumentException {
+public final class ComponentFactoryNotFoundException extends IllegalArgumentException {
 
-    public ItemFactoryNotFoundException(final String s) {
+    public ComponentFactoryNotFoundException(final String s) {
         super(s);
     }
 

@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.yifeiyuan.flap.exceptions.ItemFactoryNotFoundException;
+import me.yifeiyuan.flap.exceptions.ComponentFactoryNotFoundException;
+import me.yifeiyuan.flap.extensions.ComponentPool;
 import me.yifeiyuan.flap.internal.DefaultComponent;
 import me.yifeiyuan.flap.internal.FlapItemFactory;
 
@@ -31,7 +32,7 @@ public final class Flap implements IFlap {
     private final Map<Class<?>, FlapItemFactory> itemFactories;
     private final SparseArray<FlapItemFactory> factoryMapping;
 
-    private static final FlapItemPool GLOBAL_POOL = new FlapItemPool();
+    private static final ComponentPool GLOBAL_POOL = new ComponentPool();
 
     private static final DefaultComponent.Factory DEFAULT_FACTORY = new DefaultComponent.Factory();
 
@@ -106,7 +107,7 @@ public final class Flap implements IFlap {
             factoryMapping.put(itemViewType, factory);
             return itemViewType;
         } else {
-            FlapDebug.throwIfDebugging(new ItemFactoryNotFoundException("Can't find the ItemFactory for : " + modelClazz + " , please register first!"));
+            FlapDebug.throwIfDebugging(new ComponentFactoryNotFoundException("Can't find the ItemFactory for : " + modelClazz + " , please register first!"));
         }
         return DEFAULT_FACTORY.getItemViewType(model);
     }
@@ -162,7 +163,7 @@ public final class Flap implements IFlap {
         FlapDebug.setDebug(isDebugging);
     }
 
-    public FlapItemPool getFlapItemPool() {
+    public ComponentPool getFlapItemPool() {
         return GLOBAL_POOL;
     }
 }

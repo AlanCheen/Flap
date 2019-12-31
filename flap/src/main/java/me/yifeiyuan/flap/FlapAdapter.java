@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yifeiyuan.flap.extensions.ComponentPool;
+
 import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
@@ -17,14 +19,14 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
  *
  * Check these also if need :
  *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  * @see Component
  * @see me.yifeiyuan.flap.extensions.LifecycleItem
- * @see FlapItemPool
+ * @see ComponentPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
- * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
  */
 public class FlapAdapter extends RecyclerView.Adapter<Component> {
 
@@ -154,7 +156,7 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
      *
      * @return this
      */
-    public FlapAdapter setUseFlapItemPool(final boolean enable) {
+    public FlapAdapter setUseComponentPool(final boolean enable) {
         this.useFlapItemPool = enable;
         return this;
     }

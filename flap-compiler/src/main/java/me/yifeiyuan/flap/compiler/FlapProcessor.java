@@ -32,8 +32,8 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.Flap;
-import me.yifeiyuan.flap.annotations.FlapItemFactoryManager;
+import me.yifeiyuan.flap.annotations.Component;
+import me.yifeiyuan.flap.annotations.ComponentFactoryManager;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
@@ -79,22 +79,22 @@ public class FlapProcessor extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (Flap.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processFlapAnnotation(roundEnvironment, typeElement);
-            } else if (FlapItemFactoryManager.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processFlapItemFactoryManager(roundEnvironment, typeElement);
+            if (Component.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponentAnnotation(roundEnvironment, typeElement);
+            } else if (ComponentFactoryManager.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponentFactoryManager(roundEnvironment, typeElement);
             }
         }
 
         return true;
     }
 
-    private void processFlapAnnotation(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    private void processComponentAnnotation(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Flap.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Component.class);
 
         for (final Element element : elements) {
-            Flap factory = element.getAnnotation(Flap.class);
+            Component factory = element.getAnnotation(Component.class);
             if (null != factory) {
                 try {
                     TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
@@ -116,7 +116,7 @@ public class FlapProcessor extends AbstractProcessor {
      *
      * @return FlapItemFactory TypeSpec
      */
-    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Flap factory) {
+    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Component factory) {
 
         ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
@@ -172,19 +172,24 @@ public class FlapProcessor extends AbstractProcessor {
                         .addSuperinterface(name);//实现接口
 
         if (autoRegister) {
-            builder.addAnnotation(FlapItemFactoryManager.class);
+            builder.addAnnotation(ComponentFactoryManager.class);
         }
         return builder.build();
     }
 
-    private void processFlapItemFactoryManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    /**
+     * 处理 ComponentFactoryManager 注解
+     * @param roundEnvironment
+     * @param typeElement
+     */
+    private void processComponentFactoryManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
         if (!autoRegisterFactories) {
             return;
         }
         List<ClassName> factories = new ArrayList<>();
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(FlapItemFactoryManager.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ComponentFactoryManager.class);
 
         for (final Element element : elements) {
 
@@ -229,8 +234,8 @@ public class FlapProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotationTypes = new LinkedHashSet<>();
-        annotationTypes.add(Flap.class.getCanonicalName());
-        annotationTypes.add(FlapItemFactoryManager.class.getCanonicalName());
+        annotationTypes.add(Component.class.getCanonicalName());
+        annotationTypes.add(ComponentFactoryManager.class.getCanonicalName());
         return annotationTypes;
     }
 

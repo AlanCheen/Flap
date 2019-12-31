@@ -5,9 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
-import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
 import me.yifeiyuan.flap.internal.FlapItemFactory;
 import me.yifeiyuan.flapdev.R;
@@ -15,25 +12,25 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2019/1/18.
  */
-public class CustomViewTypeItem extends FlapItem<CustomModel> {
+public class CustomViewTypeComponent extends FlapItem<CustomModel> {
 
     private static final int CUSTOM_ITEM_VIEW_TYPE = 466;
 
-    public CustomViewTypeItem(final View itemView) {
+    public CustomViewTypeComponent(final View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void onBind(@NonNull final CustomModel model, final int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
-        
+    protected void onBind(@NonNull final CustomModel model) {
+
     }
 
-    public static class Factory implements FlapItemFactory<CustomModel,CustomViewTypeItem> {
+    public static class Factory implements FlapItemFactory<CustomModel, CustomViewTypeComponent> {
 
         @NonNull
         @Override
-        public CustomViewTypeItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-            return new CustomViewTypeItem(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
+        public CustomViewTypeComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+            return new CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 
         @Override

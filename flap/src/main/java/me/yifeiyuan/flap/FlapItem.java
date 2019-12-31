@@ -15,16 +15,18 @@ import me.yifeiyuan.flap.extensions.LifecycleItem;
  *
  * By extending the LifecycleItem you can receive the lifecycle callbacks.
  *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  * @see LifecycleItem also.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
- * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
 public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
 
     protected final Context context;
+
+    private boolean isVisible = false;
 
     public FlapItem(View itemView) {
         super(itemView);
@@ -43,7 +45,16 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @param adapter  Your adapter.
      * @param payloads The payloads you may need.
      */
-    protected abstract void onBind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter);
+    protected void onBind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter) {
+        onBind(model);
+    }
+
+    /**
+     * Overriding `onBind` to bind your model to your FlapItem.
+     *
+     * @param model The model that you need to bind.
+     */
+    protected abstract void onBind(@NonNull final T model);
 
     @SuppressWarnings("unchecked")
     protected final <V extends View> V findViewById(@IdRes int viewId) {
@@ -56,6 +67,7 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @see FlapAdapter#onViewAttachedToWindow(FlapItem)
      */
     protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
+        onVisibilityChanged(true);
     }
 
     /**
@@ -64,6 +76,21 @@ public abstract class FlapItem<T> extends RecyclerView.ViewHolder {
      * @see FlapAdapter#onViewDetachedFromWindow(FlapItem)
      */
     protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
+        onVisibilityChanged(false);
+    }
+
+    /**
+     * @param visible if component is visible
+     */
+    protected void onVisibilityChanged(final boolean visible) {
+        isVisible = visible;
+    }
+
+    /**
+     * @return true if component is visible
+     */
+    public boolean isVisible() {
+        return isVisible;
     }
 
     /**

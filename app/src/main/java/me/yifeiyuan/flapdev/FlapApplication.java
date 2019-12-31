@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
-import me.yifeiyuan.flapdev.items.customviewtype.CustomViewTypeItem;
+import me.yifeiyuan.flapdev.items.customviewtype.CustomViewTypeComponent;
 
 /**
  * Flap
@@ -24,7 +24,7 @@ public class FlapApplication extends Application {
 
         long t1 = System.currentTimeMillis();
         //自定义 item view type ; custom item view type
-        Flap.getDefault().register(new CustomViewTypeItem.Factory());
+        Flap.getDefault().register(new CustomViewTypeComponent.Factory());
 
         long t2 = System.currentTimeMillis();
 

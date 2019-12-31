@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
-import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapItem;
 
 /**
@@ -32,7 +29,7 @@ public final class DefaultFlapItem extends FlapItem {
     }
 
     @Override
-    protected void onBind(@NonNull final Object model, final int position, @NonNull final List payloads, @NonNull final FlapAdapter adapter) {
+    protected void onBind(@NonNull final Object model) {
 
     }
 

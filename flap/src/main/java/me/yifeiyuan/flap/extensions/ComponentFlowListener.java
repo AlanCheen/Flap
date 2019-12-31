@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap;
+package me.yifeiyuan.flap.extensions;
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>

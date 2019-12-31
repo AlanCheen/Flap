@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         List<Object> models = mockModels();
 
         FlapAdapter adapter = new FlapAdapter();
-        adapter.setUseFlapItemPool(true)
+        adapter.setUseComponentPool(true)
                 .setLifecycleEnable(true)
                 .setLifecycleOwner(this)
                 .setData(models);

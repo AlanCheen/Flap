@@ -1,11 +1,13 @@
-package me.yifeiyuan.flap;
+package me.yifeiyuan.flap.extensions;
 
 import android.support.v7.widget.RecyclerView;
+
+import me.yifeiyuan.flap.FlapAdapter;
 
 /**
  * A global RecycledViewPool that can be shared among RecyclerViews , which is enabled by default.
  *
- * @see FlapAdapter#setUseFlapItemPool(boolean)
+ * @see FlapAdapter#setUseComponentPool(boolean)
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
@@ -13,6 +15,6 @@ import android.support.v7.widget.RecyclerView;
  * @since 2019/1/2
  * @since 0.9.1
  */
-public class FlapItemPool extends RecyclerView.RecycledViewPool {
+public class ComponentPool extends RecyclerView.RecycledViewPool {
 
 }

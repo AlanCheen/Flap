@@ -62,7 +62,7 @@ public final class Flap implements IFlap {
     private void injectFactories(final Flap flap) {
 
         try {
-            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.FlapItemFactoryManager");
+            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentFactoryAutoRegister");
             Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
             method.setAccessible(true);
             method.invoke(null, flap);

@@ -169,7 +169,7 @@ public class FlapProcessor extends AbstractProcessor {
                         .addMethod(onCreateViewHolderMethod)
                         .addMethod(getItemViewTypeMethod)
                         .addMethod(getItemModelClass)
-                        .addSuperinterface(name);//实现接口
+                        .addSuperinterface(name);
 
         if (autoRegister) {
             builder.addAnnotation(ComponentFactoryManager.class);
@@ -179,6 +179,7 @@ public class FlapProcessor extends AbstractProcessor {
 
     /**
      * 处理 ComponentFactoryManager 注解
+     *
      * @param roundEnvironment
      * @param typeElement
      */
@@ -192,13 +193,12 @@ public class FlapProcessor extends AbstractProcessor {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ComponentFactoryManager.class);
 
         for (final Element element : elements) {
-
             TypeElement flapItemFactory = (TypeElement) element;
             ClassName factoryClass = ClassName.get(flapItemFactory);
             factories.add(factoryClass);
         }
 
-        TypeSpec manager = TypeSpec.classBuilder("FlapItemFactoryManager")
+        TypeSpec manager = TypeSpec.classBuilder("ComponentFactoryAutoRegister")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addAnnotation(CLASS_KEEP)
                 .addMethod(createInjectMethod(factories))

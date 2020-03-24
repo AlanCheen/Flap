@@ -7,6 +7,10 @@
 
 修改命名，FlapItem --> Component  等等
 
+1. 移除 LayoutItemFactory
+2. 移除 LifecycleItem
+3. 重命名 FlapItemFactory --> ComponentProxy
+4. 新增 IComponentModel
 
 ### 1.4.1
 

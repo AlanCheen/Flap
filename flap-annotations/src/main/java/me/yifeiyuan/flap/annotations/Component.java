@@ -15,7 +15,7 @@ public @interface Component {
     int layoutId() default -1;
 
     /**
-     * @return true then FlapProcessor will auto register the Factory.
+     * @return true then Flap will auto register this component.
      */
     boolean autoRegister() default true;
 }

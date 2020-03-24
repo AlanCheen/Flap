@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.yifeiyuan.flap.Component;
-import me.yifeiyuan.flap.internal.FlapItemFactory;
+import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flapdev.R;
 
 /**
@@ -25,11 +25,11 @@ public class CustomViewTypeComponent extends Component<CustomModel> {
 
     }
 
-    public static class Factory implements FlapItemFactory<CustomModel, CustomViewTypeComponent> {
+    public static class Factory implements ComponentProxy<CustomModel, CustomViewTypeComponent> {
 
         @NonNull
         @Override
-        public CustomViewTypeComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public CustomViewTypeComponent onCreateComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             return new CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 

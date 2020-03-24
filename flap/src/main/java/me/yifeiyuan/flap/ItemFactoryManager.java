@@ -2,7 +2,7 @@ package me.yifeiyuan.flap;
 
 import android.support.annotation.NonNull;
 
-import me.yifeiyuan.flap.internal.FlapItemFactory;
+import me.yifeiyuan.flap.internal.ComponentProxy;
 
 /**
  * A manager for managing ItemFactories.
@@ -24,7 +24,7 @@ interface ItemFactoryManager {
      *
      * @return An ItemFactoryManager usually it could be `this`.
      */
-    ItemFactoryManager register(@NonNull final FlapItemFactory itemFactory);
+    ItemFactoryManager register(@NonNull final ComponentProxy itemFactory);
 
     /**
      * Unregister a ItemFactory from ItemFactoryManager.
@@ -33,7 +33,7 @@ interface ItemFactoryManager {
      *
      * @return An ItemFactoryManager usually it could be `this`.
      */
-    ItemFactoryManager unregister(@NonNull final FlapItemFactory itemFactory);
+    ItemFactoryManager unregister(@NonNull final ComponentProxy itemFactory);
 
     /**
      * Clear all the ItemFactories that you have registered.

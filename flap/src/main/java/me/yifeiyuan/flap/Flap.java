@@ -13,8 +13,8 @@ import java.util.Map;
 
 import me.yifeiyuan.flap.exceptions.ComponentFactoryNotFoundException;
 import me.yifeiyuan.flap.extensions.ComponentPool;
+import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flap.internal.DefaultComponent;
-import me.yifeiyuan.flap.internal.FlapItemFactory;
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
@@ -29,8 +29,8 @@ public final class Flap implements IFlap {
 
     static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
-    private final Map<Class<?>, FlapItemFactory> itemFactories;
-    private final SparseArray<FlapItemFactory> factoryMapping;
+    private final Map<Class<?>, ComponentProxy> itemFactories;
+    private final SparseArray<ComponentProxy> factoryMapping;
 
     private static final ComponentPool GLOBAL_POOL = new ComponentPool();
 
@@ -78,13 +78,13 @@ public final class Flap implements IFlap {
     }
 
     @Override
-    public ItemFactoryManager register(@NonNull final FlapItemFactory itemFactory) {
+    public ItemFactoryManager register(@NonNull final ComponentProxy itemFactory) {
         itemFactories.put(itemFactory.getItemModelClass(), itemFactory);
         return this;
     }
 
     @Override
-    public ItemFactoryManager unregister(@NonNull final FlapItemFactory itemFactory) {
+    public ItemFactoryManager unregister(@NonNull final ComponentProxy itemFactory) {
         itemFactories.remove(itemFactory.getItemModelClass());
         return this;
     }
@@ -101,7 +101,7 @@ public final class Flap implements IFlap {
 
         Class modelClazz = model.getClass();
 
-        FlapItemFactory factory = itemFactories.get(modelClazz);
+        ComponentProxy factory = itemFactories.get(modelClazz);
         if (null != factory) {
             int itemViewType = factory.getItemViewType(model);
             factoryMapping.put(itemViewType, factory);
@@ -118,17 +118,17 @@ public final class Flap implements IFlap {
 
         Component vh = null;
 
-        FlapItemFactory factory = factoryMapping.get(viewType);
+        ComponentProxy factory = factoryMapping.get(viewType);
         if (factory != null) {
             try {
-                vh = factory.onCreateViewHolder(inflater, parent, viewType);
+                vh = factory.onCreateComponent(inflater, parent, viewType);
             } catch (Exception e) {
                 e.printStackTrace();
                 FlapDebug.throwIfDebugging(e);
             }
         }
         if (vh == null) {
-            vh = DEFAULT_FACTORY.onCreateViewHolder(inflater, parent, viewType);
+            vh = DEFAULT_FACTORY.onCreateComponent(inflater, parent, viewType);
         }
         return vh;
     }

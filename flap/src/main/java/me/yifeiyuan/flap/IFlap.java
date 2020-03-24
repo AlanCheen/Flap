@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap;
 
+import me.yifeiyuan.flap.extensions.ComponentFlowListener;
 /**
  * IFlap is the core interface that defines what Flap can do and how Flap works.
  *
@@ -9,4 +10,7 @@ package me.yifeiyuan.flap;
  */
 interface IFlap extends ComponentManager, AdapterDelegate {
 
+    void registerFlowListener(ComponentFlowListener componentFlowListener);
+
+    void unregisterFlowListener(ComponentFlowListener componentFlowListener);
 }

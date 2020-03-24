@@ -1,5 +1,7 @@
 package me.yifeiyuan.flap.extensions;
 
+import me.yifeiyuan.flap.FlapComponent;
+import me.yifeiyuan.flap.internal.ComponentProxy;
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
@@ -9,12 +11,37 @@ package me.yifeiyuan.flap.extensions;
  */
 public interface ComponentFlowListener {
 
-    void onBeforeCreate();
+    /**
+     * 在创建组件前调用
+     *
+     * @param proxy 组件代理
+     */
+    void onStartCreateComponent(final ComponentProxy proxy);
 
-    void onAfterCreate();
+    /**
+     * 在组件创建完毕后调用
+     *
+     * @param proxy
+     * @param component
+     */
+    void onComponentCreated(final ComponentProxy proxy, final FlapComponent component);
 
-    void onBeforeBind();
+    /**
+     * 在绑定组件之前调用
+     *
+     * @param component
+     * @param position
+     * @param model
+     */
+    void onStartBindComponent(final FlapComponent component, final int position, Object model);
 
-    void onAfterBind();
+    /**
+     * 在组件绑定完毕后回调
+     *
+     * @param component
+     * @param position
+     * @param model
+     */
+    void onComponentBound(final FlapComponent component, final int position, Object model);
 
 }

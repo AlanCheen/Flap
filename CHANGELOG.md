@@ -3,14 +3,14 @@
 
 ### 1.5.x 计划
 
-对齐组件化
+对齐脑子里的组件化设计思想，改了一堆名字，要挨骂了~
 
-修改命名，FlapItem --> Component  等等
-
-1. 移除 LayoutItemFactory
-2. 移除 LifecycleItem
-3. 重命名 FlapItemFactory --> ComponentProxy
-4. 新增 IComponentModel
+1. 移除 LayoutItemFactory（已废弃）
+2. 移除 LifecycleItem（已废弃）
+3. 重命名 FlapItemFactory --> ComponentProxy，更加符合设计理念
+3. 重命名 FlapItem --> Component，对应"组件"概念
+4. 新增 IComponentModel（待定 TODO）
+5. 新增 ComponentFlowListener，可以监听关于组件的流程回调事件
 
 ### 1.4.1
 

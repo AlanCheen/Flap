@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import me.yifeiyuan.flap.exceptions.ComponentProxyNotFoundException;
+import me.yifeiyuan.flap.extensions.ComponentFlowListener;
 import me.yifeiyuan.flap.extensions.ComponentPool;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flap.internal.DefaultComponent;
@@ -31,6 +34,7 @@ public final class Flap implements IFlap {
 
     private final Map<Class<?>, ComponentProxy<?, ?>> itemFactories;
     private final SparseArray<ComponentProxy<?, ?>> factoryMapping;
+    private final List<ComponentFlowListener> flowListeners = Collections.synchronizedList(new ArrayList<ComponentFlowListener>());
 
     private static final ComponentPool GLOBAL_POOL = new ComponentPool();
 
@@ -60,7 +64,6 @@ public final class Flap implements IFlap {
     }
 
     private void injectFactories(final Flap flap) {
-
         try {
             Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
             Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
@@ -98,7 +101,6 @@ public final class Flap implements IFlap {
 
     @Override
     public int getItemViewType(@NonNull final Object model) {
-
         Class<?> modelClazz = model.getClass();
 
         ComponentProxy factory = itemFactories.get(modelClazz);
@@ -115,28 +117,54 @@ public final class Flap implements IFlap {
     @NonNull
     @Override
     public FlapComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-
         FlapComponent vh = null;
-
         ComponentProxy<?, ?> factory = factoryMapping.get(viewType);
+        dispatchBeforeCreateComponentEvent(factory, viewType);
         if (factory != null) {
             try {
-                vh = factory.onCreateComponent(inflater, parent, viewType);
+                vh = factory.createComponent(inflater, parent, viewType);
             } catch (Exception e) {
                 e.printStackTrace();
                 FlapDebug.throwIfDebugging(e);
             }
         }
         if (vh == null) {
-            vh = DEFAULT_FACTORY.onCreateComponent(inflater, parent, viewType);
+            vh = DEFAULT_FACTORY.createComponent(inflater, parent, viewType);
         }
+        dispatchAfterCreateComponentEvent(factory, viewType, vh);
         return vh;
+    }
+
+    private void dispatchBeforeCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType) {
+        for (final ComponentFlowListener flowListener : flowListeners) {
+            flowListener.onStartCreateComponent(factory);
+        }
+    }
+
+    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final FlapComponent vh) {
+        for (final ComponentFlowListener flowListener : flowListeners) {
+            flowListener.onComponentCreated(factory, vh);
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(@NonNull final FlapComponent component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+        dispatchOnBeforeBindComponent(component, position, model);
         component.bind(model, position, payloads, flapAdapter);
+        dispatchOnComponentBound(component, position, model);
+    }
+
+    private void dispatchOnBeforeBindComponent(@NonNull final FlapComponent component, final int position, final Object model) {
+        for (final ComponentFlowListener flowListener : flowListeners) {
+            flowListener.onStartBindComponent(component, position, model);
+        }
+    }
+
+    private void dispatchOnComponentBound(@NonNull final FlapComponent component, final int position, final Object model) {
+        for (final ComponentFlowListener flowListener : flowListeners) {
+            flowListener.onComponentBound(component, position, model);
+        }
     }
 
     @Override
@@ -165,5 +193,15 @@ public final class Flap implements IFlap {
 
     public ComponentPool getComponentPool() {
         return GLOBAL_POOL;
+    }
+
+    @Override
+    public void registerFlowListener(final ComponentFlowListener componentFlowListener) {
+        flowListeners.add(componentFlowListener);
+    }
+
+    @Override
+    public void unregisterFlowListener(final ComponentFlowListener componentFlowListener) {
+        flowListeners.remove(componentFlowListener);
     }
 }

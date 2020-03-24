@@ -27,7 +27,7 @@ public interface ComponentProxy<T, VH extends FlapComponent<T>> {
      * @return your component
      */
     @NonNull
-    VH onCreateComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    VH createComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     /**
      * @param model your model to bind with the component.

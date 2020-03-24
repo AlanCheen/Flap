@@ -25,10 +25,11 @@ public class FlapApplication extends Application {
         long t1 = System.currentTimeMillis();
         //自定义 item view type ; custom item view type
         Flap.getDefault().register(new CustomViewTypeComponent.Factory());
-
         long t2 = System.currentTimeMillis();
 
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1));
+
+        Flap.getDefault().registerFlowListener(new ComponentMonitor());
 
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
     }

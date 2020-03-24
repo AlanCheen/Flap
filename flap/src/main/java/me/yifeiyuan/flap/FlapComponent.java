@@ -20,13 +20,13 @@ import java.util.List;
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
-public abstract class Component<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
+public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 
     protected final Context context;
 
     private boolean isVisible = false;
 
-    public Component(View itemView) {
+    public FlapComponent(View itemView) {
         super(itemView);
         context = itemView.getContext();
     }
@@ -62,7 +62,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     /**
      * @param flapAdapter The adapter which is using your Component.
      *
-     * @see FlapAdapter#onViewAttachedToWindow(Component)
+     * @see FlapAdapter#onViewAttachedToWindow(FlapComponent)
      */
     protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
         onVisibilityChanged(true);
@@ -71,7 +71,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @see FlapAdapter#onViewDetachedFromWindow(Component)
+     * @see FlapAdapter#onViewDetachedFromWindow(FlapComponent)
      */
     protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
         onVisibilityChanged(false);
@@ -94,7 +94,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      *
-     * @see FlapAdapter#onViewRecycled(Component)
+     * @see FlapAdapter#onViewRecycled(FlapComponent)
      */
     protected void onViewRecycled(final FlapAdapter flapAdapter) {
     }
@@ -104,7 +104,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
      *
      * @return True if the View should be recycled, false otherwise.
      *
-     * @see FlapAdapter#onFailedToRecycleView(Component)
+     * @see FlapAdapter#onFailedToRecycleView(FlapComponent)
      */
     protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
         return false;

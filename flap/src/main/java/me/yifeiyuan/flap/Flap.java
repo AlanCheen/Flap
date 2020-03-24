@@ -114,9 +114,9 @@ public final class Flap implements IFlap {
 
     @NonNull
     @Override
-    public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+    public FlapComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
 
-        Component vh = null;
+        FlapComponent vh = null;
 
         ComponentProxy<?, ?> factory = factoryMapping.get(viewType);
         if (factory != null) {
@@ -135,27 +135,27 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final Component component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+    public void onBindViewHolder(@NonNull final FlapComponent component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
         component.bind(model, position, payloads, flapAdapter);
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewAttachedToWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewDetachedFromWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewRecycled(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public boolean onFailedToRecycleView(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
         return component.onFailedToRecycleView(flapAdapter);
     }
 

@@ -22,11 +22,12 @@ import java.util.List;
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
 public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 
+    @NonNull
     protected final Context context;
 
     private boolean isVisible = false;
 
-    public FlapComponent(View itemView) {
+    public FlapComponent(@NonNull View itemView) {
         super(itemView);
         context = itemView.getContext();
     }

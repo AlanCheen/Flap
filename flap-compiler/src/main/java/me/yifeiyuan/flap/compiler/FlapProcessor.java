@@ -135,7 +135,7 @@ public class FlapProcessor extends AbstractProcessor {
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
 
-        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("onCreateComponent")
+        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("createComponent")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")

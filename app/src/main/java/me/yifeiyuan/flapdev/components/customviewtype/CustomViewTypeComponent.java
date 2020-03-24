@@ -29,7 +29,7 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
 
         @NonNull
         @Override
-        public CustomViewTypeComponent onCreateComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public CustomViewTypeComponent createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             return new CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 

@@ -50,8 +50,8 @@ public final class DefaultComponent extends Component {
         }
 
         @Override
-        public Class getItemModelClass() {
-            return null;
+        public Class getComponentModelClass() {
+            return Object.class;
         }
     }
 }

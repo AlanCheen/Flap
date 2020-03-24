@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.items.simpletext;
+package me.yifeiyuan.flapdev.components.simpletext;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -6,12 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.annotations.ComponentConfig;
 import me.yifeiyuan.flapdev.R;
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@me.yifeiyuan.flap.annotations.Component(layoutId = R.layout.flap_item_simple_text, autoRegister = true)
+@ComponentConfig(layoutId = R.layout.flap_item_simple_text, autoRegister = true)
 public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";

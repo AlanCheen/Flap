@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.items.simpletext;
+package me.yifeiyuan.flapdev.components.simpletext;
 
 import android.support.annotation.NonNull;
 

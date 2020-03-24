@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface Component {
+public @interface ComponentConfig {
 
     /**
      * @return the layout res id

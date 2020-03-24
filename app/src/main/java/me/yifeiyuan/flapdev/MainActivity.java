@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flapdev.items.customviewtype.CustomModel;
-import me.yifeiyuan.flapdev.items.generictest.GenericModel;
-import me.yifeiyuan.flapdev.items.simpleimage.SimpleImageModel;
-import me.yifeiyuan.flapdev.items.simpletext.SimpleTextModel;
+import me.yifeiyuan.flapdev.components.customviewtype.CustomModel;
+import me.yifeiyuan.flapdev.components.generictest.GenericModel;
+import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel;
+import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 
 public class MainActivity extends AppCompatActivity {
 

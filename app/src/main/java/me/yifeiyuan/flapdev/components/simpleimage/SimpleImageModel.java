@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.items.simpleimage;
+package me.yifeiyuan.flapdev.components.simpleimage;
 
 /**
  * Created by 程序亦非猿

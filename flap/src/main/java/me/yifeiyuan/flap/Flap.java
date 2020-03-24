@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.yifeiyuan.flap.exceptions.ComponentFactoryNotFoundException;
+import me.yifeiyuan.flap.exceptions.ComponentProxyNotFoundException;
 import me.yifeiyuan.flap.extensions.ComponentPool;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flap.internal.DefaultComponent;
@@ -29,8 +29,8 @@ public final class Flap implements IFlap {
 
     static final int DEFAULT_ITEM_TYPE_COUNT = 32;
 
-    private final Map<Class<?>, ComponentProxy> itemFactories;
-    private final SparseArray<ComponentProxy> factoryMapping;
+    private final Map<Class<?>, ComponentProxy<?, ?>> itemFactories;
+    private final SparseArray<ComponentProxy<?, ?>> factoryMapping;
 
     private static final ComponentPool GLOBAL_POOL = new ComponentPool();
 
@@ -62,7 +62,7 @@ public final class Flap implements IFlap {
     private void injectFactories(final Flap flap) {
 
         try {
-            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentFactoryAutoRegister");
+            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
             Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
             method.setAccessible(true);
             method.invoke(null, flap);
@@ -78,19 +78,19 @@ public final class Flap implements IFlap {
     }
 
     @Override
-    public ItemFactoryManager register(@NonNull final ComponentProxy itemFactory) {
-        itemFactories.put(itemFactory.getItemModelClass(), itemFactory);
+    public ComponentManager register(@NonNull final ComponentProxy itemFactory) {
+        itemFactories.put(itemFactory.getComponentModelClass(), itemFactory);
         return this;
     }
 
     @Override
-    public ItemFactoryManager unregister(@NonNull final ComponentProxy itemFactory) {
-        itemFactories.remove(itemFactory.getItemModelClass());
+    public ComponentManager unregister(@NonNull final ComponentProxy itemFactory) {
+        itemFactories.remove(itemFactory.getComponentModelClass());
         return this;
     }
 
     @Override
-    public ItemFactoryManager clearAll() {
+    public ComponentManager clearAll() {
         itemFactories.clear();
         factoryMapping.clear();
         return this;
@@ -99,7 +99,7 @@ public final class Flap implements IFlap {
     @Override
     public int getItemViewType(@NonNull final Object model) {
 
-        Class modelClazz = model.getClass();
+        Class<?> modelClazz = model.getClass();
 
         ComponentProxy factory = itemFactories.get(modelClazz);
         if (null != factory) {
@@ -107,7 +107,7 @@ public final class Flap implements IFlap {
             factoryMapping.put(itemViewType, factory);
             return itemViewType;
         } else {
-            FlapDebug.throwIfDebugging(new ComponentFactoryNotFoundException("Can't find the ItemFactory for : " + modelClazz + " , please register first!"));
+            FlapDebug.throwIfDebugging(new ComponentProxyNotFoundException("Can't find the ComponentProxy for : " + modelClazz + " , please register first!"));
         }
         return DEFAULT_FACTORY.getItemViewType(model);
     }
@@ -118,7 +118,7 @@ public final class Flap implements IFlap {
 
         Component vh = null;
 
-        ComponentProxy factory = factoryMapping.get(viewType);
+        ComponentProxy<?, ?> factory = factoryMapping.get(viewType);
         if (factory != null) {
             try {
                 vh = factory.onCreateComponent(inflater, parent, viewType);
@@ -135,35 +135,35 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final Component flapItem, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
-        flapItem.bind(model, position, payloads, flapAdapter);
+    public void onBindViewHolder(@NonNull final Component component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+        component.bind(model, position, payloads, flapAdapter);
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
-        flapItem.onViewAttachedToWindow(flapAdapter);
+    public void onViewAttachedToWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+        component.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
-        flapItem.onViewDetachedFromWindow(flapAdapter);
+    public void onViewDetachedFromWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+        component.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
-        flapItem.onViewRecycled(flapAdapter);
+    public void onViewRecycled(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+        component.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final Component flapItem, @NonNull final FlapAdapter flapAdapter) {
-        return flapItem.onFailedToRecycleView(flapAdapter);
+    public boolean onFailedToRecycleView(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+        return component.onFailedToRecycleView(flapAdapter);
     }
 
     public static void setDebug(final boolean isDebugging) {
         FlapDebug.setDebug(isDebugging);
     }
 
-    public ComponentPool getFlapItemPool() {
+    public ComponentPool getComponentPool() {
         return GLOBAL_POOL;
     }
 }

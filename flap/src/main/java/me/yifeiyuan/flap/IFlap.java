@@ -7,6 +7,6 @@ package me.yifeiyuan.flap;
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
  */
-interface IFlap extends ItemFactoryManager, AdapterDelegate {
+interface IFlap extends ComponentManager, AdapterDelegate {
 
 }

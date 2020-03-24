@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.items.customviewtype;
+package me.yifeiyuan.flapdev.components.customviewtype;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -39,7 +39,7 @@ public class CustomViewTypeComponent extends Component<CustomModel> {
         }
 
         @Override
-        public Class<CustomModel> getItemModelClass() {
+        public Class<CustomModel> getComponentModelClass() {
             return CustomModel.class;
         }
     }

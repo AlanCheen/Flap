@@ -33,11 +33,11 @@ public final class DefaultComponent extends Component {
 
     }
 
-    public static class Factory implements FlapItemFactory {
+    public static class Factory implements ComponentProxy {
 
         @NonNull
         @Override
-        public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public Component onCreateComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             View view = new View(parent.getContext());
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             view.setLayoutParams(layoutParams);

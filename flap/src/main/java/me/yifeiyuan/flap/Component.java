@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.List;
 
 /**
- * FlapItem is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
+ * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
@@ -36,7 +36,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     }
 
     /**
-     * Overriding `onBind` to bind your model to your FlapItem.
+     * Overriding `onBind` to bind your model to your Component.
      *
      * @param model    The model that you need to bind.
      * @param position position
@@ -48,7 +48,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     }
 
     /**
-     * Overriding `onBind` to bind your model to your FlapItem.
+     * Overriding `onBind` to bind your model to your Component.
      *
      * @param model The model that you need to bind.
      */
@@ -60,7 +60,7 @@ public abstract class Component<T> extends RecyclerView.ViewHolder implements Li
     }
 
     /**
-     * @param flapAdapter The adapter which is using your FlapItem.
+     * @param flapAdapter The adapter which is using your Component.
      *
      * @see FlapAdapter#onViewAttachedToWindow(Component)
      */

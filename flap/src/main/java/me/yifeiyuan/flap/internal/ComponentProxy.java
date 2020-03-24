@@ -8,32 +8,31 @@ import android.view.ViewGroup;
 import me.yifeiyuan.flap.Component;
 
 /**
- * An abstraction of Factory used for creating FlapItem.
+ * Proxy for component.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public interface FlapItemFactory<T, VH extends Component<T>> {
+public interface ComponentProxy<T, VH extends Component<T>> {
 
     /**
-     * Create a new instance of FlapItem.
+     * Create a new instance of component.
      *
      * @param inflater LayoutInflater
      * @param parent   RecyclerView
      * @param viewType itemViewType
      *
-     * @return your FlapItem
+     * @return your component
      */
     @NonNull
-    VH onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
+    VH onCreateComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     /**
-     * @param model your model to bind with the FlapItem.
+     * @param model your model to bind with the component.
      *
-     * @return the itemViewType of the FlapItem you are gonna create.
+     * @return the itemViewType of the component you are gonna create.
      */
     int getItemViewType(T model);
 

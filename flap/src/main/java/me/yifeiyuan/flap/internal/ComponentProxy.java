@@ -5,7 +5,7 @@ import android.support.annotation.RestrictTo;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.FlapComponent;
 
 /**
  * Proxy for component.
@@ -15,7 +15,7 @@ import me.yifeiyuan.flap.Component;
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public interface ComponentProxy<T, VH extends Component<T>> {
+public interface ComponentProxy<T, VH extends FlapComponent<T>> {
 
     /**
      * Create a new instance of component.

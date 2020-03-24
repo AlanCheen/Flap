@@ -33,7 +33,7 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 import me.yifeiyuan.flap.annotations.AutoRegister;
-import me.yifeiyuan.flap.annotations.ComponentConfig;
+import me.yifeiyuan.flap.annotations.Component;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
@@ -79,7 +79,7 @@ public class FlapProcessor extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (ComponentConfig.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+            if (Component.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processComponent(roundEnvironment, typeElement);
             } else if (AutoRegister.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processComponentProxyManager(roundEnvironment, typeElement);
@@ -91,10 +91,10 @@ public class FlapProcessor extends AbstractProcessor {
 
     private void processComponent(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ComponentConfig.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Component.class);
 
         for (final Element element : elements) {
-            ComponentConfig factory = element.getAnnotation(ComponentConfig.class);
+            Component factory = element.getAnnotation(Component.class);
             if (null != factory) {
                 try {
                     TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
@@ -116,7 +116,7 @@ public class FlapProcessor extends AbstractProcessor {
      *
      * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final ComponentConfig factory) {
+    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Component factory) {
 
         ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
@@ -234,7 +234,7 @@ public class FlapProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotationTypes = new LinkedHashSet<>();
-        annotationTypes.add(ComponentConfig.class.getCanonicalName());
+        annotationTypes.add(Component.class.getCanonicalName());
         annotationTypes.add(AutoRegister.class.getCanonicalName());
         return annotationTypes;
     }

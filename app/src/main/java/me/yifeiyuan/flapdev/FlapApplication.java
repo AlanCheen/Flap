@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import me.yifeiyuan.flap.Flap;
-import me.yifeiyuan.flapdev.items.customviewtype.CustomViewTypeComponent;
+import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponent;
 
 /**
  * Flap

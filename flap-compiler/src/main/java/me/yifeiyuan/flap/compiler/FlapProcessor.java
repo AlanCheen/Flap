@@ -32,20 +32,20 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.Component;
-import me.yifeiyuan.flap.annotations.ComponentFactoryManager;
+import me.yifeiyuan.flap.annotations.AutoRegister;
+import me.yifeiyuan.flap.annotations.ComponentConfig;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
 
-    private static final String PKG_NAME_FACTORIES = "me.yifeiyuan.flap.apt.factories";
+    private static final String PKG_NAME_PROXIES = "me.yifeiyuan.flap.apt.proxies";
     private static final String PKG_NAME_MANAGER = "me.yifeiyuan.flap.apt.manager";
 
-    private static final String FACTORY_NAME_SUFFIX = "Factory";
+    private static final String NAME_SUFFIX = "Proxy";
 
     private final ClassName CLASS_KEEP = ClassName.bestGuess("android.support.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
-    private final ClassName CLASS_FLAP_ITEM_FACTORY = ClassName.bestGuess("me.yifeiyuan.flap.internal.FlapItemFactory");
+    private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
     private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
 
@@ -79,26 +79,26 @@ public class FlapProcessor extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (Component.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processComponentAnnotation(roundEnvironment, typeElement);
-            } else if (ComponentFactoryManager.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processComponentFactoryManager(roundEnvironment, typeElement);
+            if (ComponentConfig.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponent(roundEnvironment, typeElement);
+            } else if (AutoRegister.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponentProxyManager(roundEnvironment, typeElement);
             }
         }
 
         return true;
     }
 
-    private void processComponentAnnotation(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    private void processComponent(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Component.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ComponentConfig.class);
 
         for (final Element element : elements) {
-            Component factory = element.getAnnotation(Component.class);
+            ComponentConfig factory = element.getAnnotation(ComponentConfig.class);
             if (null != factory) {
                 try {
-                    TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
-                    JavaFile.builder(PKG_NAME_FACTORIES, flapItemFactoryTypeSpec)
+                    TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
+                    JavaFile.builder(PKG_NAME_PROXIES, flapItemFactoryTypeSpec)
                             .build()
                             .writeTo(filer);
                 } catch (IOException e) {
@@ -114,14 +114,14 @@ public class FlapProcessor extends AbstractProcessor {
      * @param flapItemElement  被 FlapItemFactory 注解了的那个类
      * @param factory          注解了目标类的 注解，可以获取值
      *
-     * @return FlapItemFactory TypeSpec
+     * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Component factory) {
+    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final ComponentConfig factory) {
 
         ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
 
         //要生成的类的名字
-        String targetClassName = flapItemElement.getSimpleName().toString() + FACTORY_NAME_SUFFIX;
+        String targetClassName = flapItemElement.getSimpleName().toString() + NAME_SUFFIX;
 
         int layoutId = factory.layoutId();
         boolean autoRegister = factory.autoRegister();
@@ -135,7 +135,7 @@ public class FlapProcessor extends AbstractProcessor {
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
 
-        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("onCreateViewHolder")
+        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("onCreateComponent")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
@@ -153,14 +153,14 @@ public class FlapProcessor extends AbstractProcessor {
                 .addStatement("return " + layoutId)
                 .build();
 
-        MethodSpec getItemModelClass = MethodSpec.methodBuilder("getItemModelClass")
+        MethodSpec getItemModelClass = MethodSpec.methodBuilder("getComponentModelClass")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(Class.class)
                 .addStatement("return " + itemModelClass + ".class")
                 .build();
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_FLAP_ITEM_FACTORY, itemModelClass, flapItemClass);
+        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_COMPONENT_PROXY, itemModelClass, flapItemClass);
 
         TypeSpec.Builder builder =
                 TypeSpec.classBuilder(targetClassName)
@@ -172,7 +172,7 @@ public class FlapProcessor extends AbstractProcessor {
                         .addSuperinterface(name);
 
         if (autoRegister) {
-            builder.addAnnotation(ComponentFactoryManager.class);
+            builder.addAnnotation(AutoRegister.class);
         }
         return builder.build();
     }
@@ -183,14 +183,14 @@ public class FlapProcessor extends AbstractProcessor {
      * @param roundEnvironment
      * @param typeElement
      */
-    private void processComponentFactoryManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    private void processComponentProxyManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
         if (!autoRegisterFactories) {
             return;
         }
         List<ClassName> factories = new ArrayList<>();
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ComponentFactoryManager.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(AutoRegister.class);
 
         for (final Element element : elements) {
             TypeElement flapItemFactory = (TypeElement) element;
@@ -198,7 +198,7 @@ public class FlapProcessor extends AbstractProcessor {
             factories.add(factoryClass);
         }
 
-        TypeSpec manager = TypeSpec.classBuilder("ComponentFactoryAutoRegister")
+        TypeSpec manager = TypeSpec.classBuilder("ComponentAutoRegister")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addAnnotation(CLASS_KEEP)
                 .addMethod(createInjectMethod(factories))
@@ -234,8 +234,8 @@ public class FlapProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotationTypes = new LinkedHashSet<>();
-        annotationTypes.add(Component.class.getCanonicalName());
-        annotationTypes.add(ComponentFactoryManager.class.getCanonicalName());
+        annotationTypes.add(ComponentConfig.class.getCanonicalName());
+        annotationTypes.add(AutoRegister.class.getCanonicalName());
         return annotationTypes;
     }
 

@@ -37,9 +37,11 @@ public interface ComponentProxy<T, VH extends Component<T>> {
     int getItemViewType(T model);
 
     /**
+     * 指明 Component 将会绑定的模型的类
+     *
      * @return the class of Model
      */
     @NonNull
-    Class<T> getItemModelClass();
+    Class<T> getComponentModelClass();
 
 }

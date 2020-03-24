@@ -23,13 +23,13 @@ interface AdapterDelegate {
     @NonNull
     Component onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
-    void onBindViewHolder(@NonNull final Component component, final int position, Object model, @NonNull List<Object> payloads, @NonNull FlapAdapter flapAdapter);
+    void onBindViewHolder(@NonNull final Component component, final int position, Object model, @NonNull List<Object> payloads, @NonNull final FlapAdapter flapAdapter);
 
-    void onViewAttachedToWindow(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
+    void onViewAttachedToWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter);
 
-    void onViewDetachedFromWindow(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
+    void onViewDetachedFromWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter);
 
-    void onViewRecycled(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
+    void onViewRecycled(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter);
 
-    boolean onFailedToRecycleView(@NonNull Component component, @NonNull FlapAdapter flapAdapter);
+    boolean onFailedToRecycleView(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter);
 }

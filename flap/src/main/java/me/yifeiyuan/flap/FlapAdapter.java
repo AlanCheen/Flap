@@ -63,8 +63,8 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
      *
      * @param holder The holder we are going to bind.
      */
-    private void attachLifecycleOwnerIfNeed(final Component holder) {
-        if (lifecycleEnable && lifecycleOwner != null && holder instanceof LifecycleObserver) {
+    private void attachLifecycleOwnerIfNeed(@NonNull final Component holder) {
+        if (lifecycleEnable && lifecycleOwner != null) {
             lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
         }
     }
@@ -86,7 +86,7 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
             setLifecycleOwner((LifecycleOwner) recyclerView.getContext());
         }
         if (useFlapItemPool) {
-            recyclerView.setRecycledViewPool(flap.getFlapItemPool());
+            recyclerView.setRecycledViewPool(flap.getComponentPool());
         }
     }
 

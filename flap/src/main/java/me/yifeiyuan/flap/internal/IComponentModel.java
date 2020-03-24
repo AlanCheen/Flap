@@ -11,10 +11,10 @@ import android.support.annotation.Nullable;
  */
 public interface IComponentModel {
 
-    boolean areItemsTheSame(@NonNull Object var1, @NonNull Object var2);
+    boolean areItemsTheSame(@NonNull IComponentModel var1, @NonNull IComponentModel var2);
 
-    boolean areContentsTheSame(@NonNull Object var1, @NonNull Object var2);
+    boolean areContentsTheSame(@NonNull IComponentModel var1, @NonNull IComponentModel var2);
 
     @Nullable
-    Object getChangePayload(@NonNull Object oldItem, @NonNull Object newItem);
+    Object getChangePayload(@NonNull IComponentModel oldItem, @NonNull IComponentModel newItem);
 }

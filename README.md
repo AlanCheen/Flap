@@ -99,27 +99,27 @@ public class SimpleTextModel {
 
 #### Step 2 : 创建一个 `FlapComponent` 并用`@Component`修饰 :
 
-注：`FlapComponent` 是一个 `ViewHolder` ，在 `Flap` 内部使用 ，是 `Flap` 的基础，把你原来的 `ViewHolder` 继承它即可。
+`FlapComponent` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
 
-需要在 @Component 注解中给 `layoutId` 赋值为该 Item 的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
+另外需要在 `@Component` 注解中给 `layoutId` 赋值为该组件的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
 
 举个🌰 ：
 
 ```java
 @Component(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextItem extends FlapComponent<SimpleTextModel> {
+public class SimpleTextComponent extends FlapComponent<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
 
     private TextView tvContent;
 
-    public SimpleTextItem(final View itemView) {
+    public SimpleTextComponent(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleTextModel model) {
         tvContent.setText(model.content);
     }
 }

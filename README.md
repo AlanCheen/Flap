@@ -106,8 +106,6 @@ public class SimpleTextModel {
 @Component(layoutId = R.layout.flap_item_simple_text)
 public class SimpleTextComponent extends FlapComponent<SimpleTextModel> {
 
-    private static final String TAG = "SimpleTextItem";
-
     private TextView tvContent;
 
     public SimpleTextComponent(final View itemView) {

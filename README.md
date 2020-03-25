@@ -5,14 +5,11 @@
 ------
 
 
-
-`Flap` 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
+`Flap` 是一个专门针对页面组件化方案的库，提供页面组件化的能力，并且优化了 `RecyclerView.Adapter` 的使用体验，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
 
 [README_EN](./README_EN.md)
 
 ### Flap 的优点与特性
-
-  
 
 Flap 重点类先知：
 
@@ -194,7 +191,7 @@ recyclerView.setAdapter(adapter);
 
 #### 1. 如何设置 FlapComponent 的点击事件？
 
-答：Flap 并没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 onBind 方法里给 itemView 设置 onClick 事件，这样更清晰。
+答：Flap 并没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
 #### 2. 我想在 FlapComponent 里用 context 怎么办？
 

@@ -110,7 +110,7 @@ public class FlapProcessor extends AbstractProcessor {
 
     /**
      * @param roundEnvironment 环境
-     * @param typeElement      @Flap
+     * @param typeElement      @Component
      * @param flapItemElement  被 FlapItemFactory 注解了的那个类
      * @param factory          注解了目标类的 注解，可以获取值
      *
@@ -239,7 +239,7 @@ public class FlapProcessor extends AbstractProcessor {
         return annotationTypes;
     }
 
-    public class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
+    private static class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
 
         @Override
         public DeclaredType visitDeclared(DeclaredType declaredType, Void o) {

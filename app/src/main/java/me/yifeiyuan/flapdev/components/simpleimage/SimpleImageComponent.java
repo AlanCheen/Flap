@@ -21,5 +21,4 @@ public class SimpleImageComponent extends FlapComponent<SimpleImageModel> {
     protected void onBind(@NonNull final SimpleImageModel model) {
 
     }
-
 }

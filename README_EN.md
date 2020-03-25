@@ -79,7 +79,7 @@ NOTE: `FlapItem` is the base `ViewHolder` that `Flap` is using internally.
 Here is a sample :
 
 ```java
-@Flap(layoutId = R.layout.flap_item_simple_text)
+@Component(layoutId = R.layout.flap_item_simple_text)
 public class SimpleTextItem extends FlapItem<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";

@@ -1,7 +1,16 @@
 # 更新日志（CHANGELOG）
 
 
-### 1.5.x 计划
+### 2.0.x 计划 TODO
+
+1. 尝试 Kotlin 化
+
+### 1.6.x 计划 TODO
+
+1. 增加 DataBinding 支持
+2. 迁移 androidx 
+
+### 1.5.x 计划 TODO
 
 对齐脑子里的组件化设计思想，改了一堆名字，要挨骂了~
 
@@ -24,9 +33,9 @@
 
 注意：暂时只支持单模块应用。
 
-### 1.2 : Add `@Flap` annotation !
+### 1.2 : Add `@Component` annotation !
 
-1.2 的主要功能是为 `Flap` 增加注解功能 `@Flap` ，通过注解自动生成 FlapItem 的工厂类，帮助减少样板代码的编写。
+1.2 的主要功能是为 `Flap` 增加注解功能 `@Component` ，通过注解自动生成 FlapItem 的工厂类，帮助减少样板代码的编写。
 
 1. Add `flap-annotations` project
 2. Add `flap-compiler` project

@@ -71,16 +71,16 @@ public class SimpleTextModel {
 
 
 
-#### Step 2 : Create a custom `FlapItem`  :
+#### Step 2 : Create a custom `FlapComponent`  :
 
 
-NOTE: `FlapItem` is the base `ViewHolder` that `Flap` is using internally.
+NOTE: `FlapComponent` is the base `ViewHolder` that `Flap` is using internally.
 
 Here is a sample :
 
 ```java
 @Component(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextItem extends FlapItem<SimpleTextModel> {
+public class SimpleTextItem extends FlapComponent<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";
 
@@ -129,7 +129,7 @@ Yeah , you are good to go!
 ## More Advanced Features
 
 
-`Flap` adds some features for `FlapItem` : 
+`Flap` adds some features for `FlapComponent` : 
 
 1. Access a context directly by field `context`.
 2. Call `findViewById()`  directlly instead of `itemView.findViewById` when you want to find a view.
@@ -170,7 +170,7 @@ Check [Releases](https://github.com/AlanCheen/Flap/releases) for details.
 
 - [x] Support AsyncListDiffer feature;
 - [x] Support setup global RecycledViewPool;
-- [x] Support Lifecycle for FlapItem;
+- [x] Support Lifecycle for FlapComponent;
 - [x] Decouple RecyclerView.Adapter and ViewHolder's creating and binding logic.
 
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flapdev.components.customviewtype.CustomModel;
+import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel;
 import me.yifeiyuan.flapdev.components.generictest.GenericModel;
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         models.add(new CustomModel());
         models.add(new GenericModel());
+        models.add(new SimpleDataBindingModel());
 
         return models;
     }

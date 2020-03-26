@@ -21,6 +21,7 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
+ * @since 1.1
  * @see FlapComponent
  * @see ComponentPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter

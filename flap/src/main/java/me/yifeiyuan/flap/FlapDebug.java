@@ -10,6 +10,7 @@ import android.util.Log;
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
  * @since 2018/12/13
+ * @since 1.1
  */
 final class FlapDebug {
 

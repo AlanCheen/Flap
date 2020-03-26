@@ -109,24 +109,25 @@ public class FlapProcessor extends AbstractProcessor {
     }
 
     /**
+     * 为 Component 生成 ComponentProxy
      * @param roundEnvironment 环境
      * @param typeElement      @Component
-     * @param flapItemElement  被 FlapItemFactory 注解了的那个类
-     * @param factory          注解了目标类的 注解，可以获取值
+     * @param flapComponentElement  被 FlapComponent 注解了的那个类
+     * @param componentProxy          注解了目标类的 注解，可以获取值
      *
      * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Component factory) {
+    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapComponentElement, final Component componentProxy) {
 
-        ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
+        ClassName flapItemClass = (ClassName) ClassName.get(flapComponentElement.asType());
 
         //要生成的类的名字
-        String targetClassName = flapItemElement.getSimpleName().toString() + NAME_SUFFIX;
+        String targetClassName = flapComponentElement.getSimpleName().toString() + NAME_SUFFIX;
 
-        int layoutId = factory.layoutId();
-        boolean autoRegister = factory.autoRegister();
+        int layoutId = componentProxy.layoutId();
+        boolean autoRegister = componentProxy.autoRegister();
 
-        DeclaredType declaredType = flapItemElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
+        DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
         TypeElement itemModelType = (TypeElement) typeUtils.asElement(args.get(0));
 
@@ -153,7 +154,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .addStatement("return " + layoutId)
                 .build();
 
-        MethodSpec getItemModelClass = MethodSpec.methodBuilder("getComponentModelClass")
+        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(Class.class)
@@ -168,7 +169,7 @@ public class FlapProcessor extends AbstractProcessor {
                         .addAnnotation(CLASS_KEEP)
                         .addMethod(onCreateViewHolderMethod)
                         .addMethod(getItemViewTypeMethod)
-                        .addMethod(getItemModelClass)
+                        .addMethod(getComponentModelClass)
                         .addSuperinterface(name);
 
         if (autoRegister) {
@@ -178,7 +179,7 @@ public class FlapProcessor extends AbstractProcessor {
     }
 
     /**
-     * 处理 ComponentFactoryManager 注解
+     * 处理 AutoRegister 注解，把需要自动注册的组件处理一下。
      *
      * @param roundEnvironment
      * @param typeElement

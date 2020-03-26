@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
  * todo
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/3/24 4:35 PM
- * @since 1.0
+ * @since 1.5
  */
 public interface IComponentModel {
 

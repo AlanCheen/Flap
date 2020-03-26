@@ -24,6 +24,7 @@ import me.yifeiyuan.flap.internal.DefaultComponent;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
+ * @since 1.1
  */
 @SuppressWarnings("unchecked")
 public final class Flap implements IFlap {

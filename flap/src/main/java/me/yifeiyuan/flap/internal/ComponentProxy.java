@@ -13,6 +13,7 @@ import me.yifeiyuan.flap.FlapComponent;
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @since 1.1
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface ComponentProxy<T, VH extends FlapComponent<T>> {

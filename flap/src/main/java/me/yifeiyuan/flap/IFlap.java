@@ -9,7 +9,7 @@ import me.yifeiyuan.flap.extensions.ComponentFlowListener;
  * @version 1.0
  * @since 1.1
  */
-interface IFlap extends ComponentManager, AdapterDelegate {
+interface IFlap extends ComponentRegistry, AdapterDelegate {
 
     void registerFlowListener(ComponentFlowListener componentFlowListener);
 

@@ -2,6 +2,7 @@ package me.yifeiyuan.flap;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
- * @since 1.1
+ * @since 1.0
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
@@ -126,6 +127,9 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
+        if (context instanceof LifecycleOwner) {
+            ((LifecycleOwner) context).getLifecycle().removeObserver(this);
+        }
     }
 
 }

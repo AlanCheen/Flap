@@ -7,6 +7,32 @@
 1. 尝试 Kotlin 化
 2. 迁移 androidx 
 
+### 1.5.1
+
+1. 重命名 `ComponentManager` --> `ComponentRegistry`;
+2. `Component` 注解里新增`useDataBinding`，来支持 DataBinding，默认为 false; 
+
+具体使用方法：
+
+1. 将 `useDataBinding` 设置为 true;
+2. 将组建的构造方法改为接收 ViewDataBinding 参数的构造方法（必须，否则会报错）;
+
+```java
+ @Component(layoutId = R.layout.flap_item_simple_databinding, useDataBinding = true)
+ public class SimpleDataBindingComponent extends FlapComponent<SimpleDataBindingModel> {
+     private FlapItemSimpleDatabindingBinding binding;
+     public SimpleDataBindingComponent(@NonNull final ViewDataBinding binding) {
+         super(binding.getRoot());
+         this.binding = (FlapItemSimpleDatabindingBinding) binding;
+     }
+     @Override
+     protected void onBind(@NonNull final SimpleDataBindingModel model) {
+         binding.setModel(model);
+         binding.executePendingBindings();
+     }
+ }
+```
+
 ### 1.5.0
 对齐脑子里的组件化设计思想，改了一堆名字，要挨骂了~
 

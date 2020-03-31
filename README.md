@@ -73,11 +73,25 @@ dependencies {
 }
 ```
 
+注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
+
+具体修改如下：
+
+```groovy
+//添加 kapt 插件
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
+  kapt 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+
+}
+```
+
 
 
 ### Flap 基本使用教程
-
-
 
 
 #### Step 1 : 创建你的 Model 类 :

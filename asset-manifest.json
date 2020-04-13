@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/flap/static/js/main.6d76e2ae.chunk.js",
-    "main.js.map": "/flap/static/js/main.6d76e2ae.chunk.js.map",
-    "runtime-main.js": "/flap/static/js/runtime-main.8b3aef76.js",
-    "runtime-main.js.map": "/flap/static/js/runtime-main.8b3aef76.js.map",
-    "static/js/2.de735516.chunk.js": "/flap/static/js/2.de735516.chunk.js",
-    "static/js/2.de735516.chunk.js.map": "/flap/static/js/2.de735516.chunk.js.map",
-    "index.html": "/flap/index.html",
-    "precache-manifest.994b5432bd8482720a102246cfc4fca7.js": "/flap/precache-manifest.994b5432bd8482720a102246cfc4fca7.js",
-    "service-worker.js": "/flap/service-worker.js",
-    "static/js/2.de735516.chunk.js.LICENSE.txt": "/flap/static/js/2.de735516.chunk.js.LICENSE.txt"
+    "main.js": "/Flap/static/js/main.6d76e2ae.chunk.js",
+    "main.js.map": "/Flap/static/js/main.6d76e2ae.chunk.js.map",
+    "runtime-main.js": "/Flap/static/js/runtime-main.cf21df34.js",
+    "runtime-main.js.map": "/Flap/static/js/runtime-main.cf21df34.js.map",
+    "static/js/2.de735516.chunk.js": "/Flap/static/js/2.de735516.chunk.js",
+    "static/js/2.de735516.chunk.js.map": "/Flap/static/js/2.de735516.chunk.js.map",
+    "index.html": "/Flap/index.html",
+    "precache-manifest.4786772d50307253dfd61b8aaf4bd568.js": "/Flap/precache-manifest.4786772d50307253dfd61b8aaf4bd568.js",
+    "service-worker.js": "/Flap/service-worker.js",
+    "static/js/2.de735516.chunk.js.LICENSE.txt": "/Flap/static/js/2.de735516.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.8b3aef76.js",
+    "static/js/runtime-main.cf21df34.js",
     "static/js/2.de735516.chunk.js",
     "static/js/main.6d76e2ae.chunk.js"
   ]

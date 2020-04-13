@@ -1,2 +1,2 @@
 (this["webpackJsonpflap-website"]=this["webpackJsonpflap-website"]||[]).push([[0],{7:function(e,t,n){e.exports=n(8)},8:function(e,t,n){"use strict";n.r(t);var a=n(2),r=n(3),c=n(6),l=n(5),o=n(0),u=n.n(o),p=n(4),i=n.n(p),s=function(e){Object(c.a)(n,e);var t=Object(l.a)(n);function n(){return Object(a.a)(this,n),t.apply(this,arguments)}return Object(r.a)(n,[{key:"render",value:function(){return u.a.createElement("p",null,"Hello Flap")}}]),n}(u.a.Component);i.a.render(u.a.createElement(s,null),document.getElementById("root"))}},[[7,1,2]]]);
-//# sourceMappingURL=main.696bc0b1.chunk.js.map
+//# sourceMappingURL=main.6d76e2ae.chunk.js.map

@@ -230,10 +230,7 @@ recyclerView.setAdapter(adapter);
 - 任何意见和建议都可以提喔~
 
 
-
 ## 贡献者列表
-
-
 
 感谢以下人员对 `Flap` 提供的帮助：
 
@@ -244,12 +241,3 @@ recyclerView.setAdapter(adapter);
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
-
-
-
-## 联系我
-
-我是程序亦非猿，阿里巴巴资深无线开发工程师一枚，如果有任何想法也非常欢迎通过公众号联系我，谢谢。
-
-<div align=center><img width="215" height="215" src="assets/public-wechat.jpeg"/></div>
-

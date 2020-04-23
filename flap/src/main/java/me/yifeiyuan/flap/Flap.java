@@ -24,6 +24,7 @@ import me.yifeiyuan.flap.internal.DefaultComponent;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
+ * @since 1.1
  */
 @SuppressWarnings("unchecked")
 public final class Flap implements IFlap {
@@ -81,19 +82,19 @@ public final class Flap implements IFlap {
     }
 
     @Override
-    public ComponentManager register(@NonNull final ComponentProxy itemFactory) {
+    public ComponentRegistry register(@NonNull final ComponentProxy itemFactory) {
         itemFactories.put(itemFactory.getComponentModelClass(), itemFactory);
         return this;
     }
 
     @Override
-    public ComponentManager unregister(@NonNull final ComponentProxy itemFactory) {
+    public ComponentRegistry unregister(@NonNull final ComponentProxy itemFactory) {
         itemFactories.remove(itemFactory.getComponentModelClass());
         return this;
     }
 
     @Override
-    public ComponentManager clearAll() {
+    public ComponentRegistry clearAll() {
         itemFactories.clear();
         factoryMapping.clear();
         return this;

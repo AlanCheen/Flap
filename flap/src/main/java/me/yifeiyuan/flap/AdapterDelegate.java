@@ -12,8 +12,8 @@ import java.util.List;
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
  * @since 2019/1/2
+ * @since 1.1
  */
 @SuppressWarnings("ALL")
 interface AdapterDelegate {

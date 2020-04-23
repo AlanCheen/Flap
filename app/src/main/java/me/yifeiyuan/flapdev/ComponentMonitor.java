@@ -11,7 +11,7 @@ import me.yifeiyuan.flap.internal.ComponentProxy;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/3/24 11:14 PM
- * @since 1.0
+ * @since 1.1
  */
 public class ComponentMonitor implements ComponentFlowListener {
 

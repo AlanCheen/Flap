@@ -14,22 +14,23 @@ import me.yifeiyuan.flap.internal.ComponentProxy;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
+ * @since 1.1
  */
 @SuppressWarnings("unused")
-interface ComponentManager {
+interface ComponentRegistry {
 
     /**
      * Register a ComponentProxy.
      */
-    ComponentManager register(@NonNull final ComponentProxy componentProxy);
+    ComponentRegistry register(@NonNull final ComponentProxy componentProxy);
 
     /**
      * Unregister a ComponentProxy.
      */
-    ComponentManager unregister(@NonNull final ComponentProxy componentProxy);
+    ComponentRegistry unregister(@NonNull final ComponentProxy componentProxy);
 
     /**
      * Clear all the ComponentProxies that you have registered.
      */
-    ComponentManager clearAll();
+    ComponentRegistry clearAll();
 }

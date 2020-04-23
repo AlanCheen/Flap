@@ -110,10 +110,11 @@ public class FlapProcessor extends AbstractProcessor {
 
     /**
      * 为 Component 生成 ComponentProxy
-     * @param roundEnvironment 环境
-     * @param typeElement      @Component
-     * @param flapComponentElement  被 FlapComponent 注解了的那个类
-     * @param componentProxy          注解了目标类的 注解，可以获取值
+     *
+     * @param roundEnvironment     环境
+     * @param typeElement          @Component
+     * @param flapComponentElement 被 FlapComponent 注解了的那个类
+     * @param componentProxy       注解了目标类的 注解，可以获取值
      *
      * @return ComponentProxy TypeSpec
      */
@@ -127,6 +128,8 @@ public class FlapProcessor extends AbstractProcessor {
         int layoutId = componentProxy.layoutId();
         boolean autoRegister = componentProxy.autoRegister();
 
+        boolean dataBinding = componentProxy.useDataBinding();
+
         DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
         TypeElement itemModelType = (TypeElement) typeUtils.asElement(args.get(0));
@@ -136,15 +139,21 @@ public class FlapProcessor extends AbstractProcessor {
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
 
-        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("createComponent")
+        MethodSpec.Builder onCreateViewHolderMethodBuilder = MethodSpec.methodBuilder("createComponent")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
                 .addParameter(viewGroup, "parent")
                 .addParameter(TypeName.INT, "layoutId")
-                .returns(flapItemClass)
-                .addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass)
-                .build();
+                .returns(flapItemClass);
+
+        if (dataBinding) {
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(android.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
+        } else {
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
+        }
+
+        MethodSpec onCreateViewHolderMethod = onCreateViewHolderMethodBuilder.build();
 
         MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)

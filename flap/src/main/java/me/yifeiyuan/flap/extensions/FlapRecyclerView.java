@@ -14,6 +14,7 @@ import me.yifeiyuan.flap.FlapAdapter;
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2019-10-08 15:00
+ * @since 1.5
  */
 public class FlapRecyclerView extends RecyclerView {
 

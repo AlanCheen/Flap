@@ -73,11 +73,25 @@ dependencies {
 }
 ```
 
+注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
+
+具体修改如下：
+
+```groovy
+//添加 kapt 插件
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
+  kapt 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+
+}
+```
+
 
 
 ### Flap 基本使用教程
-
-
 
 
 #### Step 1 : 创建你的 Model 类 :
@@ -216,10 +230,7 @@ recyclerView.setAdapter(adapter);
 - 任何意见和建议都可以提喔~
 
 
-
 ## 贡献者列表
-
-
 
 感谢以下人员对 `Flap` 提供的帮助：
 
@@ -230,12 +241,3 @@ recyclerView.setAdapter(adapter);
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
-
-
-
-## 联系我
-
-我是程序亦非猿，阿里巴巴资深无线开发工程师一枚，如果有任何想法也非常欢迎通过公众号联系我，谢谢。
-
-<div align=center><img width="215" height="215" src="assets/public-wechat.jpeg"/></div>
-

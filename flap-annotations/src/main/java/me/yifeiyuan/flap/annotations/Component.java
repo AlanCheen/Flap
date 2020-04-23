@@ -24,30 +24,12 @@ public @interface Component {
     /**
      * @return true then Flap will auto register this component.
      *
-     * @since
+     * @since 1.1.0
      */
     boolean autoRegister() default true;
 
     /**
-     * 是否使用 DataBinding，假如使用 DataBinding,那么组件的构造方法需要做一定的修改：
-     * <pre>
-     * @Component(layoutId = R.layout.flap_item_simple_databinding, useDataBinding = true)
-     * public class SimpleDataBindingComponent extends FlapComponent<SimpleDataBindingModel> {
-     *
-     *     private FlapItemSimpleDatabindingBinding binding;
-     *
-     *     public SimpleDataBindingComponent(@NonNull final ViewDataBinding binding) {
-     *         super(binding.getRoot());
-     *         this.binding = (FlapItemSimpleDatabindingBinding) binding;
-     *     }
-     *
-     *     @Override
-     *     protected void onBind(@NonNull final SimpleDataBindingModel model) {
-     *         binding.setModel(model);
-     *         binding.executePendingBindings();
-     *     }
-     * }
-     * </pre>
+     * 是否使用 DataBinding，假如使用 DataBinding,那么组件的构造方法需要做一定的修改
      *
      * @return 如果要使用 DataBinding 则设置 true
      *

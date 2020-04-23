@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * 自动注册组件
  * @author 程序亦非猿
  * @date 2019-03-26
  */

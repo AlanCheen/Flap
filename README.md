@@ -237,11 +237,21 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 
 
-### 谁在使用 Flap ？
+## 谁在使用 Flap ？
 
 如果你在你的 App 使用了 Flap 开发，请一定要联系我，将会在这里展示哟。
 
 
+## TODO
+
+-[] 迁移 AndroidX；
+-[] FlapRecyclerView 进一步简化；
+-[] Component 注解支持 DataBinding；
+-[x] APT 实现组件自动注册；
+-[x] 使用 APT 自动生成 Component 相关样板代码；
+-[x] 支持组件全局缓存；
+-[x] 支持组件监听生命周期事件，Lifecycle 接入；
+-[x] 支持 AsyncListDiffer；
 
 
 ## 贡献
@@ -250,7 +260,6 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 - 发现 `Flap` 超好用？**star 一波，安利给所有的小伙伴！**
 - 发现有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 任何意见和建议都可以提喔~
-
 
 ## 贡献者列表
 

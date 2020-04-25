@@ -244,14 +244,15 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 ## TODO
 
--[] 迁移 AndroidX；
--[] FlapRecyclerView 进一步简化；
--[] Component 注解支持 DataBinding；
--[x] APT 实现组件自动注册；
--[x] 使用 APT 自动生成 Component 相关样板代码；
--[x] 支持组件全局缓存；
--[x] 支持组件监听生命周期事件，Lifecycle 接入；
--[x] 支持 AsyncListDiffer；
+- [ ] 【P2】Kotlin 改造；
+- [ ] 【P1】迁移 AndroidX；
+- [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
+- [x] Component 注解支持 DataBinding；
+- [x] APT 实现组件自动注册；
+- [x] 使用 APT 自动生成 Component 相关样板代码；
+- [x] 支持组件全局缓存；
+- [x] 支持组件监听生命周期事件，Lifecycle 接入；
+- [x] 支持 AsyncListDiffer；
 
 
 ## 贡献

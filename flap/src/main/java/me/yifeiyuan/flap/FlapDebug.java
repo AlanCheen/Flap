@@ -3,11 +3,14 @@ package me.yifeiyuan.flap;
 import android.util.Log;
 
 /**
- * Flap
- * Created by 程序亦非猿 on 2018/12/13.
- *
  * Debug helper for Flap.
  *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
+ * @since 2018/12/13
+ * @since 1.1
  */
 final class FlapDebug {
 

@@ -32,22 +32,22 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.Flap;
-import me.yifeiyuan.flap.annotations.FlapItemFactoryManager;
+import me.yifeiyuan.flap.annotations.AutoRegister;
+import me.yifeiyuan.flap.annotations.Component;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
 
-    private static final String PKG_NAME_FACTORIES = "me.yifeiyuan.flap.apt.factories";
+    private static final String PKG_NAME_PROXIES = "me.yifeiyuan.flap.apt.proxies";
     private static final String PKG_NAME_MANAGER = "me.yifeiyuan.flap.apt.manager";
 
-    private static final String FACTORY_NAME_SUFFIX = "Factory";
+    private static final String NAME_SUFFIX = "Proxy";
 
     private final ClassName CLASS_KEEP = ClassName.bestGuess("android.support.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
-    private final ClassName CLASS_FLAP_ITEM_FACTORY = ClassName.bestGuess("me.yifeiyuan.flap.internal.FlapItemFactory");
+    private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
-    private static final String KEY_OPTION_AUTOREGISTER = "autoRegister";
+    private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
 
     private Filer filer;
     private Elements elementUtils;
@@ -69,8 +69,8 @@ public class FlapProcessor extends AbstractProcessor {
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
 
         Map<String, String> options = processingEnv.getOptions();
-        if (options.containsKey(KEY_OPTION_AUTOREGISTER)) {
-            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTOREGISTER));
+        if (options.containsKey(KEY_OPTION_AUTO_REGISTER)) {
+            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTO_REGISTER));
         }
     }
 
@@ -79,26 +79,26 @@ public class FlapProcessor extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (Flap.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processFlapAnnotation(roundEnvironment, typeElement);
-            } else if (FlapItemFactoryManager.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processFlapItemFactoryManager(roundEnvironment, typeElement);
+            if (Component.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponent(roundEnvironment, typeElement);
+            } else if (AutoRegister.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+                processComponentProxyManager(roundEnvironment, typeElement);
             }
         }
 
         return true;
     }
 
-    private void processFlapAnnotation(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    private void processComponent(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Flap.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Component.class);
 
         for (final Element element : elements) {
-            Flap factory = element.getAnnotation(Flap.class);
+            Component factory = element.getAnnotation(Component.class);
             if (null != factory) {
                 try {
-                    TypeSpec flapItemFactoryTypeSpec = createFlapItemTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
-                    JavaFile.builder(PKG_NAME_FACTORIES, flapItemFactoryTypeSpec)
+                    TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
+                    JavaFile.builder(PKG_NAME_PROXIES, flapItemFactoryTypeSpec)
                             .build()
                             .writeTo(filer);
                 } catch (IOException e) {
@@ -109,24 +109,28 @@ public class FlapProcessor extends AbstractProcessor {
     }
 
     /**
-     * @param roundEnvironment 环境
-     * @param typeElement      @Flap
-     * @param flapItemElement  被 FlapItemFactory 注解了的那个类
-     * @param factory          注解了目标类的 注解，可以获取值
+     * 为 Component 生成 ComponentProxy
      *
-     * @return FlapItemFactory TypeSpec
+     * @param roundEnvironment     环境
+     * @param typeElement          @Component
+     * @param flapComponentElement 被 FlapComponent 注解了的那个类
+     * @param componentProxy       注解了目标类的 注解，可以获取值
+     *
+     * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createFlapItemTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapItemElement, final Flap factory) {
+    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapComponentElement, final Component componentProxy) {
 
-        ClassName flapItemClass = (ClassName) ClassName.get(flapItemElement.asType());
+        ClassName flapItemClass = (ClassName) ClassName.get(flapComponentElement.asType());
 
         //要生成的类的名字
-        String targetClassName = flapItemElement.getSimpleName().toString() + FACTORY_NAME_SUFFIX;
+        String targetClassName = flapComponentElement.getSimpleName().toString() + NAME_SUFFIX;
 
-        int layoutId = factory.layoutId();
-        boolean autoRegister = factory.autoRegister();
+        int layoutId = componentProxy.layoutId();
+        boolean autoRegister = componentProxy.autoRegister();
 
-        DeclaredType declaredType = flapItemElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
+        boolean dataBinding = componentProxy.useDataBinding();
+
+        DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
         TypeElement itemModelType = (TypeElement) typeUtils.asElement(args.get(0));
 
@@ -135,15 +139,21 @@ public class FlapProcessor extends AbstractProcessor {
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
 
-        MethodSpec onCreateViewHolderMethod = MethodSpec.methodBuilder("onCreateViewHolder")
+        MethodSpec.Builder onCreateViewHolderMethodBuilder = MethodSpec.methodBuilder("createComponent")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
                 .addParameter(viewGroup, "parent")
                 .addParameter(TypeName.INT, "layoutId")
-                .returns(flapItemClass)
-                .addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass)
-                .build();
+                .returns(flapItemClass);
+
+        if (dataBinding) {
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(android.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
+        } else {
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
+        }
+
+        MethodSpec onCreateViewHolderMethod = onCreateViewHolderMethodBuilder.build();
 
         MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)
@@ -153,14 +163,14 @@ public class FlapProcessor extends AbstractProcessor {
                 .addStatement("return " + layoutId)
                 .build();
 
-        MethodSpec getItemModelClass = MethodSpec.methodBuilder("getItemModelClass")
+        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(Class.class)
                 .addStatement("return " + itemModelClass + ".class")
                 .build();
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_FLAP_ITEM_FACTORY, itemModelClass, flapItemClass);
+        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_COMPONENT_PROXY, itemModelClass, flapItemClass);
 
         TypeSpec.Builder builder =
                 TypeSpec.classBuilder(targetClassName)
@@ -168,32 +178,37 @@ public class FlapProcessor extends AbstractProcessor {
                         .addAnnotation(CLASS_KEEP)
                         .addMethod(onCreateViewHolderMethod)
                         .addMethod(getItemViewTypeMethod)
-                        .addMethod(getItemModelClass)
-                        .addSuperinterface(name);//实现接口
+                        .addMethod(getComponentModelClass)
+                        .addSuperinterface(name);
 
         if (autoRegister) {
-            builder.addAnnotation(FlapItemFactoryManager.class);
+            builder.addAnnotation(AutoRegister.class);
         }
         return builder.build();
     }
 
-    private void processFlapItemFactoryManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+    /**
+     * 处理 AutoRegister 注解，把需要自动注册的组件处理一下。
+     *
+     * @param roundEnvironment
+     * @param typeElement
+     */
+    private void processComponentProxyManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
         if (!autoRegisterFactories) {
             return;
         }
         List<ClassName> factories = new ArrayList<>();
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(FlapItemFactoryManager.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(AutoRegister.class);
 
         for (final Element element : elements) {
-
             TypeElement flapItemFactory = (TypeElement) element;
             ClassName factoryClass = ClassName.get(flapItemFactory);
             factories.add(factoryClass);
         }
 
-        TypeSpec manager = TypeSpec.classBuilder("FlapItemFactoryManager")
+        TypeSpec manager = TypeSpec.classBuilder("ComponentAutoRegister")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addAnnotation(CLASS_KEEP)
                 .addMethod(createInjectMethod(factories))
@@ -229,12 +244,12 @@ public class FlapProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotationTypes = new LinkedHashSet<>();
-        annotationTypes.add(Flap.class.getCanonicalName());
-        annotationTypes.add(FlapItemFactoryManager.class.getCanonicalName());
+        annotationTypes.add(Component.class.getCanonicalName());
+        annotationTypes.add(AutoRegister.class.getCanonicalName());
         return annotationTypes;
     }
 
-    public class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
+    private static class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
 
         @Override
         public DeclaredType visitDeclared(DeclaredType declaredType, Void o) {

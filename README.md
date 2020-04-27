@@ -4,48 +4,11 @@
 
 ------
 
-
-
-`Flap` 是一个专门优化 `RecyclerView.Adapter` 使用体验的库，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
+`Flap` 是一个专门针对页面组件化方案的库，并且提供页面组件化的能力，提供更加强大的 `FlapComponent` 替代 `ViewHolder`，`FlapAdapter` 替代 `Adapter`，优化了很多较差的使用体验，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
 
 [README_EN](./README_EN.md)
 
-### Flap 的优点与特性
-
-  
-
-Flap 重点类先知：
-
-- `FlapItem`，它是 `Flap` 对原生 `ViewHolder` 的封装扩展，提供了更多优秀的功能以及便捷的方法，将你原来的 `ViewHolder` 继承它即可（可以理解为一个有更多功能的 `ViewHolder`）；
-- `FlapAdapter` 是对 `RecyclerView.Adapter` 的封装扩展，优化了大量逻辑，如解耦了 `ViewHolder` 创建以及绑定等相关逻辑，让 `Adapter` 更加易用；
-
-
-
-### Flap 的优点
-
-
-
-可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
-
-
-
-1. `Flap` 优化了 `FlapItem` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
-2. **使用工厂模式为 FlapItem 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
-3. **优化 FlapItem 的创建过程**：FlapItem 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
-4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 FlapItem 的创建以及绑定过程**，你不需要关注 FlapItem 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
-
-
-
-#### Flap 的功能特性
-
-
-
-1. `FlapItem` 内置成员变量 `context` 可以轻松获取 `context` 对象；
-2. `FlapItem` 内置 `findViewById(@IdRes int viewId)` 方法，替代`itemView.findViewById`，提高效率；
-3. `FlapItem` 提供 `onViewAttachedToWindow` 和 `onViewDetachedFromWindow` 方法的回调，你可以通过重写轻松获取；
-4. 内置 `DifferFlapAdapter` 支持 `AsyncListDiffer` ——目前 RecyclerView **最高效的刷新数据的方式**，让你一次集成就达到最佳的优化效果;
-5. 默认设置全局的 `RecycledViewPool` ，并支持自定义设置：让每个创建过的 `FlapItem` 得到充分使用;
-6. 内置 `LifecycleItem` ：支持感知 Activity/Fragment 的生命周期事件，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**;
+## 一分钟入门指南
 
 
 
@@ -55,10 +18,6 @@ Flap 重点类先知：
 | module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
 | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
-
-
-
-## 一分钟入门指南
 
 
 
@@ -76,11 +35,25 @@ dependencies {
 }
 ```
 
+注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
+
+具体修改如下：
+
+```groovy
+//添加 kapt 插件
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
+  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
+  kapt 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+
+}
+```
+
 
 
 ### Flap 基本使用教程
-
-
 
 
 #### Step 1 : 创建你的 Model 类 :
@@ -97,29 +70,27 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : 创建一个 `FlapItem` 并用`@Flap`修饰 :
+#### Step 2 : 创建一个 `FlapComponent` 并用`@Component`修饰 :
 
-注：`FlapItem` 是一个 `ViewHolder` ，在 `Flap` 内部使用 ，是 `Flap` 的基础，把你原来的 `ViewHolder` 继承它即可。
+`FlapComponent` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
 
-需要在 @Flap 注解中给 `layoutId` 赋值为该 Item 的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
+另外需要在 `@Component` 注解中给 `layoutId` 赋值为该组件的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
 
 举个🌰 ：
 
 ```java
-@Flap(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextItem extends FlapItem<SimpleTextModel> {
-
-    private static final String TAG = "SimpleTextItem";
+@Component(layoutId = R.layout.flap_item_simple_text)
+public class SimpleTextComponent extends FlapComponent<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItem(final View itemView) {
+    public SimpleTextComponent(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleTextModel model) {
         tvContent.setText(model.content);
     }
 }
@@ -158,21 +129,62 @@ recyclerView.setAdapter(adapter);
 
 
 
-### 与 Lifecycle 完美结合的产物：LifecycleItem
+## 进阶使用教程
 
 
 
-在一些业务场景下我们在 `ViewHolder` 中需要感知生命周期，`Flap` 内置了一个 `LifecycleItem` ，通过继承它你就可以得到`onResume` 、`onPause`、`onStop`、`onDestroy`  的回调。
+### FlapComponent 高级用法
 
 
 
-如果觉得不够，你也加更多的方法，甚至你可以让你的 FlapItem 实现 `LifecycleObserver` 接口，`FlapAdapter` 会帮你自动绑定 `LifecycleOwner` ，生命周期问题从此不再出现。
+#### 更便捷好用的属性与回调方法
 
 
+
+1. `FlapComponent` 内置成员变量 `context` 可以轻松获取 `context` 对象；
+2. `FlapComponent` 内置 `findViewById(@IdRes int viewId)` 方法，替代`itemView.findViewById`，提高效率；
+3. `FlapComponent` 提供 `onViewAttachedToWindow` 和 `onViewDetachedFromWindow` 方法的回调，你可以通过重写轻松获取；
+
+
+
+`FlapComponent` 的属性与方法：
+
+```java
+protected final Context context；
+  
+protected abstract void onBind(@NonNull final T model)
+  
+protected void onBind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter)
+
+protected void onViewAttachedToWindow(final FlapAdapter flapAdapter)
+protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter)
+
+protected void onVisibilityChanged(final boolean visible)
+public boolean isVisible()
+
+protected void onViewRecycled(final FlapAdapter flapAdapter)
+protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter)
+
+protected final <V extends View> V findViewById(@IdRes int viewId)
+```
+
+
+
+#### 感知生命周期
+
+
+
+在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `FlapComponent` 你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
+
+
+
+如果觉得不够，你也加更多的方法。
+
+
+
+`FlapAdapter` 会帮你自动绑定 `LifecycleOwner` ，生命周期问题从此不再出现。
 
 相关的方法：
-
-
 
 1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
@@ -187,6 +199,21 @@ recyclerView.setAdapter(adapter);
 
 
 
+## Flap 的优点
+
+
+
+可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
+
+
+
+1. `Flap` 优化了 `FlapComponent` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
+2. **使用工厂模式为 FlapComponent 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
+3. **优化 FlapComponent 的创建过程**：FlapComponent 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
+4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 FlapComponent 的创建以及绑定过程**，你不需要关注 FlapComponent 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+
+
+
 ## 变更日志
 
 
@@ -194,18 +221,15 @@ recyclerView.setAdapter(adapter);
 版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
 
 
-
-
-
 ## FAQ
 
-#### 1. 如何设置 FlapItem 的点击事件？
+#### 1. 如何设置 FlapComponent 的点击事件？
 
-答：Flap 并没有提供一个全局的点击事件处理方法，而是推荐在 FlapItem 的 onBind 方法里给 itemView 设置 onClick 事件，这样更清晰。
+答：Flap 并没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
-#### 2. 我想在 FlapItem 里用 context 怎么办？
+#### 2. 我想在 FlapComponent 里用 context 怎么办？
 
-答：`FlapItem` 有个字段 `context` 你可以直接访问使用。
+答：`FlapComponent` 有个字段 `context` 你可以直接访问使用。
 
 #### 3. Flap 有上拉加载、Header/Footer的功能吗？
 
@@ -213,25 +237,32 @@ recyclerView.setAdapter(adapter);
 
 
 
-### 谁在使用 Flap ？
+## 谁在使用 Flap ？
 
 如果你在你的 App 使用了 Flap 开发，请一定要联系我，将会在这里展示哟。
 
 
+## TODO
+
+- [ ] 【P2】Kotlin 改造；
+- [ ] 【P1】迁移 AndroidX；
+- [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
+- [x] Component 注解支持 DataBinding；
+- [x] APT 实现组件自动注册；
+- [x] 使用 APT 自动生成 Component 相关样板代码；
+- [x] 支持组件全局缓存；
+- [x] 支持组件监听生命周期事件，Lifecycle 接入；
+- [x] 支持 AsyncListDiffer；
 
 
 ## 贡献
 
 - 发现 `Flap` 有 Bug？提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 发现 `Flap` 超好用？**star 一波，安利给所有的小伙伴！**
-- 发现 有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
+- 发现有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 任何意见和建议都可以提喔~
 
-
-
 ## 贡献者列表
-
-
 
 感谢以下人员对 `Flap` 提供的帮助：
 
@@ -242,12 +273,3 @@ recyclerView.setAdapter(adapter);
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
-
-
-
-## 联系我
-
-我是程序亦非猿，阿里巴巴资深无线开发工程师一枚，如果有任何想法也非常欢迎通过公众号联系我，谢谢。
-
-<div align=center><img width="215" height="215" src="assets/public-wechat.jpeg"/></div>
-

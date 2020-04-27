@@ -24,6 +24,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 
@@ -39,8 +43,11 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-
     annotationProcessor project(':flap-compiler')
+
+//    implementation 'me.yifeiyuan.flap:flap-annotations:1.5.1'
+//    implementation 'me.yifeiyuan.flap:flap:1.5.1'
+//    annotationProcessor 'me.yifeiyuan.flap:flap-compiler:1.5.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -1,16 +1,16 @@
-package me.yifeiyuan.flapdev.items.base;
+package me.yifeiyuan.flapdev.components.base;
 
 import android.view.View;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.FlapItem;
+import me.yifeiyuan.flap.FlapComponent;
 
 /**
  * Created by 程序亦非猿 on 2018/12/29.
  */
-public abstract class BaseFlapItem<T extends BaseModel> extends FlapItem<T> {
+public abstract class BaseFlapComponent<T extends BaseModel> extends FlapComponent<T> {
 
-    public BaseFlapItem(final View itemView) {
+    public BaseFlapComponent(final View itemView) {
         super(itemView);
     }
 

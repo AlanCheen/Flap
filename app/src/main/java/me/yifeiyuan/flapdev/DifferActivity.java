@@ -3,6 +3,7 @@ package me.yifeiyuan.flapdev;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.extensions.DifferFlapAdapter;
-import me.yifeiyuan.flapdev.items.simpletext.SimpleTextModel;
+import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 
 /**
  * Testing for DifferFlapAdapter
@@ -38,6 +39,12 @@ public class DifferActivity extends AppCompatActivity {
             @Override
             public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
                 return simpleTextModel.equals(t1);
+            }
+
+            @Nullable
+            @Override
+            public Object getChangePayload(@NonNull final SimpleTextModel oldItem, @NonNull final SimpleTextModel newItem) {
+                return super.getChangePayload(oldItem, newItem);
             }
         });
 

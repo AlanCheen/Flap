@@ -7,41 +7,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
-import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.FlapItem;
+import me.yifeiyuan.flap.FlapComponent;
 
 /**
- * Created by 程序亦非猿
- *
  * DefaultFlapItem is a build-in FlapItem that would be used when something went wrong .
  *
  * So that Flap won't crash your App.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ *
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public final class DefaultFlapItem extends FlapItem {
+public final class DefaultComponent extends FlapComponent {
 
     private static final int DEFAULT_ITEM_TYPE = -66666;
 
-    public DefaultFlapItem(final View itemView) {
+    public DefaultComponent(final View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void onBind(@NonNull final Object model, final int position, @NonNull final List payloads, @NonNull final FlapAdapter adapter) {
+    protected void onBind(@NonNull final Object model) {
 
     }
 
-    public static class Factory implements FlapItemFactory {
+    public static class Factory implements ComponentProxy {
 
         @NonNull
         @Override
-        public FlapItem onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public FlapComponent createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             View view = new View(parent.getContext());
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             view.setLayoutParams(layoutParams);
-            return new DefaultFlapItem(view);
+            return new DefaultComponent(view);
         }
 
         @Override
@@ -50,8 +50,8 @@ public final class DefaultFlapItem extends FlapItem {
         }
 
         @Override
-        public Class getItemModelClass() {
-            return null;
+        public Class getComponentModelClass() {
+            return Object.class;
         }
     }
 }

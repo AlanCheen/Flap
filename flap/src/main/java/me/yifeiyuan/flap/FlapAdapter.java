@@ -10,21 +10,25 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yifeiyuan.flap.extensions.ComponentPool;
+
 import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
- * Created by 程序亦非猿
- *
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
  *
  * Check these also if need :
  *
- * @see FlapItem
- * @see me.yifeiyuan.flap.extensions.LifecycleItem
- * @see FlapItemPool
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @version 1.0
+ * @since 1.1
+ * @see FlapComponent
+ * @see ComponentPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
-public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
+public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
 
     @NonNull
     private final Flap flap = Flap.getDefault();
@@ -40,17 +44,17 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
 
     @NonNull
     @Override
-    public FlapItem onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+    public FlapComponent onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return flap.onCreateViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType);
     }
 
     @Override
-    public final void onBindViewHolder(@NonNull final FlapItem holder, final int position) {
+    public final void onBindViewHolder(@NonNull final FlapComponent holder, final int position) {
         //ignore
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FlapItem holder, final int position, @NonNull final List<Object> payloads) {
+    public void onBindViewHolder(@NonNull final FlapComponent holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
         flap.onBindViewHolder(holder, position, getItem(position), payloads, this);
     }
@@ -60,8 +64,8 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
      *
      * @param holder The holder we are going to bind.
      */
-    private void attachLifecycleOwnerIfNeed(final FlapItem holder) {
-        if (lifecycleEnable && lifecycleOwner != null && holder instanceof LifecycleObserver) {
+    private void attachLifecycleOwnerIfNeed(@NonNull final FlapComponent holder) {
+        if (lifecycleEnable && lifecycleOwner != null) {
             lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
         }
     }
@@ -83,30 +87,30 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
             setLifecycleOwner((LifecycleOwner) recyclerView.getContext());
         }
         if (useFlapItemPool) {
-            recyclerView.setRecycledViewPool(flap.getFlapItemPool());
+            recyclerView.setRecycledViewPool(flap.getComponentPool());
         }
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull FlapItem holder) {
+    public void onViewAttachedToWindow(@NonNull FlapComponent holder) {
         super.onViewAttachedToWindow(holder);
         flap.onViewAttachedToWindow(holder, this);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull FlapItem holder) {
+    public void onViewDetachedFromWindow(@NonNull FlapComponent holder) {
         super.onViewDetachedFromWindow(holder);
         flap.onViewDetachedFromWindow(holder, this);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final FlapItem holder) {
+    public void onViewRecycled(@NonNull final FlapComponent holder) {
         super.onViewRecycled(holder);
         flap.onViewRecycled(holder, this);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final FlapItem holder) {
+    public boolean onFailedToRecycleView(@NonNull final FlapComponent holder) {
         return flap.onFailedToRecycleView(holder, this);
     }
 
@@ -152,7 +156,7 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapItem> {
      *
      * @return this
      */
-    public FlapAdapter setUseFlapItemPool(final boolean enable) {
+    public FlapAdapter setUseComponentPool(final boolean enable) {
         this.useFlapItemPool = enable;
         return this;
     }

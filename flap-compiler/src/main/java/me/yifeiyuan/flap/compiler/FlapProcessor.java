@@ -148,7 +148,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .returns(flapItemClass);
 
         if (dataBinding) {
-            onCreateViewHolderMethodBuilder.addStatement("return new $T(android.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
         } else {
             onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
         }

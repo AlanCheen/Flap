@@ -1,6 +1,6 @@
 package me.yifeiyuan.flapdev.components.generictest;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import me.yifeiyuan.flap.annotations.Component;

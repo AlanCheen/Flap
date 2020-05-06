@@ -1,6 +1,6 @@
 package me.yifeiyuan.flap.extensions;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import me.yifeiyuan.flap.FlapAdapter;
 

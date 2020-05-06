@@ -1,7 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel

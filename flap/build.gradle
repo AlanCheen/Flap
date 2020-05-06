@@ -33,7 +33,7 @@ dependencies {
 
 apply plugin: "guru.stefma.bintrayrelease"
 
-version = "1.5.1"
+version = "1.5.2"
 group = "me.yifeiyuan.flap"
 androidArtifact {
     artifactId = "flap"

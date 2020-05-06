@@ -29,7 +29,6 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
 
     public static class Factory implements ComponentProxy<CustomModel, CustomViewTypeComponent> {
 
-        @NotNull
         @NonNull
         @Override
         public CustomViewTypeComponent createComponent(@NotNull @NonNull final LayoutInflater inflater, @NotNull @NonNull final ViewGroup parent, final int viewType) {

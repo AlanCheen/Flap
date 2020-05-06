@@ -15,9 +15,10 @@ import java.util.Map;
 
 import me.yifeiyuan.flap.exceptions.ComponentProxyNotFoundException;
 import me.yifeiyuan.flap.extensions.ComponentFlowListener;
+import me.yifeiyuan.flap.extensions.ComponentPerformanceMonitor;
 import me.yifeiyuan.flap.extensions.ComponentPool;
 import me.yifeiyuan.flap.internal.ComponentProxy;
-import me.yifeiyuan.flap.internal.DefaultComponent;
+import me.yifeiyuan.flap.internal.DefaultComponent.Proxy;
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
@@ -32,14 +33,20 @@ public final class Flap implements IFlap {
     private static final String TAG = "Flap";
 
     static final int DEFAULT_ITEM_TYPE_COUNT = 32;
+    /**
+     * Model class 与 ComponentProxy 的映射关系
+     */
+    private final Map<Class<?>, ComponentProxy<?, ?>> componentProxyMap;
+    /**
+     * itemViewType 与 ComponentProxy 的映射关系
+     */
+    private final SparseArray<ComponentProxy<?, ?>> viewTypeProxyMapping;
 
-    private final Map<Class<?>, ComponentProxy<?, ?>> itemFactories;
-    private final SparseArray<ComponentProxy<?, ?>> factoryMapping;
     private final List<ComponentFlowListener> flowListeners = Collections.synchronizedList(new ArrayList<ComponentFlowListener>());
 
     private static final ComponentPool GLOBAL_POOL = new ComponentPool();
 
-    private static final DefaultComponent.Factory DEFAULT_FACTORY = new DefaultComponent.Factory();
+    private static final ComponentProxy DEFAULT_FACTORY = new Proxy();
 
     private static volatile Flap sInstance;
 
@@ -59,12 +66,13 @@ public final class Flap implements IFlap {
     }
 
     private Flap(int typeCount) {
-        itemFactories = new HashMap<>(typeCount);
-        factoryMapping = new SparseArray<>(typeCount);
+        componentProxyMap = new HashMap<>(typeCount);
+        viewTypeProxyMapping = new SparseArray<>(typeCount);
+        registerFlowListener(new ComponentPerformanceMonitor());
         injectFactories(this);
     }
 
-    private void injectFactories(final Flap flap) {
+    private void injectFactories(@NonNull final Flap flap) {
         try {
             Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
             Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
@@ -83,20 +91,20 @@ public final class Flap implements IFlap {
 
     @Override
     public ComponentRegistry register(@NonNull final ComponentProxy itemFactory) {
-        itemFactories.put(itemFactory.getComponentModelClass(), itemFactory);
+        componentProxyMap.put(itemFactory.getComponentModelClass(), itemFactory);
         return this;
     }
 
     @Override
     public ComponentRegistry unregister(@NonNull final ComponentProxy itemFactory) {
-        itemFactories.remove(itemFactory.getComponentModelClass());
+        componentProxyMap.remove(itemFactory.getComponentModelClass());
         return this;
     }
 
     @Override
     public ComponentRegistry clearAll() {
-        itemFactories.clear();
-        factoryMapping.clear();
+        componentProxyMap.clear();
+        viewTypeProxyMapping.clear();
         return this;
     }
 
@@ -104,10 +112,10 @@ public final class Flap implements IFlap {
     public int getItemViewType(@NonNull final Object model) {
         Class<?> modelClazz = model.getClass();
 
-        ComponentProxy factory = itemFactories.get(modelClazz);
+        ComponentProxy factory = componentProxyMap.get(modelClazz);
         if (null != factory) {
             int itemViewType = factory.getItemViewType(model);
-            factoryMapping.put(itemViewType, factory);
+            viewTypeProxyMapping.put(itemViewType, factory);
             return itemViewType;
         } else {
             FlapDebug.throwIfDebugging(new ComponentProxyNotFoundException("Can't find the ComponentProxy for : " + modelClazz + " , please register first!"));
@@ -119,7 +127,7 @@ public final class Flap implements IFlap {
     @Override
     public FlapComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
         FlapComponent vh = null;
-        ComponentProxy<?, ?> factory = factoryMapping.get(viewType);
+        ComponentProxy<?, ?> factory = viewTypeProxyMapping.get(viewType);
         dispatchBeforeCreateComponentEvent(factory, viewType);
         if (factory != null) {
             try {

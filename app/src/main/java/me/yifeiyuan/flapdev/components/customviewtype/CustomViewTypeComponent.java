@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.FlapComponent;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flapdev.R;
@@ -27,9 +29,10 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
 
     public static class Factory implements ComponentProxy<CustomModel, CustomViewTypeComponent> {
 
+        @NotNull
         @NonNull
         @Override
-        public CustomViewTypeComponent createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public CustomViewTypeComponent createComponent(@NotNull @NonNull final LayoutInflater inflater, @NotNull @NonNull final ViewGroup parent, final int viewType) {
             return new CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 
@@ -38,6 +41,7 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
             return CUSTOM_ITEM_VIEW_TYPE;
         }
 
+        @NotNull
         @Override
         public Class<CustomModel> getComponentModelClass() {
             return CustomModel.class;

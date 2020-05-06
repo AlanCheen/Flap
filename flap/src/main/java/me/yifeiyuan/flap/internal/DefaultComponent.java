@@ -33,7 +33,7 @@ public final class DefaultComponent extends FlapComponent {
 
     }
 
-    public static class Factory implements ComponentProxy {
+    public static class Proxy implements ComponentProxy {
 
         @NonNull
         @Override

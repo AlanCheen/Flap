@@ -117,8 +117,8 @@ public final class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-        FlapComponent vh = null;
+    public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        Component vh = null;
         ComponentProxy<?, ?> factory = factoryMapping.get(viewType);
         dispatchBeforeCreateComponentEvent(factory, viewType);
         if (factory != null) {
@@ -142,7 +142,7 @@ public final class Flap implements IFlap {
         }
     }
 
-    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final FlapComponent vh) {
+    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final Component vh) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentCreated(factory, vh);
         }
@@ -150,41 +150,41 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final FlapComponent component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+    public void onBindViewHolder(@NonNull final Component component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
         dispatchOnBeforeBindComponent(component, position, model);
         component.bind(model, position, payloads, flapAdapter);
         dispatchOnComponentBound(component, position, model);
     }
 
-    private void dispatchOnBeforeBindComponent(@NonNull final FlapComponent component, final int position, final Object model) {
+    private void dispatchOnBeforeBindComponent(@NonNull final Component component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onStartBindComponent(component, position, model);
         }
     }
 
-    private void dispatchOnComponentBound(@NonNull final FlapComponent component, final int position, final Object model) {
+    private void dispatchOnComponentBound(@NonNull final Component component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentBound(component, position, model);
         }
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewAttachedToWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewDetachedFromWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewRecycled(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public boolean onFailedToRecycleView(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
         return component.onFailedToRecycleView(flapAdapter);
     }
 

@@ -3,12 +3,12 @@ package me.yifeiyuan.flapdev.components.base;
 import android.view.View;
 
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.FlapComponent;
+import me.yifeiyuan.flap.Component;
 
 /**
  * Created by 程序亦非猿 on 2018/12/29.
  */
-public abstract class BaseFlapComponent<T extends BaseModel> extends FlapComponent<T> {
+public abstract class BaseFlapComponent<T extends BaseModel> extends Component<T> {
 
     public BaseFlapComponent(final View itemView) {
         super(itemView);

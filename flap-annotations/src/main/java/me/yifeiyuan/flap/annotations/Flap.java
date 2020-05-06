@@ -6,15 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标记一个类为组件
+ * 标记一个类为组件，并配置组件的一些基本信息
+ *
  * @author 程序亦非猿
  * @since 1.1.0
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface Component {
+public @interface Flap {
 
     /**
+     * 组件的布局 ID
      * @return the layout res id
      *
      * @since 1.1.0
@@ -22,6 +24,8 @@ public @interface Component {
     int layoutId() default -1;
 
     /**
+     * 标记一个组件是否需要自动注册，如果为 true 会自动注册到 Flap
+     *
      * @return true then Flap will auto register this component.
      *
      * @since 1.1.0

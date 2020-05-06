@@ -147,7 +147,7 @@ recyclerView.setAdapter(adapter);
 
 
 
-`FlapComponent` 的属性与方法：
+`FlapComponent` 的更多属性与方法，具体请以实际代码为准：
 
 ```java
 protected final Context context；
@@ -170,16 +170,12 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 
 
-#### 感知生命周期
-
+#### FlapComponent 感知生命周期
 
 
 在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `FlapComponent` 你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
 
-
-
 如果觉得不够，你也加更多的方法。
-
 
 
 `FlapAdapter` 会帮你自动绑定 `LifecycleOwner` ，生命周期问题从此不再出现。
@@ -189,37 +185,22 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
 
-
-
 ### AsyncListDiffer 完全支持
-
-
 
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
-
-
 ## Flap 的优点
 
-
-
 可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
-
-
 
 1. `Flap` 优化了 `FlapComponent` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
 2. **使用工厂模式为 FlapComponent 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
 3. **优化 FlapComponent 的创建过程**：FlapComponent 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
 4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 FlapComponent 的创建以及绑定过程**，你不需要关注 FlapComponent 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
 
-
-
 ## 变更日志
 
-
-
 版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
-
 
 ## FAQ
 
@@ -234,7 +215,6 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 #### 3. Flap 有上拉加载、Header/Footer的功能吗？
 
 答：没有，Flap 的目标不在此，可以自行扩展。
-
 
 
 ## 谁在使用 Flap ？
@@ -253,6 +233,8 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 - [x] 支持组件全局缓存；
 - [x] 支持组件监听生命周期事件，Lifecycle 接入；
 - [x] 支持 AsyncListDiffer；
+- [x] 优化布局实例化样板代码；
+- [x] 支持组件与 layoutId 绑定；
 
 
 ## 贡献

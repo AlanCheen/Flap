@@ -1,6 +1,6 @@
 package me.yifeiyuan.flap;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import me.yifeiyuan.flap.internal.ComponentProxy;
 

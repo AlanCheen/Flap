@@ -1,7 +1,7 @@
 package me.yifeiyuan.flapdev.components.databindingsample;
 
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
+import androidx.databinding.ViewDataBinding;
+import androidx.annotation.NonNull;
 
 import me.yifeiyuan.flap.FlapComponent;
 import me.yifeiyuan.flap.annotations.Component;

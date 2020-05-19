@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.FlapComponent;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flapdev.R;
@@ -38,6 +40,7 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
             return CUSTOM_ITEM_VIEW_TYPE;
         }
 
+        @NotNull
         @Override
         public Class<CustomModel> getComponentModelClass() {
             return CustomModel.class;

@@ -6,6 +6,7 @@
 2. 新增 IComponentModel（Differ）
 1. 尝试 Kotlin 化
 2. 迁移 androidx 
+3. FlapRecyclerView 完善
 
 ### 1.5.1
 

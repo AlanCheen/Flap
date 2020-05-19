@@ -10,6 +10,9 @@ import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
 /**
+ * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
+ * todo
+ *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)

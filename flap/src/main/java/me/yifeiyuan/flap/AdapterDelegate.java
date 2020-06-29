@@ -1,10 +1,11 @@
 package me.yifeiyuan.flap;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * A delegate class that delegates some methods of FlapAdapter.

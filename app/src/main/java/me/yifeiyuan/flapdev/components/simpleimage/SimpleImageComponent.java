@@ -1,6 +1,6 @@
 package me.yifeiyuan.flapdev.components.simpleimage;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import me.yifeiyuan.flap.FlapComponent;

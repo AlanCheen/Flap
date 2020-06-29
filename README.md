@@ -206,11 +206,11 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 #### 1. 如何设置 FlapComponent 的点击事件？
 
-答：Flap 并没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
+答：Flap 暂时没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
 #### 2. 我想在 FlapComponent 里用 context 怎么办？
 
-答：`FlapComponent` 有个字段 `context` 你可以直接访问使用。
+答：`FlapComponent` 有个属性 `context` 你可以直接访问使用。
 
 #### 3. Flap 有上拉加载、Header/Footer的功能吗？
 
@@ -221,13 +221,30 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 如果你在你的 App 使用了 Flap 开发，请一定要联系我，将会在这里展示哟。
 
+## 加群交流
+
+请**优先加钉钉群**，因为阿里不让装微信，微信看得少。
+
+
+钉钉群：
+
+
+<div align=center><img width="373" height="481" src="./assets/flap_dingding_group.jpg"/></div>
+
+
+微信群：
+
+请加我微信，备注 Flap，会邀请你进群
+
+<div align=center><img width="338" height="438" src="./assets/personal-wechat.jpg"/></div>
 
 ## TODO
 
 - [ ] 【P2】Kotlin 改造；
 - [ ] 【P1】迁移 AndroidX；
 - [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
-- [x] Component 注解支持 DataBinding；
+- [x] AndroidX 迁移；
+- [x] Component 注解支持使用 DataBinding；
 - [x] APT 实现组件自动注册；
 - [x] 使用 APT 自动生成 Component 相关样板代码；
 - [x] 支持组件全局缓存；

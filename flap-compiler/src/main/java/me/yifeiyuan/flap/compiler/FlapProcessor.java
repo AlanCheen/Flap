@@ -43,15 +43,15 @@ public class FlapProcessor extends AbstractProcessor {
 
     private static final String NAME_SUFFIX = "Proxy";
 
-    private final ClassName CLASS_KEEP = ClassName.bestGuess("android.support.annotation.Keep");
+    private final ClassName CLASS_KEEP = ClassName.bestGuess("androidx.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
     private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
 
     private Filer filer;
-    private Elements elementUtils;
-    private Types typeUtils;
+    private Elements elements;
+    private Types types;
     private Messager messager;
 
     /**
@@ -63,8 +63,8 @@ public class FlapProcessor extends AbstractProcessor {
     public synchronized void init(final ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         filer = processingEnv.getFiler();               // Generate class.
-        typeUtils = processingEnv.getTypeUtils();            // Get type utils.
-        elementUtils = processingEnv.getElementUtils();      // Get class meta.
+        types = processingEnv.getTypeUtils();            // Get type utils.
+        elements = processingEnv.getElementUtils();      // Get class meta.
         messager = processingEnv.getMessager();
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
 
@@ -132,7 +132,7 @@ public class FlapProcessor extends AbstractProcessor {
 
         DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
-        TypeElement itemModelType = (TypeElement) typeUtils.asElement(args.get(0));
+        TypeElement itemModelType = (TypeElement) types.asElement(args.get(0));
 
         ClassName itemModelClass = ClassName.get(itemModelType);
 
@@ -148,7 +148,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .returns(flapItemClass);
 
         if (dataBinding) {
-            onCreateViewHolderMethodBuilder.addStatement("return new $T(android.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
         } else {
             onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
         }

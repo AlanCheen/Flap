@@ -32,7 +32,7 @@ public interface ComponentProxy<T, VH extends FlapComponent<T>> {
     VH createComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     /**
-     * 组件的 itemViewType，一般使用 layoutId
+     * 组件的 itemViewType，建议使用 layoutId
      * @param model your model to bind with the component.
      *
      * @return the itemViewType of the component you are gonna create.

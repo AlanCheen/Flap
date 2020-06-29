@@ -2,6 +2,8 @@ package me.yifeiyuan.flapdev;
 
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;

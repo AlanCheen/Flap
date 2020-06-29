@@ -1,6 +1,6 @@
 package me.yifeiyuan.flap.exceptions;
 
-import android.support.annotation.RestrictTo;
+import androidx.annotation.RestrictTo;
 
 /**
  * An ItemFactoryNotFoundException will be thrown when trying to create a FlapItem when there is no matching FlapItemFactory.

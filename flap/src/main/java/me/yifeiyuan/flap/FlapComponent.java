@@ -85,7 +85,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
      * @param visible     if component is visible
      * @param flapAdapter
      */
-    protected void onVisibilityChanged(final boolean visible, FlapAdapter flapAdapter) {
+    protected void onVisibilityChanged(final boolean visible, @NonNull final FlapAdapter flapAdapter) {
         isVisible = visible;
     }
 

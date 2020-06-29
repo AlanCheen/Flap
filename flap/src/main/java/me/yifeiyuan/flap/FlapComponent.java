@@ -4,10 +4,13 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
+
 import android.content.Context;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
  * @since 1.0
- *
+ * <p>
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
@@ -64,26 +67,25 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your Component.
-     *
      * @see FlapAdapter#onViewAttachedToWindow(FlapComponent)
      */
     protected void onViewAttachedToWindow(@NonNull final FlapAdapter flapAdapter) {
-        onVisibilityChanged(true);
+        onVisibilityChanged(true, flapAdapter);
     }
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
-     *
      * @see FlapAdapter#onViewDetachedFromWindow(FlapComponent)
      */
     protected void onViewDetachedFromWindow(@NonNull final FlapAdapter flapAdapter) {
-        onVisibilityChanged(false);
+        onVisibilityChanged(false, flapAdapter);
     }
 
     /**
-     * @param visible if component is visible
+     * @param visible     if component is visible
+     * @param flapAdapter
      */
-    protected void onVisibilityChanged(final boolean visible) {
+    protected void onVisibilityChanged(final boolean visible, FlapAdapter flapAdapter) {
         isVisible = visible;
     }
 
@@ -96,7 +98,6 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
-     *
      * @see FlapAdapter#onViewRecycled(FlapComponent)
      */
     protected void onViewRecycled(@NonNull final FlapAdapter flapAdapter) {
@@ -104,9 +105,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
-     *
      * @return True if the View should be recycled, false otherwise.
-     *
      * @see FlapAdapter#onFailedToRecycleView(FlapComponent)
      */
     protected boolean onFailedToRecycleView(@NonNull final FlapAdapter flapAdapter) {

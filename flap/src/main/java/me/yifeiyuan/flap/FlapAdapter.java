@@ -60,13 +60,13 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
     }
 
     /**
-     * Attaches the holder to lifecycle if need.
+     * Attaches the component to lifecycle if need.
      *
-     * @param holder The holder we are going to bind.
+     * @param component The component we are going to bind.
      */
-    private void attachLifecycleOwnerIfNeed(@NonNull final FlapComponent holder) {
+    private void attachLifecycleOwnerIfNeed(@NonNull final FlapComponent component) {
         if (lifecycleEnable && lifecycleOwner != null) {
-            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
+            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) component);
         }
     }
 

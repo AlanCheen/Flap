@@ -67,7 +67,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
      *
      * @see FlapAdapter#onViewAttachedToWindow(FlapComponent)
      */
-    protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
+    protected void onViewAttachedToWindow(@NonNull final FlapAdapter flapAdapter) {
         onVisibilityChanged(true);
     }
 
@@ -76,7 +76,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
      *
      * @see FlapAdapter#onViewDetachedFromWindow(FlapComponent)
      */
-    protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
+    protected void onViewDetachedFromWindow(@NonNull final FlapAdapter flapAdapter) {
         onVisibilityChanged(false);
     }
 
@@ -99,7 +99,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
      *
      * @see FlapAdapter#onViewRecycled(FlapComponent)
      */
-    protected void onViewRecycled(final FlapAdapter flapAdapter) {
+    protected void onViewRecycled(@NonNull final FlapAdapter flapAdapter) {
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
      *
      * @see FlapAdapter#onFailedToRecycleView(FlapComponent)
      */
-    protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+    protected boolean onFailedToRecycleView(@NonNull final FlapAdapter flapAdapter) {
         return false;
     }
 

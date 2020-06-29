@@ -2,6 +2,8 @@ package me.yifeiyuan.flapdev.components.base;
 
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.FlapComponent;
 
@@ -30,7 +32,7 @@ public abstract class BaseFlapComponent<T extends BaseModel> extends FlapCompone
     }
 
     @Override
-    protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+    protected boolean onFailedToRecycleView(@NotNull final FlapAdapter flapAdapter) {
         return super.onFailedToRecycleView(flapAdapter);
     }
 }

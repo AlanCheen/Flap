@@ -17,17 +17,17 @@ public abstract class BaseFlapComponent<T extends BaseModel> extends FlapCompone
     }
 
     @Override
-    protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
+    protected void onViewAttachedToWindow(@NotNull final FlapAdapter flapAdapter) {
         super.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
+    protected void onViewDetachedFromWindow(@NotNull final FlapAdapter flapAdapter) {
         super.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    protected void onViewRecycled(final FlapAdapter flapAdapter) {
+    protected void onViewRecycled(@NotNull final FlapAdapter flapAdapter) {
         super.onViewRecycled(flapAdapter);
     }
 

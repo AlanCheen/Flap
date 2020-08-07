@@ -4,10 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.yifeiyuan.flap.Component;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
 import androidx.recyclerview.widget.RecyclerView;
-import me.yifeiyuan.flap.FlapComponent;
 
 /**
  * DefaultFlapItem is a build-in FlapItem that would be used when something went wrong .
@@ -20,7 +20,7 @@ import me.yifeiyuan.flap.FlapComponent;
  * @version 1.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public final class DefaultComponent extends FlapComponent {
+public final class DefaultComponent extends Component {
 
     private static final int DEFAULT_ITEM_TYPE = -66666;
 
@@ -37,7 +37,7 @@ public final class DefaultComponent extends FlapComponent {
 
         @NonNull
         @Override
-        public FlapComponent createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public Component createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
             View view = new View(parent.getContext());
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             view.setLayoutParams(layoutParams);

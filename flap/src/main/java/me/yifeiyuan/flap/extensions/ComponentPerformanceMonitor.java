@@ -3,7 +3,7 @@ package me.yifeiyuan.flap.extensions;
 import android.os.SystemClock;
 import android.util.Log;
 
-import me.yifeiyuan.flap.FlapComponent;
+import me.yifeiyuan.flap.Component;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 
 /**
@@ -23,13 +23,19 @@ public class ComponentPerformanceMonitor implements ComponentFlowListener {
     private long bindTime;
 
     @Override
-    public void onStartCreateComponent(final ComponentProxy factory) {
-        Log.d(TAG, "开始使用 " + factory.getClass().getSimpleName() + " 创建组件");
+    public void onStartCreateComponent(final ComponentProxy proxy) {
+        if (proxy==null){
+            return;
+        }
+        Log.d(TAG, "开始使用 " + proxy.getClass().getSimpleName() + " 创建组件");
         createTime = SystemClock.uptimeMillis();
     }
 
     @Override
-    public void onComponentCreated(final ComponentProxy factory, final FlapComponent component) {
+    public void onComponentCreated(final ComponentProxy proxy, final Component component) {
+        if (proxy==null){
+            return;
+        }
         long timeCost = SystemClock.uptimeMillis() - createTime;
         Log.d(TAG, "组件 " + component.getClass().getSimpleName() + " 创建完毕，耗时 " + timeCost + " 毫秒");
         if (timeCost > getCreateCostThreshold()) {
@@ -38,13 +44,12 @@ public class ComponentPerformanceMonitor implements ComponentFlowListener {
     }
 
     @Override
-    public void onStartBindComponent(final FlapComponent component, final int position, final Object model) {
+    public void onStartBindComponent(final Component component, final int position, final Object model) {
         Log.d(TAG, "开始绑定组件 [" + component.getClass().getSimpleName() + "], position = [" + position + "], model = [" + model + "]");
         bindTime = SystemClock.uptimeMillis();
     }
 
-    @Override
-    public void onComponentBound(final FlapComponent component, final int position, final Object model) {
+    public void onComponentBound(final Component component, final int position, final Object model) {
         long timeCost = SystemClock.uptimeMillis() - bindTime;
         Log.d(TAG, "组件绑定完毕，耗时 " + timeCost + " 毫秒");
         if (timeCost > getBindCostThreshold()) {

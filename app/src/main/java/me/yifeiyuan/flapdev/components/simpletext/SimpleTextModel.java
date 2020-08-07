@@ -1,6 +1,6 @@
 package me.yifeiyuan.flapdev.components.simpletext;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by 程序亦非猿

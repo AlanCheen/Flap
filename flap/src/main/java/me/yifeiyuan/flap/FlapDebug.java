@@ -29,4 +29,5 @@ final class FlapDebug {
             Log.e(TAG, "FlapDebug : ", e);
         }
     }
+
 }

@@ -2,6 +2,8 @@ package me.yifeiyuan.flapdev.components.base;
 
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.Component;
 
@@ -15,22 +17,22 @@ public abstract class BaseFlapComponent<T extends BaseModel> extends Component<T
     }
 
     @Override
-    protected void onViewAttachedToWindow(final FlapAdapter flapAdapter) {
+    protected void onViewAttachedToWindow(@NotNull final FlapAdapter flapAdapter) {
         super.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter) {
+    protected void onViewDetachedFromWindow(@NotNull final FlapAdapter flapAdapter) {
         super.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    protected void onViewRecycled(final FlapAdapter flapAdapter) {
+    protected void onViewRecycled(@NotNull final FlapAdapter flapAdapter) {
         super.onViewRecycled(flapAdapter);
     }
 
     @Override
-    protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter) {
+    protected boolean onFailedToRecycleView(@NotNull final FlapAdapter flapAdapter) {
         return super.onFailedToRecycleView(flapAdapter);
     }
 }

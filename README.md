@@ -70,17 +70,17 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : 创建一个 `FlapComponent` 并用`@Component`修饰 :
+#### Step 2 : 创建一个 `Component` 并用`@Proxy`注解修饰 :
 
-`FlapComponent` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
+`Component` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
 
-另外需要在 `@Component` 注解中给 `layoutId` 赋值为该组件的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
+另外需要在 `@Proxy` 注解中给 `layoutId` 赋值为该组件的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
 
 举个🌰 ：
 
 ```java
-@Component(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextComponent extends FlapComponent<SimpleTextModel> {
+@Proxy(layoutId = R.layout.flap_item_simple_text)
+public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private TextView tvContent;
 
@@ -133,7 +133,7 @@ recyclerView.setAdapter(adapter);
 
 
 
-### FlapComponent 高级用法
+### Component 高级用法
 
 
 
@@ -141,13 +141,12 @@ recyclerView.setAdapter(adapter);
 
 
 
-1. `FlapComponent` 内置成员变量 `context` 可以轻松获取 `context` 对象；
-2. `FlapComponent` 内置 `findViewById(@IdRes int viewId)` 方法，替代`itemView.findViewById`，提高效率；
-3. `FlapComponent` 提供 `onViewAttachedToWindow` 和 `onViewDetachedFromWindow` 方法的回调，你可以通过重写轻松获取；
+1. 内置成员变量 `context` 可以轻松获取 `context` 对象；
+2. 内置 `findViewById(@IdRes int viewId)` 方法，替代`itemView.findViewById`，提高效率；
+3. 提供 `onViewAttachedToWindow` 和 `onViewDetachedFromWindow` 方法的回调，你可以通过重写轻松获取；
 
 
-
-`FlapComponent` 的更多属性与方法，具体请以实际代码为准：
+更多属性与方法，具体请以实际代码为准：
 
 ```java
 protected final Context context；
@@ -170,10 +169,10 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 
 
-#### FlapComponent 感知生命周期
+#### Component 感知生命周期
 
 
-在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `FlapComponent` 你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
+在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `Component` 你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
 
 如果觉得不够，你也加更多的方法。
 
@@ -193,10 +192,10 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
 
-1. `Flap` 优化了 `FlapComponent` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
-2. **使用工厂模式为 FlapComponent 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
-3. **优化 FlapComponent 的创建过程**：FlapComponent 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
-4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 FlapComponent 的创建以及绑定过程**，你不需要关注 FlapComponent 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+1. `Flap` 优化了 `Component` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
+2. **使用工厂模式为 Component 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
+3. **优化 Component 的创建过程**：Component 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
+4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 Component 的创建以及绑定过程**，你不需要关注 Component 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
 
 ## 变更日志
 
@@ -204,13 +203,13 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 ## FAQ
 
-#### 1. 如何设置 FlapComponent 的点击事件？
+#### 1. 如何设置 Component 的点击事件？
 
-答：Flap 暂时没有提供一个全局的点击事件处理方法，而是推荐在 FlapComponent 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
+答：Flap 暂时没有提供一个全局的点击事件处理方法，而是推荐在 Component 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
-#### 2. 我想在 FlapComponent 里用 context 怎么办？
+#### 2. 我想在 Component 里用 context 怎么办？
 
-答：`FlapComponent` 有个属性 `context` 你可以直接访问使用。
+答：`Component` 有个属性 `context` 你可以直接访问使用。
 
 #### 3. Flap 有上拉加载、Header/Footer的功能吗？
 

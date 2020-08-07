@@ -7,6 +7,19 @@
 1. 尝试 Kotlin 化
 2. 迁移 androidx 
 3. FlapRecyclerView 完善
+6. 支持 ViewBinding
+
+
+### 1.6.0
+
+1. 重命名 FlapComponent --> Component ，还是简洁点好；
+2. 重命名注解 Flap --> Proxy，Proxy 代表背后的 ComponentProxy，更符合，而且 Flap 已经有类了，容易冲突；
+
+
+### 1.5.2
+
+1. 新增 ComponentPerformanceMonitor 用来监控组件性能；
+2. Clean Code;
 
 ### 1.5.1
 

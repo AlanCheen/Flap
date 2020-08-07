@@ -1,9 +1,9 @@
 package me.yifeiyuan.flap;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -60,13 +60,13 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
     }
 
     /**
-     * Attaches the holder to lifecycle if need.
+     * Attaches the component to lifecycle if need.
      *
-     * @param holder The holder we are going to bind.
+     * @param component The component we are going to bind.
      */
-    private void attachLifecycleOwnerIfNeed(@NonNull final Component holder) {
+    private void attachLifecycleOwnerIfNeed(@NonNull final Component component) {
         if (lifecycleEnable && lifecycleOwner != null) {
-            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
+            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) component);
         }
     }
 

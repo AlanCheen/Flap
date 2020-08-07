@@ -1,7 +1,7 @@
 package me.yifeiyuan.flap.internal;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * todo

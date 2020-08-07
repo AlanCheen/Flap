@@ -25,14 +25,14 @@ import java.util.List;
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  */
 @SuppressWarnings({"EmptyMethod", "WeakerAccess", "unused"})
-public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
+public abstract class Component<T> extends RecyclerView.ViewHolder implements LifecycleObserver {
 
     @NonNull
     protected final Context context;
 
     private boolean isVisible = false;
 
-    public FlapComponent(@NonNull View itemView) {
+    public Component(@NonNull View itemView) {
         super(itemView);
         context = itemView.getContext();
     }
@@ -67,7 +67,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your Component.
-     * @see FlapAdapter#onViewAttachedToWindow(FlapComponent)
+     * @see FlapAdapter#onViewAttachedToWindow(Component)
      */
     protected void onViewAttachedToWindow(@NonNull final FlapAdapter flapAdapter) {
         onVisibilityChanged(true, flapAdapter);
@@ -75,7 +75,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
-     * @see FlapAdapter#onViewDetachedFromWindow(FlapComponent)
+     * @see FlapAdapter#onViewDetachedFromWindow(Component)
      */
     protected void onViewDetachedFromWindow(@NonNull final FlapAdapter flapAdapter) {
         onVisibilityChanged(false, flapAdapter);
@@ -98,7 +98,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
 
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
-     * @see FlapAdapter#onViewRecycled(FlapComponent)
+     * @see FlapAdapter#onViewRecycled(Component)
      */
     protected void onViewRecycled(@NonNull final FlapAdapter flapAdapter) {
     }
@@ -106,7 +106,7 @@ public abstract class FlapComponent<T> extends RecyclerView.ViewHolder implement
     /**
      * @param flapAdapter The adapter which is using your FlapItem.
      * @return True if the View should be recycled, false otherwise.
-     * @see FlapAdapter#onFailedToRecycleView(FlapComponent)
+     * @see FlapAdapter#onFailedToRecycleView(Component)
      */
     protected boolean onFailedToRecycleView(@NonNull final FlapAdapter flapAdapter) {
         return false;

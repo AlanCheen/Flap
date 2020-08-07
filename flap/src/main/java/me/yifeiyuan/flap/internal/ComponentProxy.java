@@ -32,12 +32,8 @@ public interface ComponentProxy<T, VH extends Component<T>> {
     VH createComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     /**
-<<<<<<< HEAD
      * 返回组件的 itemViewType，默认会使用组件的 layoutId
      *
-=======
-     * 组件的 itemViewType，建议使用 layoutId
->>>>>>> @{-1}
      * @param model your model to bind with the component.
      *
      * @return the itemViewType of the component you are gonna create.

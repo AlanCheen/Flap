@@ -28,7 +28,7 @@ import me.yifeiyuan.flap.internal.DefaultComponent.Proxy;
  * @version 1.0
  * @since 1.1
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("ALL")
 public final class Flap implements IFlap {
 
     private static final String TAG = "Flap";
@@ -126,9 +126,9 @@ public final class Flap implements IFlap {
 
     @NonNull
     @Override
-    public Component onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-        Component vh = null;
-        ComponentProxy<?, ?> factory = componentProxyMap.get(viewType);
+    public Component<?> onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        Component<?> vh = null;
+        ComponentProxy<?, ?> factory = viewTypeProxyMapping.get(viewType);
         dispatchBeforeCreateComponentEvent(factory, viewType);
         if (factory != null) {
             try {
@@ -151,7 +151,7 @@ public final class Flap implements IFlap {
         }
     }
 
-    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final Component vh) {
+    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final Component<?> vh) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentCreated(factory, vh);
         }
@@ -165,35 +165,35 @@ public final class Flap implements IFlap {
         dispatchOnComponentBound(component, position, model);
     }
 
-    private void dispatchOnBeforeBindComponent(@NonNull final Component component, final int position, final Object model) {
+    private void dispatchOnBeforeBindComponent(@NonNull final Component<?> component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onStartBindComponent(component, position, model);
         }
     }
 
-    private void dispatchOnComponentBound(@NonNull final Component component, final int position, final Object model) {
+    private void dispatchOnComponentBound(@NonNull final Component<?> component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentBound(component, position, model);
         }
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewAttachedToWindow(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewDetachedFromWindow(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewRecycled(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final Component component, @NonNull final FlapAdapter flapAdapter) {
+    public boolean onFailedToRecycleView(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         return component.onFailedToRecycleView(flapAdapter);
     }
 

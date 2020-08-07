@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,18 +17,19 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
- *
+ * <p>
  * Check these also if need :
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
- * @since 1.1
  * @see Component
  * @see ComponentPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
- *
+ * <p>
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @since 1.1
  */
+@SuppressWarnings("ALL")
 public class FlapAdapter extends RecyclerView.Adapter<Component> {
 
     @NonNull
@@ -72,7 +74,7 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
 
     @Override
     public int getItemCount() {
-        return getData().size();
+        return getData() == null ? 0 : getData().size();
     }
 
     @Override
@@ -149,11 +151,10 @@ public class FlapAdapter extends RecyclerView.Adapter<Component> {
 
     /**
      * Set whether use the global RecycledViewPool or not.
-     *
+     * <p>
      * NOTE : Call this before you call RecyclerView.setAdapter.
      *
      * @param enable true by default
-     *
      * @return this
      */
     public FlapAdapter setUseComponentPool(final boolean enable) {

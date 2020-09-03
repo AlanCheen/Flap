@@ -2,6 +2,9 @@ package me.yifeiyuan.flap;
 
 import androidx.annotation.NonNull;
 
+import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -29,7 +32,7 @@ import me.yifeiyuan.flap.internal.DefaultComponent.Proxy;
  * @since 1.1
  */
 @SuppressWarnings("ALL")
-public final class Flap implements IFlap {
+public final class Flap implements IFlap, ComponentCallbacks2 {
 
     private static final String TAG = "Flap";
 
@@ -50,6 +53,15 @@ public final class Flap implements IFlap {
     private static final ComponentProxy DEFAULT_FACTORY = new Proxy();
 
     private static volatile Flap sInstance;
+
+    public static void setup(@NonNull Context ctx) {
+        Context applicationContext = ctx.getApplicationContext();
+        applicationContext.registerComponentCallbacks(Flap.getDefault());
+    }
+
+    public static void setDebug(final boolean isDebugging) {
+        FlapDebug.setDebug(isDebugging);
+    }
 
     public static Flap getDefault() {
         if (sInstance == null) {
@@ -197,10 +209,6 @@ public final class Flap implements IFlap {
         return component.onFailedToRecycleView(flapAdapter);
     }
 
-    public static void setDebug(final boolean isDebugging) {
-        FlapDebug.setDebug(isDebugging);
-    }
-
     public ComponentPool getComponentPool() {
         return GLOBAL_POOL;
     }
@@ -213,5 +221,20 @@ public final class Flap implements IFlap {
     @Override
     public void unregisterFlowListener(final ComponentFlowListener componentFlowListener) {
         flowListeners.remove(componentFlowListener);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        GLOBAL_POOL.onTrimMemory(level);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        GLOBAL_POOL.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onLowMemory() {
+        GLOBAL_POOL.onLowMemory();
     }
 }

@@ -1,31 +1,33 @@
-apply plugin: 'groovy'
-apply plugin: 'maven'
+apply plugin: 'java-library'
+//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
     implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.2.1' //transform api 需要
+
+    implementation 'org.ow2.asm:asm-all:5.2'
 }
 
-//dependencies {
-//    implementation 'com.android.tools.build:gradle:4.0.1'
-//}
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 repositories {
     mavenCentral()
 }
 
-group='me.yifeiyuan.flap'
-version='1.0.0'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repos'))
-        }
-    }
-}
+//group='me.yifeiyuan.flap'
+//version='1.0.0'
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: uri('../repos'))
+//        }
+//    }
+//}
 
 publishing {
 
@@ -33,9 +35,9 @@ publishing {
 
         mavenJava(MavenPublication) {
             artifactId = 'plugin'
+            groupId = 'me.yifeiyuan.flap'
             from components.java
-            version = '1.0.0'
-            group = 'me.yifeiyuan.flap'
+            version = '1.0.0.1'
         }
     }
 

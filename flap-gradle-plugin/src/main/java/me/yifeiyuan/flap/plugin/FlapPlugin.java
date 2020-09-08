@@ -12,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 class FlapPlugin implements Plugin<Project> {
     @Override
     public void apply(@NotNull Project project) {
-        System.out.println("FlapPlugin apply");
-
         Log.setup(project);
         AppExtension appExtension = project.getExtensions().getByType(AppExtension.class);
         appExtension.registerTransform(new FlapTransform(project));

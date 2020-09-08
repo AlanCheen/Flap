@@ -18,6 +18,7 @@ import org.gradle.api.Project;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,19 +29,21 @@ import java.util.jar.JarFile;
 /**
  * Created by 程序亦非猿 on 2020/9/8.
  */
-class FlapTransform extends Transform {
+public class FlapTransform extends Transform {
 
+    final String PROXY_PACKAGE_PATH_PREFIX = "me/yifeiyuan/flap/apt/proxies/";
 
-    final String PROXY_PACKAGE_NAME = "me/yifeiyuan/flap/proxies";
+    public static final String FLAP_CLASS_FILE_NAME = "me/yifeiyuan/flap/Flap.class";
 
-    final String FLAP_CLASS_FILE_NAME = "me/yifeiyuan/flap/Flap.class";
-
-    final String FLAP_INJECT_METHOD_NAME = "injectFactories";
+    public static final String FLAP_INJECT_METHOD_NAME = "injectFactories";
 
     //me.yifeiyuan.flap.Flap 那个文件
     static File flapFile;
 
     private Project project;
+
+    private AutoRegister register = new AutoRegister();
+    private List<String> proxyClassList = new ArrayList<>();
 
     public FlapTransform(Project project) {
         this.project = project;
@@ -88,30 +91,42 @@ class FlapTransform extends Transform {
         List<TransformInput> inputs = (List<TransformInput>) transformInvocation.getInputs();
 
         for (TransformInput input : inputs) {
-            //jar 包中的 class 文件
             handleJarInputs(outputProvider, input.getJarInputs());
 
             // 处理文件夹目录中的 class 文件
             handleDirectoryInputs(input.getDirectoryInputs());
         }
 
+        if (flapFile != null) {
+
+            for (String s : proxyClassList) {
+                register.registerFor(flapFile, s);
+            }
+        }
+
         Log.println("===================== flap transform end ===================== ");
 
     }
 
-    // ImmutableDirectoryInput{name=111413e8795dca60dfeda4518181815a7b03851e, file=/Users/xxx/workspace/Flap/app/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes, contentTypes=CLASSES, scopes=PROJECT, changedFiles={}}
+    //处理 jar 包中的 class 文件，找到 @Proxy 注解生成的文件
     private void handleDirectoryInputs(Collection<DirectoryInput> directoryInputs) {
         Log.println("handleDirectoryInputs");
         for (DirectoryInput directoryInput : directoryInputs) {
-            Log.println(directoryInput);
-            Log.println(directoryInput.getChangedFiles());
-            Log.println(directoryInput.getFile());
-            Log.println(directoryInput.getFile().isDirectory());
+            handleFiles(directoryInput.getFile());
+        }
+    }
 
-            File[] files = directoryInput.getFile().listFiles();
-
-            for (File file : files) {
-                Log.println(file);
+    private void handleFiles(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File file1 : files) {
+                handleFiles(file1);
+            }
+        } else {
+            if (file.getAbsolutePath().contains(PROXY_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Proxy.class")) {
+                Log.println(">>>>>>>>>>>> 发现 proxy class :" + file.getName());
+                // TODO: 2020/9/8 处理文件
+                proxyClassList.add(file.getName());
             }
         }
     }
@@ -130,6 +145,8 @@ class FlapTransform extends Transform {
 
             File srcFile = jarInput.getFile();
 
+            Log.println(srcFile);
+
             String destFileName = inputName + "-" + hex;
             File destFile = outputProvider.getContentLocation(destFileName, jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
 
@@ -143,9 +160,14 @@ class FlapTransform extends Transform {
     }
 
     //Users/xxx/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0.aar/6f2bc1b47d5cce5ab25d89f7c1b420fa/jars/classes.jar
+    //shouldProcessPreDexJarFile /Users/mingjue/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar
     private boolean shouldProcessPreDexJarFile(String path) {
-        Log.println("shouldProcessPreDexJarFile " + path);
-        return !path.contains("com.android.support") && !path.contains("/android/m2repository");
+        return !path.contains("org.jetbrains") &&
+                !path.contains("androidx.constraintlayout") &&
+                !path.contains("lifecycle-livedata") &&
+                !path.contains("databinding-") &&
+                !path.contains("vectordrawable-") &&
+                !path.contains("/android/m2repository");
     }
 
     private void scanJarFile(File src, File dest) throws IOException {
@@ -159,11 +181,13 @@ class FlapTransform extends Transform {
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement();
                 String entryName = jarEntry.getName();
-                Log.println(entryName);
-                if (FLAP_CLASS_FILE_NAME.equals(entryName)) {
-                    Log.println("发现 Flap class file");
+
+                if (FLAP_CLASS_FILE_NAME.equals(entryName)) {//Flap/flap/build/intermediates/intermediate-jars/debug/classes.jar
+                    Log.println(entryName);
+                    Log.println(">>>>>>>>>>>> 发现 Flap class file <<<<<<<<<<<<");
                     flapFile = dest;
-                } else if (entryName.startsWith(PROXY_PACKAGE_NAME)) {
+                } else if (entryName.startsWith(PROXY_PACKAGE_PATH_PREFIX)) {
+                    Log.println(">>>>>>>>> 发现 proxy class :" + entryName);
                     InputStream inputStream = jarFile.getInputStream(jarEntry);
                     // TODO: 2020/9/8 处理文件
                     inputStream.close();
@@ -176,7 +200,6 @@ class FlapTransform extends Transform {
     }
 
     private boolean shouldProcessClass(String entryName) {
-        Log.i("shouldProcessClass " + entryName);
-        return entryName != null && entryName.startsWith(PROXY_PACKAGE_NAME);
+        return entryName != null && entryName.startsWith(PROXY_PACKAGE_PATH_PREFIX);
     }
 }

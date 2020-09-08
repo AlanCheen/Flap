@@ -17,13 +17,23 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
+import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.DUP;
+import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
+import static org.objectweb.asm.Opcodes.POP;
+
 
 /**
  * Created by 程序亦非猿 on 2020/9/8.
  */
 class AutoRegister {
 
-
+    /**
+     * todo 可能 className 直接搞个列表一起处理就行了
+     *
+     * @param flapFile  Flap 这个类所在的 jar 包文件
+     * @param className 需要被注入的 Proxy 的类名
+     */
     public void registerFor(File flapFile, String className) {
 
         Log.println("registerFor");
@@ -53,7 +63,7 @@ class AutoRegister {
                 jarOutputStream.putNextEntry(zipEntry);
 
                 if (FlapTransform.FLAP_CLASS_FILE_NAME.equals(entryName)) {
-                    Log.println("发现 Flap class,准备注入代码："+entryName);
+                    Log.println("发现 Flap class,准备注入代码：" + entryName);
                     byte[] bytes = visitFlap(inputStream);
                     jarOutputStream.write(bytes);
                 } else {
@@ -94,7 +104,7 @@ class AutoRegister {
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 
-            Log.println("visitMethod:"+name);
+            Log.println("visitMethod:" + name);
             if (FlapTransform.FLAP_INJECT_METHOD_NAME.equals(name)) {
                 mv = new InjectMethodVisitor(Opcodes.ASM5, mv);
             }
@@ -114,14 +124,23 @@ class AutoRegister {
 
             if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
 
-                mv.visitLdcInsn("me.yifeiyuan.flap.apt.proxies.SimpleTextComponentProxy");
                 // generate invoke register method into Flap.injectFactories()
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC
-                        , FlapTransform.FLAP_CLASS_FILE_NAME
-                        , FlapTransform.FLAP_INJECT_METHOD_NAME
-                        , "(Ljava/lang/String;)V"
-                        , false);
+
+//                mv.visitInsn(ALOAD);
+//                mv.visitTypeInsn(NEW, "me/yifeiyuan/flap/apt/proxies/SimpleTextComponentProxy");
+//                mv.visitInsn(DUP);
+//                mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
+//                        "me/yifeiyuan/flap/apt/proxies/SimpleTextComponentProxy"
+//                        , "<init>", "()V"
+//                        , false);
+//                mv.visitMethodInsn(INVOKEVIRTUAL,
+//                          FlapTransform.FLAP_CLASS_FILE_NAME,
+//                        "me/yifeiyuan/flap/Flap.register",
+//                        "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry",false
+//                        );
+//                mv.visitInsn(POP);
             }
+
 
             super.visitInsn(opcode);
         }

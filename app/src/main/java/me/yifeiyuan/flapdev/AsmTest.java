@@ -7,6 +7,8 @@ import me.yifeiyuan.flap.apt.proxies.SimpleTextComponentProxy;
 /**
  * Created by 程序亦非猿 on 2020/9/8.
  *
+ * todo proxy 类的名字是  me/xxx/xxxProxy
+ *
  *    L1
  *     LINENUMBER 16 L1
  *     ALOAD 2

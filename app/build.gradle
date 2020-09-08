@@ -2,6 +2,23 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'me.yifeiyuan.flap.plugin'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+
+        maven {
+            url = "$rootProject.projectDir/repos"
+        }
+    }
+
+    dependencies {
+        classpath 'me.yifeiyuan.flap:plugin:1.0.0'
+    }
+}
+
 android {
     compileSdkVersion 29
     defaultConfig {

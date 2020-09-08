@@ -1,1 +1,2 @@
+include ':flap-gradle-plugin'
 include ':app', ':flap', ':flap-annotations', ':flap-compiler'

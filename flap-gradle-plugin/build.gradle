@@ -1,0 +1,48 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.2.1' //transform api 需要
+
+    implementation 'org.ow2.asm:asm-all:5.2'
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+
+    publications {
+
+        mavenJava(MavenPublication) {
+            artifactId = 'plugin'
+            groupId = 'me.yifeiyuan.flap'
+            from components.java
+            version = '1.0.0.1'
+        }
+    }
+
+    repositories {
+        maven {
+            url = "$rootProject.projectDir/repos"
+        }
+    }
+}
+
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'alancheen'
+    groupId = 'me.yifeiyuan.flap'
+    artifactId = 'flap-plugin'
+    publishVersion = '1.0.0'
+    desc = 'flap plugin'
+    website = 'https://github.com/AlanCheen/Flap'
+}

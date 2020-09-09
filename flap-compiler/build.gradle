@@ -16,7 +16,7 @@ publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
     artifactId = 'flap-compiler'
-    publishVersion = '1.5.2'
+    publishVersion = '1.6.1'
     desc = 'flap annotations'
     website = 'https://github.com/AlanCheen/Flap'
 }

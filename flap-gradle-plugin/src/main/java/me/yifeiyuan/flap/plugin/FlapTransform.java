@@ -38,7 +38,7 @@ public class FlapTransform extends Transform {
     public static final String FLAP_INJECT_METHOD_NAME = "injectProxiesByPlugin";
 
     //me.yifeiyuan.flap.Flap 那个文件
-    static File flapFile;
+    private File flapFile;
 
     private Project project;
 
@@ -93,7 +93,7 @@ public class FlapTransform extends Transform {
             handleJarInputs(outputProvider, input.getJarInputs());
 
             // 处理文件夹目录中的 class 文件
-            handleDirectoryInputs(outputProvider,input.getDirectoryInputs());
+            handleDirectoryInputs(outputProvider, input.getDirectoryInputs());
         }
 
         if (flapFile != null) {
@@ -128,7 +128,7 @@ public class FlapTransform extends Transform {
                 String fileName = file.getName();
                 int index = fileName.indexOf(".");
                 String className = PROXY_PACKAGE_PATH_PREFIX + fileName.substring(0, index);
-                Log.println("className:"+className);
+                Log.println("className:" + className);
                 proxyClassList.add(className);
             }
         }
@@ -190,7 +190,7 @@ public class FlapTransform extends Transform {
                     Log.println(">>>>>>>>> 发现 proxy class :" + entryName);
                     int index = entryName.indexOf(".");
                     String className = entryName.substring(0, index);
-                    Log.println("className:"+className);
+                    Log.println("className:" + className);
                     proxyClassList.add(className);
                 }
             }

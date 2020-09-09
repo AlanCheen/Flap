@@ -29,12 +29,8 @@ import me.yifeiyuan.flap.apt.proxies.SimpleTextComponentProxy;
  */
 class AsmTest {
 
-    private void foo(Flap f){
-
-        Flap flap = Flap.getDefault();
-
+    private void foo(Flap flap){
         flap.register(new SimpleTextComponentProxy());
-
         flap.register(new SimpleImageComponentProxy());
     }
 }

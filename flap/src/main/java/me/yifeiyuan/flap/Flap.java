@@ -83,6 +83,11 @@ public final class Flap implements IFlap, ComponentCallbacks2 {
         viewTypeProxyMapping = new SparseArray<>(typeCount);
         registerFlowListener(new ComponentPerformanceMonitor());
         injectFactories(this);
+        injectProxiesByPlugin(this);
+    }
+
+    private void injectProxiesByPlugin(@NonNull final Flap flap) {
+
     }
 
     private void injectFactories(@NonNull final Flap flap) {

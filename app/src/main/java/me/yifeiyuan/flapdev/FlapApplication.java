@@ -1,7 +1,11 @@
 package me.yifeiyuan.flapdev;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
+
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import me.yifeiyuan.flap.Flap;
 import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponent;
@@ -10,12 +14,18 @@ import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponent;
  * Flap
  * Created by 程序亦非猿 on 2018/12/13.
  */
-public class FlapApplication extends Application {
+public class FlapApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
         initFlap();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initFlap() {

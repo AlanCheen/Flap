@@ -1,6 +1,5 @@
 package me.yifeiyuan.flapdev;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -20,12 +19,6 @@ public class FlapApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         initFlap();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 
     private void initFlap() {

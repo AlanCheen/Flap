@@ -103,7 +103,7 @@ class AutoRegister {
         return cw.toByteArray();
     }
 
-    static class FlapClassVisitor extends ClassVisitor {
+    class FlapClassVisitor extends ClassVisitor {
 
         FlapClassVisitor(int api, ClassVisitor cv) {
             super(api, cv);
@@ -122,7 +122,7 @@ class AutoRegister {
         }
     }
 
-    static class InjectMethodVisitor extends MethodVisitor {
+    class InjectMethodVisitor extends MethodVisitor {
 
         public InjectMethodVisitor(int i, MethodVisitor methodVisitor) {
             super(i, methodVisitor);
@@ -131,16 +131,19 @@ class AutoRegister {
         @Override
         public void visitInsn(int opcode) {
 
-            Log.println("visitInsn" + opcode);
+            for (String className : classNames) {
 
-            Label l1 = new Label();
-            mv.visitLabel(l1);
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitTypeInsn(NEW, "me/yifeiyuan/flap/apt/proxies/SimpleImageComponentProxy");
-            mv.visitInsn(DUP);
-            mv.visitMethodInsn(INVOKESPECIAL, "me/yifeiyuan/flap/apt/proxies/SimpleImageComponentProxy", "<init>", "()V", false);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry;", false);
-            mv.visitInsn(POP);
+                Log.println(">>>>>>>>> 正在注入："+className);
+
+                Label l1 = new Label();
+                mv.visitLabel(l1);
+                mv.visitVarInsn(ALOAD, 1);
+                mv.visitTypeInsn(NEW, className);
+                mv.visitInsn(DUP);
+                mv.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
+                mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry;", false);
+                mv.visitInsn(POP);
+            }
 
             super.visitInsn(opcode);
         }

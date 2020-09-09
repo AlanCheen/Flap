@@ -17,7 +17,7 @@ import me.yifeiyuan.flap.internal.ComponentProxy;
  */
 public class ComponentPerformanceMonitor implements ComponentFlowListener {
 
-    private static final String TAG = "PerformanceMonitor";
+    private static final String TAG = "Flap-PerformanceMonitor";
 
     private long createTime;
     private long bindTime;

@@ -72,7 +72,6 @@ public class FlapTransform extends Transform {
     public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         super.transform(transformInvocation);
 
-        Log.i("===================== flap transform start ===================== ");
         Log.println("===================== flap transform start ===================== ");
 
         if (transformInvocation.isIncremental()) {
@@ -90,10 +89,11 @@ public class FlapTransform extends Transform {
         List<TransformInput> inputs = (List<TransformInput>) transformInvocation.getInputs();
 
         for (TransformInput input : inputs) {
+            //处理 jar 包中的 class 文件，找到 @Proxy 注解生成的文件
             handleJarInputs(outputProvider, input.getJarInputs());
 
             // 处理文件夹目录中的 class 文件
-            handleDirectoryInputs(input.getDirectoryInputs());
+            handleDirectoryInputs(outputProvider,input.getDirectoryInputs());
         }
 
         if (flapFile != null) {
@@ -104,11 +104,15 @@ public class FlapTransform extends Transform {
 
     }
 
-    //处理 jar 包中的 class 文件，找到 @Proxy 注解生成的文件
-    private void handleDirectoryInputs(Collection<DirectoryInput> directoryInputs) {
+    private void handleDirectoryInputs(TransformOutputProvider outputProvider, Collection<DirectoryInput> directoryInputs) throws IOException {
         Log.println("handleDirectoryInputs");
         for (DirectoryInput directoryInput : directoryInputs) {
+
+            File dest = outputProvider.getContentLocation(directoryInput.getName(), directoryInput.getContentTypes(), directoryInput.getScopes(), Format.DIRECTORY);
+
             handleFiles(directoryInput.getFile());
+
+            FileUtils.copyDirectory(directoryInput.getFile(), dest);
         }
     }
 
@@ -121,8 +125,11 @@ public class FlapTransform extends Transform {
         } else {
             if (file.getAbsolutePath().contains(PROXY_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Proxy.class")) {
                 Log.println(">>>>>>>>>>>> 发现 proxy class :" + file.getName());
-                // TODO: 2020/9/8 处理文件
-                proxyClassList.add(file.getName());
+                String fileName = file.getName();
+                int index = fileName.indexOf(".");
+                String className = PROXY_PACKAGE_PATH_PREFIX + fileName.substring(0, index);
+                Log.println("className:"+className);
+                proxyClassList.add(className);
             }
         }
     }
@@ -140,8 +147,6 @@ public class FlapTransform extends Transform {
             String hex = DigestUtils.md5Hex(jarInput.getFile().getAbsolutePath());
 
             File srcFile = jarInput.getFile();
-
-            Log.println(srcFile);
 
             String destFileName = inputName + "-" + hex;
             File destFile = outputProvider.getContentLocation(destFileName, jarInput.getContentTypes(), jarInput.getScopes(), Format.JAR);
@@ -167,7 +172,6 @@ public class FlapTransform extends Transform {
     }
 
     private void scanJarFile(File src, File dest) throws IOException {
-        Log.println("scanJarFile:");
         if (null != src) {
 
             JarFile jarFile = new JarFile(src);
@@ -184,9 +188,10 @@ public class FlapTransform extends Transform {
                     flapFile = dest;
                 } else if (entryName.startsWith(PROXY_PACKAGE_PATH_PREFIX)) {
                     Log.println(">>>>>>>>> 发现 proxy class :" + entryName);
-                    InputStream inputStream = jarFile.getInputStream(jarEntry);
-                    // TODO: 2020/9/8 处理文件
-                    inputStream.close();
+                    int index = entryName.indexOf(".");
+                    String className = entryName.substring(0, index);
+                    Log.println("className:"+className);
+                    proxyClassList.add(className);
                 }
             }
 

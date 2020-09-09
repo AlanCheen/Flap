@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 public @interface Proxy {
 
     /**
-     * 组件的布局 ID
+     * 组件的布局 ID，也会被当做组件的 itemViewType
      * @return the layout res id
      *
      * @since 1.1.0
@@ -27,7 +27,7 @@ public @interface Proxy {
 
 //    /**
 //     *
-//     * 废弃：从 1.6.2 开始修改成了 ASM+Plugin 的方式，默认会自动注册组件，即便设置为 false。
+//     * 废弃：从 2.0.0 开始修改成了 ASM+Plugin 的方式，默认会自动注册组件，即便设置为 false。
 //     *
 //     * 标记一个组件是否需要自动注册，如果为 true 会自动注册到 Flap
 //     *

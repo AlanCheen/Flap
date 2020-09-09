@@ -10,12 +10,16 @@ class Log {
 
     private static Logger logger;
 
+    private static boolean debug = false;
+
     static void setup(Project project) {
         logger = project.getLogger();
     }
 
     static void i(String info) {
-        logger.info("FlapPlugin:" + info);
+        if (debug) {
+            logger.info("FlapPlugin:" + info);
+        }
     }
 
     static void println(Object obj) {
@@ -23,6 +27,8 @@ class Log {
     }
 
     static void println(String msg) {
-        System.out.println("FlapPlugin: " + msg);
+        if (debug) {
+            System.out.println("FlapPlugin: " + msg);
+        }
     }
 }

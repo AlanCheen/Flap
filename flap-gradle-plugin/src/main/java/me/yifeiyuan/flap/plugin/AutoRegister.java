@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -28,13 +30,20 @@ import static org.objectweb.asm.Opcodes.POP;
  */
 class AutoRegister {
 
+
+    //需要被注入的 Proxy 的类名
+    List<String>classNames;
+
+    public AutoRegister(List<String> classNames) {
+        this.classNames = classNames;
+    }
+
     /**
      * todo 可能 className 直接搞个列表一起处理就行了
      *
-     * @param flapFile  Flap 这个类所在的 jar 包文件
-     * @param className 需要被注入的 Proxy 的类名
+     * @param flapFile   Flap 这个类所在的 jar 包文件
      */
-    public void registerFor(File flapFile, String className) {
+    public void registerFor(File flapFile) {
 
         Log.println("registerFor");
 
@@ -104,9 +113,9 @@ class AutoRegister {
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 
-            Log.println("visitMethod:" + name);
             if (FlapTransform.FLAP_INJECT_METHOD_NAME.equals(name)) {
                 mv = new InjectMethodVisitor(Opcodes.ASM5, mv);
+                Log.println("visitMethod 找到注入方法 准备注入:" + name);
             }
 
             return mv;
@@ -122,29 +131,19 @@ class AutoRegister {
         @Override
         public void visitInsn(int opcode) {
 
-            if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
+            Log.println("visitInsn" + opcode);
 
-                // generate invoke register method into Flap.injectFactories()
-
-//                mv.visitInsn(ALOAD);
-//                mv.visitTypeInsn(NEW, "me/yifeiyuan/flap/apt/proxies/SimpleTextComponentProxy");
-//                mv.visitInsn(DUP);
-//                mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
-//                        "me/yifeiyuan/flap/apt/proxies/SimpleTextComponentProxy"
-//                        , "<init>", "()V"
-//                        , false);
-//                mv.visitMethodInsn(INVOKEVIRTUAL,
-//                          FlapTransform.FLAP_CLASS_FILE_NAME,
-//                        "me/yifeiyuan/flap/Flap.register",
-//                        "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry",false
-//                        );
-//                mv.visitInsn(POP);
-            }
-
+            Label l1 = new Label();
+            mv.visitLabel(l1);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitTypeInsn(NEW, "me/yifeiyuan/flap/apt/proxies/SimpleImageComponentProxy");
+            mv.visitInsn(DUP);
+            mv.visitMethodInsn(INVOKESPECIAL, "me/yifeiyuan/flap/apt/proxies/SimpleImageComponentProxy", "<init>", "()V", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry;", false);
+            mv.visitInsn(POP);
 
             super.visitInsn(opcode);
         }
-
 
         @Override
         public void visitMaxs(int maxStack, int maxLocals) {

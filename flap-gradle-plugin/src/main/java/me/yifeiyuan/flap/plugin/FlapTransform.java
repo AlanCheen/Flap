@@ -35,14 +35,13 @@ public class FlapTransform extends Transform {
 
     public static final String FLAP_CLASS_FILE_NAME = "me/yifeiyuan/flap/Flap.class";
 
-    public static final String FLAP_INJECT_METHOD_NAME = "injectFactories";
+    public static final String FLAP_INJECT_METHOD_NAME = "injectProxiesByPlugin";
 
     //me.yifeiyuan.flap.Flap 那个文件
     static File flapFile;
 
     private Project project;
 
-    private AutoRegister register = new AutoRegister();
     private List<String> proxyClassList = new ArrayList<>();
 
     public FlapTransform(Project project) {
@@ -98,10 +97,7 @@ public class FlapTransform extends Transform {
         }
 
         if (flapFile != null) {
-
-            for (String s : proxyClassList) {
-                register.registerFor(flapFile, s);
-            }
+            new AutoRegister(proxyClassList).registerFor(flapFile);
         }
 
         Log.println("===================== flap transform end ===================== ");

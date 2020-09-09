@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'me.yifeiyuan.flap.plugin'
+//apply plugin: 'me.yifeiyuan.flap.plugin'
 
 buildscript {
     repositories {
@@ -34,7 +34,10 @@ android {
                 arguments = [autoRegister:'true']
             }
         }
+
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -67,4 +70,8 @@ dependencies {
 //    kapt 'me.yifeiyuan.flap:flap-compiler:1.5.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+
 }

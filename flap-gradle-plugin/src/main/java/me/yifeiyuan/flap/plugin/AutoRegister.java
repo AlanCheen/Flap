@@ -30,9 +30,8 @@ import static org.objectweb.asm.Opcodes.POP;
  */
 class AutoRegister {
 
-
     //需要被注入的 Proxy 的类名
-    List<String>classNames;
+    private List<String> classNames;
 
     public AutoRegister(List<String> classNames) {
         this.classNames = classNames;
@@ -41,7 +40,7 @@ class AutoRegister {
     /**
      * todo 可能 className 直接搞个列表一起处理就行了
      *
-     * @param flapFile   Flap 这个类所在的 jar 包文件
+     * @param flapFile Flap 这个类所在的 jar 包文件
      */
     public void registerFor(File flapFile) {
 
@@ -133,7 +132,7 @@ class AutoRegister {
 
             for (String className : classNames) {
 
-                Log.println(">>>>>>>>> 正在注入："+className);
+                Log.println(">>>>>>>>> 正在注入：" + className);
 
                 Label l1 = new Label();
                 mv.visitLabel(l1);

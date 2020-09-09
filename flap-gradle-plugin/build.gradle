@@ -1,5 +1,4 @@
 apply plugin: 'java-library'
-//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 dependencies {
@@ -18,17 +17,6 @@ repositories {
     mavenCentral()
 }
 
-//group='me.yifeiyuan.flap'
-//version='1.0.0'
-//
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: uri('../repos'))
-//        }
-//    }
-//}
-
 publishing {
 
     publications {
@@ -46,4 +34,15 @@ publishing {
             url = "$rootProject.projectDir/repos"
         }
     }
+}
+
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'alancheen'
+    groupId = 'me.yifeiyuan.flap'
+    artifactId = 'flap-plugin'
+    publishVersion = '1.0.0'
+    desc = 'flap plugin'
+    website = 'https://github.com/AlanCheen/Flap'
 }

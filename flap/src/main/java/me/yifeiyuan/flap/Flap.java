@@ -82,7 +82,7 @@ public final class Flap implements IFlap, ComponentCallbacks2 {
         componentProxyMap = new HashMap<>(typeCount);
         viewTypeProxyMapping = new SparseArray<>(typeCount);
         registerFlowListener(new ComponentPerformanceMonitor());
-        injectFactories(this);
+//        injectFactories(this);
         injectProxiesByPlugin(this);
     }
 
@@ -90,22 +90,22 @@ public final class Flap implements IFlap, ComponentCallbacks2 {
 
     }
 
-    private void injectFactories(@NonNull final Flap flap) {
-        try {
-            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
-            Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
-            method.setAccessible(true);
-            method.invoke(null, flap);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void injectFactories(@NonNull final Flap flap) {
+//        try {
+//            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
+//            Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
+//            method.setAccessible(true);
+//            method.invoke(null, flap);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public ComponentRegistry register(@NonNull final ComponentProxy itemFactory) {

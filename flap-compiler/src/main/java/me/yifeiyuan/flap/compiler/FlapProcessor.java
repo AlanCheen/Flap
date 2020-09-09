@@ -47,7 +47,7 @@ public class FlapProcessor extends AbstractProcessor {
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
-    private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
+//    private static final String KEY_OPTION_AUTO_REGISTER = "autoRegister";
 
     private Filer filer;
     private Elements elements;
@@ -57,7 +57,7 @@ public class FlapProcessor extends AbstractProcessor {
     /**
      * 是否自动注册 Factories
      */
-    private boolean autoRegisterFactories = true;
+//    private boolean autoRegisterFactories = true;
 
     @Override
     public synchronized void init(final ProcessingEnvironment processingEnv) {
@@ -68,10 +68,10 @@ public class FlapProcessor extends AbstractProcessor {
         messager = processingEnv.getMessager();
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
 
-        Map<String, String> options = processingEnv.getOptions();
-        if (options.containsKey(KEY_OPTION_AUTO_REGISTER)) {
-            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTO_REGISTER));
-        }
+//        Map<String, String> options = processingEnv.getOptions();
+//        if (options.containsKey(KEY_OPTION_AUTO_REGISTER)) {
+//            autoRegisterFactories = Boolean.parseBoolean(options.get(KEY_OPTION_AUTO_REGISTER));
+//        }
     }
 
     @Override
@@ -81,9 +81,10 @@ public class FlapProcessor extends AbstractProcessor {
 
             if (Proxy.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processComponent(roundEnvironment, typeElement);
-            } else if (AutoRegister.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
-                processComponentProxyManager(roundEnvironment, typeElement);
             }
+//            else if (AutoRegister.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+//                processComponentProxyManager(roundEnvironment, typeElement);
+//            }
         }
 
         return true;
@@ -126,9 +127,9 @@ public class FlapProcessor extends AbstractProcessor {
         String targetClassName = flapComponentElement.getSimpleName().toString() + NAME_SUFFIX;
 
         int layoutId = componentProxy.layoutId();
-        boolean autoRegister = componentProxy.autoRegister();
+//        boolean autoRegister = componentProxy.autoRegister();
 
-        boolean dataBinding = componentProxy.useDataBinding();
+        boolean useDataBinding = componentProxy.useDataBinding();
 
         DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
@@ -147,7 +148,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .addParameter(TypeName.INT, "layoutId")
                 .returns(flapItemClass);
 
-        if (dataBinding) {
+        if (useDataBinding) {
             onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))",flapItemClass);
         } else {
             onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
@@ -181,60 +182,60 @@ public class FlapProcessor extends AbstractProcessor {
                         .addMethod(getComponentModelClass)
                         .addSuperinterface(name);
 
-        if (autoRegister) {
-            builder.addAnnotation(AutoRegister.class);
-        }
+//        if (autoRegister) {
+//            builder.addAnnotation(AutoRegister.class);
+//        }
         return builder.build();
     }
 
-    /**
-     * 处理 AutoRegister 注解，把需要自动注册的组件处理一下。
-     *
-     * @param roundEnvironment
-     * @param typeElement
-     */
-    private void processComponentProxyManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+//    /**
+//     * 处理 AutoRegister 注解，把需要自动注册的组件处理一下。
+//     *
+//     * @param roundEnvironment
+//     * @param typeElement
+//     */
+//    private void processComponentProxyManager(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
+//
+//        if (!autoRegisterFactories) {
+//            return;
+//        }
+//        List<ClassName> factories = new ArrayList<>();
+//
+//        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(AutoRegister.class);
+//
+//        for (final Element element : elements) {
+//            TypeElement flapItemFactory = (TypeElement) element;
+//            ClassName factoryClass = ClassName.get(flapItemFactory);
+//            factories.add(factoryClass);
+//        }
+//
+//        TypeSpec manager = TypeSpec.classBuilder("ComponentAutoRegister")
+//                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+//                .addAnnotation(CLASS_KEEP)
+//                .addMethod(createInjectMethod(factories))
+//                .build();
+//
+//        try {
+//            JavaFile.builder(PKG_NAME_MANAGER, manager).build().writeTo(filer);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
-        if (!autoRegisterFactories) {
-            return;
-        }
-        List<ClassName> factories = new ArrayList<>();
-
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(AutoRegister.class);
-
-        for (final Element element : elements) {
-            TypeElement flapItemFactory = (TypeElement) element;
-            ClassName factoryClass = ClassName.get(flapItemFactory);
-            factories.add(factoryClass);
-        }
-
-        TypeSpec manager = TypeSpec.classBuilder("ComponentAutoRegister")
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addAnnotation(CLASS_KEEP)
-                .addMethod(createInjectMethod(factories))
-                .build();
-
-        try {
-            JavaFile.builder(PKG_NAME_MANAGER, manager).build().writeTo(filer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private MethodSpec createInjectMethod(final List<ClassName> factories) {
-
-        MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                .returns(void.class)
-                .addParameter(CLASS_FLAP, "flap", Modifier.FINAL);
-
-        for (final ClassName factory : factories) {
-            builder.addStatement("flap.register(new $T())", factory);
-        }
-
-        return builder.build();
-    }
+//    private MethodSpec createInjectMethod(final List<ClassName> factories) {
+//
+//        MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
+//                .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+//                .returns(void.class)
+//                .addParameter(CLASS_FLAP, "flap", Modifier.FINAL);
+//
+//        for (final ClassName factory : factories) {
+//            builder.addStatement("flap.register(new $T())", factory);
+//        }
+//
+//        return builder.build();
+//    }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {

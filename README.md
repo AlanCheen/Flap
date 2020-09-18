@@ -23,15 +23,16 @@
 
 ### 集成 Flap
 
-添加 `Flap` 的各个模块的最新版本到你的依赖：
+1)添加 `Flap` 的各个模块的最新版本到你的依赖：
 
 ```groovy
-dependencies {
-  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
-  
-  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
-    
-  annotationProcessor 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+dependencies {  
+  //recyclerview
+  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  annotationProcessor "me.yifeiyuan.flap:flap-compiler:$lastest_version"
 }
 ```
 
@@ -44,14 +45,34 @@ dependencies {
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
-  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
-  kapt 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
-
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
 }
 ```
 
+2) 添加 flap-plugin 
 
+在你的项目 build.gradle 添加插件的 classpath ：
+```
+buildscript {
+    ext.kotlin_version = "1.4.0"
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        //添加插件
+        classpath "me.yifeiyuan.flap:plugin:$lastest_version"
+    }
+}
+
+```
+
+在 app/build.gradle 中应用插件：
+```
+apply plugin: 'me.yifeiyuan.flap.plugin'
+```
 
 ### Flap 基本使用教程
 
@@ -96,6 +117,7 @@ public class SimpleTextComponent extends Component<SimpleTextModel> {
 }
 ```
 
+注意：目前只能在 App 模块下使用，而在 Library 类型的 Module 中不能使用，因为使用了 R 文件，所以需要像 ButterKnife 那样针对 Module 做处理。
 
 
 #### Step 3 : 创建你的 `FlapAdapter` 并设置 data
@@ -239,12 +261,12 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 ## TODO
 
+- [ ] P0 , 针对 Library 类型的 Module 处理，让 Flap 也能工作；
 - [ ] 【P2】Kotlin 改造；
-- [ ] 【P1】迁移 AndroidX；
 - [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
+- [x] 支持 gradle plugin 实现组件的自动注册;
 - [x] AndroidX 迁移；
 - [x] Component 注解支持使用 DataBinding；
-- [x] APT 实现组件自动注册；
 - [x] 使用 APT 自动生成 Component 相关样板代码；
 - [x] 支持组件全局缓存；
 - [x] 支持组件监听生命周期事件，Lifecycle 接入；

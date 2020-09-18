@@ -41,7 +41,7 @@ apply plugin: 'com.novoda.bintray-release'
 publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
-    artifactId = 'plugin'
+    artifactId = 'flap-plugin'
     publishVersion = '1.0.1'
     desc = 'flap plugin'
     website = 'https://github.com/AlanCheen/Flap'

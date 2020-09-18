@@ -15,15 +15,15 @@
 ### 你没集成过的全新版本
 
 
-| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
-| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | Flap-plugin                                                  |
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-plugin/images/download.svg)](https://bintray.com/alancheen/maven/flap-plugin/_latestVersion) |
 
 
 
 ### 集成 Flap
 
-1)添加 `Flap` 的各个模块的最新版本到你的依赖：
+1) 添加 `Flap` 的各个模块的最新版本到你的依赖：
 
 ```groovy
 dependencies {  
@@ -54,9 +54,8 @@ dependencies {
 2) 添加 flap-plugin 
 
 在你的项目 build.gradle 添加插件的 classpath ：
-```
+```groovy
 buildscript {
-    ext.kotlin_version = "1.4.0"
     repositories {
         google()
         jcenter()
@@ -70,7 +69,7 @@ buildscript {
 ```
 
 在 app/build.gradle 中应用插件：
-```
+```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'
 ```
 

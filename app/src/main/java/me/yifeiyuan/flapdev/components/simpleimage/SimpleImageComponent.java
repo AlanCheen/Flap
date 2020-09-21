@@ -10,7 +10,8 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@Proxy(layoutId = R.layout.flap_item_simple_image)
+//@Proxy(layoutId = R.layout.flap_item_simple_image)
+@Proxy(layoutName = "flap_item_simple_image")
 public class SimpleImageComponent extends Component<SimpleImageModel> {
 
     public SimpleImageComponent(final View itemView) {

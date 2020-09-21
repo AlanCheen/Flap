@@ -1,6 +1,7 @@
 package me.yifeiyuan.flapdev.components.generictest;
 
 import androidx.annotation.NonNull;
+
 import android.view.View;
 
 import me.yifeiyuan.flap.annotations.Proxy;
@@ -10,7 +11,8 @@ import me.yifeiyuan.flapdev.components.base.BaseFlapComponent;
 /**
  * Created by 程序亦非猿 on 2019/1/29.
  */
-@Proxy(layoutId = R.layout.flap_item_generic_type)
+//@Proxy(layoutId = R.layout.flap_item_generic_type)
+@Proxy(layoutName = "flap_item_generic_type")
 public class GenericFlapComponent extends BaseFlapComponent<GenericModel> {
 
     public GenericFlapComponent(final View itemView) {

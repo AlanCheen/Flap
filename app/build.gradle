@@ -30,11 +30,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
-        javaCompileOptions{
-            annotationProcessorOptions{
-                arguments = [autoRegister:'true']
-            }
-        }
+//        javaCompileOptions{
+//            annotationProcessorOptions{
+//                arguments = [autoRegister:'true']
+//            }
+//        }
 
         multiDexEnabled true
     }
@@ -58,6 +58,12 @@ android {
     dataBinding {
         enabled = true
     }
+
+    kapt {
+        arguments {
+            arg("packageName", "me.yifeiyuan.flapdev")
+        }
+    }
 }
 
 
@@ -69,19 +75,21 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    implementation project(':othermodule')
 
     implementation project(':flap')
     implementation project(':flap-annotations')
     kapt project(':flap-compiler')
 
-//    implementation 'me.yifeiyuan.flap:flap-annotations:1.6.1'
-//    implementation 'me.yifeiyuan.flap:flap:1.6.1'
-//    kapt 'me.yifeiyuan.flap:flap-compiler:1.6.1'
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    def multidex_version = "2.0.1"
-    implementation "androidx.multidex:multidex:$multidex_version"
+//    implementation 'me.yifeiyuan.flap:flap-annotations:2.0.0'
+//    implementation 'me.yifeiyuan.flap:flap:2.0.0'
+//    kapt 'me.yifeiyuan.flap:flap-compiler:2.0.0'
 
 }

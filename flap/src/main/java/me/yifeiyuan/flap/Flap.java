@@ -9,8 +9,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +30,7 @@ import me.yifeiyuan.flap.internal.DefaultComponent.Proxy;
  * @since 1.1
  */
 @SuppressWarnings("ALL")
-public final class Flap implements IFlap, ComponentCallbacks2 {
+public final class Flap implements ComponentProxyRegistry, AdapterDelegate, ComponentFlowRegistry, ComponentCallbacks2 {
 
     private static final String TAG = "Flap";
 
@@ -108,19 +106,19 @@ public final class Flap implements IFlap, ComponentCallbacks2 {
 //    }
 
     @Override
-    public ComponentRegistry register(@NonNull final ComponentProxy itemFactory) {
+    public ComponentProxyRegistry register(@NonNull final ComponentProxy itemFactory) {
         componentProxyMap.put(itemFactory.getComponentModelClass(), itemFactory);
         return this;
     }
 
     @Override
-    public ComponentRegistry unregister(@NonNull final ComponentProxy itemFactory) {
+    public ComponentProxyRegistry unregister(@NonNull final ComponentProxy itemFactory) {
         componentProxyMap.remove(itemFactory.getComponentModelClass());
         return this;
     }
 
     @Override
-    public ComponentRegistry clearAll() {
+    public ComponentProxyRegistry clearAll() {
         componentProxyMap.clear();
         viewTypeProxyMapping.clear();
         return this;

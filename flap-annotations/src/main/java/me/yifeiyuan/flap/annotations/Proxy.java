@@ -30,7 +30,7 @@ public @interface Proxy {
     int layoutId() default -1;
 
     /**
-     * 该组件的布局文件的名字，例如一个布局文件叫 a_b_c.xml ，那么该值为 a_b_c，不需要.xml
+     * 该组件的布局文件的名字，例如一个布局文件叫 a_b_c.xml ，那么该值为 a_b_c，不需要后缀 .xml
      *
      * @return 组件布局的名字
      */

@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Object> mockModels() {
 
         List<Object> models = new ArrayList<>();
-        models.add(new SimpleTextModel("Android"));
-        models.add(new SimpleTextModel("Java"));
-        models.add(new SimpleTextModel("Kotlin"));
+        models.add(new SimpleTextModel("Flap（灵动）"));
+        models.add(new SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"));
+        models.add(new SimpleTextModel("—— by 程序亦非猿"));
 
         models.add(new SimpleImageModel());
 

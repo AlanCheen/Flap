@@ -12,7 +12,8 @@ import me.yifeiyuan.flapdev.R;
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-@Proxy(layoutId = R.layout.flap_item_simple_text)
+//@Proxy(layoutId = R.layout.flap_item_simple_text,layoutName = "flap_item_simple_text")
+@Proxy(layoutName = "flap_item_simple_text")
 public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private static final String TAG = "SimpleTextItem";

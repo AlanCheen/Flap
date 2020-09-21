@@ -16,6 +16,7 @@ import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel;
 import me.yifeiyuan.flapdev.components.generictest.GenericModel;
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
+import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         models.add(new CustomModel());
         models.add(new GenericModel());
         models.add(new SimpleDataBindingModel());
+
+        models.add(new JavaModuleModel());
 
         return models;
     }

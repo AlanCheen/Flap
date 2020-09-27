@@ -140,7 +140,7 @@ class AutoRegister {
                 mv.visitTypeInsn(NEW, className);
                 mv.visitInsn(DUP);
                 mv.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
-                mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentRegistry;", false);
+                mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentProxyRegistry;", false);
                 mv.visitInsn(POP);
             }
 

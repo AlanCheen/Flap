@@ -1,23 +1,20 @@
-# Flap
+# Flap(灵动)
 
 [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![AndroidX](https://img.shields.io/badge/AndroidX-Migrated-brightgreen) ![RecyclerView](https://img.shields.io/badge/RecyclerView-1.1.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ------
 [README_EN](./README_EN.md)
 
-
-`Flap` 是一个专门针对页面组件化方案的库，并且提供页面组件化的能力，提供更加强大的 `Component` 替代 `ViewHolder`，`FlapAdapter` 替代 `Adapter`，优化了很多较差的使用体验，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
+`Flap` 是一个基于 RecyclerView 的页面组件化解决方案，提供更好的开发体验和更强大的功能。
 
 ## Flap 的优点
-
 
 0. 功能强大：在保留 `RecyclerView` 原有的基本开发思路基础之上加了许多强大的功能，例如更好用的 `ViewHolder` 封装类 `Component`，更贴合实际开发需求;
 2. 先进的组件化思想：页面组件化的思想让页面的开发效率更上一层楼；
 1. 不需要自定义 `itemViewType`： `Flap` 优化了 `Component` 与 `ItemViewType` 的绑定逻辑，**默认使用 layoutId 作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！；
-2. 自动化：使用 APT 生成代码，提供 Gradle Plugin 自动注册，只需要写少量代码；
-2. 更少的样板代码：你可以和 `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` 这种没营养但是又烦人的样板代码彻底说再见！；
-2. 优良的架构：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
+2. 更少的样板代码：Flap 使用 APT 生成代码，提供 Gradle Plugin 自动注册，只需要写少量代码，你可以和 `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` 这种没营养但是又烦人的样板代码彻底说再见！；
 3. 让开发者聚焦业务逻辑：Flap 做到了关注点分离，开发者只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+2. 优良的架构：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
 
 
 ## 一分钟入门指南

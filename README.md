@@ -276,9 +276,12 @@ public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel
 
 **钉钉**扫码加群，因为阿里不让装微信，所以不方便。 
 
-<img width="373" height="481" src="./assets/flap_dingding_group.JPG"/>
+<div align=center><img width="373" height="481" src="./assets/flap_dingding_group.JPG"/></div>
 
 还可以关注我的公众号交流：程序亦非猿
+
+<div align=center><img width="215" height="215" src="./assets/public-wechat.jpeg"/></div>
+
 
 ## TODO
 

@@ -20,9 +20,9 @@ public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel
 
     private FlapItemSimpleDatabindingBinding binding;
 
-    public SimpleDataBindingComponent(@NonNull final ViewDataBinding binding) {
+    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
         super(binding.getRoot());
-        this.binding = (FlapItemSimpleDatabindingBinding) binding;
+        this.binding = binding;
     }
 
     @Override

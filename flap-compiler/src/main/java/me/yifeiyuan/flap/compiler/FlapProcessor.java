@@ -11,6 +11,7 @@ import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -43,19 +44,28 @@ public class FlapProcessor extends AbstractProcessor {
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
+    private static final String KEY_OPTION_R_CLASS_PATH = "packageName";
+
     private Filer filer;
     private Elements elements;
     private Types types;
     private Messager messager;
 
+    private String rPackageName;
+
     @Override
     public synchronized void init(final ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        filer = processingEnv.getFiler();               // Generate class.
-        types = processingEnv.getTypeUtils();            // Get type utils.
-        elements = processingEnv.getElementUtils();      // Get class meta.
+        filer = processingEnv.getFiler();
+        types = processingEnv.getTypeUtils();
+        elements = processingEnv.getElementUtils();
         messager = processingEnv.getMessager();
         messager.printMessage(Diagnostic.Kind.NOTE, "FlapProcessor init");
+
+        Map<String, String> options = processingEnv.getOptions();
+        if (options.containsKey(KEY_OPTION_R_CLASS_PATH)) {
+            rPackageName = options.get(KEY_OPTION_R_CLASS_PATH);
+        }
     }
 
     @Override
@@ -82,6 +92,7 @@ public class FlapProcessor extends AbstractProcessor {
                 try {
                     TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
                     JavaFile.builder(PKG_NAME_PROXIES, flapItemFactoryTypeSpec)
+                            .addFileComment("由 Flap APT 自动生成，请勿修改。")
                             .build()
                             .writeTo(filer);
                 } catch (IOException e) {
@@ -109,6 +120,8 @@ public class FlapProcessor extends AbstractProcessor {
 
         int layoutId = componentProxy.layoutId();
 
+        String layoutName = componentProxy.layoutName();
+
         boolean useDataBinding = componentProxy.useDataBinding();
 
         DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
@@ -131,18 +144,32 @@ public class FlapProcessor extends AbstractProcessor {
         if (useDataBinding) {
             onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))", flapItemClass);
         } else {
-            onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
+
+            boolean useViewBinding = componentProxy.useViewBinding();
+
+            if (useDataBinding) {
+                // TODO: 2020/9/27
+
+            } else {
+                onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
+            }
         }
 
         MethodSpec onCreateViewHolderMethod = onCreateViewHolderMethodBuilder.build();
 
-        MethodSpec getItemViewTypeMethod = MethodSpec.methodBuilder("getItemViewType")
+        MethodSpec.Builder getItemViewTypeMethodBuilder = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(itemModelClass, "model")
-                .returns(Integer.TYPE)
-                .addStatement("return " + layoutId)
-                .build();
+                .returns(Integer.TYPE);
+
+        if ("".equals(layoutName)) {
+            getItemViewTypeMethodBuilder.addStatement("return " + layoutId);
+        } else {
+            getItemViewTypeMethodBuilder.addStatement("return " + rPackageName + ".R.layout." + layoutName);
+        }
+
+        MethodSpec getItemViewTypeMethod = getItemViewTypeMethodBuilder.build();
 
         MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
                 .addAnnotation(Override.class)

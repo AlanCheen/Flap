@@ -16,6 +16,7 @@ import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel;
 import me.yifeiyuan.flapdev.components.generictest.GenericModel;
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
+import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,15 +66,17 @@ public class MainActivity extends AppCompatActivity {
     private List<Object> mockModels() {
 
         List<Object> models = new ArrayList<>();
-        models.add(new SimpleTextModel("Android"));
-        models.add(new SimpleTextModel("Java"));
-        models.add(new SimpleTextModel("Kotlin"));
+        models.add(new SimpleTextModel("Flap（灵动）"));
+        models.add(new SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"));
+        models.add(new SimpleTextModel("—— by 程序亦非猿"));
 
         models.add(new SimpleImageModel());
 
         models.add(new CustomModel());
         models.add(new GenericModel());
         models.add(new SimpleDataBindingModel());
+
+        models.add(new JavaModuleModel());
 
         return models;
     }

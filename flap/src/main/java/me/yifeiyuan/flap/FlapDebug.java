@@ -2,9 +2,11 @@ package me.yifeiyuan.flap;
 
 import android.util.Log;
 
+import androidx.annotation.RestrictTo;
+
 /**
  * Debug helper for Flap.
- *
+ * <p>
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
@@ -12,7 +14,8 @@ import android.util.Log;
  * @since 2018/12/13
  * @since 1.1
  */
-final class FlapDebug {
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+public final class FlapDebug {
 
     private static final String TAG = "FlapDebug";
 
@@ -30,4 +33,15 @@ final class FlapDebug {
         }
     }
 
+    public static void d(String tag, String msg) {
+        if (DEBUG) {
+            Log.e(tag, msg);
+        }
+    }
+
+    public static void w(String tag, String msg) {
+        if (DEBUG) {
+            Log.w(tag, msg);
+        }
+    }
 }

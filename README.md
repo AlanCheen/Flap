@@ -3,13 +3,24 @@
 [![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![AndroidX](https://img.shields.io/badge/AndroidX-Migrated-brightgreen) ![RecyclerView](https://img.shields.io/badge/RecyclerView-1.1.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ------
-
-`Flap` 是一个专门针对页面组件化方案的库，并且提供页面组件化的能力，提供更加强大的 `FlapComponent` 替代 `ViewHolder`，`FlapAdapter` 替代 `Adapter`，优化了很多较差的使用体验，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
-
 [README_EN](./README_EN.md)
 
-## 一分钟入门指南
 
+`Flap` 是一个专门针对页面组件化方案的库，并且提供页面组件化的能力，提供更加强大的 `Component` 替代 `ViewHolder`，`FlapAdapter` 替代 `Adapter`，优化了很多较差的使用体验，**解决许多开发中遇到的痛点**，让你轻松而优雅的面对各种需求。
+
+## Flap 的优点
+
+
+0. 功能强大：在保留 `RecyclerView` 原有的基本开发思路基础之上加了许多强大的功能，例如更好用的 `ViewHolder` 封装类 `Component`，更贴合实际开发需求;
+2. 先进的组件化思想：页面组件化的思想让页面的开发效率更上一层楼；
+1. 不需要自定义 `itemViewType`： `Flap` 优化了 `Component` 与 `ItemViewType` 的绑定逻辑，**默认使用 layoutId 作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！；
+2. 自动化：使用 APT 生成代码，提供 Gradle Plugin 自动注册，只需要写少量代码；
+2. 更少的样板代码：你可以和 `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` 这种没营养但是又烦人的样板代码彻底说再见！；
+2. 优良的架构：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
+3. 让开发者聚焦业务逻辑：Flap 做到了关注点分离，开发者只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+
+
+## 一分钟入门指南
 
 
 ### 你没集成过的全新版本
@@ -18,7 +29,6 @@
 | module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | Flap-plugin                                                  |
 | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-plugin/images/download.svg)](https://bintray.com/alancheen/maven/flap-plugin/_latestVersion) |
-
 
 
 ### 集成 Flap
@@ -41,7 +51,9 @@ dependencies {
 具体修改如下：
 
 ```groovy
-//添加 kapt 插件
+//记得添加 kotlin、kapt 插件
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
@@ -51,9 +63,9 @@ dependencies {
 }
 ```
 
-2) 添加 flap-plugin 
+2) 添加 Flap 的 Gradle Plugin 
 
-在你的项目 build.gradle 添加插件的 classpath ：
+在你的项目下的 `build.gradle` 添加插件的 `classpath` ：
 ```groovy
 buildscript {
     repositories {
@@ -65,18 +77,18 @@ buildscript {
         classpath "me.yifeiyuan.flap:plugin:$lastest_version"
     }
 }
-
 ```
 
-在 app/build.gradle 中应用插件：
+然后在 `app/build.gradle` 中应用插件：
 ```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'
 ```
 
+apply 只需要在 app 模块中添加即可。
+
 ### Flap 基本使用教程
 
-
-#### Step 1 : 创建一个 Model 类 :
+#### Step 1 : 为组件创建一个 Model 类 :
 
 ```java
 public class SimpleTextModel {
@@ -90,15 +102,17 @@ public class SimpleTextModel {
 }
 ```
 
+如果已经有 Model 则可以跳过。
+
 #### Step 2 : 创建一个组件布局 layout 文件："flap_item_simple_text"
 
 复制该文件的名字，下一步需要用。
 
+如果已经有布局了，则可以跳过新建步骤。
+
 #### Step 3 : 创建一个类继承 `Component` 并用 `@Proxy` 注解修饰 :
 
-`Component` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
-
-在 `@Proxy` 注解中给 `layoutName` 赋值为该组件的布局名字（不需要带 xml 后缀），并在 `onBind()` 方法里写绑定逻辑。
+重写必要的方法，然后在 `@Proxy` 注解中给 `layoutName` 赋值为该组件的布局名字（不需要带 xml 后缀），并在 `onBind()` 方法里写绑定逻辑。
 
 举个🌰 ：
 
@@ -120,10 +134,11 @@ public class SimpleTextComponent extends Component<SimpleTextModel> {
 }
 ```
 
+Component 还有更多用法，可以见后文。
+
 #### Step 4 : 创建你的 `FlapAdapter` 并设置 data
 
-
-创建你的 `FlapAdapter` 并设置好 data 即可。（FlapAdapter 是一个内置的 Adapter）
+创建你的 `FlapAdapter` 并设置好 data 即可。
 
 ```java
 //创建你的 FlapAdapter
@@ -200,18 +215,39 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
 
+#### 组件使用 DataBinding 
+
+如果你的组件使用了 `DataBinding` ，那么需要额外把 `@Proxy` 的 `useDataBinding` 设置为`true` 。
+
+并且需要把构造函数修改为入参是你的 binding class ，举个例子：
+
+```java
+//1. 增加 useDataBinding = true
+@Proxy(layoutName ="flap_item_simple_databinding", useDataBinding = true)
+public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel> {
+
+    private FlapItemSimpleDatabindingBinding binding;
+	  
+   //2.构造方法入参修改了
+    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
+    }
+
+    @Override
+    protected void onBind(@NonNull final SimpleDataBindingModel model) {
+        binding.setModel(model);
+        binding.executePendingBindings();
+    }
+}
+```
+
+
 ### 想用 AsyncListDiffer ？完全支持！
 
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
-## Flap 的优点
 
-可以说 `Flap` 的每一行代码都是我经过我深思熟虑而写下的，它拥有**精心设计的架构**，它遵守 SOLID 设计原则，与设计模式完美融合，做到**高内聚低耦合，易扩展易维护**；并且**最大程度上帮助开发者避免编写样板代码**，让开发者关注绑定逻辑即可；同时提供了**非常多的实用特性**，难能可贵的是它还做到了**简单易用、无门槛**；我相信你一定能够做到「一分钟入门」，并且我也相信 `Flap` 一定会是你的得力助手。
-
-1. `Flap` 优化了 `Component` 与 `ItemViewType` 的绑定逻辑，**默认使用 ViewHolder 的 布局Id（也即 layoutId）作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！！；
-2. **使用工厂模式为 Component 的创建提供支持**：而且，你可以**跟**  `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` **这种没营养但是又烦人的样板代码说再见！**；
-3. **优化 Component 的创建过程**：Component 的创建过程不像传统的 ViewHolder 那样混乱，真正做到了「开闭原则」，让你**不再迷失于混乱的 if else 、switch 堆中**，轻松面对各种加类型的需求；
-4. **绑定 ViewHolder 的最佳实践**：遵从**关注点分离**，**完全解耦 Component 的创建以及绑定过程**，你不需要关注 Component 是怎么创建的，而只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
 
 ## 变更日志
 
@@ -238,16 +274,11 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 
 ## 加群交流
 
-请**优先加钉钉群**，因为阿里不让装微信，微信看得少。
+**钉钉**扫码加群，因为阿里不让装微信，所以不方便。 
 
+<img width="373" height="481" src="./assets/flap_dingding_group.jpg"/>
 
-钉钉群：
-
-
-<div align=center><img width="373" height="481" src="./assets/flap_dingding_group.jpg"/></div>
-
-
-还可以关注我的公众号：程序亦非猿
+还可以关注我的公众号交流：程序亦非猿
 
 ## TODO
 

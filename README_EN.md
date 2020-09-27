@@ -1,52 +1,52 @@
 # Flap
 
 
-
-`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
-
-
+[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![AndroidX](https://img.shields.io/badge/AndroidX-Migrated-brightgreen) ![RecyclerView](https://img.shields.io/badge/RecyclerView-1.1.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ------
-
-
-
-[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
-
 [中文指南看这里(点我点我)](./README.md)
 
+`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
 
 
 ### Latest Version
 
 
-
-| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
-| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
-
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | Flap-plugin                                                  |
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-plugin/images/download.svg)](https://bintray.com/alancheen/maven/flap-plugin/_latestVersion) |
 
 
 ## Getting Started
 
-
-
 ### Integrate Flap
-
-
 
 Add the latest `Flap` to your dependencies:
 
 ```groovy
 dependencies {
-  
-  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
-  
-  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
-    
-  annotationProcessor 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+  //add recyclerview also
+  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  annotationProcessor "me.yifeiyuan.flap:flap-compiler:$lastest_version"
 }
 ```
 
+If you are using kotlin , replace `annotationProcessor` with `kapt` :
+
+```groovy
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
+}
+```
 
 
 ### Usage
@@ -54,7 +54,6 @@ dependencies {
 
 
 #### Step 1 : Create a model class :
-
 
 
 ```java
@@ -70,29 +69,23 @@ public class SimpleTextModel {
 ```
 
 
-
-#### Step 2 : Create a custom `FlapComponent`  :
-
-
-NOTE: `FlapComponent` is the base `ViewHolder` that `Flap` is using internally.
+#### Step 2 : Create a custom `Component`  :
 
 Here is a sample :
 
 ```java
-@Component(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextItem extends FlapComponent<SimpleTextModel> {
-
-    private static final String TAG = "SimpleTextItem";
+@Proxy(layoutName = "flap_item_simple_text")
+public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItem(final View itemView) {
+    public SimpleTextComponent(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleTextModel model) {
         tvContent.setText(model.content);
     }
 }

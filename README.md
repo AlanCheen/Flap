@@ -1,6 +1,6 @@
 # Flap
 
-[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
+[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![AndroidX](https://img.shields.io/badge/AndroidX-Migrated-brightgreen) ![RecyclerView](https://img.shields.io/badge/RecyclerView-1.1.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ------
 
@@ -76,7 +76,7 @@ apply plugin: 'me.yifeiyuan.flap.plugin'
 ### Flap 基本使用教程
 
 
-#### Step 1 : 创建你的 Model 类 :
+#### Step 1 : 创建一个 Model 类 :
 
 ```java
 public class SimpleTextModel {
@@ -90,16 +90,20 @@ public class SimpleTextModel {
 }
 ```
 
-#### Step 2 : 创建一个 `Component` 并用`@Proxy`注解修饰 :
+#### Step 2 : 创建一个组件布局 layout 文件："flap_item_simple_text"
+
+复制该文件的名字，下一步需要用。
+
+#### Step 3 : 创建一个类继承 `Component` 并用 `@Proxy` 注解修饰 :
 
 `Component` 是一个封装过的 `ViewHolder` ，把你原来的 `ViewHolder` 类继承它即可。
 
-另外需要在 `@Proxy` 注解中给 `layoutId` 赋值为该组件的布局 id ，这样你就不需要自己写 ViewHolder 的实例化啦。
+在 `@Proxy` 注解中给 `layoutName` 赋值为该组件的布局名字（不需要带 xml 后缀），并在 `onBind()` 方法里写绑定逻辑。
 
 举个🌰 ：
 
 ```java
-@Proxy(layoutId = R.layout.flap_item_simple_text)
+@Proxy(layoutName = "flap_item_simple_text")
 public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private TextView tvContent;
@@ -116,10 +120,7 @@ public class SimpleTextComponent extends Component<SimpleTextModel> {
 }
 ```
 
-注意：目前只能在 App 模块下使用，而在 Library 类型的 Module 中不能使用，因为使用了 R 文件，所以需要像 ButterKnife 那样针对 Module 做处理。
-
-
-#### Step 3 : 创建你的 `FlapAdapter` 并设置 data
+#### Step 4 : 创建你的 `FlapAdapter` 并设置 data
 
 
 创建你的 `FlapAdapter` 并设置好 data 即可。（FlapAdapter 是一个内置的 Adapter）
@@ -145,21 +146,16 @@ recyclerView.setAdapter(adapter);
 <div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
 
 
-
 怎么样？超简单吧？！
-
 
 
 ## 进阶使用教程
 
 
-
 ### Component 高级用法
 
 
-
 #### 更便捷好用的属性与回调方法
-
 
 
 1. 内置成员变量 `context` 可以轻松获取 `context` 对象；
@@ -189,11 +185,10 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 ```
 
 
-
 #### Component 感知生命周期
 
 
-在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `Component` 你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
+在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `Component` 中你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
 
 如果觉得不够，你也加更多的方法。
 
@@ -205,7 +200,7 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
 
-### AsyncListDiffer 完全支持
+### 想用 AsyncListDiffer ？完全支持！
 
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
@@ -252,15 +247,11 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 <div align=center><img width="373" height="481" src="./assets/flap_dingding_group.jpg"/></div>
 
 
-微信群：
-
-请加我微信，备注 Flap，会邀请你进群
-
-<div align=center><img width="338" height="438" src="./assets/personal-wechat.jpg"/></div>
+还可以关注我的公众号：程序亦非猿
 
 ## TODO
 
-- [ ] P0 , 针对 Library 类型的 Module 处理，让 Flap 也能工作；
+- [x] P0 , 针对 Library 类型的 Module 处理，让 Flap 也能工作；
 - [ ] 【P2】Kotlin 改造；
 - [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
 - [x] 支持 gradle plugin 实现组件的自动注册;
@@ -292,3 +283,7 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
+
+## License
+
+Apache 2.0

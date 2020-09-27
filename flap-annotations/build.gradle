@@ -14,7 +14,7 @@ publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
     artifactId = 'flap-annotations'
-    publishVersion = '2.0.0'
+    publishVersion = '2.1.0'
     desc = 'flap annotations'
     website = 'https://github.com/AlanCheen/Flap'
 }

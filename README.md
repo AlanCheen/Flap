@@ -5,16 +5,21 @@
 ------
 [README_EN](./README_EN.md)
 
-`Flap` 是一个基于 RecyclerView 的页面组件化解决方案，提供更好的开发体验和更强大的功能。
+`Flap` 是一个基于 `RecyclerView` 的页面组件化解决方案，提供更好的开发体验和更强大的功能，让你更关注业务，帮你提高开发效率。
 
-## Flap 的优点
+## Flap 的特点
 
-0. 功能强大：在保留 `RecyclerView` 原有的基本开发思路基础之上加了许多强大的功能，例如更好用的 `ViewHolder` 封装类 `Component`，更贴合实际开发需求;
-2. 先进的组件化思想：页面组件化的思想让页面的开发效率更上一层楼；
-1. 不需要自定义 `itemViewType`： `Flap` 优化了 `Component` 与 `ItemViewType` 的绑定逻辑，**默认使用 layoutId 作为它的 ItemViewType**，并做自动关联，你再也不需要自定义多余且烦人的常量！；
-2. 更少的样板代码：Flap 使用 APT 生成代码，提供 Gradle Plugin 自动注册，只需要写少量代码，你可以和 `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` 这种没营养但是又烦人的样板代码彻底说再见！；
-3. 让开发者聚焦业务逻辑：Flap 做到了关注点分离，开发者只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
-2. 优良的架构：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
+0. **功能强大**：在保留 `RecyclerView` 原有的基本开发思路基础之上加了许多强大的功能，例如更好用的 `ViewHolder` 封装类 `Component`，更贴合实际开发需求;
+
+1. **组件化**：页面组件化让页面的开发效率更上一层楼；
+
+2. **高效**：Flap 最大程度上减少了样板代码，例如无需自定义 `itemViewType` ，也不需要自己实例化组件， 你可以和 `new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.xxx, parent, false)));` 这种没营养但是又烦人的样板代码彻底说再见！；
+
+3. **关注点分离**：Flap 努力让开发者聚焦于业务，开发者只需要关注 `onBind()` 方法来处理你的数据绑定逻辑即可；
+
+4. **优良的架构**：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
+
+   
 
 
 ## 一分钟入门指南
@@ -23,7 +28,7 @@
 ### 你没集成过的全新版本
 
 
-| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | Flap-plugin                                                  |
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | plugin                                                       |
 | ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/plugin/images/download.svg)](https://bintray.com/alancheen/maven/plugin/_latestVersion) |
 
@@ -133,9 +138,9 @@ public class SimpleTextComponent extends Component<SimpleTextModel> {
 
 Component 还有更多用法，可以见后文。
 
-#### Step 4 : 创建你的 `FlapAdapter` 并设置 data
+#### Step 4 : 创建你的 `FlapAdapter` 并设置数据
 
-创建你的 `FlapAdapter` 并设置好 data 即可。
+创建你的 `FlapAdapter` 并调用 `setData()` 方法设置好数据即可。
 
 ```java
 //创建你的 FlapAdapter
@@ -164,10 +169,16 @@ recyclerView.setAdapter(adapter);
 ## 进阶使用教程
 
 
+
 ### Component 高级用法
 
 
+
 #### 更便捷好用的属性与回调方法
+
+Component 继承自 ViewHolder 且根据实际研发经验添加了一些非常方便的属性和方法。
+
+例如：
 
 
 1. 内置成员变量 `context` 可以轻松获取 `context` 对象；
@@ -200,10 +211,9 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 #### Component 感知生命周期
 
 
-在一些业务场景下我们需要在 `ViewHolder` 中需要感知生命周期，在 `Component` 中你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
+在一些业务场景下我们需要在 `ViewHolder` 中感知生命周期，在 `Component` 中你可以重写`onResume` 、`onPause`、`onStop`、`onDestroy`  方法，得到回调，**让你轻松面对类似 暂停/重播视频 这种依赖于生命周期的需求**。
 
 如果觉得不够，你也加更多的方法。
-
 
 `FlapAdapter` 会帮你自动绑定 `LifecycleOwner` ，生命周期问题从此不再出现。
 
@@ -212,9 +222,9 @@ protected final <V extends View> V findViewById(@IdRes int viewId)
 1. `FlapAdapter.setLifecycleEnable(boolean lifecycleEnable) `   默认开启
 2. `FlapAdapter.setLifecycleOwner(@NonNull final LifecycleOwner lifecycleOwner)`
 
-#### 组件使用 DataBinding 
+#### Component 使用 DataBinding 
 
-如果你的组件使用了 `DataBinding` ，那么需要额外把 `@Proxy` 的 `useDataBinding` 设置为`true` 。
+如果你想在组件配合使用 `DataBinding` ，那么需要额外把 `@Proxy` 的 `useDataBinding` 设置为`true` 。
 
 并且需要把构造函数修改为入参是你的 binding class ，举个例子：
 
@@ -244,17 +254,15 @@ public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel
 
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
-
-
 ## 变更日志
 
 版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
 
 ## FAQ
 
-#### 1. 如何设置 Component 的点击事件？
+#### 1. 如何设置统一 Component 的点击事件？
 
-答：Flap 暂时没有提供一个全局的点击事件处理方法，而是推荐在 Component 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
+答：不能，Flap 没有提供一个全局的点击事件处理方法，而是推荐在 Component 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
 
 #### 2. 我想在 Component 里用 context 怎么办？
 

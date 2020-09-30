@@ -7,6 +7,9 @@
 3. FlapRecyclerView 完善
 6. 支持 ViewBinding
 
+### 2.2.0
+1. 支持 ViewBinding;
+
 ### 2.1.0
 
 1. 新增 Proxy.layoutName 注解方法，支持在子模块中使用，因为 layoutId 注解在子模块中不能使用；

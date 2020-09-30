@@ -48,6 +48,23 @@ dependencies {
 }
 ```
 
+并且配置 APT 参数 `packageName` :
+
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: '你模块的包名']
+            }
+        }
+    }
+}
+```
+
+
 注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
 
 具体修改如下：
@@ -62,6 +79,18 @@ dependencies {
   implementation "me.yifeiyuan.flap:flap:$lastest_version"
   implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
   kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
+}
+```
+
+配置 `packageName` 的方式也需要改：
+
+```groovy
+android {
+    kapt {
+        arguments {
+            arg("packageName", "你模块的包名")
+        }
+    }
 }
 ```
 
@@ -81,39 +110,10 @@ buildscript {
 }
 ```
 
-并且配置 `packageName` 给 APT:
-
-```groovy
-android {
-    //...
-    defaultConfig {
-        //...
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [packageName: '你模块的包名']
-            }
-        }
-    }
-}
-```
-
-如果你使用的是 Kotlin ，则用下面的方式：
-```groovy
-android {
-    kapt {
-        arguments {
-            arg("packageName", "你模块的包名")
-        }
-    }
-}
-```
-
 然后在 `app/build.gradle` 中应用插件：
 ```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'
 ```
-
-
 
 apply 只需要在 app 模块中添加即可。
 

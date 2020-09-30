@@ -278,6 +278,31 @@ public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel
 }
 ```
 
+#### Component 使用 ViewBinding 
+
+如果你想在组件配合使用 `ViewBinding` ，那么需要额外把 `@Proxy` 的 `useViewBinding` 设置为`true` 。
+
+并且需要把构造函数修改为入参是你的 binding class ，举个例子：
+
+```java
+//1. 增加 useViewBinding = true
+@Proxy(layoutName = "flap_item_vb", useViewBinding = true)
+public class ViewBindingComponent extends Component<VBModel> {
+
+    private FlapItemVbBinding binding;
+    //2.构造方法入参修改了
+    public ViewBindingComponent(@NonNull FlapItemVbBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
+    }
+
+    @Override
+    protected void onBind(@NonNull VBModel model) {
+        binding.tvContent.setText("ViewBinding Sample");
+    }
+}
+```
+
 
 ### 想用 AsyncListDiffer ？完全支持！
 

@@ -6,6 +6,7 @@ dependencies {
     implementation 'com.squareup:javapoet:1.11.1'
     api 'com.google.auto.service:auto-service:1.0-rc6'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
+    implementation 'com.google.guava:guava:21.0'
 }
 
 sourceCompatibility = "7"
@@ -17,7 +18,7 @@ publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
     artifactId = 'flap-compiler'
-    publishVersion = '2.1.1'
+    publishVersion = '2.2.0'
     desc = 'flap annotations'
     website = 'https://github.com/AlanCheen/Flap'
 }

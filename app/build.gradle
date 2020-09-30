@@ -59,6 +59,11 @@ android {
         enabled = true
     }
 
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
     kapt {
         arguments {
             arg("packageName", "me.yifeiyuan.flapdev")

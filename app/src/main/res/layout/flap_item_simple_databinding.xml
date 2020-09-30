@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/dataBindingText"
-            android:background="#00f0ff"
+            android:background="#EAC65A"
             android:textColor="#ffffff"
             android:gravity="center"
             android:text="@{model.text}"

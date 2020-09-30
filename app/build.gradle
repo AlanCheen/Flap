@@ -83,6 +83,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     implementation project(':othermodule')
+    implementation project(':ktmodule')
 
     implementation project(':flap')
     implementation project(':flap-annotations')

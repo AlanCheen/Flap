@@ -59,10 +59,10 @@ android {
         enabled = true
     }
 
-    buildFeatures {
-        dataBinding true
-        viewBinding true
-    }
+//    buildFeatures {
+//        dataBinding true
+//        viewBinding true
+//    }
 
     kapt {
         arguments {

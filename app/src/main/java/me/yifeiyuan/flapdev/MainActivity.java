@@ -18,6 +18,7 @@ import me.yifeiyuan.flapdev.components.generictest.GenericModel;
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel;
+import me.yifeiyuan.ktx.foundation.othermodule.vb.VBModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         models.add(new JavaModuleModel());
         models.add(new KtComponentModel());
+        models.add(new VBModel());
 
         return models;
     }

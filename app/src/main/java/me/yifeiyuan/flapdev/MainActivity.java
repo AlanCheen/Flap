@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
+import me.yifeiyuan.flap.ktmodule.KtComponentModel;
 import me.yifeiyuan.flapdev.components.customviewtype.CustomModel;
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel;
 import me.yifeiyuan.flapdev.components.generictest.GenericModel;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         models.add(new SimpleDataBindingModel());
 
         models.add(new JavaModuleModel());
+        models.add(new KtComponentModel());
 
         return models;
     }

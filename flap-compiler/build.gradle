@@ -4,7 +4,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':flap-annotations')
     implementation 'com.squareup:javapoet:1.11.1'
-    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+    api 'com.google.auto.service:auto-service:1.0-rc6'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
 }
 
 sourceCompatibility = "7"
@@ -16,7 +17,7 @@ publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
     artifactId = 'flap-compiler'
-    publishVersion = '2.1.0'
+    publishVersion = '2.1.1'
     desc = 'flap annotations'
     website = 'https://github.com/AlanCheen/Flap'
 }

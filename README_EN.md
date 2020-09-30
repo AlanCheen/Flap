@@ -67,13 +67,38 @@ buildscript {
 }
 ```
 
-Modify app/build.gradle：
+Then setup annotationProcessorOptions `packageName` :
+
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: 'your package name']
+            }
+        }
+    }
+}
+```
+
+If you are using Kotlin ：
+```groovy
+android {
+    kapt {
+        arguments {
+            arg("packageName", "your package name")
+        }
+    }
+}
+```
+
+At last, modify app/build.gradle：
 
 ```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'	
 ```
-
-
 
 ### Usage
 

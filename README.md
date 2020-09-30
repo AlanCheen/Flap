@@ -81,10 +81,39 @@ buildscript {
 }
 ```
 
+并且配置 `packageName` 给 APT:
+
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: '你模块的包名']
+            }
+        }
+    }
+}
+```
+
+如果你使用的是 Kotlin ，则用下面的方式：
+```groovy
+android {
+    kapt {
+        arguments {
+            arg("packageName", "你模块的包名")
+        }
+    }
+}
+```
+
 然后在 `app/build.gradle` 中应用插件：
 ```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'
 ```
+
+
 
 apply 只需要在 app 模块中添加即可。
 

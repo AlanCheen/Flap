@@ -1,13 +1,13 @@
 package me.yifeiyuan.flap.extensions;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import me.yifeiyuan.flap.FlapAdapter;
 /**
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。

@@ -1,20 +1,22 @@
 package me.yifeiyuan.flapdev.components.customviewtype;
 
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.yifeiyuan.flap.Component;
 import org.jetbrains.annotations.NotNull;
 
-import me.yifeiyuan.flap.FlapComponent;
+import androidx.annotation.NonNull;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 import me.yifeiyuan.flapdev.R;
 
 /**
+ * 完全自定义 ComponentProxy 用例。
+ *
  * Created by 程序亦非猿 on 2019/1/18.
  */
-public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
+public class CustomViewTypeComponent extends Component<CustomModel> {
 
     private static final int CUSTOM_ITEM_VIEW_TYPE = 466;
 
@@ -31,7 +33,7 @@ public class CustomViewTypeComponent extends FlapComponent<CustomModel> {
 
         @NonNull
         @Override
-        public CustomViewTypeComponent createComponent(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        public CustomViewTypeComponent createComponent(@NotNull @NonNull final LayoutInflater inflater, @NotNull @NonNull final ViewGroup parent, final int viewType) {
             return new CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false));
         }
 

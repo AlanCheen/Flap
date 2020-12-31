@@ -1,9 +1,10 @@
 package me.yifeiyuan.flap;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,19 +17,20 @@ import static me.yifeiyuan.flap.Preconditions.checkNotNull;
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
- *
+ * <p>
  * Check these also if need :
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @version 1.0
- * @since 1.1
- * @see FlapComponent
+ * @see Component
  * @see ComponentPool
  * @see me.yifeiyuan.flap.extensions.DifferFlapAdapter
- *
+ * <p>
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @since 1.1
  */
-public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
+@SuppressWarnings("ALL")
+public class FlapAdapter extends RecyclerView.Adapter<Component> {
 
     @NonNull
     private final Flap flap = Flap.getDefault();
@@ -44,35 +46,35 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
 
     @NonNull
     @Override
-    public FlapComponent onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+    public Component onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return flap.onCreateViewHolder(LayoutInflater.from(parent.getContext()), parent, viewType);
     }
 
     @Override
-    public final void onBindViewHolder(@NonNull final FlapComponent holder, final int position) {
+    public final void onBindViewHolder(@NonNull final Component holder, final int position) {
         //ignore
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FlapComponent holder, final int position, @NonNull final List<Object> payloads) {
+    public void onBindViewHolder(@NonNull final Component holder, final int position, @NonNull final List<Object> payloads) {
         attachLifecycleOwnerIfNeed(holder);
         flap.onBindViewHolder(holder, position, getItem(position), payloads, this);
     }
 
     /**
-     * Attaches the holder to lifecycle if need.
+     * Attaches the component to lifecycle if need.
      *
-     * @param holder The holder we are going to bind.
+     * @param component The component we are going to bind.
      */
-    private void attachLifecycleOwnerIfNeed(@NonNull final FlapComponent holder) {
+    private void attachLifecycleOwnerIfNeed(@NonNull final Component component) {
         if (lifecycleEnable && lifecycleOwner != null) {
-            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) holder);
+            lifecycleOwner.getLifecycle().addObserver((LifecycleObserver) component);
         }
     }
 
     @Override
     public int getItemCount() {
-        return getData().size();
+        return getData() == null ? 0 : getData().size();
     }
 
     @Override
@@ -92,25 +94,25 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull FlapComponent holder) {
+    public void onViewAttachedToWindow(@NonNull Component holder) {
         super.onViewAttachedToWindow(holder);
         flap.onViewAttachedToWindow(holder, this);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull FlapComponent holder) {
+    public void onViewDetachedFromWindow(@NonNull Component holder) {
         super.onViewDetachedFromWindow(holder);
         flap.onViewDetachedFromWindow(holder, this);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final FlapComponent holder) {
+    public void onViewRecycled(@NonNull final Component holder) {
         super.onViewRecycled(holder);
         flap.onViewRecycled(holder, this);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final FlapComponent holder) {
+    public boolean onFailedToRecycleView(@NonNull final Component holder) {
         return flap.onFailedToRecycleView(holder, this);
     }
 
@@ -149,11 +151,10 @@ public class FlapAdapter extends RecyclerView.Adapter<FlapComponent> {
 
     /**
      * Set whether use the global RecycledViewPool or not.
-     *
+     * <p>
      * NOTE : Call this before you call RecyclerView.setAdapter.
      *
      * @param enable true by default
-     *
      * @return this
      */
     public FlapAdapter setUseComponentPool(final boolean enable) {

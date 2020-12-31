@@ -1,12 +1,14 @@
 package me.yifeiyuan.flap;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
+import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +29,8 @@ import me.yifeiyuan.flap.internal.DefaultComponent.Proxy;
  * @version 1.0
  * @since 1.1
  */
-@SuppressWarnings("unchecked")
-public final class Flap implements IFlap {
+@SuppressWarnings("ALL")
+public final class Flap implements ComponentProxyRegistry, AdapterDelegate, ComponentFlowRegistry, ComponentCallbacks2 {
 
     private static final String TAG = "Flap";
 
@@ -50,6 +52,15 @@ public final class Flap implements IFlap {
 
     private static volatile Flap sInstance;
 
+    public static void setup(@NonNull Context ctx) {
+        Context applicationContext = ctx.getApplicationContext();
+        applicationContext.registerComponentCallbacks(Flap.getDefault());
+    }
+
+    public static void setDebug(final boolean isDebugging) {
+        FlapDebug.setDebug(isDebugging);
+    }
+
     public static Flap getDefault() {
         if (sInstance == null) {
             synchronized (Flap.class) {
@@ -69,40 +80,45 @@ public final class Flap implements IFlap {
         componentProxyMap = new HashMap<>(typeCount);
         viewTypeProxyMapping = new SparseArray<>(typeCount);
         registerFlowListener(new ComponentPerformanceMonitor());
-        injectFactories(this);
+//        injectFactories(this);
+        injectProxiesByPlugin(this);
     }
 
-    private void injectFactories(@NonNull final Flap flap) {
-        try {
-            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
-            Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
-            method.setAccessible(true);
-            method.invoke(null, flap);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    private void injectProxiesByPlugin(@NonNull final Flap flap) {
+
     }
+
+//    private void injectFactories(@NonNull final Flap flap) {
+//        try {
+//            Class<?> flapItemFactoryManager = Class.forName("me.yifeiyuan.flap.apt.manager.ComponentAutoRegister");
+//            Method method = flapItemFactoryManager.getMethod("inject", Flap.class);
+//            method.setAccessible(true);
+//            method.invoke(null, flap);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
-    public ComponentRegistry register(@NonNull final ComponentProxy itemFactory) {
+    public ComponentProxyRegistry register(@NonNull final ComponentProxy itemFactory) {
         componentProxyMap.put(itemFactory.getComponentModelClass(), itemFactory);
         return this;
     }
 
     @Override
-    public ComponentRegistry unregister(@NonNull final ComponentProxy itemFactory) {
+    public ComponentProxyRegistry unregister(@NonNull final ComponentProxy itemFactory) {
         componentProxyMap.remove(itemFactory.getComponentModelClass());
         return this;
     }
 
     @Override
-    public ComponentRegistry clearAll() {
+    public ComponentProxyRegistry clearAll() {
         componentProxyMap.clear();
         viewTypeProxyMapping.clear();
         return this;
@@ -125,8 +141,8 @@ public final class Flap implements IFlap {
 
     @NonNull
     @Override
-    public FlapComponent onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
-        FlapComponent vh = null;
+    public Component<?> onCreateViewHolder(@NonNull final LayoutInflater inflater, @NonNull final ViewGroup parent, final int viewType) {
+        Component<?> vh = null;
         ComponentProxy<?, ?> factory = viewTypeProxyMapping.get(viewType);
         dispatchBeforeCreateComponentEvent(factory, viewType);
         if (factory != null) {
@@ -150,7 +166,7 @@ public final class Flap implements IFlap {
         }
     }
 
-    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final FlapComponent vh) {
+    private void dispatchAfterCreateComponentEvent(final ComponentProxy<?, ?> factory, final int viewType, final Component<?> vh) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentCreated(factory, vh);
         }
@@ -158,46 +174,42 @@ public final class Flap implements IFlap {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(@NonNull final FlapComponent component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
+    public void onBindViewHolder(@NonNull final Component component, final int position, final Object model, @NonNull final List<Object> payloads, @NonNull final FlapAdapter flapAdapter) {
         dispatchOnBeforeBindComponent(component, position, model);
         component.bind(model, position, payloads, flapAdapter);
         dispatchOnComponentBound(component, position, model);
     }
 
-    private void dispatchOnBeforeBindComponent(@NonNull final FlapComponent component, final int position, final Object model) {
+    private void dispatchOnBeforeBindComponent(@NonNull final Component<?> component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onStartBindComponent(component, position, model);
         }
     }
 
-    private void dispatchOnComponentBound(@NonNull final FlapComponent component, final int position, final Object model) {
+    private void dispatchOnComponentBound(@NonNull final Component<?> component, final int position, final Object model) {
         for (final ComponentFlowListener flowListener : flowListeners) {
             flowListener.onComponentBound(component, position, model);
         }
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewAttachedToWindow(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewAttachedToWindow(flapAdapter);
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewDetachedFromWindow(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewDetachedFromWindow(flapAdapter);
     }
 
     @Override
-    public void onViewRecycled(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public void onViewRecycled(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         component.onViewRecycled(flapAdapter);
     }
 
     @Override
-    public boolean onFailedToRecycleView(@NonNull final FlapComponent component, @NonNull final FlapAdapter flapAdapter) {
+    public boolean onFailedToRecycleView(@NonNull final Component<?> component, @NonNull final FlapAdapter flapAdapter) {
         return component.onFailedToRecycleView(flapAdapter);
-    }
-
-    public static void setDebug(final boolean isDebugging) {
-        FlapDebug.setDebug(isDebugging);
     }
 
     public ComponentPool getComponentPool() {
@@ -212,5 +224,20 @@ public final class Flap implements IFlap {
     @Override
     public void unregisterFlowListener(final ComponentFlowListener componentFlowListener) {
         flowListeners.remove(componentFlowListener);
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        GLOBAL_POOL.onTrimMemory(level);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        GLOBAL_POOL.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onLowMemory() {
+        GLOBAL_POOL.onLowMemory();
     }
 }

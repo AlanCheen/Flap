@@ -1,7 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
@@ -13,7 +13,7 @@ class KotlinTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
 
-        var adapter = FlapAdapter()
+        val adapter = FlapAdapter()
 
         adapter.data = mock()
 
@@ -22,7 +22,7 @@ class KotlinTestActivity : AppCompatActivity() {
     }
 
     private fun mock(): MutableList<*> {
-        var arrayList = ArrayList<Any>()
+        val arrayList = ArrayList<Any>()
 
         arrayList.add(SimpleTextModel("Android"))
         arrayList.add(SimpleTextModel("Java"))

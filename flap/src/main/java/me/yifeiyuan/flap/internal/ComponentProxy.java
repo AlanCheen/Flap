@@ -1,12 +1,12 @@
 package me.yifeiyuan.flap.internal;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import me.yifeiyuan.flap.FlapComponent;
+import me.yifeiyuan.flap.Component;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 
 /**
  * Proxy for component.
@@ -17,7 +17,7 @@ import me.yifeiyuan.flap.FlapComponent;
  * @since 1.1
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-public interface ComponentProxy<T, VH extends FlapComponent<T>> {
+public interface ComponentProxy<T, VH extends Component<T>> {
 
     /**
      * Create a new instance of component.
@@ -32,7 +32,8 @@ public interface ComponentProxy<T, VH extends FlapComponent<T>> {
     VH createComponent(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType);
 
     /**
-     * 组件的 itemViewType，一般使用 layoutId
+     * 返回组件的 itemViewType，默认会使用组件的 layoutId
+     *
      * @param model your model to bind with the component.
      *
      * @return the itemViewType of the component you are gonna create.

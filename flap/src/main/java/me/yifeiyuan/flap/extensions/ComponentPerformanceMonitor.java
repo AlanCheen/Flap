@@ -3,12 +3,13 @@ package me.yifeiyuan.flap.extensions;
 import android.os.SystemClock;
 import android.util.Log;
 
-import me.yifeiyuan.flap.FlapComponent;
+import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.FlapDebug;
 import me.yifeiyuan.flap.internal.ComponentProxy;
 
 /**
  * 组件性能监控
- *
+ * <p>
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
@@ -17,38 +18,43 @@ import me.yifeiyuan.flap.internal.ComponentProxy;
  */
 public class ComponentPerformanceMonitor implements ComponentFlowListener {
 
-    private static final String TAG = "PerformanceMonitor";
+    private static final String TAG = "Flap-PerformanceMonitor";
 
     private long createTime;
     private long bindTime;
 
     @Override
-    public void onStartCreateComponent(final ComponentProxy factory) {
-        Log.d(TAG, "开始使用 " + factory.getClass().getSimpleName() + " 创建组件");
+    public void onStartCreateComponent(final ComponentProxy proxy) {
+        if (proxy == null) {
+            return;
+        }
+        FlapDebug.d(TAG, "开始使用 " + proxy.getClass().getSimpleName() + " 创建组件");
         createTime = SystemClock.uptimeMillis();
     }
 
     @Override
-    public void onComponentCreated(final ComponentProxy factory, final FlapComponent component) {
+    public void onComponentCreated(final ComponentProxy proxy, final Component component) {
+        if (proxy == null || component == null) {
+            return;
+        }
         long timeCost = SystemClock.uptimeMillis() - createTime;
-        Log.d(TAG, "组件 " + component.getClass().getSimpleName() + " 创建完毕，耗时 " + timeCost + " 毫秒");
+        FlapDebug.d(TAG, "组件 " + component.getClass().getSimpleName() + " 创建完毕，耗时 " + timeCost + " 毫秒");
         if (timeCost > getCreateCostThreshold()) {
-            Log.w(TAG, "请注意：" + component.getClass().getSimpleName() + " 组件创建超过阈值，请优化！！！ ");
+            FlapDebug.w(TAG, "请注意：" + component.getClass().getSimpleName() + " 组件创建超过阈值，请优化！！！ ");
         }
     }
 
     @Override
-    public void onStartBindComponent(final FlapComponent component, final int position, final Object model) {
-        Log.d(TAG, "开始绑定组件 [" + component.getClass().getSimpleName() + "], position = [" + position + "], model = [" + model + "]");
+    public void onStartBindComponent(final Component component, final int position, final Object model) {
+        FlapDebug.d(TAG, "开始绑定组件 [" + component.getClass().getSimpleName() + "], position = [" + position + "], model = [" + model + "]");
         bindTime = SystemClock.uptimeMillis();
     }
 
-    @Override
-    public void onComponentBound(final FlapComponent component, final int position, final Object model) {
+    public void onComponentBound(final Component component, final int position, final Object model) {
         long timeCost = SystemClock.uptimeMillis() - bindTime;
-        Log.d(TAG, "组件绑定完毕，耗时 " + timeCost + " 毫秒");
+        FlapDebug.d(TAG, "组件绑定完毕，耗时 " + timeCost + " 毫秒");
         if (timeCost > getBindCostThreshold()) {
-            Log.w(TAG, "请注意：" + component.getClass().getSimpleName() + " 组件绑定超时，请优化！ ");
+            FlapDebug.w(TAG, "请注意：" + component.getClass().getSimpleName() + " 组件绑定超时，请优化！ ");
         }
     }
 

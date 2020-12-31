@@ -1,6 +1,6 @@
 package me.yifeiyuan.flap;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import me.yifeiyuan.flap.internal.ComponentProxy;
 
@@ -17,20 +17,20 @@ import me.yifeiyuan.flap.internal.ComponentProxy;
  * @since 1.1
  */
 @SuppressWarnings("unused")
-interface ComponentRegistry {
+interface ComponentProxyRegistry {
 
     /**
      * Register a ComponentProxy.
      */
-    ComponentRegistry register(@NonNull final ComponentProxy componentProxy);
+    ComponentProxyRegistry register(@NonNull final ComponentProxy componentProxy);
 
     /**
      * Unregister a ComponentProxy.
      */
-    ComponentRegistry unregister(@NonNull final ComponentProxy componentProxy);
+    ComponentProxyRegistry unregister(@NonNull final ComponentProxy componentProxy);
 
     /**
      * Clear all the ComponentProxies that you have registered.
      */
-    ComponentRegistry clearAll();
+    ComponentProxyRegistry clearAll();
 }

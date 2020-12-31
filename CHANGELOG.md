@@ -2,11 +2,39 @@
 
 ### TODO 计划
 
-1. 增加 DataBinding 支持
 2. 新增 IComponentModel（Differ）
 1. 尝试 Kotlin 化
-2. 迁移 androidx 
 3. FlapRecyclerView 完善
+6. 支持 ViewBinding
+
+### 2.1.0
+
+1. 新增 Proxy.layoutName 注解方法，支持在子模块中使用，因为 layoutId 注解在子模块中不能使用；
+2. 新增 ComponentFlowRegistry 接口；
+3. 移除 IFlap 接口；
+
+
+### 2.0.0
+
+1. 新增 Flap Gradle Plugin 配合 ASM 实现组件的自动注册；
+2. 移除 AutoRegister 注解以及 Proxy 注解的 autoRegister ，默认使用插件后会自动注册，如果不使用插件就不会注册；
+
+### 1.6.1
+
+1. Flap 新增 `setup()` 方法用来初始化;
+2. Flap 实现 ComponentCallbacks2 接口，在调用 setup 方法后会在内存不足时清理 RecyclerViewPool 缓存；
+
+
+### 1.6.0
+
+1. 重命名 FlapComponent --> Component ，还是简洁点好；
+2. 重命名注解 Flap --> Proxy，Proxy 代表背后的 ComponentProxy，更符合，而且 Flap 已经有类了，容易冲突；
+
+
+### 1.5.2
+
+1. 新增 ComponentPerformanceMonitor 用来监控组件性能；
+2. Clean Code;
 
 ### 1.5.1
 

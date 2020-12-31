@@ -1,10 +1,10 @@
 package me.yifeiyuan.flapdev.components.databindingsample;
 
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
+import androidx.databinding.ViewDataBinding;
+import androidx.annotation.NonNull;
 
-import me.yifeiyuan.flap.FlapComponent;
-import me.yifeiyuan.flap.annotations.Component;
+import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.annotations.Proxy;
 import me.yifeiyuan.flapdev.R;
 import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding;
 /**
@@ -14,14 +14,15 @@ import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding;
  * @since 2020/3/26 3:28 PM
  * @since 1.0
  */
-@Component(layoutId = R.layout.flap_item_simple_databinding, useDataBinding = true)
-public class SimpleDataBindingComponent extends FlapComponent<SimpleDataBindingModel> {
+//@Proxy(layoutId = R.layout.flap_item_simple_databinding, useDataBinding = true)
+@Proxy(layoutName ="flap_item_simple_databinding", useDataBinding = true)
+public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel> {
 
     private FlapItemSimpleDatabindingBinding binding;
 
-    public SimpleDataBindingComponent(@NonNull final ViewDataBinding binding) {
+    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
         super(binding.getRoot());
-        this.binding = (FlapItemSimpleDatabindingBinding) binding;
+        this.binding = binding;
     }
 
     @Override

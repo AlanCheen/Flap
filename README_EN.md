@@ -1,60 +1,110 @@
 # Flap
 
 
-
-`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
-
-
+[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![AndroidX](https://img.shields.io/badge/AndroidX-Migrated-brightgreen) ![RecyclerView](https://img.shields.io/badge/RecyclerView-1.1.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
 
 ------
-
-
-
-[![Build Status](https://travis-ci.org/AlanCheen/Flap.svg?branch=master)](https://travis-ci.org/AlanCheen/Flap) ![RecyclerView](https://img.shields.io/badge/RecyclerView-28.0.0-brightgreen.svg) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![license](https://img.shields.io/github/license/AlanCheen/Flap.svg)](./LICENSE) [![Author](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-%E7%A8%8B%E5%BA%8F%E4%BA%A6%E9%9D%9E%E7%8C%BF-blue.svg)](https://github.com/AlanCheen) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlanCheen/Flap/pulls)
-
 [中文指南看这里(点我点我)](./README.md)
 
+`Flap` is a library that makes `RecyclerView.Adapter` much more easier to use , by keeping you from writing boilerplate codes and providing lots advance features , especially when you have to support lots of different type items.
 
 
 ### Latest Version
 
 
-
-| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                |
-| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) |
-
+| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | plugin                                                       |
+| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/plugin/images/download.svg)](https://bintray.com/alancheen/maven/plugin/_latestVersion) |
 
 
 ## Getting Started
 
-
-
 ### Integrate Flap
 
-
-
-Add the latest `Flap` to your dependencies:
+1)Add the latest `Flap` to your dependencies:
 
 ```groovy
 dependencies {
-  
-  implementation 'me.yifeiyuan.flap:flap:$lastest_version'
-  
-  implementation 'me.yifeiyuan.flap:flap-annotations:$lastest_version'
-    
-  annotationProcessor 'me.yifeiyuan.flap:flap-compiler:$lastest_version'
+  //add recyclerview also
+  implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  annotationProcessor "me.yifeiyuan.flap:flap-compiler:$lastest_version"
+}
+```
+
+If you are using kotlin , replace `annotationProcessor` with `kapt` :
+
+```groovy
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+  implementation "me.yifeiyuan.flap:flap:$lastest_version"
+  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
+  kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
 }
 ```
 
 
+
+2) Add Flap Gradle Plugin:
+
+Modify project/build.gradle :
+
+```groovy
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        //添加插件
+        classpath "me.yifeiyuan.flap:plugin:$lastest_version"
+    }
+}
+```
+
+Then setup annotationProcessorOptions `packageName` :
+
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: 'your package name']
+            }
+        }
+    }
+}
+```
+
+If you are using Kotlin ：
+```groovy
+android {
+    kapt {
+        arguments {
+            arg("packageName", "your package name")
+        }
+    }
+}
+```
+
+At last, modify app/build.gradle：
+
+```groovy
+apply plugin: 'me.yifeiyuan.flap.plugin'	
+```
 
 ### Usage
 
 
 
 #### Step 1 : Create a model class :
-
 
 
 ```java
@@ -71,28 +121,33 @@ public class SimpleTextModel {
 
 
 
-#### Step 2 : Create a custom `FlapComponent`  :
+#### Step 2: Create a layout :
 
 
-NOTE: `FlapComponent` is the base `ViewHolder` that `Flap` is using internally.
 
-Here is a sample :
+Create a layout of a component ,let's say "flap_item_simple_text". Copy the name BTW.
+
+
+
+#### Step 3 : Create a custom `Component`  :
+
+
+
+Create a component class and add @Proxy annotation：
 
 ```java
-@Component(layoutId = R.layout.flap_item_simple_text)
-public class SimpleTextItem extends FlapComponent<SimpleTextModel> {
-
-    private static final String TAG = "SimpleTextItem";
+@Proxy(layoutName = "flap_item_simple_text")
+public class SimpleTextComponent extends Component<SimpleTextModel> {
 
     private TextView tvContent;
 
-    public SimpleTextItem(final View itemView) {
+    public SimpleTextComponent(final View itemView) {
         super(itemView);
         tvContent = findViewById(R.id.tv_content);
     }
 
     @Override
-    protected void onBind(@NonNull final SimpleTextModel model, @NonNull final FlapAdapter adapter, @NonNull final List<Object> payloads) {
+    protected void onBind(@NonNull final SimpleTextModel model) {
         tvContent.setText(model.content);
     }
 }
@@ -121,27 +176,39 @@ adapter.setData(models);
 recyclerView.setAdapter(adapter);
 ```
 
-Yeah , you are good to go!
+Done , you are good to go!
 
 <div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
 
 
 ## More Advanced Features
 
+`Flap` adds some features for `Component` : 
 
-`Flap` adds some features for `FlapComponent` : 
+```java
+protected final Context context；
+  
+protected abstract void onBind(@NonNull final T model)
+  
+protected void onBind(@NonNull final T model, int position, @NonNull final List<Object> payloads, @NonNull final FlapAdapter adapter)
 
-1. Access a context directly by field `context`.
-2. Call `findViewById()`  directlly instead of `itemView.findViewById` when you want to find a view.
-3. Override `onViewAttachedToWindow` & `onViewDetachedFromWindow` so that you can do something like pausing or resuming a video.
+protected void onViewAttachedToWindow(final FlapAdapter flapAdapter)
+protected void onViewDetachedFromWindow(final FlapAdapter flapAdapter)
+
+protected void onVisibilityChanged(final boolean visible)
+public boolean isVisible()
+
+protected void onViewRecycled(final FlapAdapter flapAdapter)
+protected boolean onFailedToRecycleView(final FlapAdapter flapAdapter)
+
+protected final <V extends View> V findViewById(@IdRes int viewId)
+```
 
 
 
 ### Enable Lifecycle
 
-
-
-By extending `LifecycleItem`  , a lifecycle-aware `ViewHolder`  , you can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy`  by default , when you care about the lifecycle , `FlapAdapter` binds the `LifecycleOwner` automatically.
+You can get the lifecycle callbacks : `onResume` 、`onPause`、`onStop`、`onDestroy`  by default , `FlapAdapter` binds the `LifecycleOwner` automatically.
 
 
 Releated methods :
@@ -152,11 +219,38 @@ Releated methods :
 
 
 
+#### Databinding
+
+If you'd like to use Databinding in a component , just set `useDataBinding=true` and modify the constructor of component：
+
+```java
+//1. Set useDataBinding = true
+@Proxy(layoutName ="flap_item_simple_databinding", useDataBinding = true)
+public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel> {
+
+    private FlapItemSimpleDatabindingBinding binding;
+	  
+   //2. Modify the constructor
+    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
+    }
+
+    @Override
+    protected void onBind(@NonNull final SimpleDataBindingModel model) {
+        binding.setModel(model);
+        binding.executePendingBindings();
+    }
+}
+```
+
+
+
 ### AsyncListDiffer supported
 
 
 
-`Flap` provides a build-in adapter `DifferFlapAdapter` that supports `AsyncListDiffer` feature.
+`Flap` provides a build-in adapter `DifferFlapAdapter` that supports `AsyncListDiffer` features.
 
 
 

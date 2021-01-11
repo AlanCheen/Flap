@@ -2,6 +2,7 @@ package me.yifeiyuan.flapdev;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class DifferActivity extends AppCompatActivity {
 
             @Override
             public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
+                Log.d(TAG, "areContentsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
                 return simpleTextModel.equals(t1);
             }
 
@@ -92,6 +94,29 @@ public class DifferActivity extends AppCompatActivity {
 
                 flapAdapter.setData(newModels);
             }
-        }, 5000);
+        }, 2000);
+    }
+
+    private void changeModels2() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                for (SimpleTextModel datum : flapAdapter.getData()) {
+                    datum.content = "asdf";
+                }
+
+                flapAdapter.notifyDataSetChanged();
+//
+//                List<SimpleTextModel> newModels = new ArrayList<>();
+//
+//                for (int i = 0; i < 20; i++) {
+////                    newModels.add(new SimpleTextModel("Android :" + i));
+//                    newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
+//                }
+//
+//                flapAdapter.setData(newModels);
+            }
+        }, 2000);
     }
 }

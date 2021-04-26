@@ -9,5 +9,5 @@ package me.yifeiyuan.flapdev.components.databindingsample;
  */
 public class SimpleDataBindingModel {
 
-    public String text = "这是一个用了 DataBinding 的组件";
+    public String text = "DataBinding Component";
 }

@@ -45,20 +45,19 @@ public @interface Proxy {
     boolean useDataBinding() default false;
 
     /**
-     * todo 未实现
-     * <p>
      * 是否使用 ViewBinding，假如使用 ViewBinding,那么组件的构造方法需要做一定的修改
      * DataBinding 的优先级大于 ViewBinding
      *
      * @return 如果要使用 ViewBinding 则设置 true
+     * @since 2.2.0
      */
-    @Deprecated
     boolean useViewBinding() default false;
 
     /**
      * todo 未实现
      * 设置组件的缓存的最大数值
      * RecyclerView.RecycledViewPool.setMaxRecycledViews(int,int)
+     *
      * @return 组件最大的缓存数量
      */
     @Deprecated

@@ -1,7 +1,9 @@
 package me.yifeiyuan.flap.compiler;
 
 import com.google.auto.service.AutoService;
+import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -147,9 +149,15 @@ public class FlapProcessor extends AbstractProcessor {
 
             boolean useViewBinding = componentProxy.useViewBinding();
 
-            if (useDataBinding) {
-                // TODO: 2020/9/27
+            if (useViewBinding) {
 
+                String bindingName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, layoutName);
+
+                String fullBindingName = rPackageName + ".databinding." + bindingName + "Binding";
+
+                onCreateViewHolderMethodBuilder
+                        .addStatement(fullBindingName + " binding = " + fullBindingName + ".inflate(inflater,parent,false)")
+                        .addStatement("return new $T(binding)", flapItemClass);
             } else {
                 onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
             }

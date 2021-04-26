@@ -48,6 +48,23 @@ dependencies {
 }
 ```
 
+并且配置 APT 参数 `packageName` :
+
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: '你模块的包名']
+            }
+        }
+    }
+}
+```
+
+
 注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
 
 具体修改如下：
@@ -62,6 +79,18 @@ dependencies {
   implementation "me.yifeiyuan.flap:flap:$lastest_version"
   implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
   kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
+}
+```
+
+配置 `packageName` 的方式也需要改：
+
+```groovy
+android {
+    kapt {
+        arguments {
+            arg("packageName", "你模块的包名")
+        }
+    }
 }
 ```
 
@@ -81,39 +110,10 @@ buildscript {
 }
 ```
 
-并且配置 `packageName` 给 APT:
-
-```groovy
-android {
-    //...
-    defaultConfig {
-        //...
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [packageName: '你模块的包名']
-            }
-        }
-    }
-}
-```
-
-如果你使用的是 Kotlin ，则用下面的方式：
-```groovy
-android {
-    kapt {
-        arguments {
-            arg("packageName", "你模块的包名")
-        }
-    }
-}
-```
-
 然后在 `app/build.gradle` 中应用插件：
 ```groovy
 apply plugin: 'me.yifeiyuan.flap.plugin'
 ```
-
-
 
 apply 只需要在 app 模块中添加即可。
 
@@ -274,6 +274,31 @@ public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel
     protected void onBind(@NonNull final SimpleDataBindingModel model) {
         binding.setModel(model);
         binding.executePendingBindings();
+    }
+}
+```
+
+#### Component 使用 ViewBinding 
+
+如果你想在组件配合使用 `ViewBinding` ，那么需要额外把 `@Proxy` 的 `useViewBinding` 设置为`true` 。
+
+并且需要把构造函数修改为入参是你的 binding class ，举个例子：
+
+```java
+//1. 增加 useViewBinding = true
+@Proxy(layoutName = "flap_item_vb", useViewBinding = true)
+public class ViewBindingComponent extends Component<VBModel> {
+
+    private FlapItemVbBinding binding;
+    //2.构造方法入参修改了
+    public ViewBindingComponent(@NonNull FlapItemVbBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
+    }
+
+    @Override
+    protected void onBind(@NonNull VBModel model) {
+        binding.tvContent.setText("ViewBinding Sample");
     }
 }
 ```

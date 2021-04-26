@@ -27,15 +27,10 @@ android {
         }
     }
 
-//    viewBinding {
-//        enabled = true
-//    }
-
-//    javaCompileOptions {
-//        annotationProcessorOptions {
-//            arguments = [package: 'me.yifeiyuan.ktx.foundation.othermodule']
-//        }
-//    }
+    buildFeatures {
+//        dataBinding true
+        viewBinding true
+    }
 
 //    apt {
 //        arguments {

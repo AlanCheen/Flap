@@ -42,13 +42,13 @@ public class DifferActivity extends AppCompatActivity {
             @Override
             public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
                 Log.d(TAG, "areContentsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
-                return simpleTextModel.equals(t1);
+                return false;
             }
 
             @Nullable
             @Override
             public Object getChangePayload(@NonNull final SimpleTextModel oldItem, @NonNull final SimpleTextModel newItem) {
-                return super.getChangePayload(oldItem, newItem);
+                return newItem.content;
             }
         });
 
@@ -58,7 +58,7 @@ public class DifferActivity extends AppCompatActivity {
             models.add(new SimpleTextModel("Android :" + i));
         }
 
-        flapAdapter.setData(models);
+        flapAdapter.submitList(models);
 
         recyclerView.setAdapter(flapAdapter);
     }
@@ -87,36 +87,37 @@ public class DifferActivity extends AppCompatActivity {
             public void run() {
                 List<SimpleTextModel> newModels = new ArrayList<>();
 
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 6; i++) {
 //                    newModels.add(new SimpleTextModel("Android :" + i));
                     newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
                 }
 
-                flapAdapter.setData(newModels);
+                flapAdapter.submitList(newModels, () -> Log.d(TAG, "submitList run() called"));
+                flapAdapter.notifyItemChanged(3,"ssssss ");
             }
         }, 2000);
     }
 
-    private void changeModels2() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                for (SimpleTextModel datum : flapAdapter.getData()) {
-                    datum.content = "asdf";
-                }
-
-                flapAdapter.notifyDataSetChanged();
+//    private void changeModels2() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
 //
-//                List<SimpleTextModel> newModels = new ArrayList<>();
-//
-//                for (int i = 0; i < 20; i++) {
-////                    newModels.add(new SimpleTextModel("Android :" + i));
-//                    newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
+//                for (SimpleTextModel datum : flapAdapter.getData()) {
+//                    datum.content = "asdf";
 //                }
 //
-//                flapAdapter.setData(newModels);
-            }
-        }, 2000);
-    }
+//                flapAdapter.notifyDataSetChanged();
+////
+////                List<SimpleTextModel> newModels = new ArrayList<>();
+////
+////                for (int i = 0; i < 20; i++) {
+//////                    newModels.add(new SimpleTextModel("Android :" + i));
+////                    newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
+////                }
+////
+////                flapAdapter.setData(newModels);
+//            }
+//        }, 2000);
+//    }
 }

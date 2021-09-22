@@ -6,13 +6,13 @@ import androidx.annotation.RestrictTo;
 
 /**
  * Debug helper for Flap.
- * <p>
- * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
+ * Created by 程序亦非猿 on 2021/9/22.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
- * @version 1.0
- * @since 2018/12/13
- * @since 1.1
+ * @since 2020/9/22
+ * @since 3.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class FlapDebug {

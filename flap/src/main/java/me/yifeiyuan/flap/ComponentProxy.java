@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.internal;
+package me.yifeiyuan.flap;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

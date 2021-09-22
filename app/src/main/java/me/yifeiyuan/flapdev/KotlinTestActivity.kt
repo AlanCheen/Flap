@@ -21,7 +21,7 @@ class KotlinTestActivity : AppCompatActivity() {
 
     }
 
-    private fun mock(): MutableList<*> {
+    private fun mock(): MutableList<Any> {
         val arrayList = ArrayList<Any>()
 
         arrayList.add(SimpleTextModel("Android"))

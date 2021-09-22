@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
+@Deprecated
 public @interface Proxy {
 
     /**

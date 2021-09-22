@@ -28,4 +28,11 @@ public class SimpleTextModel {
     public int hashCode() {
         return content.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "SimpleTextModel{" +
+                "content='" + content + '\'' +
+                '}';
+    }
 }

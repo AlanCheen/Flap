@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable
-            name="model"
-            type="me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel" />
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="model"-->
+<!--            type="me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel" />-->
 
-    </data>
+<!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,8 +21,9 @@
             android:background="#EAC65A"
             android:textColor="#ffffff"
             android:gravity="center"
-            android:text="@{model.text}"
             />
+<!--        android:text="@{model.text}"-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

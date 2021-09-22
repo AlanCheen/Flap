@@ -3,7 +3,10 @@ package me.yifeiyuan.flapdev.components.databindingsample;
 import androidx.databinding.ViewDataBinding;
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.annotations.Proxy;
 import me.yifeiyuan.flapdev.R;
 import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding;
@@ -15,19 +18,19 @@ import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding;
  * @since 1.0
  */
 //@Proxy(layoutId = R.layout.flap_item_simple_databinding, useDataBinding = true)
-@Proxy(layoutName ="flap_item_simple_databinding", useDataBinding = true)
-public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel> {
-
-    private FlapItemSimpleDatabindingBinding binding;
-
-    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
-        super(binding.getRoot());
-        this.binding = binding;
-    }
-
-    @Override
-    protected void onBind(@NonNull final SimpleDataBindingModel model) {
-        binding.setModel(model);
-        binding.executePendingBindings();
-    }
-}
+//@Proxy(layoutName ="flap_item_simple_databinding", useDataBinding = true)
+//public class SimpleDataBindingComponent extends Component<SimpleDataBindingModel> {
+//
+//    private FlapItemSimpleDatabindingBinding binding;
+//
+//    public SimpleDataBindingComponent(@NonNull final FlapItemSimpleDatabindingBinding binding) {
+//        super(binding.getRoot());
+//        this.binding = binding;
+//    }
+//
+//    @Override
+//    public void onBind(SimpleDataBindingModel model, int position, @NotNull FlapAdapter adapter) {
+//        binding.setModel(model);
+//        binding.executePendingBindings();
+//    }
+//}

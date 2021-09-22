@@ -25,7 +25,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "me.yifeiyuan.flapdev"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -89,7 +89,7 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-    kapt project(':flap-compiler')
+//    kapt project(':flap-compiler')
 
 //    implementation 'me.yifeiyuan.flap:flap-annotations:2.0.0'
 //    implementation 'me.yifeiyuan.flap:flap:2.0.0'

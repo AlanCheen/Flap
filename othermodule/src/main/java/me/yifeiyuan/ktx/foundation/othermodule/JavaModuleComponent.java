@@ -4,7 +4,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import me.yifeiyuan.flap.Component;
+import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.annotations.Proxy;
 
 /**
@@ -17,7 +20,7 @@ public class JavaModuleComponent extends Component<JavaModuleModel> {
     }
 
     @Override
-    protected void onBind(@NonNull JavaModuleModel model) {
+    public void onBind(JavaModuleModel model, int position, @NotNull FlapAdapter adapter) {
 
     }
 }

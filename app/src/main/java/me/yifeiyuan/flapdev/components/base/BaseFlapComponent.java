@@ -16,23 +16,4 @@ public abstract class BaseFlapComponent<T extends BaseModel> extends Component<T
         super(itemView);
     }
 
-    @Override
-    protected void onViewAttachedToWindow(@NotNull final FlapAdapter flapAdapter) {
-        super.onViewAttachedToWindow(flapAdapter);
-    }
-
-    @Override
-    protected void onViewDetachedFromWindow(@NotNull final FlapAdapter flapAdapter) {
-        super.onViewDetachedFromWindow(flapAdapter);
-    }
-
-    @Override
-    protected void onViewRecycled(@NotNull final FlapAdapter flapAdapter) {
-        super.onViewRecycled(flapAdapter);
-    }
-
-    @Override
-    protected boolean onFailedToRecycleView(@NotNull final FlapAdapter flapAdapter) {
-        return super.onFailedToRecycleView(flapAdapter);
-    }
 }

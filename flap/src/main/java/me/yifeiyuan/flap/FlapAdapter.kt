@@ -47,6 +47,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         addAll(Flap.hooks)
     }
 
+    var paramProvider: ParamProvider? = null
+
 //    TODO 真的需要吗？
 //    var onItemClickListener: ((View, Int, Any) -> Unit)? = null
 
@@ -296,4 +298,20 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 //            notifyDataSetChanged()
         }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    open fun <P> getParam(key: String): P? {
+        val param = paramProvider?.getParam(key) ?: return null
+        return param as P
+    }
+
+    interface ParamProvider {
+        fun getParam(key: String): Any?
+    }
+
+    // TODO: 2021/9/24
+    interface OnEventObserver {
+        fun onEvent()
+    }
+
 }

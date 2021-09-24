@@ -3,21 +3,23 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'me.yifeiyuan.flap.plugin'
+//apply plugin: 'me.yifeiyuan.flap.plugin'
 
 buildscript {
     repositories {
-        google()
-        jcenter()
 
         maven {
             url = "$rootProject.projectDir/repos"
         }
+
+        google()
+        jcenter()
     }
 
     dependencies {
         //添加插件
-        classpath "me.yifeiyuan.flap:plugin:1.1.0"
+//        classpath files("../flap-gradle-plugin/build/generated/libs/flap-gradle-plugin.jar")
+        classpath "me.yifeiyuan.flap:plugin:1.1.0-test"
     }
 }
 
@@ -89,7 +91,8 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-//    kapt project(':flap-compiler')
+//    implementation project(':flap-gradle-plugin')
+    kapt project(':flap-compiler')
 
 //    implementation 'me.yifeiyuan.flap:flap-annotations:2.0.0'
 //    implementation 'me.yifeiyuan.flap:flap:2.0.0'

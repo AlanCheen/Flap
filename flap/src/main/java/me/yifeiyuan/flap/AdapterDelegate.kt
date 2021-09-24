@@ -36,9 +36,9 @@ interface AdapterDelegate<T, VH : Component<T>> {
 
     fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): VH
 
-    fun getItemId(model: Any, position: Int): Long = RecyclerView.NO_ID
+    fun getItemId(model: Any): Long = RecyclerView.NO_ID
 
-    fun getItemViewType(model: Any, position: Int): Int = 0
+    fun getItemViewType(model: Any): Int = 0
 
     fun onBindViewHolder(
             component: Component<*>,
@@ -47,6 +47,6 @@ interface AdapterDelegate<T, VH : Component<T>> {
             payloads: List<Any>,
             adapter: FlapAdapter
     ) {
-        component.bind(data, position, payloads, adapter)
+        component.bindData(data, position, payloads, adapter, this)
     }
 }

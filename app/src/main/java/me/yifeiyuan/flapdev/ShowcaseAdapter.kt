@@ -13,10 +13,10 @@ import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingComponentDelegate
 class ShowcaseAdapter : FlapAdapter() {
 
     init {
-        registerAdapterDelegate(SimpleTextComponentDelegate())
-        registerAdapterDelegate(SimpleImageComponentDelegate())
-        registerAdapterDelegate(CustomViewTypeComponentDelegate())
-        registerAdapterDelegate(GenericFlapComponentDelegate())
-        registerAdapterDelegate(ViewBindingComponentDelegate())
+//        registerAdapterDelegate(SimpleTextComponentDelegate())
+//        registerAdapterDelegate(SimpleImageComponentDelegate())
+//        registerAdapterDelegate(CustomViewTypeComponentDelegate())
+//        registerAdapterDelegate(GenericFlapComponentDelegate())
+//        registerAdapterDelegate(ViewBindingComponentDelegate())
     }
 }

@@ -25,7 +25,7 @@ class DefaultAdapterDelegate : AdapterDelegate<Any, DefaultComponent> {
 }
 
 class DefaultComponent(v: View) : Component<Any>(v) {
-    override fun onBind(model: Any, position: Int, adapter: FlapAdapter) {
+    override fun onBind(model: Any) {
         (itemView as TextView).run {
             text = "$model 没有被正确代理，position = ${position}"
         }

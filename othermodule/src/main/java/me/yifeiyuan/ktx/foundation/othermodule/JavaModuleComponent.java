@@ -8,19 +8,19 @@ import org.jetbrains.annotations.NotNull;
 
 import me.yifeiyuan.flap.Component;
 import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.annotations.Proxy;
+import me.yifeiyuan.flap.annotations.Delegate;
 
 /**
  * Created by 程序亦非猿 on 2020/9/21.
  */
-@Proxy(layoutName = "java_module_component")
+@Delegate(layoutName = "java_module_component")
 public class JavaModuleComponent extends Component<JavaModuleModel> {
     public JavaModuleComponent(@NonNull View itemView) {
         super(itemView);
     }
 
     @Override
-    public void onBind(JavaModuleModel model, int position, @NotNull FlapAdapter adapter) {
+    public void onBind(JavaModuleModel model) {
 
     }
 }

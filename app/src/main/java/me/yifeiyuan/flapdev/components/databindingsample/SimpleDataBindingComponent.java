@@ -1,15 +1,5 @@
 package me.yifeiyuan.flapdev.components.databindingsample;
 
-import androidx.databinding.ViewDataBinding;
-import androidx.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
-
-import me.yifeiyuan.flap.Component;
-import me.yifeiyuan.flap.FlapAdapter;
-import me.yifeiyuan.flap.annotations.Proxy;
-import me.yifeiyuan.flapdev.R;
-import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding;
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *

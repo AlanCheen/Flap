@@ -38,13 +38,13 @@ class FlapApplication : MultiDexApplication() {
         //
 
         with(Flap) {
-            registerAdapterDelegate(SimpleTextComponentDelegate())
-            registerAdapterDelegate(SimpleImageComponentDelegate())
-            registerAdapterDelegate(CustomViewTypeComponentDelegate())
-            registerAdapterDelegate(GenericFlapComponentDelegate())
-            registerAdapterDelegate(ViewBindingComponentDelegate())
-            registerAdapterDelegate(JavaModuleComponentDelegate())
-            registerAdapterDelegate(KtModuleComponentDelegate())
+//            registerAdapterDelegate(SimpleTextComponentDelegate())
+//            registerAdapterDelegate(SimpleImageComponentDelegate())
+//            registerAdapterDelegate(CustomViewTypeComponentDelegate())
+//            registerAdapterDelegate(GenericFlapComponentDelegate())
+//            registerAdapterDelegate(ViewBindingComponentDelegate())
+//            registerAdapterDelegate(JavaModuleComponentDelegate())
+//            registerAdapterDelegate(KtModuleComponentDelegate())
         }
     }
 }

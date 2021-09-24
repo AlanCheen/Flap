@@ -200,7 +200,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             it.delegate(itemData)
         } ?: defaultAdapterDelegate
 
-        itemViewType = delegate?.getItemViewType(itemData, position)
+        itemViewType = delegate?.getItemViewType(itemData)
                 ?: throw DelegateNotFoundException("$position , $itemData ,找不到对应的 AdapterDelegate，请注册")
 
         if (itemViewType == 0) {
@@ -222,7 +222,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     override fun getItemId(position: Int): Long {
         val itemData = getItemData(position)
         val delegate = getDelegateByViewType(getItemViewType(position))
-        return delegate.getItemId(itemData, position)
+        return delegate.getItemId(itemData)
     }
 
     /**

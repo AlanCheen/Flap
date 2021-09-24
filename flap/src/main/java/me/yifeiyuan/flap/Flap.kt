@@ -38,7 +38,6 @@ object Flap : ComponentCallbacks2 {
         hooks.remove(adapterHook)
     }
 
-    @JvmStatic
     fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
     }
@@ -58,6 +57,14 @@ object Flap : ComponentCallbacks2 {
 
     override fun onLowMemory() {
         globalComponentPool.onLowMemory()
+    }
+
+    init {
+        injectDelegatesByPlugin(this)
+    }
+
+    private fun injectDelegatesByPlugin(flap: Flap) {
+
     }
 
 }

@@ -42,7 +42,7 @@ publish {
     userOrg = 'alancheen'
     groupId = 'me.yifeiyuan.flap'
     artifactId = 'plugin'
-    publishVersion = '1.1.0'
+    publishVersion = '1.1.0-test'
     desc = 'flap plugin'
     website = 'https://github.com/AlanCheen/Flap'
 }

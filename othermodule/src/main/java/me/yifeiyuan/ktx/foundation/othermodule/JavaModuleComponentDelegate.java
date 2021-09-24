@@ -29,17 +29,17 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
     }
 
     @Override
-    public long getItemId(@NotNull Object model, int position) {
+    public long getItemId(@NotNull Object model) {
         return 0;
     }
 
     @Override
-    public int getItemViewType(@NotNull Object model, int position) {
+    public int getItemViewType(@NotNull Object model) {
         return R.layout.java_module_component;
     }
 
     @Override
     public void onBindViewHolder(@NotNull Component<?> component, @NotNull Object data, int position, @NotNull List<?> payloads, @NotNull FlapAdapter adapter) {
-        component.bind(data,position, (List<Object>) payloads,adapter);
+        component.bindData(data,position, (List<Object>) payloads,adapter,this);
     }
 }

@@ -29,15 +29,9 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     private var isVisible = false
 
     @Suppress("UNCHECKED_CAST")
-    fun bind(model: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
-        if (payloads.isEmpty()) {
-            onBind(model as T, position, adapter)
-        } else {
-            onBind(model as T, position, payloads, adapter)
-        }
+    fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+        onBind(model as T, position, payloads, adapter, delegate)
     }
-
-    abstract fun onBind(model: T, position: Int, adapter: FlapAdapter)
 
     /**
      * Overriding `onBind` to bind your model to your Component.
@@ -51,32 +45,13 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
             model: T,
             position: Int,
             payloads: List<Any>,
-            adapter: FlapAdapter
+            adapter: FlapAdapter,
+            delegate: AdapterDelegate<*, *>
     ) {
+        onBind(model)
     }
 
-//    fun bind(model: T, position: Int, payloads: List<Any?>, adapter: FlapAdapter) {
-//        onBind(model, position, payloads, adapter)
-//    }
-
-//    /**
-//     * Overriding `onBind` to bind your model to your Component.
-//     *
-//     * @param model    The model that you need to bind.
-//     * @param position position
-//     * @param adapter  Your adapter.
-//     * @param payloads The payloads you may need.
-//     */
-//    protected fun onBind(model: T, position: Int, payloads: List<Any?>, adapter: FlapAdapter) {
-//        onBind(model)
-//    }
-
-//    /**
-//     * Overriding `onBind` to bind your model to your Component.
-//     *
-//     * @param model The model that you need to bind.
-//     */
-//    protected abstract fun onBind(model: T)
+    abstract fun onBind(model: T)
 
     protected fun <V : View?> findViewById(@IdRes viewId: Int): V {
         return itemView.findViewById<View>(viewId) as V

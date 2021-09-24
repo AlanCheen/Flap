@@ -16,8 +16,6 @@ import me.yifeiyuan.flapdev.R
  */
 class CustomViewTypeComponent(itemView: View) : Component<CustomModel>(itemView) {
 
-    override fun onBind(model: CustomModel, position: Int, adapter: FlapAdapter) {}
-
     class Factory : ComponentProxy<CustomModel, CustomViewTypeComponent> {
         override fun createComponent(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): CustomViewTypeComponent {
             return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
@@ -35,6 +33,9 @@ class CustomViewTypeComponent(itemView: View) : Component<CustomModel>(itemView)
     companion object {
         const val CUSTOM_ITEM_VIEW_TYPE = 466
     }
+
+    override fun onBind(model: CustomModel) {
+    }
 }
 
 class CustomViewTypeComponentDelegate : AdapterDelegate<CustomModel, CustomViewTypeComponent> {
@@ -43,7 +44,7 @@ class CustomViewTypeComponentDelegate : AdapterDelegate<CustomModel, CustomViewT
         return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
     }
 
-    override fun getItemViewType(model: Any, position: Int): Int {
+    override fun getItemViewType(model: Any): Int {
         return CustomViewTypeComponent.CUSTOM_ITEM_VIEW_TYPE
     }
 }

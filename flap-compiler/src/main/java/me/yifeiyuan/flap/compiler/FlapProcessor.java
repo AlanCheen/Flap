@@ -3,7 +3,6 @@ package me.yifeiyuan.flap.compiler;
 import com.google.auto.service.AutoService;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -33,18 +32,25 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import me.yifeiyuan.flap.annotations.Proxy;
+import me.yifeiyuan.flap.annotations.Delegate;
 
 @AutoService(Processor.class)
 public class FlapProcessor extends AbstractProcessor {
 
-    private static final String PKG_NAME_PROXIES = "me.yifeiyuan.flap.apt.proxies";
+    private static final String PKG_NAME_DELEGATES = "me.yifeiyuan.flap.apt.delegates";
 
-    private static final String NAME_SUFFIX = "Proxy";
+    private static final String NAME_SUFFIX = "2Delegate";
 
     private final ClassName CLASS_KEEP = ClassName.bestGuess("androidx.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
     private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
+
+    private final ClassName CLASS_OBJECT = ClassName.bestGuess("java.lang.Object");
+    private final ClassName CLASS_COMPONENT = ClassName.bestGuess("me.yifeiyuan.flap.Component");
+    private final ClassName CLASS_LIST = ClassName.bestGuess("java.util.List");
+    private final ClassName CLASS_FLAP_ADAPTER = ClassName.bestGuess("me.yifeiyuan.flap.FlapAdapter");
+
+    private final ClassName CLASS_ADAPTER_DELEGATE = ClassName.bestGuess("me.yifeiyuan.flap.AdapterDelegate");
 
     private static final String KEY_OPTION_R_CLASS_PATH = "packageName";
 
@@ -75,7 +81,7 @@ public class FlapProcessor extends AbstractProcessor {
 
         for (final TypeElement typeElement : set) {
 
-            if (Proxy.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
+            if (Delegate.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processComponent(roundEnvironment, typeElement);
             }
 
@@ -86,14 +92,14 @@ public class FlapProcessor extends AbstractProcessor {
 
     private void processComponent(final RoundEnvironment roundEnvironment, final TypeElement typeElement) {
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Proxy.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Delegate.class);
 
         for (final Element element : elements) {
-            Proxy factory = element.getAnnotation(Proxy.class);
+            Delegate factory = element.getAnnotation(Delegate.class);
             if (null != factory) {
                 try {
                     TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
-                    JavaFile.builder(PKG_NAME_PROXIES, flapItemFactoryTypeSpec)
+                    JavaFile.builder(PKG_NAME_DELEGATES, flapItemFactoryTypeSpec)
                             .addFileComment("由 Flap APT 自动生成，请勿修改。")
                             .build()
                             .writeTo(filer);
@@ -113,7 +119,7 @@ public class FlapProcessor extends AbstractProcessor {
      * @param componentProxy       注解了目标类的 注解，可以获取值
      * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapComponentElement, final Proxy componentProxy) {
+    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapComponentElement, final Delegate componentProxy) {
 
         ClassName flapItemClass = (ClassName) ClassName.get(flapComponentElement.asType());
 
@@ -135,7 +141,7 @@ public class FlapProcessor extends AbstractProcessor {
         ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
         ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
 
-        MethodSpec.Builder onCreateViewHolderMethodBuilder = MethodSpec.methodBuilder("createComponent")
+        MethodSpec.Builder onCreateViewHolderMethodBuilder = MethodSpec.methodBuilder("onCreateViewHolder")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(layoutInflater, "inflater")
@@ -168,7 +174,8 @@ public class FlapProcessor extends AbstractProcessor {
         MethodSpec.Builder getItemViewTypeMethodBuilder = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(itemModelClass, "model")
+//                .addParameter(itemModelClass, "model") //todo 替换回来
+                .addParameter(CLASS_OBJECT, "model")
                 .returns(Integer.TYPE);
 
         if ("".equals(layoutName)) {
@@ -177,16 +184,46 @@ public class FlapProcessor extends AbstractProcessor {
             getItemViewTypeMethodBuilder.addStatement("return " + rPackageName + ".R.layout." + layoutName);
         }
 
-        MethodSpec getItemViewTypeMethod = getItemViewTypeMethodBuilder.build();
-
-        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
+        MethodSpec.Builder getItemIdMethodBuilder = MethodSpec.methodBuilder("getItemId")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .returns(Class.class)
-                .addStatement("return " + itemModelClass + ".class")
-                .build();
+//                .addParameter(itemModelClass, "model") //todo 替换回来
+                .addParameter(CLASS_OBJECT, "model")
+                .addStatement("return 0")
+                .returns(Long.TYPE);
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_COMPONENT_PROXY, itemModelClass, flapItemClass);
+        MethodSpec getItemViewTypeMethod = getItemViewTypeMethodBuilder.build();
+
+        MethodSpec.Builder delegateMethodBuilder = MethodSpec.methodBuilder("delegate")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_OBJECT, "model")
+                .addStatement("return model.getClass() == $T.class",itemModelClass)
+                .returns(Boolean.TYPE);
+
+        //AdapterDelegate<List> payloads
+//        ParameterizedTypeName payloads = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, CLASS_LIST);
+
+        MethodSpec.Builder onBindViewHolderMethodBuilder = MethodSpec.methodBuilder("onBindViewHolder")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_COMPONENT, "component")
+                .addParameter(CLASS_OBJECT, "data")
+                .addParameter(Integer
+                        .TYPE, "position")
+                .addParameter(CLASS_LIST,"payloads")
+                .addParameter(CLASS_FLAP_ADAPTER,"adapter")
+                .addStatement("component.bindData(data,position, (List<Object>) payloads,adapter,this)")
+                ;
+
+//        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
+//                .addAnnotation(Override.class)
+//                .addModifiers(Modifier.PUBLIC)
+//                .returns(Class.class)
+//                .addStatement("return " + itemModelClass + ".class")
+//                .build();
+
+        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, itemModelClass, flapItemClass);
 
         TypeSpec.Builder builder =
                 TypeSpec.classBuilder(targetClassName)
@@ -194,7 +231,10 @@ public class FlapProcessor extends AbstractProcessor {
                         .addAnnotation(CLASS_KEEP)
                         .addMethod(onCreateViewHolderMethod)
                         .addMethod(getItemViewTypeMethod)
-                        .addMethod(getComponentModelClass)
+                        .addMethod(getItemIdMethodBuilder.build())
+                        .addMethod(delegateMethodBuilder.build())
+                        .addMethod(onBindViewHolderMethodBuilder.build())
+//                        .addMethod(getComponentModelClass)
                         .addSuperinterface(name);
 
         return builder.build();
@@ -208,7 +248,7 @@ public class FlapProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotationTypes = new LinkedHashSet<>();
-        annotationTypes.add(Proxy.class.getCanonicalName());
+        annotationTypes.add(Delegate.class.getCanonicalName());
         return annotationTypes;
     }
 

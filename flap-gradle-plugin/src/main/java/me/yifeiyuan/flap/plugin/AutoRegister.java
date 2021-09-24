@@ -137,10 +137,14 @@ class AutoRegister {
                 Label l1 = new Label();
                 mv.visitLabel(l1);
                 mv.visitVarInsn(ALOAD, 1);
+                mv.visitLdcInsn("flap");
+                mv.visitMethodInsn(INVOKESPECIAL, "kotlin/jvm/internal/Intrinsics", "checkNotNullParameter", "(Ljava/lang/Object;Ljava/lang/String;)V", false);
+                mv.visitVarInsn(ALOAD, 1);
                 mv.visitTypeInsn(NEW, className);
                 mv.visitInsn(DUP);
                 mv.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
-                mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "register", "(Lme/yifeiyuan/flap/internal/ComponentProxy;)Lme/yifeiyuan/flap/ComponentProxyRegistry;", false);
+                mv.visitTypeInsn(CHECKCAST, "me/yifeiyuan/flap/AdapterDelegate");
+                mv.visitMethodInsn(INVOKEVIRTUAL, "me/yifeiyuan/flap/Flap", "registerAdapterDelegate", "(Lme/yifeiyuan/flap/AdapterDelegate;)V", false);
                 mv.visitInsn(POP);
             }
 

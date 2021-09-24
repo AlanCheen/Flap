@@ -31,11 +31,11 @@ import java.util.jar.JarFile;
  */
 public class FlapTransform extends Transform {
 
-    final String PROXY_PACKAGE_PATH_PREFIX = "me/yifeiyuan/flap/apt/proxies/";
+    final String PROXY_PACKAGE_PATH_PREFIX = "me/yifeiyuan/flap/apt/delegates/";
 
     public static final String FLAP_CLASS_FILE_NAME = "me/yifeiyuan/flap/Flap.class";
 
-    public static final String FLAP_INJECT_METHOD_NAME = "injectProxiesByPlugin";
+    public static final String FLAP_INJECT_METHOD_NAME = "injectDelegatesByPlugin";
 
     //me.yifeiyuan.flap.Flap 那个文件
     private File flapFile;
@@ -123,7 +123,7 @@ public class FlapTransform extends Transform {
                 handleFiles(file1);
             }
         } else {
-            if (file.getAbsolutePath().contains(PROXY_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Proxy.class")) {
+            if (file.getAbsolutePath().contains(PROXY_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Delegate.class")) {
                 Log.println(">>>>>>>>>>>> 发现 proxy class :" + file.getName());
                 String fileName = file.getName();
                 int index = fileName.indexOf(".");

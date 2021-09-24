@@ -8,15 +8,19 @@ import java.lang.annotation.Target;
 /**
  * 标记一个类为组件，并配置组件的一些基本信息。
  * <p>
- * 被 @Proxy 标记的组件，会生成一个 Proxy 类，并被自动注册到 Flap 中。
+ * 被 @Delegate 标记的组件，会生成一个 AdapterDelegate 类，并被自动注册到 Flap 中。
  *
- * @author 程序亦非猿
- * @since 1.1.0
+ * Created by 程序亦非猿 on 2021/9/22.
+ *
+ * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
+ * @since 2020/9/22
+ * @since 3.0
+ *
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-@Deprecated
-public @interface Proxy {
+public @interface Delegate {
 
     /**
      * 返回组件的布局 ID，也会被当做组件的 itemViewType
@@ -54,13 +58,13 @@ public @interface Proxy {
      */
     boolean useViewBinding() default false;
 
-    /**
-     * todo 未实现
-     * 设置组件的缓存的最大数值
-     * RecyclerView.RecycledViewPool.setMaxRecycledViews(int,int)
-     *
-     * @return 组件最大的缓存数量
-     */
-    @Deprecated
-    int maxRecycledViews() default -1;
+//    /**
+//     * todo 未实现
+//     * 设置组件的缓存的最大数值
+//     * RecyclerView.RecycledViewPool.setMaxRecycledViews(int,int)
+//     *
+//     * @return 组件最大的缓存数量
+//     */
+//    @Deprecated
+//    int maxRecycledViews() default -1;
 }

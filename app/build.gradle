@@ -19,7 +19,7 @@ buildscript {
     dependencies {
         //添加插件
 //        classpath files("../flap-gradle-plugin/build/generated/libs/flap-gradle-plugin.jar")
-        classpath "me.yifeiyuan.flap:plugin:1.1.0-test"
+//        classpath "me.yifeiyuan.flap:plugin:1.1.0-test"
     }
 }
 

@@ -14,55 +14,93 @@ import androidx.recyclerview.widget.RecyclerView
  * @since 3.0
  */
 
+fun RecyclerView.setOnItemLongClickListener(listener: (childView: View, position: Int) -> Unit) {
+
+    addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
+
+        val gestureDetector =
+                GestureDetector(context, object : GestureDetector.OnGestureListener {
+
+                    override fun onDown(e: MotionEvent?): Boolean = false
+
+                    override fun onShowPress(e: MotionEvent?) {
+                    }
+
+                    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                        return true
+                    }
+
+                    override fun onScroll(
+                            e1: MotionEvent?,
+                            e2: MotionEvent?,
+                            distanceX: Float,
+                            distanceY: Float
+                    ): Boolean = false
+
+                    override fun onLongPress(e: MotionEvent?) {
+                        e?.let {
+                            findChildViewUnder(e.x, e.y)?.let {
+                                listener.invoke(it, getChildAdapterPosition(it))
+                            }
+                        }
+                    }
+
+                    override fun onFling(
+                            e1: MotionEvent?,
+                            e2: MotionEvent?,
+                            velocityX: Float,
+                            velocityY: Float
+                    ): Boolean = false
+                })
+
+        override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+            return gestureDetector.onTouchEvent(e)
+        }
+    })
+}
 
 fun RecyclerView.setOnItemClickListener(listener: (childView: View, position: Int) -> Unit) {
 
-    addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+    addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
 
         val gestureDetector =
-            GestureDetector(context, object : GestureDetector.OnGestureListener {
+                GestureDetector(context, object : GestureDetector.OnGestureListener {
 
-                override fun onDown(e: MotionEvent?): Boolean = false
+                    override fun onDown(e: MotionEvent?): Boolean = false
 
-                override fun onShowPress(e: MotionEvent?) {
-                }
-
-                override fun onSingleTapUp(e: MotionEvent?): Boolean {
-                    e?.let {
-                        findChildViewUnder(e.x, e.y)?.let {
-                            listener.invoke(it, getChildAdapterPosition(it))
-                        }
+                    override fun onShowPress(e: MotionEvent?) {
                     }
-                    return false
-                }
 
-                override fun onScroll(
-                    e1: MotionEvent?,
-                    e2: MotionEvent?,
-                    distanceX: Float,
-                    distanceY: Float
-                ): Boolean = false
+                    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                        e?.let {
+                            findChildViewUnder(e.x, e.y)?.let {
+                                listener.invoke(it, getChildAdapterPosition(it))
+                                return true
+                            }
+                        }
+                        return false
+                    }
 
-                override fun onLongPress(e: MotionEvent?) {
-                }
+                    override fun onScroll(
+                            e1: MotionEvent?,
+                            e2: MotionEvent?,
+                            distanceX: Float,
+                            distanceY: Float
+                    ): Boolean = false
 
-                override fun onFling(
-                    e1: MotionEvent?,
-                    e2: MotionEvent?,
-                    velocityX: Float,
-                    velocityY: Float
-                ): Boolean = false
-            })
+                    override fun onLongPress(e: MotionEvent?) {
+                    }
+
+                    override fun onFling(
+                            e1: MotionEvent?,
+                            e2: MotionEvent?,
+                            velocityX: Float,
+                            velocityY: Float
+                    ): Boolean = false
+                })
 
         override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-            gestureDetector.onTouchEvent(e)
-            return false
-        }
-
-        override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        }
-
-        override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+            return gestureDetector.onTouchEvent(e)
         }
     })
 }

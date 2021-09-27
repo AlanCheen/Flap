@@ -18,7 +18,7 @@ import me.yifeiyuan.flap.FlapAdapter
  */
 class FlapRecyclerView : RecyclerView {
 
-    private var adapter: FlapAdapter? = null
+    private lateinit var adapter: FlapAdapter
 
     constructor(context: Context) : super(context) {
         init(context, null, 0)
@@ -38,6 +38,6 @@ class FlapRecyclerView : RecyclerView {
     }
 
     fun setData(data: MutableList<Any>) {
-        adapter!!.setData(data)
+        adapter.setData(data)
     }
 }

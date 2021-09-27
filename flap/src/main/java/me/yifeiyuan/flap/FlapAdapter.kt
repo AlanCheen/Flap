@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.exceptions.DelegateNotFoundException
 import me.yifeiyuan.flap.extensions.AdapterHook
+import me.yifeiyuan.flap.extensions.setOnItemClickListener
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -49,8 +50,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     var paramProvider: ParamProvider? = null
 
-//    TODO 真的需要吗？
+    //    TODO 真的需要吗？
 //    var onItemClickListener: ((View, Int, Any) -> Unit)? = null
+    var onItemClickListener: OnItemClickListener? = null
 
     private val dataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
@@ -246,6 +248,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         if (useFlapItemPool) {
             recyclerView.setRecycledViewPool(Flap.globalComponentPool)
         }
+        onItemClickListener?.let {
+            recyclerView.setOnItemClickListener { v, p ->
+                it.onItemClick(v, p)
+            }
+        }
     }
 
     override fun onViewRecycled(holder: Component<*>) {
@@ -312,6 +319,14 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     // TODO: 2021/9/24
     interface OnEventObserver {
         fun onEvent()
+    }
+
+    interface OnItemClickListener {
+
+        //为什么不直接返回 data 呢？担心有的人使用 Empty Error 那种特殊状态，getItemData 会出错
+//        fun onItemClick(childView: View, position: Int, data: Any)
+
+        fun onItemClick(childView: View, position: Int)
     }
 
 }

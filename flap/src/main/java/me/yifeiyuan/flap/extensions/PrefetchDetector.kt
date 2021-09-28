@@ -39,7 +39,7 @@ class PrefetchDetector(var offset: Int = 1, val onPrefetch: () -> Unit) : Adapte
         }
     }
 
-    override fun onBindViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (!prefetchEnable) {
             return
         }

@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Created by 程序亦非猿 on 2021/9/28.
  */
-class PrefetchDetector(var offset: Int = 1, val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchDetector(private val offset: Int = 1, private val onPrefetch: () -> Unit) : AdapterHook {
 
     private val fetching = AtomicBoolean(false)
 

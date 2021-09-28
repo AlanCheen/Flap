@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yifeiyuan.flap.FlapAdapter;
+import me.yifeiyuan.flap.extensions.PrefetchDetector;
 import me.yifeiyuan.flap.ktmodule.KtComponentModel;
 import me.yifeiyuan.flapdev.components.customviewtype.CustomModel;
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 .setLifecycleEnable(true)
                 .setLifecycleOwner(this)
                 .setData(models);
-
         recyclerView.setAdapter(adapter);
     }
 

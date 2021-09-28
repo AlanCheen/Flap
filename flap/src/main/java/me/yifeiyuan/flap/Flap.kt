@@ -42,6 +42,12 @@ object Flap : ComponentCallbacks2 {
         adapterDelegates.add(adapterDelegate)
     }
 
+    fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
+        delegates.forEach {
+            registerAdapterDelegate(it)
+        }
+    }
+
     @JvmStatic
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)

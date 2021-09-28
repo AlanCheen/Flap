@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.extensions
 
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.FlapAdapter
 
 /**
  * Created by 程序亦非猿 on 2021/9/22.
@@ -18,7 +19,9 @@ interface AdapterHook {
      *
      * @param delegate 组件代理
      */
-    fun onCreateViewHolderStart(delegate: AdapterDelegate<*, *>?, viewType: Int)
+    fun onCreateViewHolderStart(
+            adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int
+    )
 
     /**
      * 在组件创建完毕后调用
@@ -27,6 +30,7 @@ interface AdapterHook {
      * @param component
      */
     fun onCreateViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>
@@ -40,6 +44,7 @@ interface AdapterHook {
      * @param data
      */
     fun onBindViewHolderStart(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -55,6 +60,7 @@ interface AdapterHook {
      * @param data
      */
     fun onBindViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,

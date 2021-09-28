@@ -1,9 +1,11 @@
 package me.yifeiyuan.flap
 
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.exceptions.DelegateNotFoundException
@@ -43,6 +45,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 //    private var state: UltraRecyclerView.State = UltraRecyclerView.State.Empty
 
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
+    private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
         addAll(Flap.hooks)
@@ -121,25 +124,26 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
         val delegate = getDelegateByViewType(viewType)
-        dispatchOnCreateViewHolderStart(delegate, viewType)
+        dispatchOnCreateViewHolderStart(this, delegate, viewType)
         val component = delegate.onCreateViewHolder(LayoutInflater.from(parent.context), parent, viewType)
-        dispatchOnCreateViewHolderEnd(delegate, viewType, component)
+        dispatchOnCreateViewHolderEnd(this, delegate, viewType, component)
         return component
     }
 
-    private fun dispatchOnCreateViewHolderStart(delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
         hooks.forEach {
-            it.onCreateViewHolderStart(delegate, viewType)
+            it.onCreateViewHolderStart(adapter, delegate, viewType)
         }
     }
 
     private fun dispatchOnCreateViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>
     ) {
         hooks.forEach {
-            it.onCreateViewHolderEnd(delegate, viewType, component)
+            it.onCreateViewHolderEnd(adapter, delegate, viewType, component)
         }
     }
 
@@ -157,7 +161,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         attachLifecycleOwnerIfNeed(component)
         val delegate = getDelegateByComponent(component)
         val data = getItemData(position)
-        dispatchOnBindViewHolderStart(delegate, component, data, position, payloads)
+        dispatchOnBindViewHolderStart(this, delegate, component, data, position, payloads)
         delegate.onBindViewHolder(
                 component,
                 data,
@@ -165,10 +169,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
                 payloads,
                 this
         )
-        dispatchOnBindViewHolderEnd(delegate, component, data, position, payloads)
+        dispatchOnBindViewHolderEnd(this, delegate, component, data, position, payloads)
     }
 
     private fun dispatchOnBindViewHolderStart(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -176,11 +181,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             payloads: MutableList<Any>
     ) {
         hooks.forEach {
-            it.onBindViewHolderStart(delegate, component, data, position, payloads)
+            it.onBindViewHolderStart(adapter, delegate, component, data, position, payloads)
         }
     }
 
     private fun dispatchOnBindViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -188,7 +194,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             payloads: MutableList<Any>
     ) {
         hooks.forEach {
-            it.onBindViewHolderEnd(delegate, component, data, position, payloads)
+            it.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
         }
     }
 
@@ -204,14 +210,28 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             it.delegate(itemData)
         } ?: defaultAdapterDelegate
 
+        if (delegateViewTypeMapper.containsKey(delegate)) {
+            return delegateViewTypeMapper[delegate]!!
+        }
+
         itemViewType = delegate?.getItemViewType(itemData)
                 ?: throw DelegateNotFoundException("$position , $itemData ,找不到对应的 AdapterDelegate，请注册")
 
         if (itemViewType == 0) {
-            itemViewType = View.generateViewId()
+            itemViewType = genItemViewType()
         }
+        Log.d(TAG, "getItemViewType() called with: position = $position , $itemViewType")
         viewTypeDelegateMapper[itemViewType] = delegate
+        delegateViewTypeMapper[delegate] = itemViewType
         return itemViewType
+    }
+
+    private fun genItemViewType(): Int {
+        val viewType = ViewCompat.generateViewId()
+        if (viewTypeDelegateMapper.containsKey(viewType)) {
+            return genItemViewType()
+        }
+        return viewType
     }
 
     private fun getDelegateByComponent(component: Component<*>): AdapterDelegate<*, *> {

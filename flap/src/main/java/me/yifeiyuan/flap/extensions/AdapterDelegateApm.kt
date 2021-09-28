@@ -3,6 +3,7 @@ package me.yifeiyuan.flap.extensions
 import android.os.SystemClock
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 
 /**
@@ -25,7 +26,7 @@ open class AdapterDelegateApm : AdapterHook {
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
-    override fun onCreateViewHolderStart(delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
         FlapDebug.d(
                 TAG,
                 "${delegate?.javaClass?.simpleName} 开始创建 Component : viewType = $viewType"
@@ -34,6 +35,7 @@ open class AdapterDelegateApm : AdapterHook {
     }
 
     override fun onCreateViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>
@@ -47,6 +49,7 @@ open class AdapterDelegateApm : AdapterHook {
     }
 
     override fun onBindViewHolderStart(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -61,6 +64,7 @@ open class AdapterDelegateApm : AdapterHook {
     }
 
     override fun onBindViewHolderEnd(
+            adapter: FlapAdapter,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,

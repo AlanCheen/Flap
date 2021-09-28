@@ -37,7 +37,17 @@ class FlapApplication : MultiDexApplication() {
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
         //
 
-        with(Flap) {
+        Flap.registerAdapterDelegates(
+            SimpleTextComponentDelegate(),
+            SimpleImageComponentDelegate(),
+            CustomViewTypeComponentDelegate(),
+            GenericFlapComponentDelegate(),
+            ViewBindingComponentDelegate(),
+            JavaModuleComponentDelegate(),
+            KtModuleComponentDelegate()
+        )
+
+//        with(Flap) {
 //            registerAdapterDelegate(SimpleTextComponentDelegate())
 //            registerAdapterDelegate(SimpleImageComponentDelegate())
 //            registerAdapterDelegate(CustomViewTypeComponentDelegate())
@@ -45,6 +55,6 @@ class FlapApplication : MultiDexApplication() {
 //            registerAdapterDelegate(ViewBindingComponentDelegate())
 //            registerAdapterDelegate(JavaModuleComponentDelegate())
 //            registerAdapterDelegate(KtModuleComponentDelegate())
-        }
+//        }
     }
 }

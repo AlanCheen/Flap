@@ -1,6 +1,5 @@
 package me.yifeiyuan.flap.extensions
 
-import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
@@ -40,9 +39,6 @@ class PrefetchDetector(var offset: Int = 1, val onPrefetch: () -> Unit) : Adapte
         }
     }
 
-    override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int, component: Component<*>) {
-    }
-
     override fun onBindViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (!prefetchEnable) {
             return
@@ -60,10 +56,6 @@ class PrefetchDetector(var offset: Int = 1, val onPrefetch: () -> Unit) : Adapte
         }
         fetching.set(true)
         onPrefetch()
-    }
-
-    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-
     }
 
     fun setPrefetchComplete() {

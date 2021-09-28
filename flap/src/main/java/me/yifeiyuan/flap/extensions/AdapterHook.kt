@@ -21,7 +21,7 @@ interface AdapterHook {
      */
     fun onCreateViewHolderStart(
             adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int
-    )
+    ){}
 
     /**
      * 在组件创建完毕后调用
@@ -34,7 +34,7 @@ interface AdapterHook {
             delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>
-    )
+    ){}
 
     /**
      * 在绑定组件之前调用
@@ -50,7 +50,7 @@ interface AdapterHook {
             data: Any,
             position: Int,
             payloads: MutableList<Any>
-    )
+    ){}
 
     /**
      * 在组件绑定完毕后回调
@@ -66,5 +66,5 @@ interface AdapterHook {
             data: Any,
             position: Int,
             payloads: MutableList<Any>
-    )
+    ){}
 }

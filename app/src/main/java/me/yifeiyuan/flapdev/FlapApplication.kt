@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
+import me.yifeiyuan.flapdev.components.bindersample.BinderComponentDelegate
 import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponentDelegate
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate
@@ -44,7 +45,8 @@ class FlapApplication : MultiDexApplication() {
             GenericFlapComponentDelegate(),
             ViewBindingComponentDelegate(),
             JavaModuleComponentDelegate(),
-            KtModuleComponentDelegate()
+            KtModuleComponentDelegate(),
+                BinderComponentDelegate()
         )
 
 //        with(Flap) {

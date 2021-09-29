@@ -2,6 +2,7 @@ package me.yifeiyuan.flapdev
 
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
+import me.yifeiyuan.flapdev.components.bindersample.BinderModel
 import me.yifeiyuan.flapdev.components.customviewtype.CustomModel
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
@@ -35,5 +36,7 @@ fun mockModels(): MutableList<Any> {
     models.add(JavaModuleModel())
     models.add(KtComponentModel())
     models.add(VBModel())
+    models.add(BinderModel())
+    models.add(BinderModel())
     return models
 }

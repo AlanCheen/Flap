@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.lang.reflect.ParameterizedType
 
 /**
+ *
  * A delegate class that delegates some methods of FlapAdapter.
  *
  * Created by 程序亦非猿 on 2021/9/22.

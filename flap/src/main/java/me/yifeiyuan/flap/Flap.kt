@@ -2,8 +2,8 @@ package me.yifeiyuan.flap
 
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
-import me.yifeiyuan.flap.extensions.AdapterHook
-import me.yifeiyuan.flap.extensions.AdapterDelegateApm
+import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.hook.AdapterDelegateApm
 import me.yifeiyuan.flap.extensions.ComponentPool
 
 /**
@@ -28,12 +28,10 @@ object Flap : ComponentCallbacks2 {
         add(AdapterDelegateApm())
     }
 
-    @JvmStatic
     fun registerAdapterHook(adapterHook: AdapterHook) {
         hooks.add(adapterHook)
     }
 
-    @JvmStatic
     fun unRegisterAdapterHook(adapterHook: AdapterHook) {
         hooks.remove(adapterHook)
     }
@@ -48,7 +46,6 @@ object Flap : ComponentCallbacks2 {
         }
     }
 
-    @JvmStatic
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)
     }

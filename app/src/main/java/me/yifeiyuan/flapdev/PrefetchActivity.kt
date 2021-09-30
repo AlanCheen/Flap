@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.extensions.PrefetchDetector
+import me.yifeiyuan.flap.hook.PrefetchDetector
 
 class PrefetchActivity : AppCompatActivity() {
 
@@ -37,5 +37,6 @@ class PrefetchActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.list)
 
         rv.adapter = adapter
+
     }
 }

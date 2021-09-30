@@ -16,7 +16,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * @since 2020/9/22
  * @since 3.0
  */
-class FlapRecyclerView : RecyclerView {
+open class FlapRecyclerView : RecyclerView {
 
     private lateinit var adapter: FlapAdapter
 

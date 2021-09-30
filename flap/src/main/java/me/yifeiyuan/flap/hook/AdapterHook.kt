@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.hook
 
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component

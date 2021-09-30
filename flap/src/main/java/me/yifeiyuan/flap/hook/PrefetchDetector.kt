@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.hook
 
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.AdapterDelegate

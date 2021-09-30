@@ -1,10 +1,11 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.hook
 
 import android.os.SystemClock
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
+import javax.security.auth.login.LoginException
 
 /**
  * 组件性能监控
@@ -16,11 +17,14 @@ import me.yifeiyuan.flap.FlapDebug
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
  * @since 3.0
+ *
+ * @param createTimeCostThreshold 创建组件耗时阈值，默认 20 ms
+ * @param bindTimeCostThreshold 绑定组件耗时阈值，默认 5 ms
  */
-open class AdapterDelegateApm : AdapterHook {
+open class AdapterDelegateApm(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 20) : AdapterHook {
 
     companion object {
-        private const val TAG = "DelegateApm"
+        private const val TAG = "AdapterDelegateApm"
     }
 
     private var createStartTime: Long = 0
@@ -46,6 +50,13 @@ open class AdapterDelegateApm : AdapterHook {
                 TAG,
                 "${delegate?.javaClass?.simpleName} 完成创建: Component = $component，cost = $cost (毫秒)"
         )
+        if (cost > createTimeCostThreshold) {
+            onCreateAlarm()
+        }
+    }
+
+    open fun onCreateAlarm() {
+        FlapDebug.w(TAG, "组件创建耗时过长，请优化！")
     }
 
     override fun onBindViewHolderStart(
@@ -78,26 +89,12 @@ open class AdapterDelegateApm : AdapterHook {
                 TAG,
                 "${delegate?.javaClass?.simpleName} 完成绑定: position = $position, cost = $cost (毫秒)"
         )
+        if (cost > bindStartTime) {
+            onBindAlarm()
+        }
     }
 
-    /**
-     * 创建组件的耗时阈值，超过阈值会有警告。
-     * 默认 20 毫秒
-     *
-     * @return 毫秒
-     */
-    protected fun getCreateCostThreshold(): Long {
-        return 20
+    open fun onBindAlarm() {
+        FlapDebug.w(TAG, "组件绑定耗时过长，请优化！")
     }
-
-    /**
-     * 绑定组件的耗时阈值，超过阈值会有警告。
-     * 默认 5 毫秒
-     *
-     * @return 毫秒
-     */
-    protected fun getBindCostThreshold(): Long {
-        return 5
-    }
-
 }

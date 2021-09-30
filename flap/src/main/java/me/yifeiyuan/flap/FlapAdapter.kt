@@ -1,6 +1,5 @@
 package me.yifeiyuan.flap
 
-import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.exceptions.DelegateNotFoundException
-import me.yifeiyuan.flap.extensions.AdapterHook
+import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.extensions.setOnItemClickListener
 
 /**
@@ -33,7 +31,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     private var lifecycleOwner: LifecycleOwner? = null
     private var lifecycleEnable = true
-    private var useFlapItemPool = true
+    private var useComponentPool = true
 
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
@@ -215,10 +213,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         }
 
         itemViewType = delegate?.getItemViewType(itemData)
-                ?: throw DelegateNotFoundException("$position , $itemData ,找不到对应的 AdapterDelegate，请注册")
+                ?: throw AdapterDelegateNotFoundException("$position , $itemData ,找不到对应的 Delegate，请先注册，或设置默认 Delegate")
 
         if (itemViewType == 0) {
-            itemViewType = genItemViewType()
+            itemViewType = generateItemViewType()
         }
         Log.d(TAG, "getItemViewType() called with: position = $position , $itemViewType")
         viewTypeDelegateMapper[itemViewType] = delegate
@@ -226,10 +224,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         return itemViewType
     }
 
-    private fun genItemViewType(): Int {
+    private fun generateItemViewType(): Int {
         val viewType = ViewCompat.generateViewId()
         if (viewTypeDelegateMapper.containsKey(viewType)) {
-            return genItemViewType()
+            return generateItemViewType()
         }
         return viewType
     }
@@ -240,7 +238,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
         return viewTypeDelegateMapper[viewType] ?: defaultAdapterDelegate
-        ?: throw DelegateNotFoundException("${viewType} 找不到对应的 Delegate")
+        ?: throw AdapterDelegateNotFoundException("找不到 viewType = ${viewType} 对应的 Delegate，请先注册，或设置默认 Delegate")
     }
 
     override fun getItemId(position: Int): Long {
@@ -265,7 +263,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         if (recyclerView.context is LifecycleOwner && lifecycleOwner == null) {
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
-        if (useFlapItemPool) {
+        if (useComponentPool) {
             recyclerView.setRecycledViewPool(Flap.globalComponentPool)
         }
         onItemClickListener?.let {
@@ -277,22 +275,18 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     override fun onViewRecycled(holder: Component<*>) {
         holder.onViewRecycled(this)
-//        Log.d(TAG, "onViewRecycled() called with: holder = $holder")
     }
 
     override fun onFailedToRecycleView(holder: Component<*>): Boolean {
-//        Log.d(TAG, "onFailedToRecycleView() called with: holder = $holder")
         return holder.onFailedToRecycleView(this)
     }
 
     override fun onViewAttachedToWindow(holder: Component<*>) {
         holder.onViewAttachedToWindow(this)
-//        Log.d(TAG, "onViewAttachedToWindow() called with: holder = $holder")
     }
 
     override fun onViewDetachedFromWindow(holder: Component<*>) {
         holder.onViewDetachedFromWindow(this)
-//        Log.d(TAG, "onViewDetachedFromWindow() called with: holder = $holder")
     }
 
     fun setLifecycleOwner(lifecycleOwner: LifecycleOwner): FlapAdapter {
@@ -315,7 +309,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
      * @return this
      */
     fun setUseComponentPool(enable: Boolean): FlapAdapter {
-        useFlapItemPool = enable
+        useComponentPool = enable
         return this
     }
 

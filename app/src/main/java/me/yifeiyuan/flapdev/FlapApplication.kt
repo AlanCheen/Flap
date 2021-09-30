@@ -1,5 +1,7 @@
 package me.yifeiyuan.flapdev
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
@@ -32,31 +34,27 @@ class FlapApplication : MultiDexApplication() {
         Log.e("Flap", "Init Flap time cost :" + (t2 - t1))
 
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-        //
-
-
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-        //
 
         Flap.registerAdapterDelegates(
-            SimpleTextComponentDelegate(),
-            SimpleImageComponentDelegate(),
-            CustomViewTypeComponentDelegate(),
-            GenericFlapComponentDelegate(),
-            ViewBindingComponentDelegate(),
-            JavaModuleComponentDelegate(),
-            KtModuleComponentDelegate(),
+                SimpleTextComponentDelegate(),
+                SimpleImageComponentDelegate(),
+                CustomViewTypeComponentDelegate(),
+                GenericFlapComponentDelegate(),
+                ViewBindingComponentDelegate(),
+                JavaModuleComponentDelegate(),
+                KtModuleComponentDelegate(),
                 BinderComponentDelegate()
         )
-
-//        with(Flap) {
-//            registerAdapterDelegate(SimpleTextComponentDelegate())
-//            registerAdapterDelegate(SimpleImageComponentDelegate())
-//            registerAdapterDelegate(CustomViewTypeComponentDelegate())
-//            registerAdapterDelegate(GenericFlapComponentDelegate())
-//            registerAdapterDelegate(ViewBindingComponentDelegate())
-//            registerAdapterDelegate(JavaModuleComponentDelegate())
-//            registerAdapterDelegate(KtModuleComponentDelegate())
-//        }
     }
+}
+
+val uiThread = Handler(Looper.getMainLooper())
+
+fun Any.post(runnable: Runnable) {
+    uiThread.post(runnable)
+}
+
+fun Any.postDelay(delay: Long, runnable: Runnable) {
+    uiThread.postDelayed(runnable, delay)
 }

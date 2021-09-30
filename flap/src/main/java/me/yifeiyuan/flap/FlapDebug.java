@@ -38,7 +38,11 @@ public final class FlapDebug {
             Log.e(tag, msg);
         }
     }
-
+    public static void i(String tag, String msg) {
+        if (DEBUG) {
+            Log.i(tag, msg);
+        }
+    }
     public static void w(String tag, String msg) {
         if (DEBUG) {
             Log.w(tag, msg);

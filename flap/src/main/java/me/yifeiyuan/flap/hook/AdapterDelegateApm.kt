@@ -8,8 +8,9 @@ import me.yifeiyuan.flap.FlapDebug
 import javax.security.auth.login.LoginException
 
 /**
- * 组件性能监控
- *
+ * 组件性能监控：
+ * 1. 创建组件耗时监控，当超过阈值 {createTimeCostThreshold} 时会回调 onCreateAlarm；
+ * 2. 绑定组件监控，当超过阈值 {bindTimeCostThreshold} 时会回调 onBindAlarm；
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

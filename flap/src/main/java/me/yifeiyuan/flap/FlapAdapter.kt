@@ -74,6 +74,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
             Log.d(TAG, "onItemRangeChanged() called with: positionStart = $positionStart, itemCount = $itemCount, payload = $payload")
+            checkEmptyStatus()
         }
     }
 
@@ -96,6 +97,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
+    }
+
+    fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
+        delegates.forEach {
+            registerAdapterDelegate(it)
+        }
     }
 
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {

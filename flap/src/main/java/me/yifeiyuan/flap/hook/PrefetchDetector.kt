@@ -7,7 +7,12 @@ import me.yifeiyuan.flap.FlapAdapter
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Created by 程序亦非猿 on 2021/9/28.
+ *  RecyclerView 预取功能检测
+ *
+ *  Created by 程序亦非猿 on 2021/9/28.
+ *
+ *  @param offset 偏移量，决定何时触发预取机制，默认滑动到底部最后一个触发
+ *  @param onPrefetch 触发预取后执行
  */
 class PrefetchDetector(private val offset: Int = 1, private val onPrefetch: () -> Unit) : AdapterHook {
 
@@ -28,6 +33,18 @@ class PrefetchDetector(private val offset: Int = 1, private val onPrefetch: () -
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            fetching.set(false)
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            fetching.set(false)
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            fetching.set(false)
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             fetching.set(false)
         }
     }

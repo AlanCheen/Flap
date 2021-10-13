@@ -16,6 +16,7 @@ import androidx.annotation.RestrictTo;
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 1.1
  */
+@Deprecated
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface ComponentProxy<T, VH extends Component<T>> {
 

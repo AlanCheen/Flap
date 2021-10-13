@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.hook.AdapterHook
-import me.yifeiyuan.flap.extensions.setOnItemClickListener
+import me.yifeiyuan.flap.ext.setOnItemClickListener
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -45,6 +45,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
+    private val eventObservers = mutableListOf<OnEventObserver>()
+
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
         addAll(Flap.hooks)
     }
@@ -55,33 +57,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 //    var onItemClickListener: ((View, Int, Any) -> Unit)? = null
     var onItemClickListener: OnItemClickListener? = null
 
-    private val dataObserver = object : RecyclerView.AdapterDataObserver() {
-        override fun onChanged() {
-            super.onChanged()
-            checkEmptyStatus()
-        }
-
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            super.onItemRangeInserted(positionStart, itemCount)
-            checkEmptyStatus()
-        }
-
-        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-            super.onItemRangeRemoved(positionStart, itemCount)
-            checkEmptyStatus()
-        }
-
-        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-            super.onItemRangeChanged(positionStart, itemCount, payload)
-            Log.d(TAG, "onItemRangeChanged() called with: positionStart = $positionStart, itemCount = $itemCount, payload = $payload")
-            checkEmptyStatus()
-        }
-    }
-
     init {
         hooks.addAll(Flap.hooks)
         adapterDelegates.addAll(Flap.adapterDelegates)
-        registerAdapterDataObserver(dataObserver)
         Flap.defaultAdapterDelegate?.let {
             defaultAdapterDelegate = it
         }
@@ -107,6 +85,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)
+    }
+
+    fun registerOnEventObserver(observer: OnEventObserver) {
+        eventObservers.add(observer)
     }
 
     open fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
@@ -280,6 +262,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         }
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
     override fun onViewRecycled(holder: Component<*>) {
         holder.onViewRecycled(this)
     }
@@ -320,26 +306,31 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         return this
     }
 
-    private fun checkEmptyStatus() {
-        if (itemCount == 0) {
-//            state = UltraRecyclerView.State.Empty
-//            notifyDataSetChanged()
+    fun fireEvent(event: Event<*>) {
+        eventObservers.forEach {
+            it.onEvent(event)
         }
     }
 
+    /**
+     *
+     * 备注：为什么用 as? 而不是 as 呢？
+     * 因为考虑如果不小心修改了参数结构可能会引起 crash，所以这里给了一定的兼容性，
+     * 所以类型需要开发保证。
+     *
+     * @return key 对应的参数，如果类型不匹配，则会为 null
+     */
     @Suppress("UNCHECKED_CAST")
     open fun <P> getParam(key: String): P? {
-        val param = paramProvider?.getParam(key) ?: return null
-        return param as P
+        return paramProvider?.getParam(key) as? P?
     }
 
     interface ParamProvider {
         fun getParam(key: String): Any?
     }
 
-    // TODO: 2021/9/24
     interface OnEventObserver {
-        fun onEvent()
+        fun onEvent(event: Event<*>)
     }
 
     interface OnItemClickListener {

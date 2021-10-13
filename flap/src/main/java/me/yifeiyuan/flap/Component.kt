@@ -26,7 +26,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     /**
      * @return true if component is visible
      */
-    private var isVisible = false
+    protected var isVisible = false
 
     @Suppress("UNCHECKED_CAST")
     fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {

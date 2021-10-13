@@ -1,9 +1,7 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.ext
 
-import android.util.SparseArray
 import android.view.View
 import android.widget.*
-import androidx.core.util.containsKey
 import androidx.recyclerview.widget.RecyclerView
 
 /**

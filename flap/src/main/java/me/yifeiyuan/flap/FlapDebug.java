@@ -32,6 +32,11 @@ public final class FlapDebug {
             Log.e(TAG, "FlapDebug : ", e);
         }
     }
+    public static void e(String tag, String msg,Throwable tr) {
+        if (DEBUG) {
+            Log.e(tag, msg,tr);
+        }
+    }
 
     public static void d(String tag, String msg) {
         if (DEBUG) {

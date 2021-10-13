@@ -1,8 +1,7 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.FlapAdapter
@@ -59,7 +58,12 @@ open class FlapRecyclerView : RecyclerView {
     private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
         adapter = FlapAdapter()
         setAdapter(adapter)
+    }
+
+    override fun setAdapter(adapter: Adapter<*>?) {
+        this.adapter = adapter as FlapAdapter
         adapter.registerAdapterDataObserver(dataObserver)
+        super.setAdapter(this.adapter)
     }
 
     fun setData(data: MutableList<Any>) {

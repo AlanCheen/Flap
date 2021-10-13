@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.extensions
+package me.yifeiyuan.flap.ext
 
 import android.view.GestureDetector
 import android.view.MotionEvent

@@ -35,9 +35,17 @@ interface AdapterDelegate<T, VH : Component<T>> {
         return false
     }
 
+    /**
+     *
+     * @param inflater LayoutInflater
+     * @param parent   RecyclerView
+     * @param viewType itemViewType
+     * @return your component
+     */
     fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): VH
 
     fun getItemId(model: Any): Long = RecyclerView.NO_ID
+
 
     fun getItemViewType(model: Any): Int = 0
 

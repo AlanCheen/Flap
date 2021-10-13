@@ -7,11 +7,9 @@ import android.widget.ImageView
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.extensions.bindImageView
-import me.yifeiyuan.flap.extensions.bindTextView
-import me.yifeiyuan.flap.extensions.bindView
+import me.yifeiyuan.flap.ext.bindTextView
+import me.yifeiyuan.flap.ext.bindView
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.components.customviewtype.CustomModel
 
 /**
  * Created by 程序亦非猿 on 2021/9/29.

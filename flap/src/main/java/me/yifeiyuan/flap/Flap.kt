@@ -4,7 +4,7 @@ import android.content.ComponentCallbacks2
 import android.content.res.Configuration
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.AdapterDelegateApm
-import me.yifeiyuan.flap.extensions.ComponentPool
+import me.yifeiyuan.flap.ext.ComponentPool
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>

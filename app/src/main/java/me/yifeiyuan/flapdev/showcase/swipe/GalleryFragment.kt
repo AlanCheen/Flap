@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.ui.home
+package me.yifeiyuan.flapdev.showcase.swipe
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import me.yifeiyuan.flapdev.R
 
-class HomeFragment : Fragment() {
+class GalleryFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var galleryViewModel: GalleryViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        galleryViewModel =
+                ViewModelProvider(this).get(GalleryViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
+        val textView: TextView = root.findViewById(R.id.text_gallery)
+        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

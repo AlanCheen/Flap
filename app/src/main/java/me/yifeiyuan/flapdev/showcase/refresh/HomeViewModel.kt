@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.ui.home
+package me.yifeiyuan.flapdev.showcase.refresh
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

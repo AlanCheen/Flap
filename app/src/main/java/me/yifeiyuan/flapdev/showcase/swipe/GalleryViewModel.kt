@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.ui.gallery
+package me.yifeiyuan.flapdev.showcase.swipe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

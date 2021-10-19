@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.ui.slideshow
+package me.yifeiyuan.flapdev.showcase.selection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

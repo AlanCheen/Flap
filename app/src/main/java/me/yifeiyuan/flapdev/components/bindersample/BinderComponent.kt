@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flap.ext.bindView
@@ -24,11 +25,8 @@ class BinderComponent(itemView: View) : Component<BinderModel>(itemView) {
         }
 //                .bindTextView(R.id.binderText) {}
 //                .bindImageView(R.id.binderText){}
-
-        bindView<ImageView>(R.id.binderText) {
-
-        }
     }
+
 }
 
 class BinderComponentDelegate : AdapterDelegate<BinderModel, BinderComponent> {

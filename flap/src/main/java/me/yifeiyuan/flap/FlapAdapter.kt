@@ -314,10 +314,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     /**
      *
-     * 备注：为什么用 as? 而不是 as 呢？
-     * 因为考虑如果不小心修改了参数结构可能会引起 crash，所以这里给了一定的兼容性，
-     * 所以类型需要开发保证。
-     *
      * @return key 对应的参数，如果类型不匹配，则会为 null
      */
     @Suppress("UNCHECKED_CAST")

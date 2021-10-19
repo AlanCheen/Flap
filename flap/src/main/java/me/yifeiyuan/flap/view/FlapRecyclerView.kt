@@ -3,8 +3,16 @@ package me.yifeiyuan.flap.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapAdapter
+import java.util.*
 
 /**
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
@@ -43,6 +51,20 @@ open class FlapRecyclerView : RecyclerView {
         }
     }
 
+    private val lifecycleObserver = object : LifecycleObserver {
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        fun onDestroy() {
+            /**
+             * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
+             */
+            setAdapter(null)
+            if (context is LifecycleOwner) {
+                (context as LifecycleOwner).lifecycle.removeObserver(this)
+            }
+        }
+    }
+
     constructor(context: Context) : super(context) {
         init(context, null, 0)
     }
@@ -58,12 +80,32 @@ open class FlapRecyclerView : RecyclerView {
     private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
         adapter = FlapAdapter()
         setAdapter(adapter)
+
+        if (context is LifecycleOwner) {
+            context.lifecycle.addObserver(lifecycleObserver)
+        }
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
         this.adapter = adapter as FlapAdapter
         adapter.registerAdapterDataObserver(dataObserver)
         super.setAdapter(this.adapter)
+    }
+
+    override fun setLayoutManager(layout: LayoutManager?) {
+        super.setLayoutManager(layout)
+        when (layout) {
+            is LinearLayoutManager -> {
+                layout.recycleChildrenOnDetach = true
+            }
+
+            is GridLayoutManager ->{
+                layout.recycleChildrenOnDetach = true
+            }
+
+            is StaggeredGridLayoutManager ->{
+            }
+        }
     }
 
     fun setData(data: MutableList<Any>) {

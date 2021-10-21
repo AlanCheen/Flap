@@ -261,7 +261,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         }
         onItemClickListener?.let {
             recyclerView.setOnItemClickListener { v, p ->
-                onItemClickFunc?.invoke(v,p)
+                onItemClickFunc?.invoke(v, p)
                 it.onItemClick(v, p)
             }
         }

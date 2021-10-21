@@ -2,10 +2,14 @@ package me.yifeiyuan.flapdev.showcase
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.hook.PrefetchDetector
 import me.yifeiyuan.flap.hook.attachTo
+import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.ShowcaseAdapter
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
 import java.util.ArrayList
@@ -19,31 +23,58 @@ class PrefetchFragment : BaseFragment() {
         private const val TAG = "PrefetchFragment"
     }
 
+    private var testPrefetchErrorCase = false
+
+    private lateinit var prefetchDetector: PrefetchDetector
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         usePrefetchDetector()
-
-//        adapter.doOnPrefetch(3){
-//
-//        }
+//        useAdapter()
     }
 
-    private fun useAdapter(){
+    private fun useAdapter() {
         adapter.doOnPrefetch(3) {
-            loadMoreData(5)
+            requestMoreData()
         }
     }
 
     private fun usePrefetchDetector() {
-        val prefetchDetector = PrefetchDetector(4) {
-            toast("开始预加载")
-            Log.d(TAG, "onViewCreated: 开始预加载")
-            loadMoreData()
+        prefetchDetector = PrefetchDetector(4) {
+            requestMoreData()
         }.attachTo(adapter)
 
-        prefetchDetector.prefetchEnable = true // 默认 true
-        prefetchDetector.setPrefetchComplete() // 当出错时，需要手动调用
     }
 
+    private fun requestMoreData() {
+        Log.d(TAG, "requestMoreData")
+        if (testPrefetchErrorCase) {
+            Log.d(TAG, "预加载失败场景，必须调用 setPrefetchComplete ")
+            prefetchDetector.setPrefetchComplete() // 当出错时，需要手动调用，不然不会再进行检查
+        } else {
+            Log.d(TAG, "onViewCreated: 开始预加载")
+            toast("开始预加载")
+            loadMoreData()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.prefetch, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.setLoadMoreError -> {
+                item.isChecked = item.isChecked.not()
+                testPrefetchErrorCase = item.isChecked
+            }
+            R.id.setLoadMoreEnable -> {
+                item.isChecked = item.isChecked.not()
+                prefetchDetector.prefetchEnable = item.isChecked
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

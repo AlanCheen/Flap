@@ -13,8 +13,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".PrefetchActivity"></activity>
-
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

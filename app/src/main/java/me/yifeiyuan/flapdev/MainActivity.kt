@@ -93,35 +93,4 @@ class MainActivity : AppCompatActivity() {
 //        recyclerView.adapter = adapter
 //    }
 
-    private fun mockModels(): List<Any> {
-        val models: MutableList<Any> = ArrayList()
-        models.add(SimpleTextModel("Flap（灵动）"))
-        models.add(SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"))
-        models.add(SimpleTextModel("—— by 程序亦非猿"))
-        models.add(SimpleImageModel())
-        models.add(CustomModel())
-        models.add(GenericModel())
-        models.add(SimpleDataBindingModel())
-        models.add(JavaModuleModel())
-        models.add(KtComponentModel())
-        models.add(VBModel())
-        return models
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return false
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return false
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.differ -> startActivity(Intent(this@MainActivity, DifferActivity::class.java))
-            R.id.kotlin -> startActivity(Intent(this@MainActivity, KotlinTestActivity::class.java))
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

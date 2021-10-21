@@ -18,12 +18,16 @@ import java.util.ArrayList
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseFragment : Fragment() {
+open class BaseFragment() : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     lateinit var adapter: FlapAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)

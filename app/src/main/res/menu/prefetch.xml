@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/setLoadMoreError"
+        android:checkable="true"
+        android:checked="false"
+        android:title="测试预加载失败场景" />
+    <item
+        android:id="@+id/setLoadMoreEnable"
+        android:checkable="true"
+        android:checked="true"
+        android:title="启用预加载功能" />
+</menu>

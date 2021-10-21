@@ -27,8 +27,6 @@ class PrefetchFragment : BaseFragment() {
 //        adapter.doOnPrefetch(3){
 //
 //        }
-
-        onRefresh()
     }
 
     private fun useAdapter(){
@@ -48,16 +46,4 @@ class PrefetchFragment : BaseFragment() {
         prefetchDetector.setPrefetchComplete() // 当出错时，需要手动调用
     }
 
-    override fun onRefresh() {
-        val list = ArrayList<Any>()
-        repeat(20) {
-            list.add(SimpleTextModel("初始数据 $it "))
-        }
-        adapter.setData(list)
-    }
-
-    override fun createAdapter(): FlapAdapter {
-        return ShowcaseAdapter().apply {
-        }
-    }
 }

@@ -36,10 +36,7 @@ open class BaseFragment : Fragment() {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.postDelayed({
-                refreshData(20)
-                swipeRefreshLayout.isRefreshing = false
-            }, getRefreshDelayedTime())
+            onRefresh()
         }
         adapter = createAdapter()
         recyclerView.adapter = adapter
@@ -52,7 +49,10 @@ open class BaseFragment : Fragment() {
     open fun getLayoutId(): Int = R.layout.fragment_base
 
     open fun onRefresh() {
-        adapter.mockData()
+        swipeRefreshLayout.postDelayed({
+            refreshData(20)
+            swipeRefreshLayout.isRefreshing = false
+        }, getRefreshDelayedTime())
     }
 
     open fun getRefreshDelayedTime() = 1000L
@@ -61,7 +61,7 @@ open class BaseFragment : Fragment() {
         adapter.setData(createRefreshData(size))
     }
 
-    open fun createRefreshData(size: Int = 20):MutableList<Any>{
+    open fun createRefreshData(size: Int = 20): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
             list.add(SimpleTextModel("初始数据 $it of $size"))

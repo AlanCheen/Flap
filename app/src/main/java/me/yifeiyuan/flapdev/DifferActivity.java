@@ -3,6 +3,7 @@ package me.yifeiyuan.flapdev;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 import me.yifeiyuan.flap.ext.DifferFlapAdapter;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 

@@ -89,3 +89,8 @@ interface AdapterHook {
     ) {
     }
 }
+
+fun <T : AdapterHook> T.attachTo(adapter: FlapAdapter): T {
+    adapter.registerAdapterHook(this)
+    return this
+}

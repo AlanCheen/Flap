@@ -1,6 +1,7 @@
 package me.yifeiyuan.flap.hook
 
 import android.util.Log
+import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
@@ -8,9 +9,13 @@ import me.yifeiyuan.flap.FlapAdapter
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- *  RecyclerView 预取功能检测，当滑动到 position >= itemCount-offset 时会触发预加载
+ *  RecyclerView 预取功能检测，会检测 RecyclerView 的滑动状态，当滑动到 position >= itemCount-1-offset 时会触发预加载
  *
- *  例如 itemCount=21 ，offset=3，那么当滑动到 position=18 的位置会触发预加载机制，并调用 onPrefetch() ，可以在此时加载跟多数据。
+ *  举例：
+ *  1. offset = 0 时，滑动到最底部最后一个可见时触发
+ *  2. offset = 1 时，最后第二个可见时触发
+ *
+ *  例如 itemCount=20 ，offset=4，那么当滑动到 position=15 的位置会触发预加载机制，并调用 onPrefetch() ，可以在此时加载跟多数据。
  *
  *  注意：
  *  1. 每个 PrefetchDetector 只能绑定一个 Adapter，不可复用。
@@ -18,13 +23,19 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  *  Created by 程序亦非猿 on 2021/9/28.
  *
- *  @param offset 偏移量，决定滑动到哪个 position 触发预取，默认滑动到底部最后一个组件可见时触发
+ *  @param offset 偏移量，默认值 0 表示最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
  */
 class PrefetchDetector(private val offset: Int = 0, private val onPrefetch: () -> Unit) : AdapterHook {
 
-    companion object{
+    companion object {
         private const val TAG = "PrefetchDetector"
+    }
+
+    init {
+        if (offset < 0) {
+            throw IllegalArgumentException("offset must be >= 0")
+        }
     }
 
     private val fetching = AtomicBoolean(false)
@@ -73,7 +84,7 @@ class PrefetchDetector(private val offset: Int = 0, private val onPrefetch: () -
         }
         val itemCount = adapter.itemCount
 
-        if (itemCount > 0 && position + offset >= itemCount) {
+        if (itemCount > 0 && position + offset >= itemCount - 1) {
             if (fetching.get()) {
                 return
             }

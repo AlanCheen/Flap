@@ -24,10 +24,10 @@ fun FlapAdapter.appendMockData() {
     appendData(mockModels())
 }
 
-fun FlapAdapter.appendPrefetchData() {
+fun FlapAdapter.appendPrefetchData(size:Int = 10) {
     val list = ArrayList<Any>()
-    repeat(10){
-        list.add(SimpleTextModel("Prefetch $it of 10"))
+    repeat(size){
+        list.add(SimpleTextModel("Prefetch $it of $size"))
     }
     appendData(list)
 }

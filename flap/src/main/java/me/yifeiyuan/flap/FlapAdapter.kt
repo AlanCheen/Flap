@@ -57,7 +57,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     var paramProvider: ParamProvider? = null
 
     //    TODO 真的需要吗？
-//    var onItemClickListener: ((View, Int, Any) -> Unit)? = null
+    var onItemClickFunc: ((childView: View, position: Int) -> Unit)? = null
+
     var onItemClickListener: OnItemClickListener? = null
 
     init {
@@ -260,6 +261,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         }
         onItemClickListener?.let {
             recyclerView.setOnItemClickListener { v, p ->
+                onItemClickFunc?.invoke(v,p)
                 it.onItemClick(v, p)
             }
         }

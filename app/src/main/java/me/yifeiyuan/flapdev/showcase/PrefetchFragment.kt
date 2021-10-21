@@ -31,13 +31,25 @@ class PrefetchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        usePrefetchDetector()
-//        useAdapter()
+//        usePrefetchDetector()
+        useAdapter()
     }
 
     private fun useAdapter() {
-        adapter.doOnPrefetch(3) {
-            requestMoreData()
+        adapter.doOnPrefetch(4) {
+            requestMoreDataAdapter()
+        }
+    }
+
+    private fun requestMoreDataAdapter() {
+        Log.d(TAG, "requestMoreData")
+        if (testPrefetchErrorCase) {
+            Log.d(TAG, "预加载失败场景，必须调用 setPrefetchComplete ")
+            adapter.setPrefetchComplete() // 当出错时，需要手动调用，不然不会再进行检查
+        } else {
+            Log.d(TAG, "onViewCreated: 开始预加载")
+            toast("开始预加载")
+            loadMoreData()
         }
     }
 
@@ -72,7 +84,11 @@ class PrefetchFragment : BaseFragment() {
             }
             R.id.setLoadMoreEnable -> {
                 item.isChecked = item.isChecked.not()
-                prefetchDetector.prefetchEnable = item.isChecked
+                if (this::prefetchDetector.isInitialized) {
+                    prefetchDetector.prefetchEnable = item.isChecked
+                }else{
+                    adapter.setPrefetchEnable(item.isChecked)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

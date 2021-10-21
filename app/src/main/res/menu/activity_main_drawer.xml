@@ -5,10 +5,15 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_multi_type"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_send"
+            android:title="多类型" />
+        <item
+            android:id="@+id/nav_prefetch"
             android:checked="true"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="预加载" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"

@@ -1,9 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import android.content.Intent
-import android.media.audiofx.Visualizer
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -11,21 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.customviewtype.CustomModel
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
-import me.yifeiyuan.flapdev.showcase.refresh.HomeFragment
+import me.yifeiyuan.flapdev.showcase.MultiTypeFragment
+import me.yifeiyuan.flapdev.showcase.PrefetchFragment
 import me.yifeiyuan.flapdev.showcase.selection.SlideshowFragment
 import me.yifeiyuan.flapdev.showcase.swipe.GalleryFragment
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
@@ -54,9 +46,19 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener { it ->
+
+            var title = "Flap"
+            var subtitle = ""
             when (it.itemId) {
-                R.id.nav_home -> {
-                    replace(HomeFragment::class.java)
+                R.id.nav_multi_type -> {
+                    title = "多类型"
+                    subtitle = "多 itemViewType"
+                    replace(MultiTypeFragment::class.java)
+                }
+                R.id.nav_prefetch -> {
+                    title = "预加载"
+                    subtitle = "在滑动到底部之前预先加载"
+                    replace(PrefetchFragment::class.java)
                 }
                 R.id.nav_gallery -> {
                     replace(GalleryFragment::class.java)
@@ -66,29 +68,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             drawerLayout.close()
+
+            toolbar.title = title
+            toolbar.subtitle = subtitle
+
             true
         }
 
-        replace(HomeFragment::class.java)
+        replace(MultiTypeFragment::class.java)
 
     }
 
     private fun <T : Fragment> replace(fragmentClass: Class<T>, args: Bundle? = null) {
         supportFragmentManager.beginTransaction().replace(R.id.container, fragmentClass, args).commitAllowingStateLoss()
-    }
-
-    private fun createSimpleTestCase(recyclerView: RecyclerView) {
-        val adapter = FlapAdapter()
-        val models: MutableList<Any> = ArrayList()
-        models.add(SimpleTextModel("Android"))
-        models.add(SimpleTextModel("Java"))
-        models.add(SimpleTextModel("Kotlin"))
-        models.add(SimpleImageModel())
-        models.add(SimpleImageModel())
-        models.add(SimpleImageModel())
-        models.add(SimpleImageModel())
-        adapter.data = models
-        recyclerView.adapter = adapter
     }
 
 //    private fun createAdvanceTestCase(recyclerView: RecyclerView) {

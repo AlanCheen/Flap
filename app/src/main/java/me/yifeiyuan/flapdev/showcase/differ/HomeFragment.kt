@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase.refresh
+package me.yifeiyuan.flapdev.showcase.differ
 
 import android.os.Bundle
 import android.view.*

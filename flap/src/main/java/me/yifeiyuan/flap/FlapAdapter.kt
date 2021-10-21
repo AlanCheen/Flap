@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.ext.setOnItemClickListener
+import me.yifeiyuan.flap.hook.PrefetchDetector
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -36,6 +37,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
+
+    var prefetchDetector: PrefetchDetector? = null
 
     //TODO 将空、异常状态放到 Adapter 真的好吗？
 //    private val emptyStatusAdapterDelegate: AdapterDelegate<*, *>? = null
@@ -311,6 +314,24 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             it.onEvent(event)
         }
     }
+
+    fun doOnPrefetch(offset: Int, onPrefetch: () -> Unit) {
+        prefetchDetector?.let {
+            unRegisterAdapterHook(it)
+        }
+        prefetchDetector = PrefetchDetector(offset, onPrefetch).also {
+            registerAdapterHook(it)
+        }
+    }
+
+    fun setPrefetchEnable(enable: Boolean) {
+        prefetchDetector?.prefetchEnable = enable
+    }
+
+    fun setPrefetchComplete() {
+        prefetchDetector?.setPrefetchComplete()
+    }
+
 
     /**
      *

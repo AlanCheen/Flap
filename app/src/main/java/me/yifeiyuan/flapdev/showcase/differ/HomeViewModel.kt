@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase.refresh
+package me.yifeiyuan.flapdev.showcase.differ
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

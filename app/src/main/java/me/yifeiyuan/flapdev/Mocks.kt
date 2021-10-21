@@ -24,6 +24,14 @@ fun FlapAdapter.appendMockData() {
     appendData(mockModels())
 }
 
+fun FlapAdapter.appendPrefetchData() {
+    val list = ArrayList<Any>()
+    repeat(10){
+        list.add(SimpleTextModel("Prefetch $it of 10"))
+    }
+    appendData(list)
+}
+
 fun mockModels(): MutableList<Any> {
     val models: MutableList<Any> = ArrayList()
     models.add(SimpleTextModel("Flap（灵动）"))
@@ -32,10 +40,19 @@ fun mockModels(): MutableList<Any> {
     models.add(SimpleImageModel())
     models.add(CustomModel())
     models.add(GenericModel())
+    models.add(GenericModel())
+    models.add(SimpleImageModel())
+    models.add(GenericModel())
     models.add(SimpleDataBindingModel())
+    models.add(SimpleDataBindingModel())
+    models.add(JavaModuleModel())
     models.add(JavaModuleModel())
     models.add(KtComponentModel())
     models.add(VBModel())
+    models.add(KtComponentModel())
+    models.add(VBModel())
+    models.add(BinderModel())
+    models.add(KtComponentModel())
     models.add(BinderModel())
     models.add(BinderModel())
     return models

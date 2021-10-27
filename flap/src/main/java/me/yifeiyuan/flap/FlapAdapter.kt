@@ -51,7 +51,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     private val eventObservers = mutableListOf<OnEventObserver>()
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
-        addAll(Flap.hooks)
+        addAll(Flap.globalHooks)
     }
 
     var paramProvider: ParamProvider? = null
@@ -62,9 +62,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     var onItemClickListener: OnItemClickListener? = null
 
     init {
-        hooks.addAll(Flap.hooks)
-        adapterDelegates.addAll(Flap.adapterDelegates)
-        Flap.defaultAdapterDelegate?.let {
+        hooks.addAll(Flap.globalHooks)
+        adapterDelegates.addAll(Flap.globalAdapterDelegates)
+        Flap.globalDefaultAdapterDelegate?.let {
             defaultAdapterDelegate = it
         }
     }
@@ -116,7 +116,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
         val delegate = getDelegateByViewType(viewType)
         dispatchOnCreateViewHolderStart(this, delegate, viewType)
-        val component = delegate.onCreateViewHolder(LayoutInflater.from(parent.context), parent, viewType)
+        val layoutInflater = LayoutInflater.from(if (Flap.useApplicationContext) parent.context.applicationContext else parent.context)
+        val component = delegate.onCreateViewHolder(layoutInflater, parent, viewType)
         dispatchOnCreateViewHolderEnd(this, delegate, viewType, component)
         return component
     }

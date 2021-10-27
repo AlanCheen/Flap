@@ -18,26 +18,33 @@ import me.yifeiyuan.flap.ext.ComponentPool
  */
 object Flap : ComponentCallbacks2 {
 
+    /**
+     * 是否使用 application context 来创建 Component
+     *
+     * @see FlapAdapter.onCreateViewHolder
+     */
+    var useApplicationContext = false
+
     internal val globalComponentPool = ComponentPool()
 
-    internal val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
+    internal val globalAdapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
-    internal var defaultAdapterDelegate: AdapterDelegate<*, *>? = DefaultAdapterDelegate()
+    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = DefaultAdapterDelegate()
 
-    internal val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
+    internal val globalHooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
         add(AdapterDelegateApm())
     }
 
     fun registerAdapterHook(adapterHook: AdapterHook) {
-        hooks.add(adapterHook)
+        globalHooks.add(adapterHook)
     }
 
     fun unRegisterAdapterHook(adapterHook: AdapterHook) {
-        hooks.remove(adapterHook)
+        globalHooks.remove(adapterHook)
     }
 
     fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        adapterDelegates.add(adapterDelegate)
+        globalAdapterDelegates.add(adapterDelegate)
     }
 
     fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
@@ -47,7 +54,7 @@ object Flap : ComponentCallbacks2 {
     }
 
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        adapterDelegates.remove(adapterDelegate)
+        globalAdapterDelegates.remove(adapterDelegate)
     }
 
     override fun onTrimMemory(level: Int) {
@@ -66,6 +73,7 @@ object Flap : ComponentCallbacks2 {
         injectDelegatesByPlugin(this)
     }
 
+    // TODO: 2021/10/27  ASM 自动注入
     private fun injectDelegatesByPlugin(flap: Flap) {
 
     }

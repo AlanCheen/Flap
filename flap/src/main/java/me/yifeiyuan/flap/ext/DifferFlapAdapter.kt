@@ -42,6 +42,6 @@ open class DifferFlapAdapter<T> : FlapAdapter {
     }
 
     override fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean) {
-        throw UnsupportedOperationException("不支持，请使用 submitList")
+        throw UnsupportedOperationException("DifferFlapAdapter 不支持 setData，请使用 submitList")
     }
 }

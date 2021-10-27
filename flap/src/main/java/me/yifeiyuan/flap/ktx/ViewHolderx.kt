@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.ext
+package me.yifeiyuan.flap.ktx
 
 import android.view.View
 import android.widget.*

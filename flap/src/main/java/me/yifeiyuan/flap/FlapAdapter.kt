@@ -54,6 +54,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         addAll(Flap.globalHooks)
     }
 
+    /**
+     * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
+     */
+    var inflateWithApplicationContext = false
+
     var paramProvider: ParamProvider? = null
 
     //    TODO 真的需要吗？
@@ -67,6 +72,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         Flap.globalDefaultAdapterDelegate?.let {
             defaultAdapterDelegate = it
         }
+
+        inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
 
     fun registerAdapterHook(adapterHook: AdapterHook) {
@@ -116,7 +123,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
         val delegate = getDelegateByViewType(viewType)
         dispatchOnCreateViewHolderStart(this, delegate, viewType)
-        val layoutInflater = LayoutInflater.from(if (Flap.useApplicationContext) parent.context.applicationContext else parent.context)
+        val layoutInflater = LayoutInflater.from(if (inflateWithApplicationContext) parent.context.applicationContext else parent.context)
         val component = delegate.onCreateViewHolder(layoutInflater, parent, viewType)
         dispatchOnCreateViewHolderEnd(this, delegate, viewType, component)
         return component
@@ -334,7 +341,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     fun setPrefetchComplete() {
         prefetchDetector?.setPrefetchComplete()
     }
-
 
     /**
      *

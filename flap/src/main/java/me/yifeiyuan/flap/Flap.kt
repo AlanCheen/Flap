@@ -23,7 +23,7 @@ object Flap : ComponentCallbacks2 {
      *
      * @see FlapAdapter.onCreateViewHolder
      */
-    var useApplicationContext = false
+    var inflateWithApplicationContext = false
 
     internal val globalComponentPool = ComponentPool()
 

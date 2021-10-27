@@ -3,13 +3,10 @@ package me.yifeiyuan.flapdev.components.bindersample
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import me.yifeiyuan.flap.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.ext.bindTextView
-import me.yifeiyuan.flap.ext.bindView
+import me.yifeiyuan.flap.ktx.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**

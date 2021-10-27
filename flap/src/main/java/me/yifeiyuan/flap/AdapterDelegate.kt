@@ -46,7 +46,6 @@ interface AdapterDelegate<T, VH : Component<T>> {
 
     fun getItemId(model: Any): Long = RecyclerView.NO_ID
 
-
     fun getItemViewType(model: Any): Int = 0
 
     fun onBindViewHolder(

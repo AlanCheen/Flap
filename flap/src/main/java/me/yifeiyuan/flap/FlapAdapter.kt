@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.ext.Event
+import me.yifeiyuan.flap.ext.EventObserver
+import me.yifeiyuan.flap.ext.ParamProvider
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.ext.setOnItemClickListener
 import me.yifeiyuan.flap.hook.PrefetchDetector
@@ -40,15 +43,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     var prefetchDetector: PrefetchDetector? = null
 
-    //TODO 将空、异常状态放到 Adapter 真的好吗？
-//    private val emptyStatusAdapterDelegate: AdapterDelegate<*, *>? = null
-//    private val errorStatusAdapterDelegate: AdapterDelegate<*, *>? = null
-//    private var state: UltraRecyclerView.State = UltraRecyclerView.State.Empty
-
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
-    private val eventObservers = mutableListOf<OnEventObserver>()
+    var eventObserver: EventObserver? = null
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
         addAll(Flap.globalHooks)
@@ -96,10 +94,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)
-    }
-
-    fun registerOnEventObserver(observer: OnEventObserver) {
-        eventObservers.add(observer)
     }
 
     open fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
@@ -320,9 +314,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     }
 
     fun fireEvent(event: Event<*>) {
-        eventObservers.forEach {
-            it.onEvent(event)
-        }
+        eventObserver?.onEvent(event)
     }
 
     fun doOnPrefetch(offset: Int, onPrefetch: () -> Unit) {
@@ -349,14 +341,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     @Suppress("UNCHECKED_CAST")
     open fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
-    }
-
-    interface ParamProvider {
-        fun getParam(key: String): Any?
-    }
-
-    interface OnEventObserver {
-        fun onEvent(event: Event<*>)
     }
 
     interface OnItemClickListener {

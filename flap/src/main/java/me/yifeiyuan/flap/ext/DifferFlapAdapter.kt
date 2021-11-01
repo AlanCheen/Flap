@@ -16,7 +16,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * @since 2020/9/22
  * @since 3.0
  */
-open class DifferFlapAdapter<T> : FlapAdapter {
+class DifferFlapAdapter<T> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
@@ -42,6 +42,7 @@ open class DifferFlapAdapter<T> : FlapAdapter {
     }
 
     override fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean) {
+//        submitList(list as List<T>)
         throw UnsupportedOperationException("DifferFlapAdapter 不支持 setData，请使用 submitList")
     }
 }

@@ -43,6 +43,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     var prefetchDetector: PrefetchDetector? = null
 
+    //todo Map --> SparseArray ?
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
@@ -152,7 +153,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     ) {
         Log.d(TAG, "onBindViewHolder() called with: component = $component, position = $position, payloads = $payloads")
         attachLifecycleOwnerIfNeed(component)
-        val delegate = getDelegateByComponent(component)
+        val delegate = getDelegateByViewType(component.itemViewType)
         val data = getItemData(position)
         dispatchOnBindViewHolderStart(this, delegate, component, data, position, payloads)
         delegate.onBindViewHolder(

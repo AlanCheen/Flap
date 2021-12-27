@@ -52,7 +52,7 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-//    annotationProcessor project(':flap-compiler')
+    annotationProcessor project(':flap-compiler')
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

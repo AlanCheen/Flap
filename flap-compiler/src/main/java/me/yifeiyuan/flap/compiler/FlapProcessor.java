@@ -52,6 +52,9 @@ public class FlapProcessor extends AbstractProcessor {
 
     private final ClassName CLASS_ADAPTER_DELEGATE = ClassName.bestGuess("me.yifeiyuan.flap.delegate.AdapterDelegate");
 
+   private final ClassName CLASS_LAYOUT_INFLATER = ClassName.get("android.view", "LayoutInflater");
+   private final ClassName CLASS_VIEW_GROUP = ClassName.get("android.view", "ViewGroup");
+
     private static final String KEY_OPTION_R_CLASS_PATH = "packageName";
 
     private Filer filer;
@@ -80,11 +83,9 @@ public class FlapProcessor extends AbstractProcessor {
     public boolean process(final Set<? extends TypeElement> set, final RoundEnvironment roundEnvironment) {
 
         for (final TypeElement typeElement : set) {
-
             if (Delegate.class.getCanonicalName().equals(typeElement.getQualifiedName().toString())) {
                 processComponent(roundEnvironment, typeElement);
             }
-
         }
 
         return true;
@@ -95,11 +96,11 @@ public class FlapProcessor extends AbstractProcessor {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Delegate.class);
 
         for (final Element element : elements) {
-            Delegate factory = element.getAnnotation(Delegate.class);
-            if (null != factory) {
+            Delegate delegate = element.getAnnotation(Delegate.class);
+            if (null != delegate) {
                 try {
-                    TypeSpec flapItemFactoryTypeSpec = createComponentProxyTypeSpec(roundEnvironment, typeElement, (TypeElement) element, factory);
-                    JavaFile.builder(PKG_NAME_DELEGATES, flapItemFactoryTypeSpec)
+                    TypeSpec flapAdapterDelegateTypeSpec = createAdapterDelegateTypeSpec(roundEnvironment, typeElement, (TypeElement) element, delegate);
+                    JavaFile.builder(PKG_NAME_DELEGATES, flapAdapterDelegateTypeSpec)
                             .addFileComment("由 Flap APT 自动生成，请勿修改。")
                             .build()
                             .writeTo(filer);
@@ -111,49 +112,46 @@ public class FlapProcessor extends AbstractProcessor {
     }
 
     /**
-     * 为 Component 生成 ComponentProxy
+     * 为 Component 生成 AdapterDelegate
      *
      * @param roundEnvironment     环境
-     * @param typeElement          @Component
-     * @param flapComponentElement 被 FlapComponent 注解了的那个类
-     * @param componentProxy       注解了目标类的 注解，可以获取值
+     * @param typeElement
+     * @param component 当前正在处理的组件
+     * @param adapterDelegate       注解了目标类的 注解，可以获取值
      * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createComponentProxyTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement flapComponentElement, final Delegate componentProxy) {
+    private TypeSpec createAdapterDelegateTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement component, final Delegate adapterDelegate) {
 
-        ClassName flapItemClass = (ClassName) ClassName.get(flapComponentElement.asType());
+        ClassName componentClass = (ClassName) ClassName.get(component.asType());
 
-        //要生成的类的名字
-        String targetClassName = flapComponentElement.getSimpleName().toString() + NAME_SUFFIX;
+        //要生成的 AdapterDelegate 类的名字,加个后缀
+        String targetClassName = component.getSimpleName().toString() + NAME_SUFFIX;
 
-        int layoutId = componentProxy.layoutId();
+        int layoutId = adapterDelegate.layoutId();
 
-        String layoutName = componentProxy.layoutName();
+        String layoutName = adapterDelegate.layoutName();
 
-        boolean useDataBinding = componentProxy.useDataBinding();
+        boolean useDataBinding = adapterDelegate.useDataBinding();
 
-        DeclaredType declaredType = flapComponentElement.getSuperclass().accept(new FlapItemModelVisitor(), null);
+        DeclaredType declaredType = component.getSuperclass().accept(new ModelVisitor(), null);
         List<? extends TypeMirror> args = declaredType.getTypeArguments();
         TypeElement itemModelType = (TypeElement) types.asElement(args.get(0));
 
         ClassName itemModelClass = ClassName.get(itemModelType);
 
-        ClassName layoutInflater = ClassName.get("android.view", "LayoutInflater");
-        ClassName viewGroup = ClassName.get("android.view", "ViewGroup");
-
         MethodSpec.Builder onCreateViewHolderMethodBuilder = MethodSpec.methodBuilder("onCreateViewHolder")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(layoutInflater, "inflater")
-                .addParameter(viewGroup, "parent")
+                .addParameter(CLASS_LAYOUT_INFLATER, "inflater")
+                .addParameter(CLASS_VIEW_GROUP, "parent")
                 .addParameter(TypeName.INT, "layoutId")
-                .returns(flapItemClass);
+                .returns(componentClass);
 
         if (useDataBinding) {
-            onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))", flapItemClass);
+            onCreateViewHolderMethodBuilder.addStatement("return new $T(androidx.databinding.DataBindingUtil.inflate(inflater,layoutId,parent,false))", componentClass);
         } else {
 
-            boolean useViewBinding = componentProxy.useViewBinding();
+            boolean useViewBinding = adapterDelegate.useViewBinding();
 
             if (useViewBinding) {
 
@@ -163,9 +161,9 @@ public class FlapProcessor extends AbstractProcessor {
 
                 onCreateViewHolderMethodBuilder
                         .addStatement(fullBindingName + " binding = " + fullBindingName + ".inflate(inflater,parent,false)")
-                        .addStatement("return new $T(binding)", flapItemClass);
+                        .addStatement("return new $T(binding)", componentClass);
             } else {
-                onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", flapItemClass);
+                onCreateViewHolderMethodBuilder.addStatement("return new $T(inflater.inflate(layoutId,parent,false))", componentClass);
             }
         }
 
@@ -174,7 +172,7 @@ public class FlapProcessor extends AbstractProcessor {
         MethodSpec.Builder getItemViewTypeMethodBuilder = MethodSpec.methodBuilder("getItemViewType")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-//                .addParameter(itemModelClass, "model") //todo 替换回来
+//                .addParameter(itemModelClass, "model")
                 .addParameter(CLASS_OBJECT, "model")
                 .returns(Integer.TYPE);
 
@@ -187,7 +185,7 @@ public class FlapProcessor extends AbstractProcessor {
         MethodSpec.Builder getItemIdMethodBuilder = MethodSpec.methodBuilder("getItemId")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
-//                .addParameter(itemModelClass, "model") //todo 替换回来
+//                .addParameter(itemModelClass, "model")
                 .addParameter(CLASS_OBJECT, "model")
                 .addStatement("return 0")
                 .returns(Long.TYPE);
@@ -223,7 +221,7 @@ public class FlapProcessor extends AbstractProcessor {
 //                .addStatement("return " + itemModelClass + ".class")
 //                .build();
 
-        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, itemModelClass, flapItemClass);
+        ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, itemModelClass, componentClass);
 
         TypeSpec.Builder builder =
                 TypeSpec.classBuilder(targetClassName)
@@ -252,7 +250,7 @@ public class FlapProcessor extends AbstractProcessor {
         return annotationTypes;
     }
 
-    private static class FlapItemModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
+    private static class ModelVisitor extends SimpleTypeVisitor8<DeclaredType, Void> {
 
         @Override
         public DeclaredType visitDeclared(DeclaredType declaredType, Void o) {

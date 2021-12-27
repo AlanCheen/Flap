@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
@@ -98,15 +97,15 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         adapterDelegates.remove(adapterDelegate)
     }
 
-    open fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
-        data = list
+    open fun setData(newDataList: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
+        data = newDataList
         if (notifyDataSetChanged) {
             notifyDataSetChanged()
         }
     }
 
-    open fun appendData(list: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
-        data.addAll(list)
+    open fun appendData(appendDataList: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
+        data.addAll(appendDataList)
         if (notifyDataSetChanged) {
             notifyDataSetChanged()
         }
@@ -222,7 +221,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     }
 
     private fun generateItemViewType(): Int {
-        val viewType = ViewCompat.generateViewId()
+        val viewType = ViewTypeGenerator.generateViewType()
         if (viewTypeDelegateMapper.containsKey(viewType)) {
             return generateItemViewType()
         }
@@ -257,7 +256,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        if (recyclerView.context is LifecycleOwner && lifecycleOwner == null) {
+        doOnAttachedToRecyclerView(recyclerView)
+    }
+
+    private fun doOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+        //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
+        if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
         if (useComponentPool) {
@@ -275,20 +279,20 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
-    override fun onViewRecycled(holder: Component<*>) {
-        holder.onViewRecycled(this)
+    override fun onViewRecycled(component: Component<*>) {
+        component.onViewRecycled(this)
     }
 
-    override fun onFailedToRecycleView(holder: Component<*>): Boolean {
-        return holder.onFailedToRecycleView(this)
+    override fun onFailedToRecycleView(component: Component<*>): Boolean {
+        return component.onFailedToRecycleView(this)
     }
 
-    override fun onViewAttachedToWindow(holder: Component<*>) {
-        holder.onViewAttachedToWindow(this)
+    override fun onViewAttachedToWindow(component: Component<*>) {
+        component.onViewAttachedToWindow(this)
     }
 
-    override fun onViewDetachedFromWindow(holder: Component<*>) {
-        holder.onViewDetachedFromWindow(this)
+    override fun onViewDetachedFromWindow(component: Component<*>) {
+        component.onViewDetachedFromWindow(this)
     }
 
     fun setLifecycleOwner(lifecycleOwner: LifecycleOwner): FlapAdapter {
@@ -343,6 +347,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     @Suppress("UNCHECKED_CAST")
     open fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
+    }
+
+    fun attachTo(recyclerView: RecyclerView) {
+        recyclerView.adapter = this
     }
 
     interface OnItemClickListener {

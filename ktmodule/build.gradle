@@ -43,5 +43,5 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-//    kapt project(':flap-compiler')
+    kapt project(':flap-compiler')
 }

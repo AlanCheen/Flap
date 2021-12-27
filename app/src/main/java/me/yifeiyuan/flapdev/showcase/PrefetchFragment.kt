@@ -6,12 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.hook.PrefetchDetector
+import me.yifeiyuan.flap.hook.PrefetchDetectorHook
 import me.yifeiyuan.flap.hook.attachTo
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.ShowcaseAdapter
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
 import java.util.ArrayList
 
 /**
@@ -25,7 +22,7 @@ class PrefetchFragment : BaseFragment() {
 
     private var testPrefetchErrorCase = false
 
-    private lateinit var prefetchDetector: PrefetchDetector
+    private lateinit var prefetchDetector: PrefetchDetectorHook
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +51,7 @@ class PrefetchFragment : BaseFragment() {
     }
 
     private fun usePrefetchDetector() {
-        prefetchDetector = PrefetchDetector(4) {
+        prefetchDetector = PrefetchDetectorHook(4) {
             requestMoreData()
         }.attachTo(adapter)
 

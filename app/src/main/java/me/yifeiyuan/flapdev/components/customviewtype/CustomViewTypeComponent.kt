@@ -3,10 +3,9 @@ package me.yifeiyuan.flapdev.components.customviewtype
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ComponentProxy
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flapdev.R
 
 /**

@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.view
+package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapAdapter
-import java.util.*
 
 /**
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
@@ -25,7 +24,7 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0
  */
-open class FlapRecyclerView : RecyclerView {
+open class FlapRecyclerView : RecyclerView, LifecycleObserver {
 
     private lateinit var adapter: FlapAdapter
 
@@ -51,20 +50,6 @@ open class FlapRecyclerView : RecyclerView {
         }
     }
 
-    private val lifecycleObserver = object : LifecycleObserver {
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy() {
-            /**
-             * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
-             */
-            setAdapter(null)
-            if (context is LifecycleOwner) {
-                (context as LifecycleOwner).lifecycle.removeObserver(this)
-            }
-        }
-    }
-
     constructor(context: Context) : super(context) {
         init(context, null, 0)
     }
@@ -82,7 +67,7 @@ open class FlapRecyclerView : RecyclerView {
         setAdapter(adapter)
 
         if (context is LifecycleOwner) {
-            context.lifecycle.addObserver(lifecycleObserver)
+            context.lifecycle.addObserver(this)
         }
     }
 
@@ -99,11 +84,11 @@ open class FlapRecyclerView : RecyclerView {
                 layout.recycleChildrenOnDetach = true
             }
 
-            is GridLayoutManager ->{
+            is GridLayoutManager -> {
                 layout.recycleChildrenOnDetach = true
             }
 
-            is StaggeredGridLayoutManager ->{
+            is StaggeredGridLayoutManager -> {
             }
         }
     }
@@ -111,10 +96,6 @@ open class FlapRecyclerView : RecyclerView {
     fun setData(data: MutableList<Any>) {
         adapter.setData(data)
     }
-
-//    fun setLiveData(liveData: LiveData<MutableList<Any>>) {
-//
-//    }
 
     var emptyView: View? = null
         set(value) {
@@ -133,6 +114,17 @@ open class FlapRecyclerView : RecyclerView {
                 emptyView?.visibility = GONE
                 this.visibility = VISIBLE
             }
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onDestroy() {
+        /**
+         * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
+         */
+        setAdapter(null)
+        if (context is LifecycleOwner) {
+            (context as LifecycleOwner).lifecycle.removeObserver(this)
         }
     }
 }

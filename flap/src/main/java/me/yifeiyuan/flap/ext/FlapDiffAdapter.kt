@@ -5,9 +5,10 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import me.yifeiyuan.flap.FlapAdapter
+import java.util.*
 
 /**
- * DifferFlapAdapter supports AsyncListDiffer feature.
+ * FlapDiffAdapter supports AsyncListDiffer feature.
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -16,7 +17,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * @since 2020/9/22
  * @since 3.0
  */
-class DifferFlapAdapter<T> : FlapAdapter {
+class FlapDiffAdapter<T> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
@@ -29,8 +30,14 @@ class DifferFlapAdapter<T> : FlapAdapter {
     }
 
     @JvmOverloads
-    fun submitList(data: List<T>, callback: Runnable? = null) {
-        differ.submitList(data, callback)
+    fun submitList(newList: List<T>, callback: Runnable? = null) {
+//        differ.submitList(data, callback)
+        if (differ.currentList === newList) {
+            val data: ArrayList<T> = ArrayList<T>(newList)
+            differ.submitList(data, callback)
+        } else {
+            differ.submitList(newList, callback)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -41,8 +48,13 @@ class DifferFlapAdapter<T> : FlapAdapter {
         return differ.currentList[position] as Any
     }
 
-    override fun setData(list: MutableList<Any>, notifyDataSetChanged: Boolean) {
+    override fun setData(dataList: MutableList<Any>, notifyDataSetChanged: Boolean) {
+        val data = ArrayList<T>()
+        for (o in dataList) {
+            data.add(o as T)
+        }
+        submitList(data)
 //        submitList(list as List<T>)
-        throw UnsupportedOperationException("DifferFlapAdapter 不支持 setData，请使用 submitList")
+//        throw UnsupportedOperationException("不支持 setData，请使用 submitList")
     }
 }

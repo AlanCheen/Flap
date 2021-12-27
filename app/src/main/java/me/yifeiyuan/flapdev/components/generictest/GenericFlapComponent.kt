@@ -3,8 +3,7 @@ package me.yifeiyuan.flapdev.components.generictest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.yifeiyuan.flap.AdapterDelegate
-import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.base.BaseFlapComponent

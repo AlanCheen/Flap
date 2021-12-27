@@ -53,4 +53,8 @@ public final class FlapDebug {
             Log.w(tag, msg);
         }
     }
+
+    public static boolean isDebug() {
+        return DEBUG;
+    }
 }

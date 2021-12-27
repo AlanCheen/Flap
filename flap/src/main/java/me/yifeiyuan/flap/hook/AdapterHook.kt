@@ -1,6 +1,6 @@
 package me.yifeiyuan.flap.hook
 
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 
@@ -8,8 +8,8 @@ import me.yifeiyuan.flap.FlapAdapter
  *
  * AdapterHook 是在 Adapter 留的 hooks ,方便以解耦的方式做一些类似 AOP 的功能。
  *
- * @see AdapterDelegateApm 一个简易的 APM 工具
- * @see PrefetchDetector  实现预取检测功能
+ * @see ApmHook 一个简易的 APM 工具
+ * @see PrefetchDetectorHook  实现预取检测功能
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

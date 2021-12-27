@@ -1,11 +1,10 @@
 package me.yifeiyuan.flap.hook
 
 import android.os.SystemClock
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
-import javax.security.auth.login.LoginException
 
 /**
  * 组件性能监控：
@@ -22,7 +21,7 @@ import javax.security.auth.login.LoginException
  * @param createTimeCostThreshold 创建组件耗时阈值，默认 20 ms
  * @param bindTimeCostThreshold 绑定组件耗时阈值，默认 5 ms
  */
-open class AdapterDelegateApm(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 20) : AdapterHook {
+open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 20) : AdapterHook {
 
     companion object {
         private const val TAG = "AdapterDelegateApm"

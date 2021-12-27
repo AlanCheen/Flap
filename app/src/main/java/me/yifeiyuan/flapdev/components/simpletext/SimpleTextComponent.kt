@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate

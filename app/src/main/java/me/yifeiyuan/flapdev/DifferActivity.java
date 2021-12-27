@@ -3,7 +3,6 @@ package me.yifeiyuan.flapdev;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function2;
-import me.yifeiyuan.flap.ext.DifferFlapAdapter;
+import me.yifeiyuan.flap.ext.FlapDiffAdapter;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 
 /**
@@ -26,7 +23,7 @@ public class DifferActivity extends AppCompatActivity {
 
     private static final String TAG = "DifferActivity";
 
-    private DifferFlapAdapter<SimpleTextModel> flapAdapter;
+    private FlapDiffAdapter<SimpleTextModel> flapAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,7 @@ public class DifferActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        flapAdapter = new DifferFlapAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
+        flapAdapter = new FlapDiffAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
             @Override
             public boolean areItemsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
                 return true;

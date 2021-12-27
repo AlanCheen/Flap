@@ -50,7 +50,7 @@ public class FlapProcessor extends AbstractProcessor {
     private final ClassName CLASS_LIST = ClassName.bestGuess("java.util.List");
     private final ClassName CLASS_FLAP_ADAPTER = ClassName.bestGuess("me.yifeiyuan.flap.FlapAdapter");
 
-    private final ClassName CLASS_ADAPTER_DELEGATE = ClassName.bestGuess("me.yifeiyuan.flap.AdapterDelegate");
+    private final ClassName CLASS_ADAPTER_DELEGATE = ClassName.bestGuess("me.yifeiyuan.flap.delegate.AdapterDelegate");
 
     private static final String KEY_OPTION_R_CLASS_PATH = "packageName";
 

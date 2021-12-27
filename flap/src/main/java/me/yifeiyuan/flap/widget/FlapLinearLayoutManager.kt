@@ -1,23 +1,34 @@
-package me.yifeiyuan.flap.view
+package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapDebug
 
 /**
  * Created by 程序亦非猿 on 2021/9/30.
- * todo
  */
-open class FlapStaggeredGridLayoutManager
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0)
-    : StaggeredGridLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
+open class FlapLinearLayoutManager : LinearLayoutManager {
 
     companion object {
         private const val TAG = "FlapLinearLayoutManager"
     }
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(
+            context,
+            orientation,
+            reverseLayout
+    )
+
+    constructor(
+            context: Context?,
+            attrs: AttributeSet?,
+            defStyleAttr: Int,
+            defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         try {

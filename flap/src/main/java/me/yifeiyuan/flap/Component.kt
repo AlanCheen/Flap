@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.

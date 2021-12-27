@@ -3,9 +3,8 @@ package me.yifeiyuan.flap.ktmodule
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 
 /**
@@ -18,7 +17,7 @@ class KtModuleComponent(itemView: View) : Component<KtComponentModel>(itemView) 
     }
 }
 
-class KtModuleComponentDelegate :AdapterDelegate<KtComponentModel,KtModuleComponent>{
+class KtModuleComponentDelegate : AdapterDelegate<KtComponentModel, KtModuleComponent> {
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): KtModuleComponent {
         return KtModuleComponent(inflater.inflate(R.layout.kt_module_component,parent,false))
     }

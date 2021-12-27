@@ -2,8 +2,10 @@ package me.yifeiyuan.flap
 
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
+import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
-import me.yifeiyuan.flap.hook.AdapterDelegateApm
+import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.ext.ComponentPool
 
 /**
@@ -29,14 +31,18 @@ object Flap : ComponentCallbacks2 {
 
     internal val globalAdapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
-    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = DefaultAdapterDelegate()
+    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
     internal val globalHooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
-        add(AdapterDelegateApm())
+        add(ApmHook())
     }
 
     fun registerAdapterHook(adapterHook: AdapterHook) {
         globalHooks.add(adapterHook)
+    }
+
+    fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
+        globalHooks.addAll(adapterHooks)
     }
 
     fun unRegisterAdapterHook(adapterHook: AdapterHook) {
@@ -48,9 +54,7 @@ object Flap : ComponentCallbacks2 {
     }
 
     fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
-        delegates.forEach {
-            registerAdapterDelegate(it)
-        }
+        globalAdapterDelegates.addAll(delegates)
     }
 
     fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {

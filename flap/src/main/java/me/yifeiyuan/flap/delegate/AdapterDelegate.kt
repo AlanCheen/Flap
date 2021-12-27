@@ -1,8 +1,11 @@
-package me.yifeiyuan.flap
+package me.yifeiyuan.flap.delegate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.FlapAdapter
+import java.lang.Exception
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -27,10 +30,14 @@ interface AdapterDelegate<T, VH : Component<T>> {
      * @return 是否代理该 model
      */
     fun delegate(model: Any?): Boolean {
-        if (model != null) {
-            val type =
-                    (this.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
-            return type == model.javaClass
+        try {
+            if (model != null) {
+                val type =
+                        (this.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
+                return type == model.javaClass
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return false
     }

@@ -1,20 +1,18 @@
-package me.yifeiyuan.flap.view
+package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapDebug
 
 /**
  * Created by 程序亦非猿 on 2021/9/30.
- * todo
+ *
  */
-open class FlapGridLayoutManager
+open class FlapStaggeredGridLayoutManager
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0)
-    : GridLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
+    : StaggeredGridLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
         private const val TAG = "FlapLinearLayoutManager"

@@ -2,9 +2,8 @@ package me.yifeiyuan.ktx.foundation.othermodule.vb
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import me.yifeiyuan.flap.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.ktx.foundation.othermodule.databinding.FlapItemVbBinding
 

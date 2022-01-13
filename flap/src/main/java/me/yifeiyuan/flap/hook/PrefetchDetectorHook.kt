@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  @param offset 偏移量，默认值 0 表示最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
  */
-class PrefetchDetectorHook(private val offset: Int = 0, private val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchDetectorHook(private val minItemCount: Int = 0, private val offset: Int = 0, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PrefetchDetector"
@@ -46,27 +46,27 @@ class PrefetchDetectorHook(private val offset: Int = 0, private val onPrefetch: 
     //reset when data changed
     private val observer = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
-            fetching.set(false)
+            setPrefetchComplete()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-            fetching.set(false)
+            setPrefetchComplete()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-            fetching.set(false)
+            setPrefetchComplete()
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            fetching.set(false)
+            setPrefetchComplete()
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-            fetching.set(false)
+            setPrefetchComplete()
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-            fetching.set(false)
+            setPrefetchComplete()
         }
     }
 
@@ -78,12 +78,9 @@ class PrefetchDetectorHook(private val offset: Int = 0, private val onPrefetch: 
     }
 
     override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-        if (!prefetchEnable) {
-            return
-        }
         val itemCount = adapter.itemCount
 
-        if (itemCount > 0 && position + offset >= itemCount - 1) {
+        if (prefetchEnable && itemCount > minItemCount && position + offset >= itemCount - 1) {
             if (fetching.get()) {
                 return
             }
@@ -96,4 +93,5 @@ class PrefetchDetectorHook(private val offset: Int = 0, private val onPrefetch: 
     fun setPrefetchComplete() {
         fetching.set(false)
     }
+
 }

@@ -31,7 +31,6 @@ class FlapDiffAdapter<T> : FlapAdapter {
 
     @JvmOverloads
     fun submitList(newList: List<T>, callback: Runnable? = null) {
-//        differ.submitList(data, callback)
         if (differ.currentList === newList) {
             val data: ArrayList<T> = ArrayList<T>(newList)
             differ.submitList(data, callback)
@@ -48,9 +47,9 @@ class FlapDiffAdapter<T> : FlapAdapter {
         return differ.currentList[position] as Any
     }
 
-    override fun setData(dataList: MutableList<Any>, notifyDataSetChanged: Boolean) {
+    override fun setData(newDataList: MutableList<Any>, notifyDataSetChanged: Boolean) {
         val data = ArrayList<T>()
-        for (o in dataList) {
+        for (o in newDataList) {
             data.add(o as T)
         }
         submitList(data)

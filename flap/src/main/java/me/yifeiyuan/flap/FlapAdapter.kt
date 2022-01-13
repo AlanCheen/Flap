@@ -1,5 +1,8 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package me.yifeiyuan.flap
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,7 @@ import me.yifeiyuan.flap.ext.ParamProvider
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.ext.setOnItemClickListener
 import me.yifeiyuan.flap.hook.PrefetchDetectorHook
+import java.lang.Exception
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -31,7 +35,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         private const val TAG = "FlapAdapter"
     }
 
-    var data: MutableList<Any> = mutableListOf()
+    private var data: MutableList<Any> = mutableListOf()
 
     private var lifecycleOwner: LifecycleOwner? = null
     private var lifecycleEnable = true
@@ -64,6 +68,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     var onItemClickFunc: ((childView: View, position: Int) -> Unit)? = null
 
     var onItemClickListener: OnItemClickListener? = null
+
+    lateinit var bindingRecyclerView: RecyclerView
+    lateinit var bindingContext: Context
 
     init {
         hooks.addAll(Flap.globalHooks)
@@ -98,7 +105,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     }
 
     open fun setData(newDataList: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
-        data = newDataList
+        data.clear()
+        data.addAll(newDataList)
         if (notifyDataSetChanged) {
             notifyDataSetChanged()
         }
@@ -151,19 +159,24 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             position: Int,
             payloads: MutableList<Any>
     ) {
-        Log.d(TAG, "onBindViewHolder() called with: component = $component, position = $position, payloads = $payloads")
-        attachLifecycleOwnerIfNeed(component)
-        val delegate = getDelegateByViewType(component.itemViewType)
-        val data = getItemData(position)
-        dispatchOnBindViewHolderStart(this, delegate, component, data, position, payloads)
-        delegate.onBindViewHolder(
-                component,
-                data,
-                position,
-                payloads,
-                this
-        )
-        dispatchOnBindViewHolderEnd(this, delegate, component, data, position, payloads)
+        try {
+            Log.d(TAG, "onBindViewHolder() called with: component = $component, position = $position, payloads = $payloads")
+            attachLifecycleOwnerIfNeed(component)
+            val delegate = getDelegateByViewType(component.itemViewType)
+            val data = getItemData(position)
+            dispatchOnBindViewHolderStart(this, delegate, component, data, position, payloads)
+            delegate.onBindViewHolder(
+                    component,
+                    data,
+                    position,
+                    payloads,
+                    this
+            )
+            dispatchOnBindViewHolderEnd(this, delegate, component, data, position, payloads)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "onBindViewHolder: ", e)
+        }
     }
 
     private fun dispatchOnBindViewHolderStart(
@@ -256,10 +269,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        doOnAttachedToRecyclerView(recyclerView)
+        handleOnAttachedToRecyclerView(recyclerView)
     }
 
-    private fun doOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+    private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+        bindingRecyclerView = recyclerView
+        bindingContext = recyclerView.context
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
@@ -323,11 +338,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         eventObserver?.onEvent(event)
     }
 
-    fun doOnPrefetch(offset: Int, onPrefetch: () -> Unit) {
+    fun doOnPrefetch(minItemCount: Int, offset: Int, onPrefetch: () -> Unit) {
         prefetchDetector?.let {
             unRegisterAdapterHook(it)
         }
-        prefetchDetector = PrefetchDetectorHook(offset, onPrefetch).also {
+        prefetchDetector = PrefetchDetectorHook(minItemCount, offset, onPrefetch).also {
             registerAdapterHook(it)
         }
     }

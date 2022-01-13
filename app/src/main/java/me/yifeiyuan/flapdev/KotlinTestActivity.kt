@@ -15,7 +15,7 @@ class KotlinTestActivity : AppCompatActivity() {
 
         val adapter = FlapAdapter()
 
-        adapter.data = mock()
+        adapter.setData(mock())
 
         rv_kotlin.adapter = adapter
 

@@ -33,7 +33,7 @@ class PrefetchFragment : BaseFragment() {
     }
 
     private fun useAdapter() {
-        adapter.doOnPrefetch(4) {
+        adapter.doOnPrefetch(10,4) {
             requestMoreDataAdapter()
         }
     }
@@ -51,7 +51,7 @@ class PrefetchFragment : BaseFragment() {
     }
 
     private fun usePrefetchDetector() {
-        prefetchDetector = PrefetchDetectorHook(4) {
+        prefetchDetector = PrefetchDetectorHook(10,4) {
             requestMoreData()
         }.attachTo(adapter)
 

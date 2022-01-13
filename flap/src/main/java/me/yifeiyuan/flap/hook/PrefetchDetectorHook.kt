@@ -22,10 +22,11 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  *  Created by 程序亦非猿 on 2021/9/28.
  *
+ *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
  *  @param offset 偏移量，默认值 0 表示最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
  */
-class PrefetchDetectorHook(private val minItemCount: Int = 0, private val offset: Int = 0, private val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchDetectorHook(private val offset: Int = 0, private val minItemCount: Int, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PrefetchDetector"
@@ -80,7 +81,7 @@ class PrefetchDetectorHook(private val minItemCount: Int = 0, private val offset
     override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         val itemCount = adapter.itemCount
 
-        if (prefetchEnable && itemCount > minItemCount && position + offset >= itemCount - 1) {
+        if (prefetchEnable && itemCount >= minItemCount && position + offset >= itemCount - 1) {
             if (fetching.get()) {
                 return
             }

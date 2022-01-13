@@ -338,11 +338,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         eventObserver?.onEvent(event)
     }
 
-    fun doOnPrefetch(minItemCount: Int, offset: Int, onPrefetch: () -> Unit) {
+    fun doOnPrefetch(offset: Int, minItemCount: Int, onPrefetch: () -> Unit) {
         prefetchDetector?.let {
             unRegisterAdapterHook(it)
         }
-        prefetchDetector = PrefetchDetectorHook(minItemCount, offset, onPrefetch).also {
+        prefetchDetector = PrefetchDetectorHook(offset, minItemCount, onPrefetch).also {
             registerAdapterHook(it)
         }
     }

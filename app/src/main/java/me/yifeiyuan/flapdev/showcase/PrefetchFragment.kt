@@ -51,7 +51,7 @@ class PrefetchFragment : BaseFragment() {
     }
 
     private fun usePrefetchDetector() {
-        prefetchDetector = PrefetchDetectorHook(10,4) {
+        prefetchDetector = PrefetchDetectorHook(minItemCount = 10,offset = 4) {
             requestMoreData()
         }.attachTo(adapter)
 

@@ -104,19 +104,15 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         adapterDelegates.remove(adapterDelegate)
     }
 
-    open fun setData(newDataList: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
+    open fun setData(newDataList: MutableList<Any>) {
         data.clear()
         data.addAll(newDataList)
-        if (notifyDataSetChanged) {
-            notifyDataSetChanged()
-        }
+        notifyDataSetChanged()
     }
 
-    open fun appendData(appendDataList: MutableList<Any>, notifyDataSetChanged: Boolean = true) {
+    open fun appendData(appendDataList: MutableList<Any>) {
         data.addAll(appendDataList)
-        if (notifyDataSetChanged) {
-            notifyDataSetChanged()
-        }
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

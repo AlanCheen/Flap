@@ -47,7 +47,7 @@ class FlapDiffAdapter<T> : FlapAdapter {
         return differ.currentList[position] as Any
     }
 
-    override fun setData(newDataList: MutableList<Any>, notifyDataSetChanged: Boolean) {
+    override fun setData(newDataList: MutableList<Any>) {
         val data = ArrayList<T>()
         for (o in newDataList) {
             data.add(o as T)

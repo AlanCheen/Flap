@@ -32,25 +32,28 @@ public final class FlapDebug {
             Log.e(TAG, "FlapDebug : ", e);
         }
     }
+
     public static void e(String tag, String msg,Throwable tr) {
         if (DEBUG) {
-            Log.e(tag, msg,tr);
+            Log.e(TAG+"-"+tag, msg,tr);
         }
     }
 
     public static void d(String tag, String msg) {
         if (DEBUG) {
-            Log.e(tag, msg);
+            Log.e(TAG+"-"+tag, msg);
         }
     }
+
     public static void i(String tag, String msg) {
         if (DEBUG) {
-            Log.i(tag, msg);
+            Log.i(TAG+"-"+tag, msg);
         }
     }
+
     public static void w(String tag, String msg) {
         if (DEBUG) {
-            Log.w(tag, msg);
+            Log.w(TAG+"-"+tag, msg);
         }
     }
 

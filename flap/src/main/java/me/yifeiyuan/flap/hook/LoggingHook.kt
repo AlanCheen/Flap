@@ -7,6 +7,8 @@ import me.yifeiyuan.flap.FlapDebug
 
 /**
  * Created by 程序亦非猿 on 2021/12/27.
+ *
+ * 用于输出日志，可以在调试阶段添加。
  */
 class LoggingHook : AdapterHook {
 

@@ -6,10 +6,11 @@ import me.yifeiyuan.flap.FlapAdapter
 
 /**
  *
- * AdapterHook 是在 Adapter 留的 hooks ,方便以解耦的方式做一些类似 AOP 的功能。
+ * AdapterHook 是基于 Adapter 做的 hooks , 方便以 AOP & 解耦的方式实现某些功能。
  *
  * @see ApmHook 一个简易的 APM 工具
- * @see PrefetchDetectorHook  实现预取检测功能
+ * @see LoggingHook 一个简易的日志工具
+ * @see PrefetchHook  实现预取检测功能，可以用做预加载或加载更多功能
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -24,7 +25,7 @@ interface AdapterHook {
      * 在创建组件前调用
      * @param adapter 正在创建组件的 adapter
      * @param delegate 创建组件的代理
-     * @param viewType
+     * @param viewType viewType
      */
     fun onCreateViewHolderStart(
             adapter: FlapAdapter,
@@ -38,7 +39,7 @@ interface AdapterHook {
      *
      * @param adapter  正在创建组件的 adapter
      * @param delegate 创建组件的代理
-     * @param viewType
+     * @param viewType viewType
      * @param component 被创建出来的组件
      */
     fun onCreateViewHolderEnd(

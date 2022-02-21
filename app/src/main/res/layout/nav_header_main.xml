@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Flap"
+        android:text="灵动（Flap） by 程序亦非猿"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView

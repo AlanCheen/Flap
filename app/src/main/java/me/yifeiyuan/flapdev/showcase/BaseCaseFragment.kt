@@ -7,18 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
-import me.yifeiyuan.flapdev.mockData
 import java.util.ArrayList
 
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseFragment() : Fragment() {
+open class BaseCaseFragment() : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -50,7 +52,7 @@ open class BaseFragment() : Fragment() {
         setData(createRefreshData())
     }
 
-    open fun getLayoutId(): Int = R.layout.fragment_base
+    open fun getLayoutId(): Int = R.layout.fragment_base_case
 
     open fun onRefresh() {
         swipeRefreshLayout.postDelayed({
@@ -85,5 +87,23 @@ open class BaseFragment() : Fragment() {
 
     fun toast(title: String) {
         Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
+    }
+
+    fun scrollToTop() {
+        if (recyclerView is FlapRecyclerView) {
+            (recyclerView as FlapRecyclerView).scrollToTop()
+        } else {
+            when (val layoutManager = recyclerView.layoutManager) {
+                is LinearLayoutManager -> {
+                    layoutManager.scrollToPositionWithOffset(0, 0)
+                }
+                is StaggeredGridLayoutManager -> {
+                    layoutManager.scrollToPositionWithOffset(0, 0)
+                }
+                else -> {
+                    layoutManager?.scrollToPosition(0)
+                }
+            }
+        }
     }
 }

@@ -53,7 +53,5 @@ class FlapDiffAdapter<T> : FlapAdapter {
             data.add(o as T)
         }
         submitList(data)
-//        submitList(list as List<T>)
-//        throw UnsupportedOperationException("不支持 setData，请使用 submitList")
     }
 }

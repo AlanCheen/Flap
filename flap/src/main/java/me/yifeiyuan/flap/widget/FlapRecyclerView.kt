@@ -63,17 +63,23 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
     }
 
     private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
-        adapter = FlapAdapter()
-        setAdapter(adapter)
+
+        //设置默认 LayoutManager
+        if (layoutManager == null) {
+            layoutManager = FlapLinearLayoutManager(context, VERTICAL, false)
+        }
 
         if (context is LifecycleOwner) {
             context.lifecycle.addObserver(this)
         }
+
+        adapter = FlapAdapter()
+        setAdapter(adapter)
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
         this.adapter = adapter as FlapAdapter
-        adapter.registerAdapterDataObserver(dataObserver)
+        this.adapter?.registerAdapterDataObserver(dataObserver)
         super.setAdapter(this.adapter)
     }
 
@@ -117,14 +123,30 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
         }
     }
 
+    /**
+     * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
-        /**
-         * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
-         */
         setAdapter(null)
         if (context is LifecycleOwner) {
             (context as LifecycleOwner).lifecycle.removeObserver(this)
         }
     }
+
+    /**
+     * 滚动到顶部
+     */
+    fun scrollToTop() = when (layoutManager) {
+        is LinearLayoutManager -> {
+            (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+        }
+        is StaggeredGridLayoutManager -> {
+            (layoutManager as StaggeredGridLayoutManager).scrollToPositionWithOffset(0, 0)
+        }
+        else -> {
+            layoutManager?.scrollToPosition(0)
+        }
+    }
+
 }

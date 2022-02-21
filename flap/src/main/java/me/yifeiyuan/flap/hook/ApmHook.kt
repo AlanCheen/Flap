@@ -7,9 +7,10 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 
 /**
- * 组件性能监控：
- * 1. 创建组件耗时监控，当超过阈值 {createTimeCostThreshold} 时会回调 onCreateAlarm；
- * 2. 绑定组件监控，当超过阈值 {bindTimeCostThreshold} 时会回调 onBindAlarm；
+ *
+ * ApmHook 是一个简易的组件性能监控工具：
+ * 1. 监控创建组件耗时，当超过阈值 {createTimeCostThreshold} 时会回调 onCreateAlarm；
+ * 2. 监控绑定组件耗时，当超过阈值 {bindTimeCostThreshold} 时会回调 onBindAlarm；
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -21,7 +22,7 @@ import me.yifeiyuan.flap.FlapDebug
  * @param createTimeCostThreshold 创建组件耗时阈值，默认 20 ms
  * @param bindTimeCostThreshold 绑定组件耗时阈值，默认 5 ms
  */
-open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 20) : AdapterHook {
+open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 5) : AdapterHook {
 
     companion object {
         private const val TAG = "AdapterDelegateApm"

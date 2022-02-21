@@ -1,34 +1,26 @@
 package me.yifeiyuan.flapdev
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import me.yifeiyuan.flap.ktmodule.KtComponentModel
-import me.yifeiyuan.flapdev.components.customviewtype.CustomModel
-import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
-import me.yifeiyuan.flapdev.components.generictest.GenericModel
-import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
-import me.yifeiyuan.flapdev.showcase.MultiTypeFragment
-import me.yifeiyuan.flapdev.showcase.PrefetchFragment
+import me.yifeiyuan.flapdev.showcase.BaseCaseFragment
+import me.yifeiyuan.flapdev.showcase.FlapRecyclerViewCase
+import me.yifeiyuan.flapdev.showcase.MultiTypeCase
+import me.yifeiyuan.flapdev.showcase.PrefetchCase
 import me.yifeiyuan.flapdev.showcase.selection.SlideshowFragment
-import me.yifeiyuan.flapdev.showcase.swipe.GalleryFragment
-import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
-import me.yifeiyuan.ktx.foundation.othermodule.vb.VBModel
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
     }
+
+    lateinit var mainViewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +45,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_multi_type -> {
                     title = "多类型"
                     subtitle = "多 itemViewType"
-                    replace(MultiTypeFragment::class.java)
+                    replace(MultiTypeCase::class.java)
                 }
                 R.id.nav_prefetch -> {
                     title = "预加载"
                     subtitle = "在滑动到底部之前预先加载"
-                    replace(PrefetchFragment::class.java)
+                    replace(PrefetchCase::class.java)
                 }
-                R.id.nav_gallery -> {
-                    replace(GalleryFragment::class.java)
+                R.id.nav_flap_rv -> {
+                    title = "FlapRecyclerView"
+                    subtitle = "自定义 RecyclerView"
+                    replace(FlapRecyclerViewCase::class.java)
                 }
                 R.id.nav_slideshow -> {
                     replace(SlideshowFragment::class.java)
@@ -75,7 +69,17 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        replace(MultiTypeFragment::class.java)
+        toolbar.title = "多类型"
+        toolbar.subtitle = "多 itemViewType"
+        replace(MultiTypeCase::class.java)
+
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        fab.setOnClickListener {
+            val fragment = supportFragmentManager.fragments.get(0)
+            if (fragment is BaseCaseFragment) {
+                fragment.scrollToTop()
+            }
+        }
 
     }
 

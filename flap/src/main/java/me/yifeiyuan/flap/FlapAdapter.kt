@@ -3,7 +3,6 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,9 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.Event
 import me.yifeiyuan.flap.ext.EventObserver
 import me.yifeiyuan.flap.ext.ParamProvider
-import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.ext.setOnItemClickListener
-import me.yifeiyuan.flap.hook.PrefetchDetectorHook
-import java.lang.Exception
+import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.hook.PrefetchHook
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -45,7 +43,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
-    var prefetchDetector: PrefetchDetectorHook? = null
+    var prefetchDetector: PrefetchHook? = null
 
     //todo Map --> SparseArray ?
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
@@ -146,8 +144,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     }
 
     override fun onBindViewHolder(component: Component<*>, position: Int) {
-        //ignore
-        Log.d(TAG, "onBindViewHolder() called with: component = $component, position = $position")
+        this.onBindViewHolder(component, position, mutableListOf())
     }
 
     override fun onBindViewHolder(
@@ -156,7 +153,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             payloads: MutableList<Any>
     ) {
         try {
-            Log.d(TAG, "onBindViewHolder() called with: component = $component, position = $position, payloads = $payloads")
             attachLifecycleOwnerIfNeed(component)
             val delegate = getDelegateByViewType(component.itemViewType)
             val data = getItemData(position)
@@ -171,7 +167,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             dispatchOnBindViewHolderEnd(this, delegate, component, data, position, payloads)
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "onBindViewHolder: ", e)
+            FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)
         }
     }
 
@@ -223,7 +219,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         if (itemViewType == 0) {
             itemViewType = generateItemViewType()
         }
-        Log.d(TAG, "getItemViewType() called with: position = $position , $itemViewType")
+        FlapDebug.d(TAG, "getItemViewType() called with: position = $position , $itemViewType")
         viewTypeDelegateMapper[itemViewType] = delegate
         delegateViewTypeMapper[delegate] = itemViewType
         return itemViewType
@@ -319,7 +315,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
     /**
      * Set whether use the global RecycledViewPool or not.
      *
-     *
      * NOTE : Call this before you call RecyclerView.setAdapter.
      *
      * @param enable true by default
@@ -338,7 +333,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         prefetchDetector?.let {
             unRegisterAdapterHook(it)
         }
-        prefetchDetector = PrefetchDetectorHook(offset, minItemCount, onPrefetch).also {
+        prefetchDetector = PrefetchHook(offset, minItemCount, onPrefetch).also {
             registerAdapterHook(it)
         }
     }

@@ -5,6 +5,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
+import me.yifeiyuan.flap.hook.ApmHook
+import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
 import me.yifeiyuan.flapdev.components.bindersample.BinderComponentDelegate
 import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponentDelegate
@@ -26,12 +28,12 @@ class FlapApplication : MultiDexApplication() {
 
     private fun initFlap() {
         //only setDebug(true) when you are testing
-//        Flap.setDebug(true);
-        val t1 = System.currentTimeMillis()
+//        FlapDebug.setDebug(true);
+//        val t1 = System.currentTimeMillis()
         //自定义 item view type ; custom item view type
 //        Flap.getDefault().register(new CustomViewTypeComponent.Factory());
-        val t2 = System.currentTimeMillis()
-        Log.e("Flap", "Init Flap time cost :" + (t2 - t1))
+//        val t2 = System.currentTimeMillis()
+//        Log.e("Flap", "Init Flap time cost :" + (t2 - t1))
 
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
 //        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
@@ -46,6 +48,8 @@ class FlapApplication : MultiDexApplication() {
                 KtModuleComponentDelegate(),
                 BinderComponentDelegate()
         )
+
+        Flap.registerAdapterHooks(LoggingHook(), ApmHook())
     }
 }
 

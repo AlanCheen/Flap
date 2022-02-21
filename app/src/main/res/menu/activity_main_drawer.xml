@@ -11,13 +11,12 @@
             android:title="多类型" />
         <item
             android:id="@+id/nav_prefetch"
-            android:checked="true"
             android:icon="@drawable/ic_menu_camera"
             android:title="预加载" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_flap_rv"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="FlapRecyclerView" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"

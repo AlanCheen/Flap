@@ -18,7 +18,6 @@ import me.yifeiyuan.flap.ext.FlapDiffAdapter
 
 /**
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
- * todo
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -30,10 +29,11 @@ import me.yifeiyuan.flap.ext.FlapDiffAdapter
 open class FlapRecyclerView : RecyclerView, LifecycleObserver {
 
     companion object {
+        private const val TAG = "FlapRecyclerView"
 
-        const val LAYOUT_MANAGER_TYPE_LINEAR = 0
-        const val LAYOUT_MANAGER_TYPE_GRID = 1
-        const val LAYOUT_MANAGER_TYPE_STAGGERED = 2
+        const val LAYOUT_TYPE_LINEAR = 0
+        const val LAYOUT_TYPE_GRID = 1
+        const val LAYOUT_TYPE_STAGGERED = 2
     }
 
     private lateinit var adapter: FlapAdapter
@@ -41,22 +41,22 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
     private val dataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             super.onChanged()
-            checkEmptyStatus()
+            checkEmptyState()
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            checkEmptyStatus()
+            checkEmptyState()
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            checkEmptyStatus()
+            checkEmptyState()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
             super.onItemRangeChanged(positionStart, itemCount, payload)
-            checkEmptyStatus()
+            checkEmptyState()
         }
     }
 
@@ -80,7 +80,7 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.FlapRecyclerView)
 
-        val layoutManagerType = array.getInteger(R.styleable.FlapRecyclerView_flapLayoutManager, LAYOUT_MANAGER_TYPE_LINEAR)
+        val layoutType = array.getInteger(R.styleable.FlapRecyclerView_flapLayoutType, LAYOUT_TYPE_LINEAR)
 
         val isDiffEnable = array.getBoolean(R.styleable.FlapRecyclerView_flapDiffEnable, true)
 
@@ -88,9 +88,9 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
 
         //如果没有设置 LayoutManager，则设置 FlapXXXLM 作为默认
         if (layoutManager == null) {
-            layoutManager = when (layoutManagerType) {
-                LAYOUT_MANAGER_TYPE_GRID -> FlapGridLayoutManager(context, attrs, defStyle, 0)
-                LAYOUT_MANAGER_TYPE_STAGGERED -> FlapStaggeredGridLayoutManager(context, attrs, defStyle, 0)
+            layoutManager = when (layoutType) {
+                LAYOUT_TYPE_GRID -> FlapGridLayoutManager(context, attrs, defStyle, 0)
+                LAYOUT_TYPE_STAGGERED -> FlapStaggeredGridLayoutManager(context, attrs, defStyle, 0)
                 else -> FlapLinearLayoutManager(context, attrs, defStyle, 0)
             }
         }
@@ -135,10 +135,10 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
     var emptyView: View? = null
         set(value) {
             field = value
-            checkEmptyStatus()
+            checkEmptyState()
         }
 
-    private fun checkEmptyStatus() {
+    private fun checkEmptyState() {
         emptyView?.let {
             if (adapter.itemCount == 0) {
                 it.visibility = VISIBLE
@@ -168,15 +168,20 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
     /**
      * 滚动到顶部
      */
-    fun scrollToTop() = when (layoutManager) {
+    fun scrollToTop() = scrollTo(0, 0)
+
+    /**
+     * 滚动列表
+     */
+    fun scrollToPosition(position: Int, offset: Int = 0) = when (layoutManager) {
         is LinearLayoutManager -> {
-            (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+            (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offset)
         }
         is StaggeredGridLayoutManager -> {
-            (layoutManager as StaggeredGridLayoutManager).scrollToPositionWithOffset(0, 0)
+            (layoutManager as StaggeredGridLayoutManager).scrollToPositionWithOffset(position, offset)
         }
         else -> {
-            layoutManager?.scrollToPosition(0)
+            layoutManager?.scrollToPosition(position)
         }
     }
 

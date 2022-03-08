@@ -27,7 +27,7 @@ import me.yifeiyuan.flap.hook.PrefetchHook
  * @since 2020/9/22
  * @since 3.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -80,26 +80,38 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
 
-    fun registerAdapterHook(adapterHook: AdapterHook) {
+    override fun registerAdapterHook(adapterHook: AdapterHook) {
         hooks.add(adapterHook)
     }
 
-    fun unRegisterAdapterHook(adapterHook: AdapterHook) {
+    override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
+        hooks.addAll(adapterHooks)
+    }
+
+    override fun unRegisterAdapterHook(adapterHook: AdapterHook) {
         hooks.remove(adapterHook)
     }
 
-    fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun clearAdapterHooks() {
+        hooks.clear()
+    }
+
+    override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
     }
 
-    fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
+    override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
         delegates.forEach {
             registerAdapterDelegate(it)
         }
     }
 
-    fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)
+    }
+
+    override fun clearAdapterDelegates() {
+        adapterDelegates.clear()
     }
 
     open fun setData(newDataList: MutableList<Any>) {
@@ -231,10 +243,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>() {
             return generateItemViewType()
         }
         return viewType
-    }
-
-    private fun getDelegateByComponent(component: Component<*>): AdapterDelegate<*, *> {
-        return getDelegateByViewType(component.itemViewType)
     }
 
     private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {

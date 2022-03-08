@@ -18,7 +18,7 @@ import me.yifeiyuan.flap.ext.ComponentPool
  * @since 2020/9/22
  * @since 3.0
  */
-object Flap : ComponentCallbacks2 {
+object Flap : ComponentCallbacks2 ,IRegistry{
 
     /**
      * 是否使用 application context 来创建 Component
@@ -37,28 +37,36 @@ object Flap : ComponentCallbacks2 {
         add(ApmHook())
     }
 
-    fun registerAdapterHook(adapterHook: AdapterHook) {
+   override fun registerAdapterHook(adapterHook: AdapterHook) {
         globalHooks.add(adapterHook)
     }
 
-    fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
+   override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
         globalHooks.addAll(adapterHooks)
     }
 
-    fun unRegisterAdapterHook(adapterHook: AdapterHook) {
+    override  fun unRegisterAdapterHook(adapterHook: AdapterHook) {
         globalHooks.remove(adapterHook)
     }
 
-    fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun clearAdapterHooks() {
+        globalHooks.clear()
+    }
+
+    override  fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         globalAdapterDelegates.add(adapterDelegate)
     }
 
-    fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
+    override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
         globalAdapterDelegates.addAll(delegates)
     }
 
-    fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override  fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         globalAdapterDelegates.remove(adapterDelegate)
+    }
+
+    override fun clearAdapterDelegates() {
+        globalAdapterDelegates.clear()
     }
 
     override fun onTrimMemory(level: Int) {

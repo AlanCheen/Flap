@@ -3,7 +3,7 @@ package me.yifeiyuan.flap.ext
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import me.yifeiyuan.flap.FlapAdapter
 import java.util.*
 
@@ -17,11 +17,27 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0
  */
-class FlapDiffAdapter<T> : FlapAdapter {
+class FlapDiffAdapter<T : DiffModel> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
-    constructor(itemCallback: DiffUtil.ItemCallback<T>) {
+    constructor() {
+        differ = AsyncListDiffer(this, object : ItemCallback<T>() {
+            override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+                return oldItem.areItemsTheSame(newItem)
+            }
+
+            override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+                return oldItem.areContentsTheSame(newItem)
+            }
+
+            override fun getChangePayload(oldItem: T, newItem: T): Any? {
+                return oldItem.getChangePayload(newItem)
+            }
+        })
+    }
+
+    constructor(itemCallback: ItemCallback<T>) {
         differ = AsyncListDiffer(this, itemCallback)
     }
 

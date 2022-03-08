@@ -14,22 +14,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
 import java.util.ArrayList
 
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseCaseFragment() : Fragment() {
+open class BaseCaseFragment : Fragment(), Scrollable {
 
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     lateinit var adapter: FlapAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
@@ -37,13 +34,18 @@ open class BaseCaseFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.recyclerView)
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swipeRefreshLayout.setOnRefreshListener {
             onRefresh()
         }
+
+        onInit(view)
+    }
+
+    open fun onInit(view: View) {
+        recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
         recyclerView.adapter = adapter
     }
@@ -89,7 +91,7 @@ open class BaseCaseFragment() : Fragment() {
         Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
     }
 
-    fun scrollToTop() {
+    override fun scrollToTop() {
         if (recyclerView is FlapRecyclerView) {
             (recyclerView as FlapRecyclerView).scrollToTop()
         } else {

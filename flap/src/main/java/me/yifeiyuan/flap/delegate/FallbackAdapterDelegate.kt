@@ -24,6 +24,10 @@ class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
         return FallbackComponent(TextView(parent.context))
     }
 
+    override fun delegate(model: Any): Boolean {
+        return true
+    }
+
 }
 
 class FallbackComponent(v: View) : Component<Any>(v) {

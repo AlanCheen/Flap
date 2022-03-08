@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.R
+import me.yifeiyuan.flap.ext.DiffModel
+import me.yifeiyuan.flap.ext.FlapDiffAdapter
 
 /**
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
@@ -25,6 +28,13 @@ import me.yifeiyuan.flap.FlapAdapter
  * @since 3.0
  */
 open class FlapRecyclerView : RecyclerView, LifecycleObserver {
+
+    companion object {
+
+        const val LAYOUT_MANAGER_TYPE_LINEAR = 0
+        const val LAYOUT_MANAGER_TYPE_GRID = 1
+        const val LAYOUT_MANAGER_TYPE_STAGGERED = 2
+    }
 
     private lateinit var adapter: FlapAdapter
 
@@ -64,16 +74,29 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
 
     private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
 
-        //设置默认 LayoutManager
-        if (layoutManager == null) {
-            layoutManager = FlapLinearLayoutManager(context, VERTICAL, false)
-        }
-
         if (context is LifecycleOwner) {
             context.lifecycle.addObserver(this)
         }
 
-        adapter = FlapAdapter()
+        val array = context.obtainStyledAttributes(attrs, R.styleable.FlapRecyclerView)
+
+        val layoutManagerType = array.getInteger(R.styleable.FlapRecyclerView_flapLayoutManager, LAYOUT_MANAGER_TYPE_LINEAR)
+
+        val isDiffEnable = array.getBoolean(R.styleable.FlapRecyclerView_flapDiffEnable, true)
+
+        array.recycle()
+
+        //如果没有设置 LayoutManager，则设置 FlapXXXLM 作为默认
+        if (layoutManager == null) {
+            layoutManager = when (layoutManagerType) {
+                LAYOUT_MANAGER_TYPE_GRID -> FlapGridLayoutManager(context, attrs, defStyle, 0)
+                LAYOUT_MANAGER_TYPE_STAGGERED -> FlapStaggeredGridLayoutManager(context, attrs, defStyle, 0)
+                else -> FlapLinearLayoutManager(context, attrs, defStyle, 0)
+            }
+        }
+
+        adapter = if (isDiffEnable) FlapAdapter() else FlapDiffAdapter<DiffModel>()
+
         setAdapter(adapter)
     }
 
@@ -103,6 +126,12 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
         adapter.setData(data)
     }
 
+    /**
+     * 设置空状态下需要展示的 View
+     * 当 adapter.itemCount == 0 时会展示；
+     * 当 adapter.itemCount != 0 会隐藏；
+     * 注意：emptyView 必须是已经加入到布局中的，是有 parent 的
+     */
     var emptyView: View? = null
         set(value) {
             field = value
@@ -110,14 +139,12 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
         }
 
     private fun checkEmptyStatus() {
-        if (adapter.itemCount == 0) {
-            emptyView?.let {
-                emptyView?.visibility = VISIBLE
+        emptyView?.let {
+            if (adapter.itemCount == 0) {
+                it.visibility = VISIBLE
                 this.visibility = GONE
-            }
-        } else {
-            emptyView?.let {
-                emptyView?.visibility = GONE
+            } else {
+                it.visibility = GONE
                 this.visibility = VISIBLE
             }
         }
@@ -128,6 +155,10 @@ open class FlapRecyclerView : RecyclerView, LifecycleObserver {
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
+        destroy()
+    }
+
+    fun destroy() {
         setAdapter(null)
         if (context is LifecycleOwner) {
             (context as LifecycleOwner).lifecycle.removeObserver(this)

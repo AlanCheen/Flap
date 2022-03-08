@@ -66,4 +66,3 @@ fun <T : RecyclerView.ViewHolder> T.bindRecyclerView(viewId: Int, binder: Recycl
     view.binder()
     return this
 }
-

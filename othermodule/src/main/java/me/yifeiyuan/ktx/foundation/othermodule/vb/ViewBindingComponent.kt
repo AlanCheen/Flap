@@ -24,4 +24,8 @@ class ViewBindingComponentDelegate : AdapterDelegate<VBModel, ViewBindingCompone
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): ViewBindingComponent {
         return ViewBindingComponent(FlapItemVbBinding.inflate(inflater, parent, false))
     }
+
+    override fun delegate(model: Any): Boolean {
+        return VBModel::class.java == model::class.java
+    }
 }

@@ -19,7 +19,10 @@ class KtModuleComponent(itemView: View) : Component<KtComponentModel>(itemView) 
 
 class KtModuleComponentDelegate : AdapterDelegate<KtComponentModel, KtModuleComponent> {
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): KtModuleComponent {
-        return KtModuleComponent(inflater.inflate(R.layout.kt_module_component,parent,false))
+        return KtModuleComponent(inflater.inflate(R.layout.kt_module_component, parent, false))
     }
 
+    override fun delegate(model: Any): Boolean {
+        return KtComponentModel::class.java == model::class.java
+    }
 }

@@ -82,4 +82,8 @@ object Flap : ComponentCallbacks2 {
 
     }
 
+    fun setDebug(debug: Boolean) {
+        FlapDebug.setDebug(debug)
+    }
+
 }

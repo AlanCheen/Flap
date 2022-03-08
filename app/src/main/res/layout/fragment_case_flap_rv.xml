@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="无数据时展示"
+        android:gravity="center"
+        android:textSize="40dp"
+        />
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -14,6 +22,9 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:flapLayoutManager="grid"
+            app:spanCount="2"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -9,25 +9,11 @@ import me.yifeiyuan.flap.ComponentProxy
 import me.yifeiyuan.flapdev.R
 
 /**
- * 完全自定义 ComponentProxy 用例。
+ * 完全自定义 AdapterDelegate 用例。
  *
  * Created by 程序亦非猿 on 2019/1/18.
  */
 class CustomViewTypeComponent(itemView: View) : Component<CustomModel>(itemView) {
-
-    class Factory : ComponentProxy<CustomModel, CustomViewTypeComponent> {
-        override fun createComponent(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): CustomViewTypeComponent {
-            return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
-        }
-
-        override fun getItemViewType(model: CustomModel?): Int {
-            return CUSTOM_ITEM_VIEW_TYPE
-        }
-
-        override fun getComponentModelClass(): Class<CustomModel> {
-            return CustomModel::class.java
-        }
-    }
 
     companion object {
         const val CUSTOM_ITEM_VIEW_TYPE = 466

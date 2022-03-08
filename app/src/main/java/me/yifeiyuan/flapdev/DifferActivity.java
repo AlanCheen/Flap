@@ -23,7 +23,7 @@ public class DifferActivity extends AppCompatActivity {
 
     private static final String TAG = "DifferActivity";
 
-    private FlapDiffAdapter<SimpleTextModel> flapAdapter;
+//    private FlapDiffAdapter<SimpleTextModel> flapAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +32,24 @@ public class DifferActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_items);
 
-        flapAdapter = new FlapDiffAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
-            @Override
-            public boolean areItemsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                return true;
-            }
-
-            @Override
-            public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
-                Log.d(TAG, "areContentsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
-                return false;
-            }
-
-            @Nullable
-            @Override
-            public Object getChangePayload(@NonNull final SimpleTextModel oldItem, @NonNull final SimpleTextModel newItem) {
-                return newItem.content;
-            }
-        });
+//        flapAdapter = new FlapDiffAdapter<>(new DiffUtil.ItemCallback<SimpleTextModel>() {
+//            @Override
+//            public boolean areItemsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean areContentsTheSame(@NonNull final SimpleTextModel simpleTextModel, @NonNull final SimpleTextModel t1) {
+//                Log.d(TAG, "areContentsTheSame() called with: simpleTextModel = [" + simpleTextModel + "], t1 = [" + t1 + "]");
+//                return false;
+//            }
+//
+//            @Nullable
+//            @Override
+//            public Object getChangePayload(@NonNull final SimpleTextModel oldItem, @NonNull final SimpleTextModel newItem) {
+//                return newItem.content;
+//            }
+//        });
 
         List<SimpleTextModel> models = new ArrayList<>();
 
@@ -57,9 +57,8 @@ public class DifferActivity extends AppCompatActivity {
             models.add(new SimpleTextModel("Android :" + i));
         }
 
-        flapAdapter.submitList(models);
-
-        recyclerView.setAdapter(flapAdapter);
+//        flapAdapter.submitList(models);
+//        recyclerView.setAdapter(flapAdapter);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class DifferActivity extends AppCompatActivity {
             @Override
             public void run() {
 //                flapAdapter.getData().clear(); will throw UnsupportedOperationException
-                flapAdapter.setData(new ArrayList<>());
+//                flapAdapter.setData(new ArrayList<>());
             }
         }, 3000);
     }
@@ -91,8 +90,8 @@ public class DifferActivity extends AppCompatActivity {
                     newModels.add(new SimpleTextModel("Android :" + (i % 2 == 0 ? i : (666))));
                 }
 
-                flapAdapter.submitList(newModels, () -> Log.d(TAG, "submitList run() called"));
-                flapAdapter.notifyItemChanged(3,"ssssss ");
+//                flapAdapter.submitList(newModels, () -> Log.d(TAG, "submitList run() called"));
+//                flapAdapter.notifyItemChanged(3,"ssssss ");
             }
         }, 2000);
     }

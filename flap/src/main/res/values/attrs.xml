@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="FlapRecyclerView">
+        <attr name="flapDiffEnable" format="boolean" />
+        <attr name="flapLayoutManager" format="enum">
+            <enum name="linear" value="0" />
+            <enum name="grid" value="1" />
+            <enum name="staggered" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>

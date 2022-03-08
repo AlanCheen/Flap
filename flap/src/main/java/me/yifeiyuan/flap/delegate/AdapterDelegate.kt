@@ -29,7 +29,7 @@ interface AdapterDelegate<T, VH : Component<T>> {
      * @param model
      * @return 是否代理该 model
      */
-    fun delegate(model: Any?): Boolean {
+    fun delegate(model: Any): Boolean {
         try {
             if (model != null) {
                 val type =
@@ -41,6 +41,12 @@ interface AdapterDelegate<T, VH : Component<T>> {
         }
         return false
     }
+
+//    /**
+//     * @param model
+//     * @return 是否代理该 model
+//     */
+//    fun delegate(model: Any?): Boolean
 
     /**
      *

@@ -34,7 +34,7 @@ class FallbackComponent(v: View) : Component<Any>(v) {
     override fun onBind(model: Any) {
         if (FlapDebug.isDebug()) {
             (itemView as TextView).run {
-                text = "$model 没有被正确代理，position = ${position},model = ${model}"
+                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = ${position}，该信息只有开启 Debug 模式才会展示。"
             }
         }
     }

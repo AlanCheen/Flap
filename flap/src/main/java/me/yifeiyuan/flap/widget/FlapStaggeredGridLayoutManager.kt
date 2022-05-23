@@ -18,6 +18,17 @@ open class FlapStaggeredGridLayoutManager
         private const val TAG = "FlapLinearLayoutManager"
     }
 
+    /**
+     * Disable predictive animations. There is a bug in RecyclerView which causes views that
+     * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the
+     * adapter size has decreased since the ViewHolder was recycled.
+     *
+     * https://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position
+     */
+    override fun supportsPredictiveItemAnimations(): Boolean {
+        return false
+    }
+
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         try {
             super.onLayoutChildren(recycler, state)

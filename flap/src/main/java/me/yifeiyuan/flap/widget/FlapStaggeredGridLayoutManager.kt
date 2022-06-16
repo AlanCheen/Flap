@@ -15,7 +15,7 @@ open class FlapStaggeredGridLayoutManager
     : StaggeredGridLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        private const val TAG = "FlapLinearLayoutManager"
+        private const val TAG = "FlapStaggeredGridLayoutManager"
     }
 
     /**

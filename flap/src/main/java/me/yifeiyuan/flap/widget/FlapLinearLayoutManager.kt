@@ -10,26 +10,13 @@ import me.yifeiyuan.flap.FlapDebug
  * Created by 程序亦非猿 on 2021/9/30.
  *
  */
-open class FlapLinearLayoutManager : LinearLayoutManager {
+open class FlapLinearLayoutManager
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0)
+    : LinearLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
         private const val TAG = "FlapLinearLayoutManager"
     }
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, orientation: Int, reverseLayout: Boolean) : super(
-            context,
-            orientation,
-            reverseLayout
-    )
-
-    constructor(
-            context: Context?,
-            attrs: AttributeSet?,
-            defStyleAttr: Int,
-            defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     /**
      * Disable predictive animations. There is a bug in RecyclerView which causes views that

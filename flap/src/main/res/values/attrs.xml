@@ -4,11 +4,12 @@
 
     <declare-styleable name="FlapRecyclerView">
         <attr name="flapDiffEnable" format="boolean" />
-        <attr name="flapLayoutType" format="enum">
+        <attr name="flapLayoutManager" format="enum">
             <enum name="linear" value="0" />
             <enum name="grid" value="1" />
             <enum name="staggered" value="2" />
         </attr>
+        <attr name="flapRecycleChildrenOnDetach" format="boolean"/>
     </declare-styleable>
 
 </resources>

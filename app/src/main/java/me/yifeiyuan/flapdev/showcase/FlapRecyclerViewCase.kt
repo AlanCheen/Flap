@@ -19,7 +19,9 @@ class FlapRecyclerViewCase : BaseCaseFragment() {
    lateinit var flapRecyclerView: FlapRecyclerView
 
     override fun onInit(view: View) {
-        flapRecyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        flapRecyclerView = recyclerView as FlapRecyclerView
+
         flapRecyclerView.setData(createRefreshData(30))
 
         val emptyView = view.findViewById<View>(R.id.emptyView)

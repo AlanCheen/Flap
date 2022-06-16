@@ -110,10 +110,11 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    open fun onDestroy() {
-        if (context is LifecycleOwner) {
-            (context as LifecycleOwner).lifecycle.removeObserver(this)
-        }
+    open fun onDestroy(owner: LifecycleOwner) {
+//        if (context is LifecycleOwner) {
+//            (context as LifecycleOwner).lifecycle.removeObserver(this)
+//        }
+        owner.lifecycle.removeObserver(this)
     }
 
 }

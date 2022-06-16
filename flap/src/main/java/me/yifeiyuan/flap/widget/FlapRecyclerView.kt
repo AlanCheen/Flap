@@ -149,6 +149,18 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
         }
     }
 
+    fun doOnPrefetch(offset: Int=0, minItemCount: Int=1, onPrefetch: () -> Unit){
+        flapAdapter?.doOnPrefetch(offset, minItemCount, onPrefetch)
+    }
+
+    fun setPrefetchEnable(enable: Boolean) {
+        flapAdapter?.setPrefetchEnable(enable)
+    }
+
+    fun setPrefetchComplete() {
+        flapAdapter?.setPrefetchComplete()
+    }
+
     var emptyView :View? = null
         set(value) {
             emptyViewHelper.emptyView = value

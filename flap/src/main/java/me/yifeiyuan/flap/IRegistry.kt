@@ -19,7 +19,7 @@ interface IRegistry {
 
     fun registerAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>)
 
-    fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>)
+    fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>)
 
     fun unRegisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>)
 

@@ -4,11 +4,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 
 /**
  * Created by 程序亦非猿 on 2022/2/21.
+ *
+ * 测试 FlapRecyclerView 功能
  */
 class FlapRecyclerViewCase : BaseCaseFragment() {
 
@@ -16,11 +19,13 @@ class FlapRecyclerViewCase : BaseCaseFragment() {
         return R.layout.fragment_case_flap_rv
     }
 
-   lateinit var flapRecyclerView: FlapRecyclerView
+   private lateinit var flapRecyclerView: FlapRecyclerView
 
     override fun onInit(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
+
         flapRecyclerView = recyclerView as FlapRecyclerView
+        adapter = flapRecyclerView.adapter as FlapAdapter
 
         flapRecyclerView.setData(createRefreshData(30))
 
@@ -29,6 +34,11 @@ class FlapRecyclerViewCase : BaseCaseFragment() {
         flapRecyclerView.emptyView = emptyView
 
         setHasOptionsMenu(true)
+
+        flapRecyclerView.doOnPrefetch {
+            toast("on prefetch")
+            loadMoreData(10)
+        }
     }
 
     override fun refreshData(size: Int) {

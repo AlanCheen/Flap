@@ -24,10 +24,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  Created by 程序亦非猿 on 2021/9/28.
  *
  *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
- *  @param offset 偏移量，默认值 0 表示最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
+ *  @param offset 偏移量，默认值 0 表示底部最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
  */
-class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int, private val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 1, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PrefetchHook"
@@ -36,6 +36,10 @@ class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int, p
     init {
         if (offset < 0) {
             throw IllegalArgumentException("offset must be >= 0")
+        }
+
+        if (minItemCount < 0) {
+            throw IllegalArgumentException("minItemCount must be >= 0")
         }
     }
 

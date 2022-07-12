@@ -35,20 +35,42 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private var data: MutableList<Any> = mutableListOf()
 
+    /**
+     * Components 监听的生命周期对象，一般是 Activity 默认取的是 RecyclerView.Context
+     */
     private var lifecycleOwner: LifecycleOwner? = null
+
+    /**
+     * Components 是否监听生命周期事件
+     */
     private var lifecycleEnable = true
+
+    /**
+     * 是否使用全局的 ComponentPool 做缓存
+     */
     private var useComponentPool = true
 
+    /**
+     * 默认 AdapterDelegate，兜底处理
+     */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
+    /**
+     * RecyclerView 滑动到底部触发预加载
+     */
     var prefetchDetector: PrefetchHook? = null
 
     //todo Map --> SparseArray ?
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
+    /**
+     *
+     *
+     * @see FlapAdapter.fireEvent
+     */
     var eventObserver: EventObserver? = null
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
@@ -57,6 +79,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
+     *
+     * 当开启后 Component.context 将变成 Application Context
      */
     var inflateWithApplicationContext = false
 
@@ -355,6 +379,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     }
 
     /**
+     * 提供 Component 从 Adapter 获取参数的方法
      *
      * @return key 对应的参数，如果类型不匹配，则会为 null
      */
@@ -365,6 +390,15 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     fun attachTo(recyclerView: RecyclerView) {
         recyclerView.adapter = this
+    }
+
+    /**
+     *
+     * @see FlapAdapter.inflateWithApplicationContext
+     * @return activity context
+     */
+    fun getActivityContext(): Context {
+        return bindingContext
     }
 
     interface OnItemClickListener {

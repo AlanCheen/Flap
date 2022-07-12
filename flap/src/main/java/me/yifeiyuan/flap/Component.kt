@@ -15,6 +15,12 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
+ *
+ * @see FlapAdapter.getParam 从 Adapter 获取额外的参数
+ * @see FlapAdapter.fireEvent 发送事件给 Adapter
+ * @see FlapAdapter.getActivityContext 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
+ * @see FlapAdapter.inflateWithApplicationContext
+ *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
@@ -22,6 +28,12 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  */
 abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver {
 
+    /**
+     * 一般是 Activity Context，如果开启了 FlapAdapter.inflateWithApplicationContext==true ，则会变成 Application Context
+     * 此时如果要获取 Activity Context 则需要通过 FlapAdapter
+     * @see FlapAdapter.inflateWithApplicationContext
+     * @see FlapAdapter.getActivityContext
+     */
     protected val context: Context = itemView.context
 
     /**
@@ -54,7 +66,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
 
     abstract fun onBind(model: T)
 
-    protected fun <V : View?> findViewById(@IdRes viewId: Int): V {
+    protected fun <V : View> findViewById(@IdRes viewId: Int): V {
         return itemView.findViewById<View>(viewId) as V
     }
 
@@ -111,9 +123,6 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onDestroy(owner: LifecycleOwner) {
-//        if (context is LifecycleOwner) {
-//            (context as LifecycleOwner).lifecycle.removeObserver(this)
-//        }
         owner.lifecycle.removeObserver(this)
     }
 

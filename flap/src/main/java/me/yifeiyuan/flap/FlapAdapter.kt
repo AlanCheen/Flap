@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.Event
 import me.yifeiyuan.flap.ext.EventObserver
@@ -15,6 +16,7 @@ import me.yifeiyuan.flap.ext.ParamProvider
 import me.yifeiyuan.flap.ext.setOnItemClickListener
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PrefetchHook
+import kotlin.reflect.KClass
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -54,6 +56,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * 默认 AdapterDelegate，兜底处理
      */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
+
+    private var delegationMap = mutableMapOf<KClass<*>,AdapterDelegate<*, *>>()
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
@@ -122,6 +126,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
+
+        //todo 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime
+        val delegation = adapterDelegate.javaClass.getAnnotation(Delegate::class.java)
+        delegation?.delegateModel?.let {
+            delegationMap.put(it, adapterDelegate)
+        }
     }
 
     override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {

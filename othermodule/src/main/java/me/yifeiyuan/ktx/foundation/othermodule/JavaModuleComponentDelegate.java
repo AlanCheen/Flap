@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import me.yifeiyuan.flap.annotations.Delegate;
 import me.yifeiyuan.flap.delegate.AdapterDelegate;
 import me.yifeiyuan.flap.Component;
 import me.yifeiyuan.flap.FlapAdapter;

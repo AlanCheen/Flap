@@ -10,6 +10,7 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
@@ -38,6 +39,10 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
 }
 
 class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextComponent> {
+
+    override fun delegate(model: Any): Boolean {
+        return SimpleTextModel::class.java == model::class.java
+    }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleTextComponent {
         return SimpleTextComponent(inflater.inflate(R.layout.flap_item_simple_text, parent, false))

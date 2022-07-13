@@ -25,6 +25,10 @@ class CustomViewTypeComponent(itemView: View) : Component<CustomModel>(itemView)
 
 class CustomViewTypeComponentDelegate : AdapterDelegate<CustomModel, CustomViewTypeComponent> {
 
+    override fun delegate(model: Any): Boolean {
+        return CustomModel::class.java == model.javaClass
+    }
+
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): CustomViewTypeComponent {
         return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
     }

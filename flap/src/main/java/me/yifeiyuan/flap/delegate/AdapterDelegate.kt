@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
+import java.lang.reflect.ParameterizedType
 
 /**
  *
@@ -32,21 +33,21 @@ interface AdapterDelegate<T, VH : Component<T>> {
      *
      * 如果你想为 YourModel 做代理，则可以这么写 ：
      *
+     * return model.javaClass == YourModel::class.java
      * return model.getClass() == YourModel.class;
      *
      * @param model 数据
      * @return 是否代理该 model
      */
-    fun delegate(model: Any): Boolean
-//    {
-//        try {
-//            val type =  (this.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
-//            return type == model.javaClass
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//        return false
-//    }
+    fun delegate(model: Any): Boolean {
+        try {
+            val type = (this.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
+            return type == model.javaClass
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return false
+    }
 
     /**
      * 根据代理的 Model 创建对应的 Component

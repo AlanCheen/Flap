@@ -12,7 +12,7 @@ import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-//@Proxy(layoutId = R.layout.flap_item_simple_image)
+//@Delegate(layoutId = R.layout.flap_item_simple_image)
 @Delegate(layoutName = "flap_item_simple_image")
 class SimpleImageComponent(itemView: View) : Component<SimpleImageModel>(itemView) {
     override fun onBind(model: SimpleImageModel) {

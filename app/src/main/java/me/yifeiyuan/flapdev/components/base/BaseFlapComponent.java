@@ -9,6 +9,8 @@ import me.yifeiyuan.flap.Component;
 
 /**
  * Created by 程序亦非猿 on 2018/12/29.
+ *
+ * 可选
  */
 public abstract class BaseFlapComponent<T extends BaseModel> extends Component<T> {
 

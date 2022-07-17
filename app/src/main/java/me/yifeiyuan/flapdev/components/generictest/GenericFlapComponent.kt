@@ -7,7 +7,6 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.base.BaseFlapComponent
-import me.yifeiyuan.flapdev.components.bindersample.BinderModel
 
 /**
  * Created by 程序亦非猿 on 2019/1/29.

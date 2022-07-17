@@ -3,12 +3,10 @@ package me.yifeiyuan.flapdev.components.bindersample
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.ktx.bindTextView
-import me.yifeiyuan.flap.ktx.bindView
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -17,9 +15,9 @@ import me.yifeiyuan.flapdev.R
  * 利用 ktx 做 bind 逻辑，可以省去 findView 的操作
  */
 @Delegate
-class BinderComponent(itemView: View) : Component<BinderModel>(itemView) {
+class ViewBinderComponent(itemView: View) : Component<ViewBinderModel>(itemView) {
 
-    override fun onBind(model: BinderModel) {
+    override fun onBind(model: ViewBinderModel) {
 
         bindTextView(R.id.binderText) {
             text = model.text
@@ -34,13 +32,13 @@ class BinderComponent(itemView: View) : Component<BinderModel>(itemView) {
 
 }
 
-class BinderComponentDelegate : AdapterDelegate<BinderModel, BinderComponent> {
+class BinderComponentDelegate : AdapterDelegate<ViewBinderModel, ViewBinderComponent> {
 
     override fun delegate(model: Any): Boolean {
-        return BinderModel::class.java == model.javaClass
+        return ViewBinderModel::class.java == model.javaClass
     }
 
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): BinderComponent {
-        return BinderComponent(inflater.inflate(R.layout.flap_item_binder, parent, false))
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): ViewBinderComponent {
+        return ViewBinderComponent(inflater.inflate(R.layout.flap_item_binder, parent, false))
     }
 }

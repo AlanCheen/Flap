@@ -11,9 +11,9 @@ import java.lang.reflect.ParameterizedType
  *
  * A delegate class that delegates some methods of FlapAdapter.
  *
- * AdapterDelegate 作为 FalpAdapter 的代理，代理了部分方法，用于解耦 Adapter 对不同类型的 Model 的处理。
- *
+ * AdapterDelegate 作为 FlapAdapter 的代理，代理了它部分方法。
  * 一般一个 AdapterDelegate 代理一个类型的 Model，是一对一的关系，这样更加解耦。
+ * 这样可以解耦 Adapter 对不同类型的 Model 的处理。
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -22,7 +22,7 @@ import java.lang.reflect.ParameterizedType
  * @since 2020/9/22
  * @since 3.0
  */
-interface AdapterDelegate<T, VH : Component<T>> {
+interface AdapterDelegate<M, VH : Component<M>> {
 
     companion object {
         private const val TAG = "AdapterDelegate"
@@ -32,8 +32,9 @@ interface AdapterDelegate<T, VH : Component<T>> {
      * 该方法确定一个 AdapterDelegate 是否代理一个 Model，如果代理则 return true
      *
      * 如果你想为 YourModel 做代理，则可以这么写 ：
-     *
+     * Kotlin:
      * return model.javaClass == YourModel::class.java
+     * Java:
      * return model.getClass() == YourModel.class;
      *
      * @param model 数据

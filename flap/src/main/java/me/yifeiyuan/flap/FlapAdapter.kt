@@ -81,6 +81,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         addAll(Flap.globalHooks)
     }
 
+    private val eventObservers : MutableMap<String,EventObserver> = mutableMapOf()
+
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
      *
@@ -127,11 +129,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
 
-        //todo 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime
-        val delegation = adapterDelegate.javaClass.getAnnotation(Delegate::class.java)
-        delegation?.delegateModel?.let {
-            delegationMap.put(it, adapterDelegate)
-        }
+//        //todo 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime
+//        val delegation = adapterDelegate.javaClass.getAnnotation(Delegate::class.java)
+//        delegation?.delegateModel?.let {
+//            delegationMap.put(it, adapterDelegate)
+//        }
     }
 
     override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
@@ -367,8 +369,17 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return this
     }
 
+    // TODO: 2022/7/17 test
     fun fireEvent(event: Event<*>) {
-        eventObserver?.onEvent(event)
+        val eventName = event.eventName
+        val eventArg = event.arg
+        val observer = eventObservers[event.eventName]
+
+        observer?.onEvent(event)
+    }
+
+    fun observeEvent(eventName: String, observer: EventObserver) {
+        eventObservers[eventName] = observer
     }
 
     fun doOnPrefetch(offset: Int, minItemCount: Int, onPrefetch: () -> Unit) {

@@ -2,8 +2,8 @@ package me.yifeiyuan.flapdev
 
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
-import me.yifeiyuan.flapdev.components.bindersample.BinderModel
-import me.yifeiyuan.flapdev.components.customviewtype.CustomModel
+import me.yifeiyuan.flapdev.components.bindersample.ViewBinderModel
+import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeModel
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel
@@ -38,7 +38,7 @@ fun mockModels(): MutableList<Any> {
     models.add(SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"))
     models.add(SimpleTextModel("—— by 程序亦非猿"))
     models.add(SimpleImageModel())
-    models.add(CustomModel())
+    models.add(CustomViewTypeModel())
     models.add(GenericModel())
     models.add(GenericModel())
     models.add(SimpleImageModel())
@@ -51,9 +51,9 @@ fun mockModels(): MutableList<Any> {
     models.add(VBModel())
     models.add(KtComponentModel())
     models.add(VBModel())
-    models.add(BinderModel())
+    models.add(ViewBinderModel())
     models.add(KtComponentModel())
-    models.add(BinderModel())
-    models.add(BinderModel())
+    models.add(ViewBinderModel())
+    models.add(ViewBinderModel())
     return models
 }

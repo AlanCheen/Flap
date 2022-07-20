@@ -11,6 +11,6 @@ package me.yifeiyuan.flap
  * @since 2020/9/22
  * @since 3.0
  */
-class AdapterDelegateNotFoundException(itemData: Any) : Exception(itemData.toString()) {
+internal class AdapterDelegateNotFoundException(itemData: Any) : Exception(itemData.toString()) {
 
 }

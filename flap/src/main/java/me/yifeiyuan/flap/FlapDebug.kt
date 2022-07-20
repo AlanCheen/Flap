@@ -22,19 +22,19 @@ object FlapDebug {
 
     fun e(tag: String, msg: String?, tr: Throwable?) {
         if (isDebug) {
-            Log.e(TAG + "-" + tag, msg, tr)
+            Log.e("$TAG-$tag", msg, tr)
         }
     }
 
     fun d(tag: String, msg: String?) {
         if (isDebug) {
-            Log.e(TAG + "-" + tag, msg)
+            Log.e("$TAG-$tag", msg)
         }
     }
 
     fun w(tag: String, msg: String?) {
         if (isDebug) {
-            Log.w(TAG + "-" + tag, msg)
+            Log.w("$TAG-$tag", msg)
         }
     }
 }

@@ -58,8 +58,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
-    private var delegationMap = mutableMapOf<KClass<*>, AdapterDelegate<*, *>>()
-
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
     /**
@@ -67,7 +65,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     var prefetchDetector: PrefetchHook? = null
 
-    //todo Map --> SparseArray ?
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
@@ -129,12 +126,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
-
-//        //todo 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime
-//        val delegation = adapterDelegate.javaClass.getAnnotation(Delegate::class.java)
-//        delegation?.delegateModel?.let {
-//            delegationMap.put(it, adapterDelegate)
-//        }
     }
 
     override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
@@ -284,7 +275,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
         return viewTypeDelegateMapper[viewType] ?: defaultAdapterDelegate
-        ?: throw AdapterDelegateNotFoundException("找不到 viewType = ${viewType} 对应的 Delegate，请先注册，或设置默认 Delegate")
+        ?: throw AdapterDelegateNotFoundException("找不到 viewType = $viewType 对应的 Delegate，请先注册，或设置默认的 Delegate")
     }
 
     override fun getItemId(position: Int): Long {

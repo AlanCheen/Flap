@@ -28,7 +28,7 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 2020/9/22
  * @since 3.0
  */
-class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
+internal class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): FallbackComponent {
         return FallbackComponent(TextView(parent.context))
@@ -40,11 +40,11 @@ class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
 
 }
 
-class FallbackComponent(v: View) : Component<Any>(v) {
+internal class FallbackComponent(v: View) : Component<Any>(v) {
     override fun onBind(model: Any) {
         if (FlapDebug.isDebug) {
             (itemView as TextView).run {
-                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = ${position}，该信息只有开启 Debug 模式才会展示。"
+                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = $position，该信息只有开启 Debug 模式才会展示。"
             }
         }
     }

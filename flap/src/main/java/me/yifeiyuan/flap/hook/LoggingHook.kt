@@ -13,7 +13,7 @@ import me.yifeiyuan.flap.FlapDebug
 class LoggingHook : AdapterHook {
 
     companion object{
-        private const val TAG = "Logging"
+        private const val TAG = "LoggingHook"
     }
     override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
         FlapDebug.d(TAG, "onCreateViewHolderStart() called with: adapter = $adapter, delegate = $delegate, viewType = $viewType")

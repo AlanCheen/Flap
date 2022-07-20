@@ -27,10 +27,6 @@ class FlapApplication : MultiDexApplication() {
     }
 
     private fun initFlap() {
-
-//        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-//        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-
         Flap.apply {
             registerAdapterDelegates(
                     SimpleTextComponentDelegate(),

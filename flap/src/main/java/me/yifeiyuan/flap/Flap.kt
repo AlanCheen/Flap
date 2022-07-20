@@ -91,7 +91,7 @@ object Flap : ComponentCallbacks2 ,IRegistry{
     }
 
     fun setDebug(debug: Boolean) {
-        FlapDebug.setDebug(debug)
+        FlapDebug.isDebug = debug
     }
 
 }

@@ -6,4 +6,24 @@
     <item
         android:id="@+id/resetData"
         android:title="重置数据" />
+
+    <group >
+        <item
+            android:id="@+id/horizontal"
+            android:title="Horizontal" />
+        <item
+            android:id="@+id/vertical"
+            android:title="Vertical" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/linear"
+            android:title="LinearLayoutManager" />
+        <item
+            android:id="@+id/grid"
+            android:title="GridLayoutManager" />
+        <item
+            android:id="@+id/staggered"
+            android:title="StaggeredGridLayoutManager" />
+    </group>
 </menu>

@@ -6,4 +6,6 @@ package me.yifeiyuan.flapdev
 interface Scrollable {
 
     fun scrollToTop()
+
+    fun scrollToBottom()
 }

@@ -3,6 +3,7 @@ package me.yifeiyuan.flap.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.IntDef
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -26,7 +27,8 @@ import me.yifeiyuan.flap.ext.FlapDiffAdapter
  * @since 2020/9/22
  * @since 3.0
  */
-open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
+open class FlapRecyclerView
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : RecyclerView(context, attrs, defStyleAttr), LifecycleObserver {
 
     companion object {
@@ -35,7 +37,33 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
         const val LAYOUT_TYPE_LINEAR = 0
         const val LAYOUT_TYPE_GRID = 1
         const val LAYOUT_TYPE_STAGGERED = 2
+
+        const val DEFAULT_LAYOUT_TYPE = LAYOUT_TYPE_LINEAR
     }
+
+
+    /**
+     * RecyclerView.VERTICAL
+     * RecyclerView.HORIZONTAL
+     */
+    var orientation: Int = VERTICAL
+        set(value) {
+            if (value != HORIZONTAL && value != VERTICAL) {
+                throw IllegalArgumentException()
+            }
+            field = value
+            when (layoutManager) {
+                is LinearLayoutManager -> {
+                    (layoutManager as LinearLayoutManager).orientation = value
+                }
+                is GridLayoutManager -> {
+                    (layoutManager as GridLayoutManager).orientation = value
+                }
+                is StaggeredGridLayoutManager -> {
+                    (layoutManager as StaggeredGridLayoutManager).orientation = value
+                }
+            }
+        }
 
     private var flapAdapter: FlapAdapter? = null
 
@@ -47,23 +75,37 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
      */
     private var recycleChildrenOnDetach = true
 
+    var emptyView: View? = null
+        set(value) {
+            emptyViewHelper.emptyView = value
+            field = value
+        }
+
     init {
 
         if (context is LifecycleOwner) {
             context.lifecycle.addObserver(this)
         }
 
-        val array = context.obtainStyledAttributes(attrs, R.styleable.FlapRecyclerView)
+        val flapTypedArray = context.obtainStyledAttributes(attrs, R.styleable.FlapRecyclerView)
 
-        val layoutType = array.getInteger(R.styleable.FlapRecyclerView_flapLayoutManager, LAYOUT_TYPE_LINEAR)
+        val layoutType = flapTypedArray.getInt(R.styleable.FlapRecyclerView_flapLayoutManager, DEFAULT_LAYOUT_TYPE)
 
-        val isDiffEnable = array.getBoolean(R.styleable.FlapRecyclerView_flapDiffEnable, true)
+        val isDiffEnable = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapDiffEnable, true)
 
-        recycleChildrenOnDetach = array.getBoolean(R.styleable.FlapRecyclerView_flapRecycleChildrenOnDetach, true)
+        recycleChildrenOnDetach = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapRecycleChildrenOnDetach, true)
 
-        array.recycle()
+        flapTypedArray.recycle()
 
-        //如果没有设置 LayoutManager，则设置 FlapXXXLM 作为默认
+        //获取 orientation ，类似的 spanCount 等也可以这么获取
+        val rvTypedArray = context.obtainStyledAttributes(attrs, androidx.recyclerview.R.styleable.RecyclerView)
+
+        val rvOrientation = rvTypedArray.getInteger(androidx.recyclerview.R.styleable.RecyclerView_android_orientation, HORIZONTAL)
+
+        orientation = rvOrientation
+        rvTypedArray.recycle()
+
+        //如果没有设置 LayoutManager，则设置 FlapLinearLayoutManager 作为默认
         if (layoutManager == null) {
             layoutManager = when (layoutType) {
                 LAYOUT_TYPE_GRID -> FlapGridLayoutManager(context, attrs, defStyleAttr, 0)
@@ -130,20 +172,30 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy(owner: LifecycleOwner) {
+        owner.lifecycle.removeObserver(this)
+
         flapAdapter?.let {
             emptyViewHelper.detachAdapter(it)
         }
         setAdapter(null)
-        owner.lifecycle.removeObserver(this)
     }
 
     /**
      * 滚动到顶部
      */
-    fun scrollToTop() = scrollToPosition(0, 0)
+   fun scrollToTop() = scrollToPosition(0, 0)
+
+    fun scrollToBottom() = run {
+        if (flapAdapter != null && layoutManager != null) {
+            // TODO: 2022/7/20 find bottom
+        }
+    }
 
     /**
-     * 滚动列表
+     * 滚动列表到指定位置
+     *
+     * @param position
+     * @param offset
      */
     fun scrollToPosition(position: Int, offset: Int = 0) = when (layoutManager) {
         is LinearLayoutManager -> {
@@ -157,26 +209,24 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
         }
     }
 
-    fun doOnPrefetch(offset: Int=0, minItemCount: Int=1, onPrefetch: () -> Unit){
+    /**
+     * 设置预加载触发时的行为
+     */
+    fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
         flapAdapter?.doOnPrefetch(offset, minItemCount, onPrefetch)
     }
 
+    /**
+     * 设置是否开启预加载
+     */
     fun setPrefetchEnable(enable: Boolean) {
         flapAdapter?.setPrefetchEnable(enable)
     }
 
+    /**
+     * 设置一次预加载行为完成
+     */
     fun setPrefetchComplete() {
         flapAdapter?.setPrefetchComplete()
     }
-
-    var emptyView :View? = null
-        set(value) {
-            emptyViewHelper.emptyView = value
-            field = value
-        }
-
-//    fun setEmptyView(view: View) {
-//        emptyViewHelper.emptyView = view
-//    }
-
 }

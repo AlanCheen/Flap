@@ -25,7 +25,7 @@ import me.yifeiyuan.flap.FlapDebug
 open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 5) : AdapterHook {
 
     companion object {
-        private const val TAG = "AdapterDelegateApm"
+        private const val TAG = "ApmHook"
     }
 
     private var createStartTime: Long = 0

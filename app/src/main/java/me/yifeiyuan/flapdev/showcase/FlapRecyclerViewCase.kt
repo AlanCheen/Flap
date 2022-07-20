@@ -4,14 +4,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.widget.FlapGridLayoutManager
+import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
 
 /**
  * Created by 程序亦非猿 on 2022/2/21.
  *
- * 测试 FlapRecyclerView 功能
+ * 测试 FlapRecyclerView 的功能
  */
 class FlapRecyclerViewCase : BaseCaseFragment() {
 
@@ -56,6 +63,21 @@ class FlapRecyclerViewCase : BaseCaseFragment() {
             }
             R.id.resetData -> {
                 flapRecyclerView.setData(createRefreshData(30))
+            }
+            R.id.horizontal -> {
+                flapRecyclerView.orientation = RecyclerView.HORIZONTAL
+            }
+            R.id.vertical -> {
+                flapRecyclerView.orientation = RecyclerView.VERTICAL
+            }
+            R.id.linear -> {
+                flapRecyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false)
+            }
+            R.id.grid->{
+                flapRecyclerView.layoutManager = FlapGridLayoutManager(requireActivity(),2,RecyclerView.VERTICAL,false)
+            }
+            R.id.staggered->{
+                flapRecyclerView.layoutManager = FlapStaggeredGridLayoutManager(2 )
             }
         }
         return super.onOptionsItemSelected(item)

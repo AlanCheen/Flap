@@ -100,6 +100,10 @@ open class BaseCaseFragment : Fragment(), Scrollable {
         Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
     }
 
+    override fun scrollToBottom() {
+        TODO("Not yet implemented")
+    }
+
     override fun scrollToTop() {
         if (recyclerView is FlapRecyclerView) {
             (recyclerView as FlapRecyclerView).scrollToTop()

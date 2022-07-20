@@ -1,11 +1,10 @@
 package me.yifeiyuan.flap.hook
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -27,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  @param offset 偏移量，默认值 0 表示底部最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
  */
-class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 1, private val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PrefetchHook"

@@ -3,6 +3,7 @@ package me.yifeiyuan.flap.ext
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+import me.yifeiyuan.flap.FlapDebug
 
 /**
  * A global RecycledViewPool that can be shared among RecyclerViews , which is enabled by default.
@@ -33,5 +34,10 @@ class ComponentPool : RecycledViewPool(), ComponentCallbacks2 {
     override fun onConfigurationChanged(newConfig: Configuration) {}
     override fun onLowMemory() {
         clear()
+    }
+
+    override fun clear() {
+        super.clear()
+        FlapDebug.d("ComponentPool","ComponentPool 执行清理缓存")
     }
 }

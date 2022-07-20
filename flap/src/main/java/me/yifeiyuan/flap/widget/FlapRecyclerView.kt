@@ -84,6 +84,10 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
         setAdapter(flapAdapter)
     }
 
+    /**
+     *
+     * @param adapter null or FlapAdapter
+     */
     override fun setAdapter(adapter: Adapter<*>?) {
         if (adapter == null) {
             this.flapAdapter = null
@@ -93,10 +97,14 @@ open class FlapRecyclerView @JvmOverloads constructor(context: Context, attrs: A
             emptyViewHelper.attachAdapter(adapter)
             super.setAdapter(this.flapAdapter)
         } else {
-            throw IllegalArgumentException("new adapter is not a FlapAdapter")
+            throw IllegalArgumentException("the new adapter is not a FlapAdapter")
         }
     }
 
+    /**
+     *
+     * 在设置 LayoutManager 时处理 recycleChildrenOnDetach 属性
+     */
     override fun setLayoutManager(layout: LayoutManager?) {
         super.setLayoutManager(layout)
         when (layout) {

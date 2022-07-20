@@ -5,25 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.ComponentProxy
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flapdev.R
 
 /**
- * 完全自定义 AdapterDelegate 用例。
+ * 完全自定义 AdapterDelegate 用例，使用了自定义 ItemViewType
  *
  * Created by 程序亦非猿 on 2019/1/18.
  */
-class CustomViewTypeComponent(itemView: View) : Component<CustomModel>(itemView) {
+class CustomViewTypeComponent(itemView: View) : Component<CustomViewTypeModel>(itemView) {
 
     companion object {
         const val CUSTOM_ITEM_VIEW_TYPE = 466
     }
 
-    override fun onBind(model: CustomModel) {
+    override fun onBind(model: CustomViewTypeModel) {
     }
 }
 
-class CustomViewTypeComponentDelegate : AdapterDelegate<CustomModel, CustomViewTypeComponent> {
+class CustomViewTypeComponentDelegate : AdapterDelegate<CustomViewTypeModel, CustomViewTypeComponent> {
+
+    override fun delegate(model: Any): Boolean {
+        return CustomViewTypeModel::class.java == model.javaClass
+    }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): CustomViewTypeComponent {
         return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
@@ -31,5 +35,13 @@ class CustomViewTypeComponentDelegate : AdapterDelegate<CustomModel, CustomViewT
 
     override fun getItemViewType(model: Any): Int {
         return CustomViewTypeComponent.CUSTOM_ITEM_VIEW_TYPE
+    }
+
+    override fun getItemId(model: Any): Long {
+        return super.getItemId(model)
+    }
+
+    override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
+        super.onBindViewHolder(component, data, position, payloads, adapter)
     }
 }

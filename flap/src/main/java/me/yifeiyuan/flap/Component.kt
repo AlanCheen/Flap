@@ -13,6 +13,14 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
+ *
+ *
+ *
+ * @see FlapAdapter.getParam 从 Adapter 获取额外的参数
+ * @see FlapAdapter.fireEvent 发送事件给 Adapter
+ * @see FlapAdapter.getActivityContext 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
+ * @see FlapAdapter.inflateWithApplicationContext
+ *
  * Created by 程序亦非猿 on 2021/9/22.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
@@ -22,6 +30,14 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  */
 abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver {
 
+    /**
+     * 默认情况下 Activity Context ；
+     * 如果开启了 FlapAdapter.inflateWithApplicationContext==true ，则会变成 Application Context，
+     * 此时如果要获取 Activity Context 则需要通过 FlapAdapter#getActivityContext() 获取
+     *
+     * @see FlapAdapter.inflateWithApplicationContext
+     * @see FlapAdapter.getActivityContext
+     */
     protected val context: Context = itemView.context
 
     /**
@@ -52,9 +68,12 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
         onBind(model)
     }
 
+    /**
+     * 执行数据绑定，处理业务逻辑
+     */
     abstract fun onBind(model: T)
 
-    protected fun <V : View?> findViewById(@IdRes viewId: Int): V {
+    protected fun <V : View> findViewById(@IdRes viewId: Int): V {
         return itemView.findViewById<View>(viewId) as V
     }
 
@@ -67,7 +86,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     /**
-     * @param flapAdapter The adapter which is using your FlapItem.
+     * @param flapAdapter The adapter which is using your Component.
      * @see FlapAdapter.onViewDetachedFromWindow
      */
     open fun onViewDetachedFromWindow(flapAdapter: FlapAdapter) {
@@ -77,6 +96,9 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     /**
      * @param visible     if component is visible
      * @param flapAdapter
+     *
+     * @see onViewAttachedToWindow
+     * @see onViewDetachedFromWindow
      */
     open fun onVisibilityChanged(visible: Boolean, flapAdapter: FlapAdapter) {
         isVisible = visible
@@ -111,9 +133,6 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onDestroy(owner: LifecycleOwner) {
-//        if (context is LifecycleOwner) {
-//            (context as LifecycleOwner).lifecycle.removeObserver(this)
-//        }
         owner.lifecycle.removeObserver(this)
     }
 

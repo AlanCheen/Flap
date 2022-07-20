@@ -7,11 +7,12 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
  * Created by 程序亦非猿 on 2018/12/4.
  */
-//@Proxy(layoutId = R.layout.flap_item_simple_image)
+//@Delegate(layoutId = R.layout.flap_item_simple_image)
 @Delegate(layoutName = "flap_item_simple_image")
 class SimpleImageComponent(itemView: View) : Component<SimpleImageModel>(itemView) {
     override fun onBind(model: SimpleImageModel) {
@@ -19,6 +20,10 @@ class SimpleImageComponent(itemView: View) : Component<SimpleImageModel>(itemVie
 }
 
 class SimpleImageComponentDelegate : AdapterDelegate<SimpleImageModel, SimpleImageComponent> {
+
+    override fun delegate(model: Any): Boolean {
+        return SimpleImageModel::class.java == model.javaClass
+    }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleImageComponent {
         return SimpleImageComponent(inflater.inflate(R.layout.flap_item_simple_image, parent, false))

@@ -8,8 +8,14 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapDebug
 
 /**
- * FallbackAdapterDelegate is a build-in AdapterDelegate that would be used when something went wrong .
+ * FallbackAdapterDelegate is a build-in AdapterDelegate that would be used when something went wrong.
  * So that Flap won't crash your App.
+ *
+ * FallbackAdapterDelegate 是一个默认代理所有数据模型的 AdapterDelegate，可以用来处理未知模型兜底逻辑。
+ *
+ * @see Flap.globalDefaultAdapterDelegate
+ * @see FlapAdapter.defaultAdapterDelegate
+ * @see FallbackComponent
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

@@ -19,6 +19,11 @@ class GenericFlapComponent(itemView: View) : BaseFlapComponent<GenericModel>(ite
 }
 
 class GenericFlapComponentDelegate : AdapterDelegate<GenericModel, GenericFlapComponent> {
+
+    override fun delegate(model: Any): Boolean {
+        return GenericModel::class.java == model.javaClass
+    }
+
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): GenericFlapComponent {
         return GenericFlapComponent(inflater.inflate(R.layout.flap_item_generic_type,parent,false))
     }

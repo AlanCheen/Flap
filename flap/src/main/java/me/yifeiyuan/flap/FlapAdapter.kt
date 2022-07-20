@@ -3,11 +3,13 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.Event
 import me.yifeiyuan.flap.ext.EventObserver
@@ -15,6 +17,7 @@ import me.yifeiyuan.flap.ext.ParamProvider
 import me.yifeiyuan.flap.ext.setOnItemClickListener
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PrefetchHook
+import kotlin.reflect.KClass
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -35,28 +38,56 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private var data: MutableList<Any> = mutableListOf()
 
+    /**
+     * Components 监听的生命周期对象，一般是 Activity 默认取的是 RecyclerView.Context
+     */
     private var lifecycleOwner: LifecycleOwner? = null
+
+    /**
+     * Components 是否监听生命周期事件
+     */
     private var lifecycleEnable = true
+
+    /**
+     * 是否使用全局的 ComponentPool 做缓存
+     */
     private var useComponentPool = true
 
+    /**
+     * 默认 AdapterDelegate，兜底处理
+     */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
+
+    private var delegationMap = mutableMapOf<KClass<*>, AdapterDelegate<*, *>>()
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
+    /**
+     * RecyclerView 滑动到底部触发预加载
+     */
     var prefetchDetector: PrefetchHook? = null
 
     //todo Map --> SparseArray ?
     private val viewTypeDelegateMapper: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeMapper: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
+    /**
+     *
+     *
+     * @see FlapAdapter.fireEvent
+     */
     var eventObserver: EventObserver? = null
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
         addAll(Flap.globalHooks)
     }
 
+    private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()
+
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
+     *
+     * 当开启后 Component.context 将变成 Application Context
      */
     var inflateWithApplicationContext = false
 
@@ -98,6 +129,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.add(adapterDelegate)
+
+//        //todo 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime
+//        val delegation = adapterDelegate.javaClass.getAnnotation(Delegate::class.java)
+//        delegation?.delegateModel?.let {
+//            delegationMap.put(it, adapterDelegate)
+//        }
     }
 
     override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
@@ -262,8 +299,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * @param component The component we are going to bind.
      */
     private fun attachLifecycleOwnerIfNeed(component: Component<*>) {
-        if (lifecycleEnable && lifecycleOwner != null) {
-            lifecycleOwner!!.lifecycle.addObserver(component)
+        if (lifecycleEnable) {
+            lifecycleOwner?.lifecycle?.addObserver(component)
         }
     }
 
@@ -277,9 +314,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         bindingContext = recyclerView.context
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 LifecycleOwner")
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
         if (useComponentPool) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 设置了 LifecycleOwner")
             recyclerView.setRecycledViewPool(Flap.globalComponentPool)
         }
         onItemClickListener?.let {
@@ -333,8 +372,17 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return this
     }
 
+    // TODO: 2022/7/17 test
     fun fireEvent(event: Event<*>) {
-        eventObserver?.onEvent(event)
+        val eventName = event.eventName
+        val eventArg = event.arg
+        val observer = eventObservers[event.eventName]
+
+        observer?.onEvent(event)
+    }
+
+    fun observeEvent(eventName: String, observer: EventObserver) {
+        eventObservers[eventName] = observer
     }
 
     fun doOnPrefetch(offset: Int, minItemCount: Int, onPrefetch: () -> Unit) {
@@ -355,6 +403,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     }
 
     /**
+     * 提供 Component 从 Adapter 获取参数的方法
      *
      * @return key 对应的参数，如果类型不匹配，则会为 null
      */
@@ -365,6 +414,15 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     fun attachTo(recyclerView: RecyclerView) {
         recyclerView.adapter = this
+    }
+
+    /**
+     *
+     * @see FlapAdapter.inflateWithApplicationContext
+     * @return activity context
+     */
+    fun getActivityContext(): Context {
+        return bindingContext
     }
 
     interface OnItemClickListener {

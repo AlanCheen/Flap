@@ -1,18 +1,33 @@
 # README
 
-
 Flap 3.x 使用 kotlin 几乎完全重写。。。
 
 
-APT 已经处理了 Java 版本
+## TODO List
+
+还有很多功能想加
+
+### Event Observer
+
+Component 可以通过 FlapAdapter.fireEvent 对外发送 Event 作为交互手段。
+
+### ASM 自动注册
+
+Java to Kotlin 应该需要改成 KSP？来着，还没处理
+
+目前 APT 已经处理了 Java 版本，但是 Kotlin 版本还没处理，还没学呢。
 
 TODO : ASM 处理，现在不正常，不能使用
 
+### 函数式编程
 
-ViewHolder 加了一个 bindingAdapter 获取 adapter 的方法，似乎不再需要传递 adapter 了呢？
+既然用了 KT，不如更 KT 一点？
 
+### Paging 支持?
 
-## Icon
+### ViewPager2 支持？
+
+## Icon 制作
 
 在 https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html 做了个 icon 替换了默认 icon。
 

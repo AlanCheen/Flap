@@ -3,6 +3,7 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
-    private var delegationMap = mutableMapOf<KClass<*>,AdapterDelegate<*, *>>()
+    private var delegationMap = mutableMapOf<KClass<*>, AdapterDelegate<*, *>>()
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
@@ -81,7 +82,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         addAll(Flap.globalHooks)
     }
 
-    private val eventObservers : MutableMap<String,EventObserver> = mutableMapOf()
+    private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()
 
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
@@ -298,8 +299,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * @param component The component we are going to bind.
      */
     private fun attachLifecycleOwnerIfNeed(component: Component<*>) {
-        if (lifecycleEnable && lifecycleOwner != null) {
-            lifecycleOwner!!.lifecycle.addObserver(component)
+        if (lifecycleEnable) {
+            lifecycleOwner?.lifecycle?.addObserver(component)
         }
     }
 
@@ -313,9 +314,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         bindingContext = recyclerView.context
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 LifecycleOwner")
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
         if (useComponentPool) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 设置了 LifecycleOwner")
             recyclerView.setRecycledViewPool(Flap.globalComponentPool)
         }
         onItemClickListener?.let {

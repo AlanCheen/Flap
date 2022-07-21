@@ -30,7 +30,7 @@ import java.lang.reflect.ParameterizedType
 interface AdapterDelegate<M, VH : Component<M>> {
 
     /**
-     * 该方法确定一个 AdapterDelegate 是否代理一个 Model，如果代理则 return true
+     * 该方法确定一个 AdapterDelegate 是否接受代理一个 Model，如果代理则 return true
      *
      * 如果你想为 YourModel 做代理，则可以这么写 ：
      * Kotlin:
@@ -52,7 +52,7 @@ interface AdapterDelegate<M, VH : Component<M>> {
     }
 
     /**
-     * 根据代理的 Model 创建对应的 Component
+     * 根据代理的 Model 创建与之对应的 Component
      *
      * @param inflater LayoutInflater
      * @param parent   RecyclerView

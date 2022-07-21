@@ -8,11 +8,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import me.yifeiyuan.flapdev.showcase.BaseCaseFragment
-import me.yifeiyuan.flapdev.showcase.FlapRecyclerViewCase
-import me.yifeiyuan.flapdev.showcase.MultiTypeCase
-import me.yifeiyuan.flapdev.showcase.PrefetchCase
+import me.yifeiyuan.flapdev.showcase.*
 import me.yifeiyuan.flapdev.showcase.selection.SlideshowFragment
+import me.yifeiyuan.flapdev.showcase.viewpager2.ViewPager2Case
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,6 +54,11 @@ class MainActivity : AppCompatActivity() {
                     title = "FlapRecyclerView"
                     subtitle = "自定义 RecyclerView"
                     replace(FlapRecyclerViewCase::class.java)
+                }
+                R.id.nav_viewpager2->{
+                    title = "ViewPager2"
+                    subtitle = "ViewPager2+FlapAdapter"
+                    replace(ViewPager2Case::class.java)
                 }
                 R.id.nav_slideshow -> {
                     replace(SlideshowFragment::class.java)

@@ -20,7 +20,7 @@ object FlapDebug {
 
     var isDebug = false
 
-    fun e(tag: String, msg: String?, tr: Throwable?) {
+    fun e(tag: String, msg: String?, tr: Throwable?=null) {
         if (isDebug) {
             Log.e("$TAG-$tag", msg, tr)
         }
@@ -28,7 +28,7 @@ object FlapDebug {
 
     fun d(tag: String, msg: String?) {
         if (isDebug) {
-            Log.e("$TAG-$tag", msg)
+            Log.d("$TAG-$tag", msg)
         }
     }
 

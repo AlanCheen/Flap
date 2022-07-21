@@ -76,7 +76,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     var eventObserver: EventObserver? = null
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
-        addAll(Flap.globalHooks)
     }
 
     private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()

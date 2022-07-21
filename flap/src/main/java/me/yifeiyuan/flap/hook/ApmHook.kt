@@ -28,17 +28,13 @@ import me.yifeiyuan.flap.FlapDebug
 open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 5) : AdapterHook {
 
     companion object {
-        private const val TAG = "ApmHook"
+        private const val TAG = "APM"
     }
 
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
     override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
-        FlapDebug.d(
-                TAG,
-                "${delegate?.javaClass?.simpleName} 开始创建组件，viewType = $viewType"
-        )
         createStartTime = SystemClock.uptimeMillis()
     }
 
@@ -52,7 +48,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         val cost = endTime - createStartTime
         FlapDebug.d(
                 TAG,
-                "${delegate?.javaClass?.simpleName} 创建组件完成，耗时 $cost (毫秒)，该组件为：$component"
+                "${delegate?.javaClass?.simpleName} 【创建】组件完成，耗时 $cost (毫秒)，组件为：$component"
         )
         if (cost > createTimeCostThreshold) {
             onCreateAlarm(adapter, delegate, viewType, component, cost)
@@ -79,10 +75,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
             payloads: MutableList<Any>
     ) {
         bindStartTime = SystemClock.uptimeMillis()
-        FlapDebug.d(
-                TAG,
-                "${delegate?.javaClass?.simpleName} 开始绑定组件 $component，data = $data, position = $position, payloads = $payloads"
-        )
     }
 
     override fun onBindViewHolderEnd(
@@ -98,7 +90,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         val cost = endTime - bindStartTime
         FlapDebug.d(
                 TAG,
-                "${delegate?.javaClass?.simpleName} 完成组件绑定, 耗时 $cost (毫秒), position = $position, component=$component"
+                "${delegate.javaClass.simpleName} 【绑定】组件完成，耗时 $cost (毫秒)，组件为：$component"
         )
         if (cost > bindStartTime) {
             onBindAlarm(adapter, delegate, component, data, position, payloads, cost)

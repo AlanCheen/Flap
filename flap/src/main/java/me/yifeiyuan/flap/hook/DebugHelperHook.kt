@@ -1,10 +1,9 @@
 package me.yifeiyuan.flap.hook
 
-import android.util.Log
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 
 private const val TAG = "DebugHelperHook"
 
@@ -16,7 +15,12 @@ private const val TAG = "DebugHelperHook"
  *
  * 1. 在关键流程输出日志
  *
+ * @param enableLog 是否打印日志
+ * @param highlightWhenBind 是否高亮？TODO
+ *
  * Created by 程序亦非猿 on 2021/12/27.
+ * @since 2021/12/27
+ * @since 3.0
  */
 class DebugHelperHook(private val enableLog: Boolean = true, private val highlightWhenBind: Boolean = false) : AdapterHook {
 

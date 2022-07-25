@@ -8,7 +8,9 @@ import me.yifeiyuan.flap.FlapDebug
 
 /**
  *
- * ApmHook 是一个简易的组件性能监控工具：
+ * ApmHook 是一个简易的组件性能监控工具，可以监控组件的创建和数据绑定的耗时。
+ *
+ * 有如下功能：
  * 1. 监控创建组件耗时，当超过阈值 {createTimeCostThreshold} 时会回调 onCreateAlarm；
  * 2. 监控绑定组件耗时，当超过阈值 {bindTimeCostThreshold} 时会回调 onBindAlarm；
  *

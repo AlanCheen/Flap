@@ -53,7 +53,6 @@ class PrefetchCase : BaseCaseFragment() {
         prefetchDetector = PrefetchHook(minItemCount = 10,offset = 4) {
             requestMoreData()
         }.attachTo(adapter)
-
     }
 
     private fun requestMoreData() {

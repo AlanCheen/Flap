@@ -9,15 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.Event
 import me.yifeiyuan.flap.ext.EventObserver
-import me.yifeiyuan.flap.ext.ParamProvider
+import me.yifeiyuan.flap.ext.ExtraParamsProvider
 import me.yifeiyuan.flap.ext.setOnItemClickListener
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PrefetchHook
-import kotlin.reflect.KClass
+import java.time.LocalDate
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -87,7 +86,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     var inflateWithApplicationContext = false
 
-    var paramProvider: ParamProvider? = null
+    var paramProvider: ExtraParamsProvider? = null
 
     //    TODO 真的需要吗？
     var onItemClickFunc: ((childView: View, position: Int) -> Unit)? = null
@@ -258,7 +257,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         if (itemViewType == 0) {
             itemViewType = generateItemViewType()
         }
-        FlapDebug.d(TAG, "getItemViewType() called with: position = $position , $itemViewType")
+        FlapDebug.d(TAG, "getItemViewType() called with: position = $position , itemViewType = $itemViewType")
         viewTypeDelegateMapper[itemViewType] = delegate
         delegateViewTypeMapper[delegate] = itemViewType
         return itemViewType
@@ -304,11 +303,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         bindingContext = recyclerView.context
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
-            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 LifecycleOwner")
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
         if (useComponentPool) {
-            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 设置了 LifecycleOwner")
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 设置了 RecycledViewPool")
             recyclerView.setRecycledViewPool(Flap.globalComponentPool)
         }
         onItemClickListener?.let {
@@ -321,10 +320,15 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
+        FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
     }
 
+    /**
+     * 会优先于 FlapComponentPool.putRecycledView 被调用
+     */
     override fun onViewRecycled(component: Component<*>) {
         component.onViewRecycled(this)
+        FlapDebug.d(TAG, "onViewRecycled() called with: component = $component")
     }
 
     override fun onFailedToRecycleView(component: Component<*>): Boolean {

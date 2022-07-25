@@ -17,11 +17,11 @@ import java.util.*
  */
 
 fun FlapAdapter.mockData() {
-    setData(mockModels())
+    setData(mockMultiTypeModels())
 }
 
 fun FlapAdapter.appendMockData() {
-    appendData(mockModels())
+    appendData(mockMultiTypeModels())
 }
 
 fun FlapAdapter.appendPrefetchData(size:Int = 10) {
@@ -32,7 +32,10 @@ fun FlapAdapter.appendPrefetchData(size:Int = 10) {
     appendData(list)
 }
 
-fun mockModels(): MutableList<Any> {
+/**
+ * 测试多类型数据
+ */
+fun mockMultiTypeModels(): MutableList<Any> {
     val models: MutableList<Any> = ArrayList()
     models.add(SimpleTextModel("Flap（灵动）"))
     models.add(SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"))

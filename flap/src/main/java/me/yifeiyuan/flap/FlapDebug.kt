@@ -16,7 +16,7 @@ import androidx.annotation.RestrictTo
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 object FlapDebug {
 
-    private const val TAG = "FlapDebug"
+    private const val TAG = "Flap"
 
     var isDebug = false
 

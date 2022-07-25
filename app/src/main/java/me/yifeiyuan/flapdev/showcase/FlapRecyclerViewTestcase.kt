@@ -20,7 +20,7 @@ import me.yifeiyuan.flapdev.R
  *
  * 测试 FlapRecyclerView 的功能
  */
-class FlapRecyclerViewCase : BaseCaseFragment() {
+class FlapRecyclerViewTestcase : BaseCaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_case_flap_rv

@@ -11,6 +11,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
 import java.util.*
 
@@ -18,15 +19,14 @@ import java.util.*
  *
  * 测试 ViewPager2 适用性
  * FlapAdapter 测试通过
- * FragmentStateAdapter 未测试
+ * FragmentStateAdapter 不需要测试
  */
-class ViewPager2Case : Fragment() {
+class TestCaseViewPager2 : Fragment() , Scrollable {
 
     lateinit var viewPager: ViewPager2
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_pager2, container, false)
     }
 
@@ -49,13 +49,18 @@ class ViewPager2Case : Fragment() {
              * at androidx.viewpager2.widget.ViewPager2$4.onChildViewAttachedToWindow(ViewPager2.java:270)
              */
             registerAdapterHook(object : AdapterHook {
-
                 override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int, component: Component<*>) {
                     component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 }
             })
         }
-
     }
 
+    override fun scrollToTop() {
+        viewPager.setCurrentItem(0,true)
+    }
+
+    override fun scrollToBottom() {
+        viewPager.setCurrentItem(viewPager.adapter!!.itemCount-1,true)
+    }
 }

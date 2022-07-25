@@ -31,8 +31,8 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver {
 
     /**
-     * 默认情况下 Activity Context ；
-     * 如果开启了 FlapAdapter.inflateWithApplicationContext==true ，则会变成 Application Context，
+     * 默认情况下 context 是 Activity Context ；
+     * 如果设置了 FlapAdapter.inflateWithApplicationContext==true ，则会变成 Application Context，
      * 此时如果要获取 Activity Context 则需要通过 FlapAdapter#getActivityContext() 获取
      *
      * @see FlapAdapter.inflateWithApplicationContext

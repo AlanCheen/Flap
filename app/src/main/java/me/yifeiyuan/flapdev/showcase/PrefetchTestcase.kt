@@ -13,7 +13,7 @@ import me.yifeiyuan.flapdev.R
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-class PrefetchCase : BaseCaseFragment() {
+class PrefetchTestcase : BaseCaseFragment() {
 
     companion object {
         private const val TAG = "PrefetchFragment"

@@ -3,7 +3,6 @@ package me.yifeiyuan.flap.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import androidx.annotation.IntDef
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -100,7 +99,10 @@ open class FlapRecyclerView
         //获取 orientation ，类似的 spanCount 等也可以这么获取
         val rvTypedArray = context.obtainStyledAttributes(attrs, androidx.recyclerview.R.styleable.RecyclerView)
 
-        val rvOrientation = rvTypedArray.getInteger(androidx.recyclerview.R.styleable.RecyclerView_android_orientation, HORIZONTAL)
+        val rvOrientation = rvTypedArray.getInt(androidx.recyclerview.R.styleable.RecyclerView_android_orientation, HORIZONTAL)
+//        val rvSpanCount = rvTypedArray.getInt(androidx.recyclerview.R.styleable.RecyclerView_spanCount, 2)
+//        val reverseLayout = rvTypedArray.getBoolean(androidx.recyclerview.R.styleable.RecyclerView_reverseLayout, false)
+//        val stackFromEnd = rvTypedArray.getBoolean(androidx.recyclerview.R.styleable.RecyclerView_stackFromEnd, false)
 
         orientation = rvOrientation
         rvTypedArray.recycle()

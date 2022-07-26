@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -14,11 +15,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [packageName: 'me.yifeiyuan.ktx.foundation.othermodule']
-            }
-        }
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [packageName: 'me.yifeiyuan.ktx.foundation.othermodule']
+//            }
+//        }
     }
 
     buildTypes {
@@ -33,11 +34,11 @@ android {
         viewBinding true
     }
 
-//    apt {
-//        arguments {
-//            packageName 'me.yifeiyuan.ktx.foundation.othermodule'
-//        }
-//    }
+    kapt {
+        arguments {
+            arg("packageName", "me.yifeiyuan.ktx.foundation.othermodule")
+        }
+    }
 }
 
 
@@ -52,7 +53,7 @@ dependencies {
 
     implementation project(':flap')
     implementation project(':flap-annotations')
-    annotationProcessor project(':flap-compiler')
+    kapt project(':flap-compiler')
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

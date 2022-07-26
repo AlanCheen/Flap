@@ -2,11 +2,6 @@ package me.yifeiyuan.flapdev.components.simpletext;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import me.yifeiyuan.flap.ext.DiffModel;
-
 /**
  * Created by 程序亦非猿
  */

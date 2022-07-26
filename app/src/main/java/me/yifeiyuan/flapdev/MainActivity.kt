@@ -10,7 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import me.yifeiyuan.flapdev.showcase.*
 import me.yifeiyuan.flapdev.showcase.selection.SlideshowFragment
-import me.yifeiyuan.flapdev.showcase.viewpager2.TestCaseViewPager2
+import me.yifeiyuan.flapdev.showcase.viewpager2.ViewPager2Testcase
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_viewpager2->{
                     title = "ViewPager2"
                     subtitle = "ViewPager2+FlapAdapter"
-                    replace(TestCaseViewPager2::class.java)
+                    replace(ViewPager2Testcase::class.java)
                 }
                 R.id.nav_slideshow -> {
                     replace(SlideshowFragment::class.java)

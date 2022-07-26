@@ -26,7 +26,7 @@ class FlapRecyclerViewTestcase : BaseCaseFragment() {
         return R.layout.fragment_case_flap_rv
     }
 
-   private lateinit var flapRecyclerView: FlapRecyclerView
+    private lateinit var flapRecyclerView: FlapRecyclerView
 
     override fun onInit(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
@@ -71,13 +71,25 @@ class FlapRecyclerViewTestcase : BaseCaseFragment() {
                 flapRecyclerView.orientation = RecyclerView.VERTICAL
             }
             R.id.linear -> {
-                flapRecyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false)
+                flapRecyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
             }
-            R.id.grid->{
-                flapRecyclerView.layoutManager = FlapGridLayoutManager(requireActivity(),2,RecyclerView.VERTICAL,false)
+            R.id.grid -> {
+                val spanCount = 2
+                flapRecyclerView.layoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
+
+                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            var spanSize = 1
+                            spanSize = if (position % 2 == 0) 2 else 1
+                            return spanSize
+                        }
+                    }
+                }
             }
-            R.id.staggered->{
-                flapRecyclerView.layoutManager = FlapStaggeredGridLayoutManager(2 )
+            R.id.staggered -> {
+                flapRecyclerView.layoutManager = FlapStaggeredGridLayoutManager(3).apply {
+
+                }
             }
         }
         return super.onOptionsItemSelected(item)

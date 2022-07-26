@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'me.yifeiyuan'
+
 android {
     compileSdkVersion 29
 
@@ -36,19 +40,19 @@ dependencies {
     implementation project(':flap-annotations')
 }
 
-apply plugin: "guru.stefma.bintrayrelease"
-
-version = "3.0.0"
-group = "me.yifeiyuan.flap"
-androidArtifact {
-    artifactId = "flap"
-}
-publish {
-    userOrg = 'alancheen'
-    dryRun = false
-    desc = 'Flap'
-    website = 'https://github.com/AlanCheen/Flap'
-}
-repositories {
-    mavenCentral()
-}
+//apply plugin: "guru.stefma.bintrayrelease"
+//
+//version = "3.0.0"
+//group = "me.yifeiyuan.flap"
+//androidArtifact {
+//    artifactId = "flap"
+//}
+//publish {
+//    userOrg = 'alancheen'
+//    dryRun = false
+//    desc = 'Flap'
+//    website = 'https://github.com/AlanCheen/Flap'
+//}
+//repositories {
+//    mavenCentral()
+//}

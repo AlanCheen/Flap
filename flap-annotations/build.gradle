@@ -1,5 +1,9 @@
 apply plugin: 'java-library'
 
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'me.yifeiyuan'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
@@ -8,13 +12,13 @@ sourceCompatibility = "7"
 targetCompatibility = "7"
 
 
-apply plugin: 'com.novoda.bintray-release'
-
-publish {
-    userOrg = 'alancheen'
-    groupId = 'me.yifeiyuan.flap'
-    artifactId = 'flap-annotations'
-    publishVersion = '2.2.0'
-    desc = 'flap annotations'
-    website = 'https://github.com/AlanCheen/Flap'
-}
+//apply plugin: 'com.novoda.bintray-release'
+//
+//publish {
+//    userOrg = 'alancheen'
+//    groupId = 'me.yifeiyuan.flap'
+//    artifactId = 'flap-annotations'
+//    publishVersion = '2.2.0'
+//    desc = 'flap annotations'
+//    website = 'https://github.com/AlanCheen/Flap'
+//}

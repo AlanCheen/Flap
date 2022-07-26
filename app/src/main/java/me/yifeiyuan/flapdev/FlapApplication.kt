@@ -5,7 +5,7 @@ import android.os.Looper
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.hook.ApmHook
-import me.yifeiyuan.flap.hook.LoggingHook
+import me.yifeiyuan.flap.hook.DebugHelperHook
 import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
 import me.yifeiyuan.flapdev.components.bindersample.BinderComponentDelegate
 import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponentDelegate
@@ -27,10 +27,6 @@ class FlapApplication : MultiDexApplication() {
     }
 
     private fun initFlap() {
-
-//        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-//        Flap.getDefault().getFlapItemPool().setMaxRecycledViews(new SimpleImageItem.Factory().getItemViewType(null), 8);
-
         Flap.apply {
             registerAdapterDelegates(
                     SimpleTextComponentDelegate(),
@@ -43,7 +39,7 @@ class FlapApplication : MultiDexApplication() {
                     BinderComponentDelegate()
             )
 
-            registerAdapterHooks(LoggingHook(), ApmHook())
+            registerAdapterHooks(DebugHelperHook(), ApmHook())
 
             setDebug(true)
         }

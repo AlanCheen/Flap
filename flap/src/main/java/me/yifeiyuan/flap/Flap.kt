@@ -5,8 +5,7 @@ import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
-import me.yifeiyuan.flap.hook.ApmHook
-import me.yifeiyuan.flap.ext.ComponentPool
+import me.yifeiyuan.flap.ext.FlapComponentPool
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
@@ -18,7 +17,7 @@ import me.yifeiyuan.flap.ext.ComponentPool
  * @since 2020/9/22
  * @since 3.0
  */
-object Flap : ComponentCallbacks2 ,IRegistry{
+object Flap : ComponentCallbacks2, IRegistry {
 
     /**
      * 是否使用 application context 来创建 Component
@@ -27,25 +26,24 @@ object Flap : ComponentCallbacks2 ,IRegistry{
      */
     var inflateWithApplicationContext = false
 
-    internal val globalComponentPool = ComponentPool()
+    internal val globalComponentPool = FlapComponentPool()
 
     internal val globalAdapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
     internal val globalHooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
-        add(ApmHook())
     }
 
-   override fun registerAdapterHook(adapterHook: AdapterHook) {
+    override fun registerAdapterHook(adapterHook: AdapterHook) {
         globalHooks.add(adapterHook)
     }
 
-   override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
+    override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
         globalHooks.addAll(adapterHooks)
     }
 
-    override  fun unRegisterAdapterHook(adapterHook: AdapterHook) {
+    override fun unRegisterAdapterHook(adapterHook: AdapterHook) {
         globalHooks.remove(adapterHook)
     }
 
@@ -53,7 +51,7 @@ object Flap : ComponentCallbacks2 ,IRegistry{
         globalHooks.clear()
     }
 
-    override  fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         globalAdapterDelegates.add(adapterDelegate)
     }
 
@@ -61,7 +59,7 @@ object Flap : ComponentCallbacks2 ,IRegistry{
         globalAdapterDelegates.addAll(delegates)
     }
 
-    override  fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         globalAdapterDelegates.remove(adapterDelegate)
     }
 
@@ -91,7 +89,7 @@ object Flap : ComponentCallbacks2 ,IRegistry{
     }
 
     fun setDebug(debug: Boolean) {
-        FlapDebug.setDebug(debug)
+        FlapDebug.isDebug = debug
     }
 
 }

@@ -13,6 +13,10 @@ import me.yifeiyuan.flap.FlapDebug
  *
  * FallbackAdapterDelegate 是一个默认代理所有数据模型的 AdapterDelegate，可以用来处理未知模型兜底逻辑。
  *
+ * 如果一个 model 没有任何 AdapterDelegate 代理，那么 FallbackAdapterDelegate 会负责接手处理。
+ *
+ * 开发者也可以自己定义自己的 FallbackAdapterDelegate。
+ *
  * @see Flap.globalDefaultAdapterDelegate
  * @see FlapAdapter.defaultAdapterDelegate
  * @see FallbackComponent
@@ -24,7 +28,7 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 2020/9/22
  * @since 3.0
  */
-class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
+internal class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): FallbackComponent {
         return FallbackComponent(TextView(parent.context))
@@ -36,11 +40,11 @@ class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
 
 }
 
-class FallbackComponent(v: View) : Component<Any>(v) {
+internal class FallbackComponent(v: View) : Component<Any>(v) {
     override fun onBind(model: Any) {
-        if (FlapDebug.isDebug()) {
+        if (FlapDebug.isDebug) {
             (itemView as TextView).run {
-                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = ${position}，该信息只有开启 Debug 模式才会展示。"
+                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = $position，该信息只有开启 Debug 模式才会展示。"
             }
         }
     }

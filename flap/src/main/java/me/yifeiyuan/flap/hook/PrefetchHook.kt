@@ -1,11 +1,10 @@
 package me.yifeiyuan.flap.hook
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -21,13 +20,15 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  1. 每个 PrefetchHook 只能绑定一个 Adapter，不可复用。
  *  2. 当预取后出现异常情况，例如加载更多请求失败，需要手动调用 setPrefetchComplete() ，否则不会进行下一次预取检测。
  *
- *  Created by 程序亦非猿 on 2021/9/28.
- *
  *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
  *  @param offset 偏移量，默认值 0 表示底部最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
  *  @param onPrefetch 触发预取后执行
+ *
+ *  Created by 程序亦非猿 on 2021/9/28.
+ *  @since 2021/9/28
+ *  @since 3.0
  */
-class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 1, private val onPrefetch: () -> Unit) : AdapterHook {
+class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PrefetchHook"

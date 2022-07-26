@@ -1,6 +1,10 @@
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'me.yifeiyuan'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
@@ -17,32 +21,32 @@ repositories {
     mavenCentral()
 }
 
-publishing {
-
-    publications {
-
-        mavenJava(MavenPublication) {
-            artifactId = 'plugin'
-            groupId = 'me.yifeiyuan.flap'
-            from components.java
-            version = '1.0.2'
-        }
-    }
-
-    repositories {
-        maven {
-            url = "$rootProject.projectDir/repos"
-        }
-    }
-}
-
-apply plugin: 'com.novoda.bintray-release'
-
-publish {
-    userOrg = 'alancheen'
-    groupId = 'me.yifeiyuan.flap'
-    artifactId = 'plugin'
-    publishVersion = '1.1.0-test'
-    desc = 'flap plugin'
-    website = 'https://github.com/AlanCheen/Flap'
-}
+//publishing {
+//
+//    publications {
+//
+//        mavenJava(MavenPublication) {
+//            artifactId = 'plugin'
+//            groupId = 'me.yifeiyuan.flap'
+//            from components.java
+//            version = '1.0.2'
+//        }
+//    }
+//
+//    repositories {
+//        maven {
+//            url = "$rootProject.projectDir/repos"
+//        }
+//    }
+//}
+//
+//apply plugin: 'com.novoda.bintray-release'
+//
+//publish {
+//    userOrg = 'alancheen'
+//    groupId = 'me.yifeiyuan.flap'
+//    artifactId = 'plugin'
+//    publishVersion = '1.1.0-test'
+//    desc = 'flap plugin'
+//    website = 'https://github.com/AlanCheen/Flap'
+//}

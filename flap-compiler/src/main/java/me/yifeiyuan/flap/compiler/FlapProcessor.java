@@ -39,7 +39,7 @@ public class FlapProcessor extends AbstractProcessor {
 
     private static final String PKG_NAME_DELEGATES = "me.yifeiyuan.flap.apt.delegates";
 
-    private static final String NAME_SUFFIX = "2Delegate";
+    private static final String NAME_SUFFIX = "AdapterDelegate";
 
     private final ClassName CLASS_KEEP = ClassName.bestGuess("androidx.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");

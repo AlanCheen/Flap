@@ -7,6 +7,8 @@ Flap 3.x 使用 kotlin 几乎完全重写。。。
 
 还有很多功能想加
 
+- paging-support
+
 ### Event Observer
 
 Component 可以通过 FlapAdapter.fireEvent 对外发送 Event 作为交互手段。

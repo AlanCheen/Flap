@@ -11,12 +11,17 @@ import me.yifeiyuan.flap.FlapDebug
  *
  */
 open class FlapStaggeredGridLayoutManager
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0)
-    : StaggeredGridLayoutManager(context, attrs, defStyleAttr, defStyleRes) {
+    : StaggeredGridLayoutManager {
 
     companion object {
         private const val TAG = "FlapStaggeredGridLayoutManager"
     }
+
+    constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : super(context, attrs, defStyleAttr, defStyleRes)
+
+    constructor(spanCount: Int, orientation: Int = RecyclerView.VERTICAL) : super(spanCount, orientation)
+
+    var supportsPredictiveItemAnimations = false
 
     /**
      * Disable predictive animations. There is a bug in RecyclerView which causes views that
@@ -26,7 +31,7 @@ open class FlapStaggeredGridLayoutManager
      * https://stackoverflow.com/questions/30220771/recyclerview-inconsistency-detected-invalid-item-position
      */
     override fun supportsPredictiveItemAnimations(): Boolean {
-        return false
+        return supportsPredictiveItemAnimations
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {

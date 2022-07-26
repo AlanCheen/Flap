@@ -8,11 +8,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import me.yifeiyuan.flapdev.showcase.BaseCaseFragment
-import me.yifeiyuan.flapdev.showcase.FlapRecyclerViewCase
-import me.yifeiyuan.flapdev.showcase.MultiTypeCase
-import me.yifeiyuan.flapdev.showcase.PrefetchCase
+import me.yifeiyuan.flapdev.showcase.*
 import me.yifeiyuan.flapdev.showcase.selection.SlideshowFragment
+import me.yifeiyuan.flapdev.showcase.viewpager2.ViewPager2Testcase
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,17 +43,27 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_multi_type -> {
                     title = "多类型"
                     subtitle = "多 itemViewType"
-                    replace(MultiTypeCase::class.java)
+                    replace(MultiTypeTestcase::class.java)
                 }
                 R.id.nav_prefetch -> {
                     title = "预加载"
                     subtitle = "在滑动到底部之前预先加载"
-                    replace(PrefetchCase::class.java)
+                    replace(PrefetchTestcase::class.java)
+                }
+                R.id.nav_component_pool->{
+                    title = "测试 FlapComponentPool"
+                    subtitle = "缓存功能测试"
+                    replace(FlapComponentPoolTestcase::class.java)
                 }
                 R.id.nav_flap_rv -> {
                     title = "FlapRecyclerView"
                     subtitle = "自定义 RecyclerView"
-                    replace(FlapRecyclerViewCase::class.java)
+                    replace(FlapRecyclerViewTestcase::class.java)
+                }
+                R.id.nav_viewpager2->{
+                    title = "ViewPager2"
+                    subtitle = "ViewPager2+FlapAdapter"
+                    replace(ViewPager2Testcase::class.java)
                 }
                 R.id.nav_slideshow -> {
                     replace(SlideshowFragment::class.java)
@@ -71,12 +79,12 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.title = "多类型"
         toolbar.subtitle = "多 itemViewType"
-        replace(MultiTypeCase::class.java)
+        replace(MultiTypeTestcase::class.java)
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val fragment = supportFragmentManager.fragments.get(0)
-            if (fragment is BaseCaseFragment) {
+            if (fragment is Scrollable) {
                 fragment.scrollToTop()
             }
         }

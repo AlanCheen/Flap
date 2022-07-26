@@ -1,8 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import me.yifeiyuan.flap.Flap
-import me.yifeiyuan.flap.apt.delegates.SimpleImageComponent2Delegate
-import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate
+import me.yifeiyuan.flap.apt.delegates.SimpleImageComponentAdapterDelegate
 
 /**
  * Created by 程序亦非猿 on 2021/9/23.
@@ -10,6 +9,6 @@ import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate
 class ASMKotlinTest {
 
     fun flap(flap: Flap) {
-        flap.registerAdapterDelegate(SimpleImageComponent2Delegate())
+        flap.registerAdapterDelegate(SimpleImageComponentAdapterDelegate())
     }
 }

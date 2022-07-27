@@ -11,7 +11,7 @@ import androidx.annotation.RestrictTo
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
- * @since 3.0
+ * @since 3.0.0
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 object FlapDebug {

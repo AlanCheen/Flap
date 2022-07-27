@@ -8,7 +8,7 @@ import me.yifeiyuan.flap.FlapDebug
 
 /**
  * Created by 程序亦非猿 on 2021/9/30.
- *
+ * @since 3.0.0
  */
 open class FlapGridLayoutManager
     : GridLayoutManager {

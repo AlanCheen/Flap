@@ -1,7 +1,11 @@
 package me.yifeiyuan.flap.ext
 
 /**
+ *
+ * @see Event
+ *
  * Created by 程序亦非猿 on 2021/11/1.
+ * @since 3.0.0
  */
 interface EventObserver {
     fun onEvent(event: Event<*>)

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @see emptyView
  *
  * Created by 程序亦非猿 on 2022/6/16.
+ * @since 3.0.0
  */
 internal class EmptyViewHelper(private val recyclerView: RecyclerView) : RecyclerView.AdapterDataObserver() {
 

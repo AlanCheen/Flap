@@ -6,6 +6,8 @@ import me.yifeiyuan.flap.hook.AdapterHook
 
 /**
  * Created by 程序亦非猿 on 2022/3/8.
+ *
+ * @since 3.0.0
  */
 internal interface IRegistry {
 

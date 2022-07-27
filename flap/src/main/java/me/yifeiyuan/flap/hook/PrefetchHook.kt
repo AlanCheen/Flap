@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  *  Created by 程序亦非猿 on 2021/9/28.
  *  @since 2021/9/28
- *  @since 3.0
+ *  @since 3.0.0
  */
 class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
 

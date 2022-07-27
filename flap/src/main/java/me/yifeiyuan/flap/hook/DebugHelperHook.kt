@@ -20,7 +20,7 @@ private const val TAG = "DebugHelperHook"
  *
  * Created by 程序亦非猿 on 2021/12/27.
  * @since 2021/12/27
- * @since 3.0
+ * @since 3.0.0
  */
 class DebugHelperHook(private val enableLog: Boolean = true, private val highlightWhenBind: Boolean = false) : AdapterHook {
 

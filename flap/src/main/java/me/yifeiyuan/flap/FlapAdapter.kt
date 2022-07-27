@@ -68,7 +68,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * todo
      * @see FlapAdapter.fireEvent
      */
-    var eventObserver: EventObserver? = null
+    var allEventsObserver: EventObserver? = null
+
     private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()
 
     private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>()
@@ -377,23 +378,43 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return this
     }
 
-    // TODO: 2022/7/17 test
-    fun <T>fireEvent(event: Event<T>) {
-        val eventName = event.eventName
-        val eventArg = event.arg
+    /**
+     * 通过 Adapter 发送事件
+     *
+     * @see observeEvent
+     * @see observerEvents
+     */
+    fun <T> fireEvent(event: Event<T>) {
         val observer = eventObservers[event.eventName]
-
         observer?.onEvent(event)
+
+        allEventsObserver?.onEvent(event)
     }
 
-    fun observeEvent(eventName: String, observer: EventObserver) {
-        eventObservers[eventName] = observer
+    /**
+     * 观察指定 eventName 的事件
+     * @see fireEvent
+     */
+    fun <T> observeEvent(eventName: String, block: (Event<T>) -> Unit) {
+        eventObservers[eventName] = EventObserverWrapper(block)
     }
 
-    fun <T>observeEvent(eventName: String,block:(Event<T>)->Unit){
-        eventObservers[eventName] = EventObserverWrapper<T>(block)
+    /**
+     * 观察所有的事件
+     */
+    fun observerEvents(block: (Event<*>) -> Unit) {
+        allEventsObserver = object : EventObserver {
+            override fun onEvent(event: Event<*>) {
+                block.invoke(event)
+            }
+        }
     }
 
+    /**
+     * 预加载
+     *
+     * @see PrefetchHook
+     */
     fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
         prefetchDetector?.let {
             unRegisterAdapterHook(it)
@@ -403,6 +424,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         }
     }
 
+    /**
+     * 设置是否启用预加载
+     * 需要先调用 doOnPrefetch 开启才有效。
+     */
     fun setPrefetchEnable(enable: Boolean) {
         prefetchDetector?.prefetchEnable = enable
     }

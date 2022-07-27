@@ -2,6 +2,7 @@ package me.yifeiyuan.flapdev.showcase
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.ext.Event
-import me.yifeiyuan.flap.ext.EventObserver
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
@@ -51,15 +50,26 @@ open class BaseCaseFragment : Fragment(), Scrollable {
         adapter = createAdapter()
         recyclerView.adapter = adapter
 
-        adapter.observeEvent("showToast",object :EventObserver{
-            override fun onEvent(event: Event<*>) {
-                toast(event.arg?.toString()?:"default toast message")
-                event.onSuccess?.invoke()
-            }
-        })
+        adapter.observeEvent<String>("showToast") {
+            toast(it.arg ?: "Default Message")
 
-        adapter.observeEvent<Int>("a"){
-            it
+            Log.d("observeEvent", "showToast event ")
+        }
+
+        adapter.observeEvent<Int>("intEvent") {
+            Log.d("observeEvent", "intEvent called")
+        }
+
+        adapter.observerEvents {
+            when (it.eventName) {
+                "showToast" -> {
+                    Log.d("observerEvents", "showToast ~~ ${it.arg}")
+                    it.setEventResult(isSuccess = true)
+                }
+                "intEvent" -> {
+                    Log.d("observerEvents", "intEvent ~~ ${it.arg}")
+                }
+            }
         }
     }
 

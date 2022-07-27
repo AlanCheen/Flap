@@ -29,7 +29,7 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
         tvContent.text = model.content
 
         tvContent.setOnClickListener {
-            val showToastEvent = Event("showToast","SimpleTextComponent fire event showToast").apply {
+            val showToastEvent = Event<String>("showToast","SimpleTextComponent fire event showToast").apply {
 
                 onSuccess = {
                     Log.d(TAG, "showToastEvent: onSuccess")
@@ -40,6 +40,9 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
             }
             adapter.fireEvent(showToastEvent)
         }
+
+        val intE = Event("t",3)
+        adapter.fireEvent(intE)
     }
 
     override fun onBind(model: SimpleTextModel) {

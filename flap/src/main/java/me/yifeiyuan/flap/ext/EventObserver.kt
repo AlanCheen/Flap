@@ -7,3 +7,10 @@ package me.yifeiyuan.flap.ext
 interface EventObserver {
     fun onEvent(event: Event<*>)
 }
+
+class EventObserverWrapper<T>(var block: (Event<T>) -> Unit) : EventObserver {
+    override fun onEvent(event: Event<*>) {
+        block(event as Event<T>)
+    }
+}
+

@@ -13,13 +13,6 @@ Flap 3.x 使用 kotlin 几乎完全重写。。。
 
 Component 可以通过 FlapAdapter.fireEvent 对外发送 Event 作为交互手段。
 
-### ASM 自动注册
-
-Java to Kotlin 应该需要改成 KSP？来着，还没处理
-
-目前 APT 已经处理了 Java 版本，但是 Kotlin 版本还没处理，还没学呢。
-
-TODO : ASM 处理，现在不正常，不能使用
 
 ### 函数式编程
 

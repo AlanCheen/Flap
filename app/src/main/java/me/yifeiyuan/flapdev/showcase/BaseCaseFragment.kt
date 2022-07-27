@@ -57,6 +57,10 @@ open class BaseCaseFragment : Fragment(), Scrollable {
                 event.onSuccess?.invoke()
             }
         })
+
+        adapter.observeEvent<Int>("a"){
+            it
+        }
     }
 
     open fun createAdapter() = FlapAdapter().apply {

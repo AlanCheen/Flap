@@ -70,6 +70,10 @@ adapter.setData(dataList);
 recyclerView.adapter = adapter
 ```
 
+这样就完全 OK 啦！ 咱们跑起来看看：
+
+<div align=center><img width="360" height="640" src="assets/flap-simple-showcase.png"/></div>
+
 <a name="fD7Zc"></a>
 ## 进阶使用
 更多功能查看这个[文档](https://www.yuque.com/cxyfy/blog/ghsc4b)。

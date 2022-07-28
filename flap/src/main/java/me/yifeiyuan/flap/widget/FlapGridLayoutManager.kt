@@ -18,7 +18,7 @@ open class FlapGridLayoutManager
     constructor(context: Context?, spanCount: Int, orientation: Int = RecyclerView.VERTICAL, reverseLayout: Boolean = false) : super(context, spanCount, orientation, reverseLayout)
 
     companion object {
-        private const val TAG = "FlapLinearLayoutManager"
+        private const val TAG = "FlapGridLayoutManager"
     }
 
     var supportsPredictiveItemAnimations = false

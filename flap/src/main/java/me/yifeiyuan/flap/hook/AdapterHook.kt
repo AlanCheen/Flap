@@ -25,6 +25,7 @@ interface AdapterHook {
 
     /**
      * 在创建组件前调用
+     *
      * @param adapter 正在创建组件的 adapter
      * @param delegate 创建组件的代理
      * @param viewType viewType
@@ -91,9 +92,24 @@ interface AdapterHook {
             payloads: MutableList<Any>
     ) {
     }
-}
 
-fun <T : AdapterHook> T.attachTo(adapter: FlapAdapter): T {
-    adapter.registerAdapterHook(this)
-    return this
+    /**
+     * @see FlapAdapter.onViewAttachedToWindow
+     */
+    fun onViewAttachedToWindow(
+            adapter: FlapAdapter,
+            delegate: AdapterDelegate<*, *>,
+            component: Component<*>,
+    ) {
+    }
+
+    /**
+     * @see FlapAdapter.onViewDetachedFromWindow
+     */
+    fun onViewDetachedFromWindow(
+            adapter: FlapAdapter,
+            delegate: AdapterDelegate<*, *>,
+            component: Component<*>,
+    ) {
+    }
 }

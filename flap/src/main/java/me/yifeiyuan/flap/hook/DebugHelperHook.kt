@@ -51,4 +51,16 @@ class DebugHelperHook(private val enableLog: Boolean = true, private val highlig
             FlapDebug.d(TAG, "${delegate.javaClass.simpleName} 绑定组件完成 : adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
         }
     }
+
+    override fun onViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+        if (enableLog) {
+            FlapDebug.d(TAG, "onViewAttachedToWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
+        }
+    }
+
+    override fun onViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+        if (enableLog) {
+            FlapDebug.d(TAG, "onViewDetachedFromWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
+        }
+    }
 }

@@ -266,7 +266,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return viewType
     }
 
-    private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
+    fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
         return viewTypeDelegateCache[viewType] ?: defaultAdapterDelegate
         ?: throw AdapterDelegateNotFoundException("找不到 viewType = $viewType 对应的 Delegate，请先注册，或设置默认的 Delegate")
     }
@@ -331,10 +331,16 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun onViewAttachedToWindow(component: Component<*>) {
         component.onViewAttachedToWindow(this)
+        hooks.forEach {
+            it.onViewAttachedToWindow(this, getDelegateByViewType(component.itemViewType), component)
+        }
     }
 
     override fun onViewDetachedFromWindow(component: Component<*>) {
         component.onViewDetachedFromWindow(this)
+        hooks.forEach {
+            it.onViewDetachedFromWindow(this, getDelegateByViewType(component.itemViewType), component)
+        }
     }
 
     /**
@@ -440,10 +446,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     @Suppress("UNCHECKED_CAST")
     open fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
-    }
-
-    fun attachTo(recyclerView: RecyclerView) {
-        recyclerView.adapter = this
     }
 
     /**

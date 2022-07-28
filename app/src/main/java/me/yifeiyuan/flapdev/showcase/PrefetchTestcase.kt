@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import me.yifeiyuan.flap.hook.PrefetchHook
-import me.yifeiyuan.flap.hook.attachTo
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -52,7 +51,8 @@ class PrefetchTestcase : BaseCaseFragment() {
     private fun usePrefetchDetector() {
         prefetchDetector = PrefetchHook(minItemCount = 10,offset = 4) {
             requestMoreData()
-        }.attachTo(adapter)
+        }
+        adapter.registerAdapterHook(prefetchDetector)
     }
 
     private fun requestMoreData() {

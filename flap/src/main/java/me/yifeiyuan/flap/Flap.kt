@@ -32,8 +32,7 @@ object Flap : ComponentCallbacks2, IRegistry {
 
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
-    internal val globalHooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>().apply {
-    }
+    internal val globalHooks: MutableList<AdapterHook> = mutableListOf()
 
     override fun registerAdapterHook(adapterHook: AdapterHook) {
         globalHooks.add(adapterHook)

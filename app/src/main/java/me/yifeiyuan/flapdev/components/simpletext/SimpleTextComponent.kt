@@ -20,6 +20,7 @@ import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
  * 作为文档 Demo
  */
 //@Delegate(layoutName = "flap_item_simple_text")
+@Delegate(layoutId = R.layout.flap_item_simple_text)
 class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
 
     private val tvContent: TextView = findViewById(R.id.tv_content)
@@ -38,7 +39,6 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
             val intE = Event("intEvent",3333)
             adapter.fireEvent(intE)
         }
-
     }
 
     override fun onBind(model: SimpleTextModel) {

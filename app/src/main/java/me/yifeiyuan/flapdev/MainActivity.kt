@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    lateinit var mainViewModel : MainViewModel
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "在滑动到底部之前预先加载"
                     replace(PrefetchTestcase::class.java)
                 }
-                R.id.nav_component_pool->{
+                R.id.nav_component_pool -> {
                     title = "测试 FlapComponentPool"
                     subtitle = "缓存功能测试"
                     replace(FlapComponentPoolTestcase::class.java)
@@ -60,13 +60,17 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "自定义 RecyclerView"
                     replace(FlapRecyclerViewTestcase::class.java)
                 }
-                R.id.nav_viewpager2->{
+                R.id.nav_viewpager2 -> {
                     title = "ViewPager2"
                     subtitle = "ViewPager2+FlapAdapter"
                     replace(ViewPager2Testcase::class.java)
                 }
                 R.id.nav_slideshow -> {
                     replace(SlideshowFragment::class.java)
+                }
+                R.id.nav_clicks -> {
+                    subtitle = "点击、长按事件功能测试"
+                    replace(ItemClicksTestcase::class.java)
                 }
             }
             drawerLayout.close()

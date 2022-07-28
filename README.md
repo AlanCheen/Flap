@@ -32,89 +32,6 @@
 | Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/plugin/images/download.svg)](https://bintray.com/alancheen/maven/plugin/_latestVersion) |
 
 
-### 集成 Flap
-
-1) 添加 `Flap` 的各个模块的最新版本到你的依赖：
-
-```groovy
-dependencies {  
-  //recyclerview
-  implementation 'androidx.recyclerview:recyclerview:1.1.0'
-
-  implementation "me.yifeiyuan.flap:flap:$lastest_version"
-  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
-  annotationProcessor "me.yifeiyuan.flap:flap-compiler:$lastest_version"
-}
-```
-
-并且配置 APT 参数 `packageName` :
-
-```groovy
-android {
-    //...
-    defaultConfig {
-        //...
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [packageName: '你模块的包名']
-            }
-        }
-    }
-}
-```
-
-
-注意，如果你使用 Kotlin 来写组件，那么你需要使用 `kapt` 来替代 `annotationProcessor`，否则注解将不能正确地生成类。
-
-具体修改如下：
-
-```groovy
-//记得添加 kotlin、kapt 插件
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
-dependencies {
-  implementation "me.yifeiyuan.flap:flap:$lastest_version"
-  implementation "me.yifeiyuan.flap:flap-annotations:$lastest_version"
-  kapt "me.yifeiyuan.flap:flap-compiler:$lastest_version"
-}
-```
-
-配置 `packageName` 的方式也需要改：
-
-```groovy
-android {
-    kapt {
-        arguments {
-            arg("packageName", "你模块的包名")
-        }
-    }
-}
-```
-
-2) 添加 Flap 的 Gradle Plugin 
-
-在你的项目下的 `build.gradle` 添加插件的 `classpath` ：
-```groovy
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        //添加插件
-        classpath "me.yifeiyuan.flap:plugin:$lastest_version"
-    }
-}
-```
-
-然后在 `app/build.gradle` 中应用插件：
-```groovy
-apply plugin: 'me.yifeiyuan.flap.plugin'
-```
-
-apply 只需要在 app 模块中添加即可。
 
 ### Flap 基本使用教程
 
@@ -324,21 +241,6 @@ public class ViewBindingComponent extends Component<VBModel> {
 #### 3. Flap 有上拉加载、Header/Footer的功能吗？
 
 答：没有，Flap 的目标不在此，可以自行扩展。
-
-
-## 谁在使用 Flap ？
-
-如果你在你的 App 使用了 Flap 开发，请一定要联系我，将会在这里展示哟。
-
-## 加群交流
-
-**钉钉**扫码加群，因为阿里不让装微信，所以不方便。 
-
-<div align=center><img width="373" height="481" src="./assets/flap_dingding_group.JPG"/></div>
-
-还可以关注我的公众号交流：程序亦非猿
-
-<div align=center><img width="215" height="215" src="./assets/public-wechat.jpeg"/></div>
 
 
 ## TODO

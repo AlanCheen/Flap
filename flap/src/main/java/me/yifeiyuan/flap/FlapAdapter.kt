@@ -4,7 +4,6 @@ package me.yifeiyuan.flap
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +54,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
+    private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>()
+
     /**
      * RecyclerView 滑动到底部触发预加载
      */
@@ -64,15 +65,14 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
     /**
-     *
-     * todo
-     * @see FlapAdapter.fireEvent
+     * 所有事件的监听
      */
     var allEventsObserver: EventObserver? = null
 
+    /**
+     * 根据 Event.eventName 存放的
+     */
     private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()
-
-    private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>()
 
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
@@ -83,10 +83,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     var paramProvider: ExtraParamsProvider? = null
 
-    //    TODO 真的需要吗？
-    var onItemClickFunc: ((childView: View, position: Int) -> Unit)? = null
-
-    var onItemClickListener: OnItemClickListener? = null
+    private var itemClicksHelper  = ItemClicksHelper()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -308,17 +305,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         val pool = if (useGlobalComponentPool) Flap.globalComponentPool else FlapComponentPool()
         recyclerView.setRecycledViewPool(pool)
 
-        onItemClickListener?.let {
-            recyclerView.setOnItemClickListener { v, p ->
-                onItemClickFunc?.invoke(v, p)
-                it.onItemClick(v, p)
-            }
-        }
+        itemClicksHelper.attachRecyclerView(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
+        itemClicksHelper.detachRecyclerView(recyclerView)
     }
 
     /**
@@ -459,12 +452,20 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return bindingContext
     }
 
-    interface OnItemClickListener {
+    /**
+     * 设置点击事件监听
+     * @see doOnItemLongClick
+     */
+    fun doOnItemClick(onItemClick: OnItemClickListener?) {
+        itemClicksHelper.onItemClickListener = onItemClick
+    }
 
-        //为什么不直接返回 data 呢？担心有的人使用 Empty Error 那种特殊状态，getItemData 会出错
-//        fun onItemClick(childView: View, position: Int, data: Any)
-
-        fun onItemClick(childView: View, position: Int)
+    /**
+     * 设置长按事件监听
+     * @see doOnItemClick
+     */
+    fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) {
+        itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
 
 }

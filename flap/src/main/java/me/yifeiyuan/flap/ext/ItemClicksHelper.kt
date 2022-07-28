@@ -8,7 +8,7 @@ typealias OnItemClickListener = ((recyclerView: RecyclerView, childView: View, p
 typealias OnItemLongClickListener = ((recyclerView: RecyclerView, childView: View, position: Int) -> Boolean)
 
 /**
- * 给 RecyclerView Component 添加单击、长按事件的帮助类
+ * 给 RecyclerView 添加 Component 级别的单击、长按事件的帮助类
  *
  * @see OnItemClickListener
  * @see me.yifeiyuan.flap.FlapAdapter.doOnItemClick
@@ -21,15 +21,13 @@ typealias OnItemLongClickListener = ((recyclerView: RecyclerView, childView: Vie
  *
  * Created by 程序亦非猿 on 2022/7/28.
  */
-internal class ItemClicksHelper(private val recyclerView: RecyclerView) : RecyclerView.OnChildAttachStateChangeListener {
+internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener {
+
+    lateinit var recyclerView: RecyclerView
 
     var onItemClickListener: OnItemClickListener? = null
 
     var onItemLongClickListener: OnItemLongClickListener? = null
-
-    init {
-        recyclerView.addOnChildAttachStateChangeListener(this)
-    }
 
     private val internalOnClick = object : View.OnClickListener {
         override fun onClick(v: View) {
@@ -42,9 +40,9 @@ internal class ItemClicksHelper(private val recyclerView: RecyclerView) : Recycl
         override fun onLongClick(v: View): Boolean {
             if (onItemLongClickListener == null) {
                 return false
-            }else{
+            } else {
                 val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
-                return onItemLongClickListener!!.invoke(recyclerView,v,holder.position)
+                return onItemLongClickListener!!.invoke(recyclerView, v, holder.position)
             }
         }
     }
@@ -60,6 +58,15 @@ internal class ItemClicksHelper(private val recyclerView: RecyclerView) : Recycl
     }
 
     override fun onChildViewDetachedFromWindow(view: View) {
+    }
+
+    fun attachRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+        this.recyclerView.addOnChildAttachStateChangeListener(this)
+    }
+
+    fun detachRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.removeOnChildAttachStateChangeListener(this)
     }
 
 }

@@ -4,7 +4,6 @@ package me.yifeiyuan.flap
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +11,6 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PrefetchHook
-import me.yifeiyuan.flap.ktx.addOnItemClickListener
-import me.yifeiyuan.flap.ktx.addOnItemLongClickListener
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -86,15 +83,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     var paramProvider: ExtraParamsProvider? = null
 
-    /**
-     * 组件点击事件监听
-     */
-    private var onItemClickListener: OnItemClickListener? = null
-
-    /**
-     * 组件长按事件监听
-     */
-    private var onItemLongClickListener: OnItemLongClickListener? = null
+    private var itemClicksHelper  = ItemClicksHelper()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -316,21 +305,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         val pool = if (useGlobalComponentPool) Flap.globalComponentPool else FlapComponentPool()
         recyclerView.setRecycledViewPool(pool)
 
-        ItemClicksHelper(recyclerView).apply {
-            onItemClickListener = this@FlapAdapter.onItemClickListener
-            onItemLongClickListener = this@FlapAdapter.onItemLongClickListener
-        }
-//        onItemClickListener?.let {
-//            recyclerView.addOnItemClickListener(it)
-//        }
-//        onItemLongClickListener?.let {
-//            recyclerView.addOnItemLongClickListener(it)
-//        }
+        itemClicksHelper.attachRecyclerView(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
+        itemClicksHelper.detachRecyclerView(recyclerView)
     }
 
     /**
@@ -476,7 +457,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * @see doOnItemLongClick
      */
     fun doOnItemClick(onItemClick: OnItemClickListener?) {
-        onItemClickListener = onItemClick
+        itemClicksHelper.onItemClickListener = onItemClick
     }
 
     /**
@@ -484,7 +465,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * @see doOnItemClick
      */
     fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) {
-        onItemLongClickListener = onItemLongClick
+        itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
 
 }

@@ -32,7 +32,7 @@ interface AdapterHook {
      */
     fun onCreateViewHolderStart(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>?,
+            delegate: AdapterDelegate<*, *>,
             viewType: Int
     ) {
     }
@@ -47,7 +47,7 @@ interface AdapterHook {
      */
     fun onCreateViewHolderEnd(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>?,
+            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {

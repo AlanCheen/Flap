@@ -15,7 +15,7 @@ import me.yifeiyuan.flap.FlapDebug
  * 2. 监控绑定组件耗时，当超过阈值 {bindTimeCostThreshold} 时会回调 onBindAlarm；
  *
  * @param createTimeCostThreshold 创建组件耗时阈值，默认 20 ms
- * @param bindTimeCostThreshold 绑定组件耗时阈值，默认 5 ms
+ * @param bindTimeCostThreshold 绑定组件耗时阈值，默认 3 ms
  *
  * @see onCreateAlarm
  * @see onBindAlarm
@@ -27,7 +27,7 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 5) : AdapterHook {
+open class ApmHook(private val createTimeCostThreshold: Long = 20, private val bindTimeCostThreshold: Long = 3) : AdapterHook {
 
     companion object {
         private const val TAG = "APM"
@@ -36,13 +36,13 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         createStartTime = SystemClock.uptimeMillis()
     }
 
     override fun onCreateViewHolderEnd(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>?,
+            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {
@@ -87,7 +87,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
             position: Int,
             payloads: MutableList<Any>
     ) {
-
         val endTime = SystemClock.uptimeMillis()
         val cost = endTime - bindStartTime
         FlapDebug.d(

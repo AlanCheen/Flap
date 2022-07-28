@@ -3,9 +3,12 @@ package me.yifeiyuan.flapdev.components.bindersample
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
@@ -17,17 +20,20 @@ import me.yifeiyuan.flapdev.R
 @Delegate
 class ViewBinderComponent(itemView: View) : Component<ViewBinderModel>(itemView) {
 
-    override fun onBind(model: ViewBinderModel) {
+    override fun onBind(model: ViewBinderModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
 
         bindTextView(R.id.binderText) {
             text = model.text
         }
-//                .bindTextView(R.id.binderText) {}
-//                .bindImageView(R.id.binderText){}
 
-//        bindView<TextView>(R.id.binderText) {
-//            text = model.text
-//        }
+        bindButton(R.id.button) {
+            setOnClickListener {
+                Toast.makeText(it.context,"点击了 Button",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onBind(model: ViewBinderModel) {
     }
 
 }

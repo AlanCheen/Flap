@@ -14,6 +14,7 @@ private const val TAG = "DebugHelperHook"
  * 请保证只在 Debug 包中使用。
  *
  * 1. 在关键流程输出日志
+ * 2. TODO 待开发
  *
  * @param enableLog 是否打印日志
  * @param highlightWhenBind 是否高亮？TODO
@@ -24,15 +25,15 @@ private const val TAG = "DebugHelperHook"
  */
 class DebugHelperHook(private val enableLog: Boolean = true, private val highlightWhenBind: Boolean = false) : AdapterHook {
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (enableLog) {
-            FlapDebug.d(TAG, "${delegate?.javaClass?.simpleName} 创建组件开始: adapter = $adapter, delegate = $delegate, viewType = $viewType")
+            FlapDebug.d(TAG, "${delegate.javaClass.simpleName} 创建组件开始: adapter = $adapter, delegate = $delegate, viewType = $viewType")
         }
     }
 
-    override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int, component: Component<*>) {
+    override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
         if (enableLog) {
-            FlapDebug.d(TAG, "${delegate?.javaClass?.simpleName} 创建组件完成 : component=$component")
+            FlapDebug.d(TAG, "${delegate.javaClass.simpleName} 创建组件完成 : component=$component")
         }
     }
 

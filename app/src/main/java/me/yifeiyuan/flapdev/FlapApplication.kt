@@ -29,6 +29,8 @@ class FlapApplication : MultiDexApplication() {
 
     private fun initFlap() {
         Flap.apply {
+
+            //这里注册的都是是全局的，只是为了测试方便
             registerAdapterDelegates(
                     SimpleTextComponentDelegate(),
                     SimpleImageComponentDelegate(),

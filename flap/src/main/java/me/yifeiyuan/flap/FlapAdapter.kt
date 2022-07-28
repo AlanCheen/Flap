@@ -159,7 +159,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return component
     }
 
-    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         hooks.forEach {
             it.onCreateViewHolderStart(adapter, delegate, viewType)
         }
@@ -167,7 +167,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private fun dispatchOnCreateViewHolderEnd(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>?,
+            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {

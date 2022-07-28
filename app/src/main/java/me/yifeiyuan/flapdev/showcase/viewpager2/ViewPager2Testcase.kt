@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
@@ -48,11 +49,14 @@ class ViewPager2Testcase : Fragment() , Scrollable {
              * java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent)
              * at androidx.viewpager2.widget.ViewPager2$4.onChildViewAttachedToWindow(ViewPager2.java:270)
              */
-            registerAdapterHook(object : AdapterHook {
-                override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int, component: Component<*>) {
-                    component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                }
-            })
+            doOnBindViewHolderEnd { delegate, component, data, position, payloads ->
+                component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            }
+//            registerAdapterHook(object : AdapterHook {
+//                override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
+//                    component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//                }
+//            })
         }
     }
 

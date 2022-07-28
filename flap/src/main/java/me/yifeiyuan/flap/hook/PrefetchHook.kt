@@ -77,7 +77,7 @@ class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 
         }
     }
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>?, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (!registered) {
             registered = true
             adapter.registerAdapterDataObserver(observer)

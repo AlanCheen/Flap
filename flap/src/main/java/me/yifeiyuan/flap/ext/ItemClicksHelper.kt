@@ -29,31 +29,23 @@ internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener 
 
     var onItemLongClickListener: OnItemLongClickListener? = null
 
-    private val internalOnClick = object : View.OnClickListener {
-        override fun onClick(v: View) {
-            val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
-            onItemClickListener?.invoke(recyclerView, v, holder.position)
-        }
+    private val internalOnClickListener = View.OnClickListener { v ->
+        val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
+        onItemClickListener?.invoke(recyclerView, v, holder.position)
     }
 
-    private val internalOnLongClick = object : View.OnLongClickListener {
-        override fun onLongClick(v: View): Boolean {
-            if (onItemLongClickListener == null) {
-                return false
-            } else {
-                val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
-                return onItemLongClickListener!!.invoke(recyclerView, v, holder.position)
-            }
-        }
+    private val internalOnLongClickListener = View.OnLongClickListener { v ->
+        val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
+        onItemLongClickListener?.invoke(recyclerView, v, holder.position) ?: false
     }
 
     override fun onChildViewAttachedToWindow(view: View) {
         onItemClickListener?.let {
-            view.setOnClickListener(internalOnClick)
+            view.setOnClickListener(internalOnClickListener)
         }
 
         onItemLongClickListener?.let {
-            view.setOnLongClickListener(internalOnLongClick)
+            view.setOnLongClickListener(internalOnLongClickListener)
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.apt.delegates.SimpleTextComponentAdapterDelegate
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
@@ -48,6 +49,7 @@ open class BaseCaseFragment : Fragment(), Scrollable {
     open fun onInit(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
+
         recyclerView.adapter = adapter
 
         adapter.observeEvent<String>("showToast") {

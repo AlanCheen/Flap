@@ -26,6 +26,11 @@
             android:id="@+id/nav_viewpager2"
             android:icon="@drawable/ic_menu_gallery"
             android:title="ViewPager2" />
+
+        <item
+            android:id="@+id/nav_clicks"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="点击/长按事件" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"

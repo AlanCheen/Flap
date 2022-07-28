@@ -11,7 +11,6 @@ import me.yifeiyuan.flapdev.components.base.BaseFlapComponent
 /**
  * Created by 程序亦非猿 on 2019/1/29.
  */
-//@Proxy(layoutId = R.layout.flap_item_generic_type)
 @Delegate(layoutName = "flap_item_generic_type")
 class GenericFlapComponent(itemView: View) : BaseFlapComponent<GenericModel>(itemView) {
     override fun onBind(model: GenericModel) {

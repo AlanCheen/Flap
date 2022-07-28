@@ -17,7 +17,6 @@ import org.gradle.api.Project;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -31,7 +30,7 @@ import java.util.jar.JarFile;
  */
 public class FlapTransform extends Transform {
 
-    final String PROXY_PACKAGE_PATH_PREFIX = "me/yifeiyuan/flap/apt/delegates/";
+    final String DELEGATE_PACKAGE_PATH_PREFIX = "me/yifeiyuan/flap/apt/delegates/";
 
     public static final String FLAP_CLASS_FILE_NAME = "me/yifeiyuan/flap/Flap.class";
 
@@ -42,7 +41,7 @@ public class FlapTransform extends Transform {
 
     private Project project;
 
-    private List<String> proxyClassList = new ArrayList<>();
+    private List<String> delegateClassList = new ArrayList<>();
 
     public FlapTransform(Project project) {
         this.project = project;
@@ -89,7 +88,7 @@ public class FlapTransform extends Transform {
         List<TransformInput> inputs = (List<TransformInput>) transformInvocation.getInputs();
 
         for (TransformInput input : inputs) {
-            //处理 jar 包中的 class 文件，找到 @Proxy 注解生成的文件
+            //处理 jar 包中的 class 文件，找到 @Delegate 注解生成的文件
             handleJarInputs(outputProvider, input.getJarInputs());
 
             // 处理文件夹目录中的 class 文件
@@ -97,7 +96,7 @@ public class FlapTransform extends Transform {
         }
 
         if (flapFile != null) {
-            new AutoRegister(proxyClassList).registerFor(flapFile);
+            new AutoRegister(delegateClassList).registerFor(flapFile);
         }
 
         Log.println("===================== flap transform end ===================== ");
@@ -123,13 +122,13 @@ public class FlapTransform extends Transform {
                 handleFiles(file1);
             }
         } else {
-            if (file.getAbsolutePath().contains(PROXY_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Delegate.class")) {
-                Log.println(">>>>>>>>>>>> 发现 proxy class :" + file.getName());
+            if (file.getAbsolutePath().contains(DELEGATE_PACKAGE_PATH_PREFIX) && file.getName().endsWith("Delegate.class")) {
+                Log.println(">>>>>>>>>>>> 发现 Delegate class :" + file.getName());
                 String fileName = file.getName();
                 int index = fileName.indexOf(".");
-                String className = PROXY_PACKAGE_PATH_PREFIX + fileName.substring(0, index);
+                String className = DELEGATE_PACKAGE_PATH_PREFIX + fileName.substring(0, index);
                 Log.println("className:" + className);
-                proxyClassList.add(className);
+                delegateClassList.add(className);
             }
         }
     }
@@ -186,12 +185,12 @@ public class FlapTransform extends Transform {
                     Log.println(entryName);
                     Log.println(">>>>>>>>>>>> 发现 Flap class file <<<<<<<<<<<<");
                     flapFile = dest;
-                } else if (entryName.startsWith(PROXY_PACKAGE_PATH_PREFIX)) {
-                    Log.println(">>>>>>>>> 发现 proxy class :" + entryName);
+                } else if (entryName.startsWith(DELEGATE_PACKAGE_PATH_PREFIX)) {
+                    Log.println(">>>>>>>>> 发现 Delegate class :" + entryName);
                     int index = entryName.indexOf(".");
                     String className = entryName.substring(0, index);
                     Log.println("className:" + className);
-                    proxyClassList.add(className);
+                    delegateClassList.add(className);
                 }
             }
 
@@ -201,6 +200,6 @@ public class FlapTransform extends Transform {
     }
 
     private boolean shouldProcessClass(String entryName) {
-        return entryName != null && entryName.startsWith(PROXY_PACKAGE_PATH_PREFIX);
+        return entryName != null && entryName.startsWith(DELEGATE_PACKAGE_PATH_PREFIX);
     }
 }

@@ -30,7 +30,7 @@ import static org.objectweb.asm.Opcodes.POP;
  */
 class AutoRegister {
 
-    //需要被注入的 Proxy 的类名
+    //需要被注入的 AdapterDelegate 的类名
     private List<String> classNames;
 
     public AutoRegister(List<String> classNames) {

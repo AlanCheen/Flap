@@ -43,7 +43,6 @@ public class FlapProcessor extends AbstractProcessor {
 
     private final ClassName CLASS_KEEP = ClassName.bestGuess("androidx.annotation.Keep");
     private final ClassName CLASS_FLAP = ClassName.bestGuess("me.yifeiyuan.flap.Flap");
-    private final ClassName CLASS_COMPONENT_PROXY = ClassName.bestGuess("me.yifeiyuan.flap.internal.ComponentProxy");
 
     private final ClassName CLASS_OBJECT = ClassName.bestGuess("java.lang.Object");
     private final ClassName CLASS_COMPONENT = ClassName.bestGuess("me.yifeiyuan.flap.Component");

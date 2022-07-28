@@ -342,41 +342,6 @@ public class ViewBindingComponent extends Component<VBModel> {
 
 `AsyncListDiffer` 能够非常高效的刷新数据的能力， `Flap`  内部提供一个 `DifferFlapAdapter` ，支持了 `AsyncListDiffer` ，你只需要继承 `DifferFlapAdapter` 就可以同时享受 `Flap` 跟 ` AsyncListDiffer` 带来的强大的能力。
 
-## 变更日志
-
-版本变更详情请看： [CHANGELOG](./CHANGELOG.md) 。
-
-## FAQ
-
-#### 1. 如何设置统一 Component 的点击事件？
-
-答：不能，Flap 没有提供一个全局的点击事件处理方法，而是推荐在 Component 的 `onBind` 方法里给 itemView 设置 onClick 事件，这样更清晰。
-
-#### 2. 我想在 Component 里用 context 怎么办？
-
-答：`Component` 有个属性 `context` 你可以直接访问使用。
-
-#### 3. Flap 有上拉加载、Header/Footer的功能吗？
-
-答：没有，Flap 的目标不在此，可以自行扩展。
-
-
-## TODO
-
-- [x] P0 , 针对 Library 类型的 Module 处理，让 Flap 也能工作；
-- [ ] 【P2】Kotlin 改造；
-- [ ] 【P1】做一个 FlapRecyclerView 封装 FlapAdapter，进一步降低使用成本；
-- [x] 支持 gradle plugin 实现组件的自动注册;
-- [x] AndroidX 迁移；
-- [x] Component 注解支持使用 DataBinding；
-- [x] 使用 APT 自动生成 Component 相关样板代码；
-- [x] 支持组件全局缓存；
-- [x] 支持组件监听生命周期事件，Lifecycle 接入；
-- [x] 支持 AsyncListDiffer；
-- [x] 优化布局实例化样板代码；
-- [x] 支持组件与 layoutId 绑定；
-
-
 ## 贡献
 
 - 发现 `Flap` 有 Bug？提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！

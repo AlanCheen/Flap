@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                     replace(SlideshowFragment::class.java)
                 }
                 R.id.nav_clicks -> {
+                    subtitle = "点击、长按事件功能测试"
                     replace(ItemClicksTestcase::class.java)
                 }
             }

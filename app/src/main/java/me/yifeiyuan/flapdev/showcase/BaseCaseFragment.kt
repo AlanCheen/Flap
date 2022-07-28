@@ -1,5 +1,6 @@
 package me.yifeiyuan.flapdev.showcase
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -30,8 +31,15 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
     lateinit var adapter: FlapAdapter
 
+    lateinit var toast:Toast
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        toast = Toast.makeText(context.applicationContext,"",Toast.LENGTH_SHORT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,7 +121,9 @@ open class BaseCaseFragment : Fragment(), Scrollable {
     }
 
     fun toast(title: String) {
-        Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
+        toast.setText(title)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.show()
     }
 
     override fun scrollToBottom() {

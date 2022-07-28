@@ -5,7 +5,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flapdev.components.TestClickModel
 import java.util.ArrayList
 
-private const val TAG = "ItemClickTestcase"
+private const val TAG = "ItemClicksTestcase"
 
 /**
  * Created by 程序亦非猿 on 2022/7/27.
@@ -31,7 +31,7 @@ class ItemClicksTestcase : BaseCaseFragment() {
     override fun createRefreshData(size: Int): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
-            list.add(TestClickModel("TestClickModel 数据 $it of $size"))
+            list.add(TestClickModel("测试点击、长按，$it of $size"))
         }
         return list
     }

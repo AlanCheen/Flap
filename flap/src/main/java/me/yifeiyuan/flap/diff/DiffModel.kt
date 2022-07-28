@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.ext
+package me.yifeiyuan.flap.diff
 
 /**
  * todo

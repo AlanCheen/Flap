@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.ktx.bindTextView
+import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**

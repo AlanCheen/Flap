@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.ext
+package me.yifeiyuan.flap.diff
 
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.AsyncDifferConfig

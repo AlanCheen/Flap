@@ -10,9 +10,9 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.R
-import me.yifeiyuan.flap.ext.DiffModel
+import me.yifeiyuan.flap.diff.DiffModel
 import me.yifeiyuan.flap.ext.EmptyViewHelper
-import me.yifeiyuan.flap.ext.FlapDiffAdapter
+import me.yifeiyuan.flap.diff.FlapDiffAdapter
 
 /**
  * TODO 待测试

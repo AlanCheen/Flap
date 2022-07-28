@@ -32,7 +32,7 @@ class PrefetchTestcase : BaseCaseFragment() {
     }
 
     private fun useAdapter() {
-        adapter.doOnPrefetch(10,4) {
+        adapter.doOnPrefetch(offset = 0,minItemCount = 2) {
             requestMoreDataAdapter()
         }
     }

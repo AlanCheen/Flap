@@ -3,7 +3,7 @@ package me.yifeiyuan.flapdev.components
 import android.view.View
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.ktx.bindTextView
+import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**

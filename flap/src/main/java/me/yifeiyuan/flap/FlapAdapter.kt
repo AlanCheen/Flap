@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.event.Event
+import me.yifeiyuan.flap.event.EventObserver
+import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PrefetchHook
@@ -83,7 +86,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     var paramProvider: ExtraParamsProvider? = null
 
-    private var itemClicksHelper  = ItemClicksHelper()
+    private var itemClicksHelper = ItemClicksHelper()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -244,7 +247,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         }
 
         itemViewType = delegate?.getItemViewType(itemData)
-                ?: throw AdapterDelegateNotFoundException("$position , $itemData ,找不到对应的 Delegate，请先注册，或设置默认 Delegate")
+                ?: throw AdapterDelegateNotFoundException("找不到对应的 AdapterDelegate，请先注册或设置默认 AdapterDelegate ，position=$position , itemData=$itemData")
 
         if (itemViewType == 0) {
             itemViewType = generateItemViewType()
@@ -468,4 +471,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
 
+    /**
+     * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
+     */
+    internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
 }
+

@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.ext
+package me.yifeiyuan.flap.event
 
 /**
  * 在 FlapAdapter 与 Component 之间发送的事件

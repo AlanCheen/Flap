@@ -2,18 +2,13 @@ package me.yifeiyuan.flapdev;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.yifeiyuan.flap.ext.FlapDiffAdapter;
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
 
 /**

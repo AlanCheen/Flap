@@ -6,6 +6,15 @@
 
 `Flap` 是一个基于 `RecyclerView` 的页面组件化解决方案，提供更好的开发体验和更强大的功能，让你更关注业务，帮你提高开发效率。
 
+
+在语雀写了体验更好的文档，可以前往语雀查看。
+
+> - [Flap 接入文档](https://www.yuque.com/cxyfy/blog/ghsc4b)；
+> - [Flap 更新日志](https://www.yuque.com/cxyfy/blog/ehnxdy)；
+> - [Flap 设计理念](https://www.yuque.com/cxyfy/blog/ehnxdy)；
+
+
+
 ## Flap 的特点
 
 0. **功能强大**：在保留 `RecyclerView` 原有的基本开发思路基础之上加了许多强大的功能，例如更好用的 `ViewHolder` 封装类 `Component`，更贴合实际开发需求;
@@ -18,25 +27,81 @@
 
 4. **优良的架构**：精心设计的架构，遵守 SOLID 设计原则，做到高内聚低耦合，易扩展易维护；
 
-   
+## 接入指南
 
+接入步骤：
 
-## 一分钟入门指南
+1. 添加 jitpack 的 maven 仓库；
+1. 添加 flap sdk 依赖；
+1. 【可选】添加 flap-compiler ；
 
+### **【必须】**添加 Jitpack maven
+在根目录添加 jitpack 的 maven ：
+```java
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 
-### 你没集成过的全新版本
+### **【必须】**按需添加 flap 相关 SDK
 
+- **【必须】**flap ：核心库必须依赖；
+- **【可选】**flap-annotations 和 flap-compiler ：如果不想用 APT 代码生成则可以不依赖
+```groovy
+apply plugin: 'kotlin-kapt'
 
-| module  | flap                                                         | flap-annotations                                             | flap-compiler                                                | plugin                                                       |
-| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Version | [![Download](https://api.bintray.com/packages/alancheen/maven/flap/images/download.svg)](https://bintray.com/alancheen/maven/flap/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-annotations/images/download.svg)](https://bintray.com/alancheen/maven/flap-annotations/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/flap-compiler/images/download.svg)](https://bintray.com/alancheen/maven/flap-compiler/_latestVersion) | [![Download](https://api.bintray.com/packages/alancheen/maven/plugin/images/download.svg)](https://bintray.com/alancheen/maven/plugin/_latestVersion) |
+dependencies{
+    // 【可选】依赖 recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    def flapVersion = '3.0.0.0-test'
+    implementation "com.github.AlanCheen.Flap:flap:$flapVersion@aar"
 
+    //可选，如果使用 APT 则需要添加
+    implementation "com.github.AlanCheen.Flap:flap-annotations:$flapVersion"
+    kapt "com.github.AlanCheen.Flap:flap-compiler:$flapVersion"
+}
+```
 
-### Flap 基本使用教程
+**【可选】如果要使用代码生成功能**，则需要配置所需要的 `packageName` 参数：
+```groovy
+android {
+    //...
+    defaultConfig {
+        //...
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: '你模块的包名']
+            }
+        }
+    }
+}
+```
+## 基础使用教程
 
-#### Step 1 : 为组件创建一个 Model 类 :
+教程中包含基础的功能，涉及到：
 
+- FlapAdapter
+- Component
+- Delegate 注解
+
+基础使用的步骤大致如下：
+
+- 定义你的 Model，可能已经有了；
+- 根据 Model 定义 Component，Model 与 Component 一一对应；
+- 为 Component 定义 AdapterDelegate，方式有二：
+   - 使用 `@Delegate`  注解修饰 Component；
+   - 自定义 AdapterDelegate 实现；
+- 向 FlapAdapter 注册 AdapterDelegate
+- FlapAdapter.setData 设置数据
+<a name="Cyd5G"></a>
+### Step 1 : 为组件创建一个 Model 类 :
+
+Adapter 中可能会有多个 Model 类型，实际开发按需创建。<br />举例，创建一个包含简单字符串的模型 SimpleTextModel：
 ```java
 public class SimpleTextModel {
 
@@ -49,58 +114,111 @@ public class SimpleTextModel {
 }
 ```
 
-如果已经有 Model 则可以跳过。
+<a name="fTFF8"></a>
+### Step 2 : 创建一个组件布局 layout 文件："flap_item_simple_text"
 
-#### Step 2 : 创建一个组件布局 layout 文件："flap_item_simple_text"
+该布局文件是 Component 组件使用的，复制该文件的名字，下一步需要用。<br />如果已经有布局了，则可以跳过新建步骤。
 
-复制该文件的名字，下一步需要用。
+<a name="GDzdA"></a>
+### Step 3 : 定义一个类继承 `Component`
+定义一个 `SimpleTextComponent` 继承 Component ，并**按需**重写 `onBind()` 方法处理绑定逻辑。<br />代码示例：
+```kotlin
+class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
 
-如果已经有布局了，则可以跳过新建步骤。
+    private val tvContent: TextView = findViewById(R.id.tv_content)
 
-#### Step 3 : 创建一个类继承 `Component` 并用 `@Proxy` 注解修饰 :
-
-重写必要的方法，然后在 `@Proxy` 注解中给 `layoutName` 赋值为该组件的布局名字（不需要带 xml 后缀），并在 `onBind()` 方法里写绑定逻辑。
-
-举个🌰 ：
-
-```java
-@Proxy(layoutName = "flap_item_simple_text")
-public class SimpleTextComponent extends Component<SimpleTextModel> {
-
-    private TextView tvContent;
-
-    public SimpleTextComponent(final View itemView) {
-        super(itemView);
-        tvContent = findViewById(R.id.tv_content);
+    //参数更多 全面
+    override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+        FLogger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
+        tvContent.text = model.content
     }
 
-    @Override
-    protected void onBind(@NonNull final SimpleTextModel model) {
-        tvContent.setText(model.content);
+    //参数更少的 onBind
+    override fun onBind(model: SimpleTextModel) {
+        FLogger.d(TAG, "onBind() called with: model = $model")
+    }
+
+    companion object {
+        private const val TAG = "SimpleTextItem"
     }
 }
 ```
 
 Component 还有更多用法，可以见后文。
+<a name="yTIB3"></a>
+### Step 4：定义 AdapterDelegate
+AdapterDelegate 的定义有两种方法。
+<a name="nNn02"></a>
+#### 1）使用 Delegate 注解 Component
+:::info
+使用注解必须依赖 flap-annotation 和 flap-compiler ，并配置正确。<br />具体参考前面章节。
+:::
 
-#### Step 4 : 创建你的 `FlapAdapter` 并设置数据
+使用`@Delegate`  注解修饰刚创建的 Component，flap-compiler 会自动生成 一个名为 你的 **Component 类名+ AdapterDelegate 后缀**的实现类。
 
-创建你的 `FlapAdapter` 并调用 `setData()` 方法设置好数据即可。
+如果你是在**子模块**里使用，则**必须**使用 `layoutName` 配置：
+```groovy
+@Delegate(layoutName = "flap_item_simple_text")
+class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
+```
 
+如果是在 app 模块里使用，则还可以使用 `layoutId` 来配置：
+```groovy
+@Delegate(layoutId = R.layout.flap_item_simple_text)
+```
+
+> 因为子模块 R 文件的问题，更推荐使用 `layoutName`来配置。
+
+
+SimpleTextComponent 使用注解后会自动生成 SimpleTextComponentAdapterDelegate 。
+<a name="wEpX6"></a>
+#### 2）自定义 AdapterDelegate
+实现 AdapterDelegate 接口，并重写方法：
+
+- `delegate()` ：是否负责代理 model，如果是就 return true，默认一个 AdapterDelegate 代理一个类型；
+- `onCreateViewHolder()` : 创建 Component；
+```kotlin
+class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextComponent> {
+
+    override fun delegate(model: Any): Boolean {
+        return SimpleTextModel::class.java == model::class.java
+    }
+
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleTextComponent {
+        return SimpleTextComponent(inflater.inflate(R.layout.flap_item_simple_text, parent, false))
+    }
+}
+```
+
+:::success
+自定义 AdapterDelegate 会写样板代码，但是自由度更高；<br />使用注解能够提高效率，但是灵活度不高；<br />可以按个人喜好选择。
+:::
+
+<a name="c5ac3755"></a>
+#### Step 5 : 创建你的 `FlapAdapter` 并设置数据
+
+FlapAdapter 使用步骤：
+
+1. 通过 `registerAdapterDelegate()` 注册 AdapterDelegate
+1. 通过`setData()` 设置数据
+
+示例：
 ```java
 //创建你的 FlapAdapter
-FlapAdapter adapter = new FlapAdapter();
+var adapter: FlapAdapter = FlapAdapter()
 
-List<Object> models = new ArrayList<>();
+//注册 AdapterDelegate
+adapter.registerAdapterDelegate(SimpleTextComponentAdapterDelegate())
 
-models.add(new SimpleTextModel("Android"));
-models.add(new SimpleTextModel("Java"));
-models.add(new SimpleTextModel("Kotlin"));
+val dataList = ArrayList<Any>()
+dataList.add(SimpleTextModel("Android"))
+dataList.add(SimpleTextModel("Java"))
+dataList.add(SimpleTextModel("Kotlin"))
 
 //设置你的 data
-adapter.setData(models);
+adapter.setData(dataList);
 
-recyclerView.setAdapter(adapter);
+recyclerView.adapter = adapter
 ```
 
 这样就完全 OK 啦！ 咱们跑起来看看：

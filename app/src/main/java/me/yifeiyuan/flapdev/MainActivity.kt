@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     replace(SlideshowFragment::class.java)
                 }
                 R.id.nav_clicks -> {
-                    replace(ItemClickTestcase::class.java)
+                    replace(ItemClicksTestcase::class.java)
                 }
             }
             drawerLayout.close()

@@ -8,11 +8,9 @@ import java.util.ArrayList
 private const val TAG = "ItemClickTestcase"
 
 /**
- *
- * 有个问题，当 doOnItemClick 和 doOnItemLongClick 同时设置时，longclick 在 down 的时候就触发了
  * Created by 程序亦非猿 on 2022/7/27.
  */
-class ItemClickTestcase : BaseCaseFragment() {
+class ItemClicksTestcase : BaseCaseFragment() {
 
     override fun createAdapter(): FlapAdapter {
         return super.createAdapter().apply {
@@ -22,11 +20,11 @@ class ItemClickTestcase : BaseCaseFragment() {
                 toast("点击了 position = $position")
             }
 
-//            doOnItemLongClick { recyclerView, childView, position ->
-//                Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
-//                toast("长按了 position = $position")
-//                true
-//            }
+            doOnItemLongClick { recyclerView, childView, position ->
+                Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
+                toast("长按了 position = $position")
+                true
+            }
         }
     }
 

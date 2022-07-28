@@ -109,7 +109,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         hooks.addAll(adapterHooks)
     }
 
-    override fun unRegisterAdapterHook(adapterHook: AdapterHook) {
+    override fun unregisterAdapterHook(adapterHook: AdapterHook) {
         hooks.remove(adapterHook)
     }
 
@@ -127,7 +127,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         }
     }
 
-    override fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         adapterDelegates.remove(adapterDelegate)
     }
 
@@ -308,6 +308,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         val pool = if (useGlobalComponentPool) Flap.globalComponentPool else FlapComponentPool()
         recyclerView.setRecycledViewPool(pool)
 
+//        recyclerView.context.applicationContext.registerComponentCallbacks(pool)
+
         itemClicksHelper.attachRecyclerView(recyclerView)
     }
 
@@ -419,7 +421,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
         prefetchDetector?.let {
-            unRegisterAdapterHook(it)
+            unregisterAdapterHook(it)
         }
         prefetchDetector = PrefetchHook(offset, minItemCount, onPrefetch).also {
             registerAdapterHook(it)

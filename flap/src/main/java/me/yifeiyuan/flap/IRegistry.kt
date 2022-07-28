@@ -15,7 +15,7 @@ internal interface IRegistry {
 
     fun registerAdapterHooks(vararg adapterHooks: AdapterHook)
 
-    fun unRegisterAdapterHook(@NonNull adapterHook: AdapterHook)
+    fun unregisterAdapterHook(@NonNull adapterHook: AdapterHook)
 
     fun clearAdapterHooks()
 
@@ -23,7 +23,7 @@ internal interface IRegistry {
 
     fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>)
 
-    fun unRegisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>)
+    fun unregisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>)
 
     fun clearAdapterDelegates()
 }

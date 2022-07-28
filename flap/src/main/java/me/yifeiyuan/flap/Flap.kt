@@ -42,7 +42,7 @@ object Flap : ComponentCallbacks2, IRegistry {
         globalHooks.addAll(adapterHooks)
     }
 
-    override fun unRegisterAdapterHook(adapterHook: AdapterHook) {
+    override fun unregisterAdapterHook(adapterHook: AdapterHook) {
         globalHooks.remove(adapterHook)
     }
 
@@ -58,7 +58,7 @@ object Flap : ComponentCallbacks2, IRegistry {
         globalAdapterDelegates.addAll(delegates)
     }
 
-    override fun unRegisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
+    override fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         globalAdapterDelegates.remove(adapterDelegate)
     }
 

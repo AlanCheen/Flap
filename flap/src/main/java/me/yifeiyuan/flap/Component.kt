@@ -13,8 +13,7 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
  *
- *
- *
+ * Component 基于 ViewHolder， 封装了更多日常开发所需的功能。
  *
  * @see FlapAdapter.getParam 从 Adapter 获取额外的参数
  * @see FlapAdapter.fireEvent 发送事件给 Adapter

@@ -19,7 +19,6 @@ import me.yifeiyuan.flap.Component
  * @see bindRecyclerView
  * @see bindImageButton
  * @see bindProgressBar
- * @see bindScrollView
  * @see bindRatingBar
  *
  * Created by 程序亦非猿 on 2021/9/29.
@@ -61,16 +60,6 @@ fun Component<*>.bindCheckBox(viewId: Int, binder: CheckBox.() -> Unit) {
     view.binder()
 }
 
-fun Component<*>.bindRecyclerView(viewId: Int, binder: RecyclerView.() -> Unit) {
-    val view = itemView.findViewById<RecyclerView>(viewId)
-    view.binder()
-}
-
-fun Component<*>.bindScrollView(viewId: Int, binder: ScrollView.() -> Unit) {
-    val view = itemView.findViewById<ScrollView>(viewId)
-    view.binder()
-}
-
 fun Component<*>.bindProgressBar(viewId: Int, binder: ProgressBar.() -> Unit) {
     val view = itemView.findViewById<ProgressBar>(viewId)
     view.binder()
@@ -78,5 +67,10 @@ fun Component<*>.bindProgressBar(viewId: Int, binder: ProgressBar.() -> Unit) {
 
 fun Component<*>.bindRatingBar(viewId: Int, binder: RatingBar.() -> Unit) {
     val view = itemView.findViewById<RatingBar>(viewId)
+    view.binder()
+}
+
+fun Component<*>.bindRecyclerView(viewId: Int, binder: RecyclerView.() -> Unit) {
+    val view = itemView.findViewById<RecyclerView>(viewId)
     view.binder()
 }

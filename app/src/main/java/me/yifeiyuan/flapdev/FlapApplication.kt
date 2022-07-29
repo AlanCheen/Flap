@@ -4,11 +4,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
+import me.yifeiyuan.flap.apt.delegates.TestBinderComponentAdapterDelegate
 import me.yifeiyuan.flap.apt.delegates.TestClickComponentAdapterDelegate
 import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.hook.DebugHelperHook
 import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
-import me.yifeiyuan.flapdev.components.bindersample.BinderComponentDelegate
 import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeComponentDelegate
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate
@@ -39,8 +39,8 @@ class FlapApplication : MultiDexApplication() {
                     ViewBindingComponentDelegate(),
                     JavaModuleComponentDelegate(),
                     KtModuleComponentDelegate(),
-                    BinderComponentDelegate(),
-                    TestClickComponentAdapterDelegate()
+                    TestClickComponentAdapterDelegate(),
+                    TestBinderComponentAdapterDelegate()
             )
 
             registerAdapterHooks(DebugHelperHook(), ApmHook())

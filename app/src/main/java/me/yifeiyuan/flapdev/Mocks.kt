@@ -2,11 +2,11 @@ package me.yifeiyuan.flapdev
 
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
-import me.yifeiyuan.flapdev.components.bindersample.TestBinderModel
-import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeModel
+import me.yifeiyuan.flapdev.components.CustomViewTypeModel
+import me.yifeiyuan.flapdev.components.TestBinderModel
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
-import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageModel
+import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel

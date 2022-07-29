@@ -1,7 +1,7 @@
 package me.yifeiyuan.flapdev;
 
 import me.yifeiyuan.flap.Flap;
-import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate;
+import me.yifeiyuan.flapdev.components.simpletext.SimpleTextComponentDelegate;
 
 /**
  * Created by 程序亦非猿 on 2020/9/8.
@@ -9,6 +9,6 @@ import me.yifeiyuan.flapdev.components.simpleimage.SimpleImageComponentDelegate;
 class AsmTest {
 
     private void foo(Flap flap){
-        flap.registerAdapterDelegate(new SimpleImageComponentDelegate());
+        flap.registerAdapterDelegate(new SimpleTextComponentDelegate());
     }
 }

@@ -4,15 +4,13 @@ import android.os.Handler
 import android.os.Looper
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
-import me.yifeiyuan.flap.apt.delegates.SimpleImageComponentAdapterDelegate
-import me.yifeiyuan.flap.apt.delegates.TestBinderComponentAdapterDelegate
-import me.yifeiyuan.flap.apt.delegates.TestClickComponentAdapterDelegate
+import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.hook.DebugHelperHook
 import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
 import me.yifeiyuan.flapdev.components.CustomViewTypeComponentDelegate
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextComponentDelegate
+import me.yifeiyuan.flapdev.components.SimpleTextComponentDelegate
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleComponentDelegate
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingComponentDelegate
 
@@ -36,9 +34,9 @@ class FlapApplication : MultiDexApplication() {
                     SimpleImageComponentAdapterDelegate(),
                     CustomViewTypeComponentDelegate(),
                     GenericFlapComponentDelegate(),
-                    ViewBindingComponentDelegate(),
-                    JavaModuleComponentDelegate(),
-                    KtModuleComponentDelegate(),
+                    ViewBindingComponentAdapterDelegate(),
+                    JavaModuleComponentAdapterDelegate(),
+                    KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
                     TestBinderComponentAdapterDelegate()
             )

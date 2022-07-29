@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.apt.delegates.SimpleTextComponentAdapterDelegate
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
+import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.ArrayList
 
 /**

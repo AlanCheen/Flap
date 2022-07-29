@@ -7,7 +7,7 @@ import me.yifeiyuan.flapdev.components.TestBinderModel
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
 import me.yifeiyuan.flapdev.components.SimpleImageModel
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
+import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
 import java.util.*

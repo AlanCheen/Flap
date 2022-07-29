@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
-import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
+import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.*
 
 /**

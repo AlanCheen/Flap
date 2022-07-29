@@ -41,6 +41,7 @@ class FlapApplication : MultiDexApplication() {
                     TestClickComponentAdapterDelegate(),
                     TestBinderComponentAdapterDelegate(),
                     TestAllComponentAdapterDelegate(),
+                    SimpleDataBindingComponentAdapterDelegate()
             )
 
             //也是全局

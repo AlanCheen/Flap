@@ -2,12 +2,9 @@ package me.yifeiyuan.flapdev
 
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
-import me.yifeiyuan.flapdev.components.CustomViewTypeModel
-import me.yifeiyuan.flapdev.components.TestBinderModel
+import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
-import me.yifeiyuan.flapdev.components.SimpleImageModel
-import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
 import java.util.*
@@ -47,10 +44,14 @@ fun mockMultiTypeModels(): MutableList<Any> {
     models.add(JavaModuleModel())
     models.add(KtComponentModel())
     models.add(ViewBindingModel())
-    models.add(KtComponentModel())
+    models.add(TestAllModel())
     models.add(ViewBindingModel())
     models.add(TestBinderModel())
     models.add(KtComponentModel())
     models.add(TestBinderModel())
+    models.add(UnknownModel())
     return models
 }
+
+//没有对应的 delegate 也没有 component，会有 fallback 机制兜底。
+class UnknownModel

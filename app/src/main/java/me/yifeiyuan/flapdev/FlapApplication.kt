@@ -28,7 +28,8 @@ class FlapApplication : MultiDexApplication() {
     private fun initFlap() {
         Flap.apply {
 
-            //这里注册的都是是全局的，只是为了测试方便
+            //Flap 这里注册的都是是全局的，只是为了测试方便
+            //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
             registerAdapterDelegates(
                     SimpleTextComponentDelegate(),
                     SimpleImageComponentAdapterDelegate(),
@@ -38,11 +39,14 @@ class FlapApplication : MultiDexApplication() {
                     JavaModuleComponentAdapterDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
-                    TestBinderComponentAdapterDelegate()
+                    TestBinderComponentAdapterDelegate(),
+                    TestAllComponentAdapterDelegate(),
             )
 
+            //也是全局
             registerAdapterHooks(DebugHelperHook(), ApmHook())
 
+            //打开日志
             setDebug(true)
         }
     }

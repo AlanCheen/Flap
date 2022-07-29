@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel;
+import me.yifeiyuan.flapdev.components.SimpleTextModel;
 
 /**
  * Testing for DifferFlapAdapter

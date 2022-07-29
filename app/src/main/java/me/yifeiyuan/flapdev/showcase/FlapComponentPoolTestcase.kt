@@ -1,11 +1,8 @@
 package me.yifeiyuan.flapdev.showcase
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import me.yifeiyuan.flapdev.SharedPool
-import me.yifeiyuan.flapdev.components.customviewtype.CustomViewTypeModel
+import me.yifeiyuan.flapdev.components.CustomViewTypeModel
 import java.util.ArrayList
 
 /**

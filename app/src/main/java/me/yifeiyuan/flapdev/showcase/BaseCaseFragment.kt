@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.apt.delegates.SimpleTextComponentAdapterDelegate
+import me.yifeiyuan.flap.ext.ExtraParamsProvider
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
+import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.ArrayList
+
+private const val TAG = "BaseCaseFragment"
 
 /**
  * Created by 程序亦非猿 on 2021/10/19.
@@ -31,7 +33,7 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
     lateinit var adapter: FlapAdapter
 
-    lateinit var toast:Toast
+    lateinit var toast: Toast
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
@@ -39,7 +41,7 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        toast = Toast.makeText(context.applicationContext,"",Toast.LENGTH_SHORT)
+        toast = Toast.makeText(context.applicationContext, "", Toast.LENGTH_SHORT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +64,6 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
         adapter.observeEvent<String>("showToast") {
             toast(it.arg ?: "Default Message")
-
             Log.d("observeEvent", "showToast event ")
         }
 
@@ -80,6 +81,35 @@ open class BaseCaseFragment : Fragment(), Scrollable {
                     Log.d("observerEvents", "intEvent ~~ ${it.arg}")
                 }
             }
+        }
+
+        adapter.paramProvider = object : ExtraParamsProvider {
+            override fun getParam(key: String): Any? {
+                return when (key) {
+                    "intValue" -> {
+                        233
+                    }
+                    "stringValue" -> {
+                        "这是一个 stringValue"
+                    }
+                    "booleanValue" -> {
+                        true
+                    }
+                    else -> "Unknown Key"
+                }
+            }
+        }
+
+        adapter.doOnItemClick { recyclerView, childView, position ->
+            Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
+            toast("点击了 position = $position")
+            val component = recyclerView.getChildViewHolder(childView)
+        }
+
+        adapter.doOnItemLongClick { recyclerView, childView, position ->
+            Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
+            toast("长按了 position = $position")
+            true
         }
     }
 

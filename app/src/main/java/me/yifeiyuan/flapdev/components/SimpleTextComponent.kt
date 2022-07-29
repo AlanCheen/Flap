@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.components.simpletext
+package me.yifeiyuan.flapdev.components
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +18,9 @@ import me.yifeiyuan.flapdev.R
  *
  * 作为文档 Demo
  */
+
+data class SimpleTextModel(val content: String)
+
 //@Delegate(layoutName = "flap_item_simple_text")
 @Delegate(layoutId = R.layout.flap_item_simple_text)
 class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
@@ -27,17 +30,6 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
         FLogger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
         tvContent.text = model.content
-
-        tvContent.setOnClickListener {
-            val showToastEvent = Event("showToast","SimpleTextComponent fire event showToast"){
-                Log.d(TAG, "onBind: showToastEvent success")
-            }
-
-            adapter.fireEvent(showToastEvent)
-
-            val intE = Event("intEvent",3333)
-            adapter.fireEvent(intE)
-        }
     }
 
     override fun onBind(model: SimpleTextModel) {
@@ -49,6 +41,7 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     }
 }
 
+//自定义 AdapterDelegate 实现
 class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextComponent> {
 
     override fun delegate(model: Any): Boolean {
@@ -56,7 +49,10 @@ class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextC
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleTextComponent {
-        return SimpleTextComponent(inflater.inflate(R.layout.flap_item_simple_text, parent, false))
+        return SimpleTextComponent(inflater.inflate(viewType, parent, false))
     }
 
+    override fun getItemViewType(model: Any): Int {
+        return R.layout.flap_item_simple_text
+    }
 }

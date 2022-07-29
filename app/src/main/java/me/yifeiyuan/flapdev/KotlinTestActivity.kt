@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flapdev.components.simpletext.SimpleTextModel
+import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.*
 
 class KotlinTestActivity : AppCompatActivity() {

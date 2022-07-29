@@ -1,11 +1,10 @@
-package me.yifeiyuan.flapdev.components.customviewtype
+package me.yifeiyuan.flapdev.components
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -13,6 +12,9 @@ import me.yifeiyuan.flapdev.R
  *
  * Created by 程序亦非猿 on 2019/1/18.
  */
+
+class CustomViewTypeModel
+
 class CustomViewTypeComponent(itemView: View) : Component<CustomViewTypeModel>(itemView) {
 
     companion object {
@@ -39,9 +41,5 @@ class CustomViewTypeComponentDelegate : AdapterDelegate<CustomViewTypeModel, Cus
 
     override fun getItemId(model: Any): Long {
         return super.getItemId(model)
-    }
-
-    override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
-        super.onBindViewHolder(component, data, position, payloads, adapter)
     }
 }

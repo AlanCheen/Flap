@@ -208,20 +208,20 @@ open class FlapRecyclerView
      * 设置预加载触发时的行为
      */
     fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
-        flapAdapter?.doOnPrefetch(offset, minItemCount, onPrefetch)
+        flapAdapter?.doOnPreload(offset, minItemCount, onPrefetch)
     }
 
     /**
      * 设置是否开启预加载
      */
     fun setPrefetchEnable(enable: Boolean) {
-        flapAdapter?.setPrefetchEnable(enable)
+        flapAdapter?.setPreloadEnable(enable)
     }
 
     /**
      * 设置一次预加载行为完成
      */
     fun setPrefetchComplete() {
-        flapAdapter?.setPrefetchComplete()
+        flapAdapter?.setPreloadComplete()
     }
 }

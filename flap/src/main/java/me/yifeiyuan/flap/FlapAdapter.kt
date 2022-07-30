@@ -63,7 +63,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     /**
      * RecyclerView 滑动到底部触发预加载
      */
-    var prefetchDetector: PreloadHook? = null
+    var preloadHook: PreloadHook? = null
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
@@ -422,11 +422,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      *
      * @see PreloadHook
      */
-    fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
-        prefetchDetector?.let {
+    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
+        preloadHook?.let {
             unregisterAdapterHook(it)
         }
-        prefetchDetector = PreloadHook(offset, minItemCount, onPrefetch).also {
+        preloadHook = PreloadHook(offset, minItemCount, onPrefetch).also {
             registerAdapterHook(it)
         }
     }
@@ -435,12 +435,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * 设置是否启用预加载
      * 需要先调用 doOnPrefetch 开启才有效。
      */
-    fun setPrefetchEnable(enable: Boolean) {
-        prefetchDetector?.prefetchEnable = enable
+    fun setPreloadEnable(enable: Boolean) {
+        preloadHook?.preloadEnable = enable
     }
 
-    fun setPrefetchComplete() {
-        prefetchDetector?.setPrefetchComplete()
+    fun setPreloadComplete() {
+        preloadHook?.setPreloadComplete()
     }
 
     /**

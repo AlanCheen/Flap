@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  1. offset = 0 时，滑动到最底部最后一个可见时触发
  *  2. offset = 1 时，最后第二个可见时触发
  *
- *  例如 itemCount=20 ，offset=4，那么当滑动到 position=15 的位置会触发预加载机制，并调用 onPrefetch() ，可以在此时加载跟多数据。
+ *  例如 itemCount=20 ，offset=4，那么当滑动到 position=15 的位置会触发预加载机制，可以在此时加载跟多数据。
  *
  *  注意：
  *  1. 每个 PreloadHook 只能绑定一个 Adapter，不可复用。
@@ -22,13 +22,13 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
  *  @param offset 偏移量，默认值 0 表示底部最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择
- *  @param onPrefetch 触发预取后执行
+ *  @param onPreload 触发预取后执行
  *
  *  Created by 程序亦非猿 on 2021/9/28.
  *  @since 2021/9/28
  *  @since 3.0.0
  */
-class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
+class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPreload: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PreloadHook"
@@ -44,36 +44,36 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
         }
     }
 
-    private val fetching = AtomicBoolean(false)
+    private val loading = AtomicBoolean(false)
 
     private var registered = false
 
-    var prefetchEnable = true
+    var preloadEnable = true
 
     //reset when data changed
     private val observer = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-            setPrefetchComplete()
+            setPreloadComplete()
         }
     }
 
@@ -87,18 +87,18 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
     override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         val itemCount = adapter.itemCount
 
-        if (prefetchEnable && itemCount >= minItemCount && position + offset >= itemCount - 1) {
-            if (fetching.get()) {
+        if (preloadEnable && itemCount >= minItemCount && position + offset >= itemCount - 1) {
+            if (loading.get()) {
                 return
             }
-            fetching.set(true)
-            onPrefetch()
+            loading.set(true)
+            onPreload()
             FlapDebug.d(TAG, "触发预加载，当前 position = $position，itemCount = $itemCount")
         }
     }
 
-    fun setPrefetchComplete() {
-        fetching.set(false)
+    fun setPreloadComplete() {
+        loading.set(false)
     }
 
 }

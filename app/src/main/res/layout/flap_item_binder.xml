@@ -21,7 +21,6 @@
         android:layout_gravity="center"
         android:layout_marginLeft="16dp"
         android:gravity="center"
-        android:singleLine="true"
         android:text="ComponentBinder 测试用例"
         android:textColor="@android:color/black"
         android:textSize="16sp"

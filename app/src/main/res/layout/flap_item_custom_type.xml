@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:paddingLeft="16dp"
-        android:singleLine="true"
         android:text="自定义 itemViewType 的 Component"
         android:textColor="@android:color/white"
         android:textSize="16sp"

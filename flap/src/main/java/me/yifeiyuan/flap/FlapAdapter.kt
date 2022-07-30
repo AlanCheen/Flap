@@ -4,6 +4,7 @@ package me.yifeiyuan.flap
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -87,6 +88,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     var paramProvider: ExtraParamsProvider? = null
 
     private var itemClicksHelper = ItemClicksHelper()
+    private val emptyViewHelper = EmptyViewHelper()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -307,10 +309,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
         val pool = if (useGlobalComponentPool) Flap.globalComponentPool else FlapComponentPool()
         recyclerView.setRecycledViewPool(pool)
-
 //        recyclerView.context.applicationContext.registerComponentCallbacks(pool)
 
         itemClicksHelper.attachRecyclerView(recyclerView)
+        emptyViewHelper.attachRecyclerView(recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -473,6 +475,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) {
         itemClicksHelper.onItemLongClickListener = onItemLongClick
+    }
+
+    fun setEmptyView(emptyView: View?) {
+        emptyViewHelper.emptyView = emptyView
     }
 
     /**

@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.R
 import me.yifeiyuan.flap.diff.DiffModel
-import me.yifeiyuan.flap.ext.EmptyViewHelper
 import me.yifeiyuan.flap.diff.FlapDiffAdapter
 
 /**
  * TODO 待测试
  *
  * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
+ *
+ * FlapRecyclerView 和 Flap 的 Adapters 和 LayoutManagers 是深度绑定的。
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -66,8 +67,6 @@ open class FlapRecyclerView
 
     private var flapAdapter: FlapAdapter? = null
 
-    private val emptyViewHelper: EmptyViewHelper
-
     /**
      * 是否在 detach 的时候回收复用 View
      * 默认情况下 RecyclerView 不会回收
@@ -76,7 +75,7 @@ open class FlapRecyclerView
 
     var emptyView: View? = null
         set(value) {
-            emptyViewHelper.emptyView = value
+            flapAdapter?.setEmptyView(value)
             field = value
         }
 
@@ -121,8 +120,6 @@ open class FlapRecyclerView
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 
-        emptyViewHelper = EmptyViewHelper(this)
-
         flapAdapter = if (isDiffEnable) FlapDiffAdapter<DiffModel>() else FlapAdapter()
 
         setAdapter(flapAdapter)
@@ -138,10 +135,9 @@ open class FlapRecyclerView
             super.setAdapter(this.flapAdapter)
         } else if (adapter is FlapAdapter) {
             this.flapAdapter = adapter
-            emptyViewHelper.attachAdapter(adapter)
             super.setAdapter(this.flapAdapter)
         } else {
-            throw IllegalArgumentException("the new adapter is not a FlapAdapter")
+            throw IllegalArgumentException("setAdapter 只支持 Flap 内置的 Adapter！")
         }
     }
 
@@ -175,10 +171,7 @@ open class FlapRecyclerView
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy(owner: LifecycleOwner) {
         owner.lifecycle.removeObserver(this)
-
-        flapAdapter?.let {
-            emptyViewHelper.detachAdapter(it)
-        }
+//        flapAdapter?.onDetachedFromRecyclerView(this)
         setAdapter(null)
     }
 

@@ -16,19 +16,11 @@
 
 <a name="E94H7"></a>
 ## Flap 使用示例：
-定义 SimpleTextModel
+定义一个模型类， SimpleTextModel ：
 ```kotlin
-public class SimpleTextModel {
-
-    @NonNull
-    public String content;
-
-    public SimpleTextModel(@NonNull final String content) {
-        this.content = content;
-    }
-}
+data class SimpleTextModel(val content: String)
 ```
-定义 SimpleTextComponent：
+定义 SimpleTextComponent，继承 Component ，按需重写 `onBind` 方法：
 ```kotlin
 @Delegate(layoutName = "flap_item_simple_text")
 class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
@@ -51,7 +43,9 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     }
 }
 ```
+
 使用 FlapAdapter：
+
 ```kotlin
 //创建你的 FlapAdapter
 var adapter: FlapAdapter = FlapAdapter()

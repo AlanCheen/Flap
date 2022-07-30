@@ -12,7 +12,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * 内置的一些 AdapterHook 实现：
  * @see ApmHook 一个简易的 APM 工具
  * @see DebugHelperHook 一个简易的调试工具
- * @see PrefetchHook  实现预取检测功能，可以用做预加载或加载更多功能
+ * @see PreloadHook  实现预取检测功能，可以用做预加载或加载更多功能
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

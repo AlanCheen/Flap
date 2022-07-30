@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_prefetch -> {
                     title = "预加载"
                     subtitle = "在滑动到底部之前预先加载"
-                    replace(PrefetchTestcase::class.java)
+                    replace(PreloadTestcase::class.java)
                 }
                 R.id.nav_component_pool -> {
                     title = "测试 FlapComponentPool"

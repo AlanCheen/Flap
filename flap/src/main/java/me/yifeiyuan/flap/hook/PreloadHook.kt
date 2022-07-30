@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  例如 itemCount=20 ，offset=4，那么当滑动到 position=15 的位置会触发预加载机制，并调用 onPrefetch() ，可以在此时加载跟多数据。
  *
  *  注意：
- *  1. 每个 PrefetchHook 只能绑定一个 Adapter，不可复用。
+ *  1. 每个 PreloadHook 只能绑定一个 Adapter，不可复用。
  *  2. 当预取后出现异常情况，例如加载更多请求失败，需要手动调用 setPrefetchComplete() ，否则不会进行下一次预取检测。
  *
  *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
@@ -28,10 +28,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  @since 2021/9/28
  *  @since 3.0.0
  */
-class PrefetchHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
+class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPrefetch: () -> Unit) : AdapterHook {
 
     companion object {
-        private const val TAG = "PrefetchHook"
+        private const val TAG = "PreloadHook"
     }
 
     init {

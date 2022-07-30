@@ -14,7 +14,7 @@ import me.yifeiyuan.flap.event.EventObserver
 import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
-import me.yifeiyuan.flap.hook.PrefetchHook
+import me.yifeiyuan.flap.hook.PreloadHook
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -63,7 +63,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     /**
      * RecyclerView 滑动到底部触发预加载
      */
-    var prefetchDetector: PrefetchHook? = null
+    var prefetchDetector: PreloadHook? = null
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
@@ -420,13 +420,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     /**
      * 预加载
      *
-     * @see PrefetchHook
+     * @see PreloadHook
      */
     fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
         prefetchDetector?.let {
             unregisterAdapterHook(it)
         }
-        prefetchDetector = PrefetchHook(offset, minItemCount, onPrefetch).also {
+        prefetchDetector = PreloadHook(offset, minItemCount, onPrefetch).also {
             registerAdapterHook(it)
         }
     }

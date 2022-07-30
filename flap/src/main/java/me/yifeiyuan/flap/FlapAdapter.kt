@@ -319,6 +319,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         super.onDetachedFromRecyclerView(recyclerView)
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
+        emptyViewHelper.detachRecyclerView(recyclerView)
     }
 
     /**

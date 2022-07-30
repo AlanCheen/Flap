@@ -38,13 +38,8 @@ internal class EmptyViewHelper : RecyclerView.AdapterDataObserver() {
         checkEmptyState()
     }
 
-    fun attachAdapter(adapter: RecyclerView.Adapter<*>) {
-        adapter.registerAdapterDataObserver(this)
-        checkEmptyState()
-    }
-
-    fun detachAdapter(adapter: RecyclerView.Adapter<*>) {
-        adapter.registerAdapterDataObserver(this)
+    fun detachRecyclerView(targetRecyclerView: RecyclerView) {
+        targetRecyclerView.adapter?.unregisterAdapterDataObserver(this)
     }
 
     override fun onChanged() {

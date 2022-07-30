@@ -1,6 +1,5 @@
 package me.yifeiyuan.flapdev.components
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,7 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.event.Event
-import me.yifeiyuan.flapdev.FLogger
+import me.yifeiyuan.flapdev.Logger
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -28,12 +26,12 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     private val tvContent: TextView = findViewById(R.id.tv_content)
 
     override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
-        FLogger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
+        Logger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
         tvContent.text = model.content
     }
 
     override fun onBind(model: SimpleTextModel) {
-        FLogger.d(TAG, "onBind() called with: model = $model")
+        Logger.d(TAG, "onBind() called with: model = $model")
     }
 
     companion object {

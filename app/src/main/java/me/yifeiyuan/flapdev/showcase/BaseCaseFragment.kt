@@ -35,6 +35,8 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
     lateinit var toast: Toast
 
+    lateinit var emptyView:View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
     }
@@ -57,10 +59,11 @@ open class BaseCaseFragment : Fragment(), Scrollable {
     }
 
     open fun onInit(view: View) {
+        emptyView = view.findViewById(R.id.emptyView)
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
 
-        recyclerView.adapter = adapter
+        adapter.setEmptyView(emptyView)
 
         adapter.observeEvent<String>("showToast") {
             toast(it.arg ?: "Default Message")
@@ -111,6 +114,8 @@ open class BaseCaseFragment : Fragment(), Scrollable {
             toast("长按了 position = $position")
             true
         }
+
+        recyclerView.adapter = adapter
     }
 
     open fun createAdapter() = FlapAdapter().apply {

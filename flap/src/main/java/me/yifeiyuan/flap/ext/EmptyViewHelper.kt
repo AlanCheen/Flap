@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.NullPointerException
 
 /**
  *
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by 程序亦非猿 on 2022/6/16.
  * @since 3.0.0
  */
-internal class EmptyViewHelper(private val recyclerView: RecyclerView) : RecyclerView.AdapterDataObserver() {
+internal class EmptyViewHelper : RecyclerView.AdapterDataObserver() {
 
     /**
      * 设置空状态下需要展示的 View
@@ -26,8 +27,20 @@ internal class EmptyViewHelper(private val recyclerView: RecyclerView) : Recycle
             checkEmptyState()
         }
 
+    lateinit var recyclerView: RecyclerView
+
+    fun attachRecyclerView(targetRecyclerView: RecyclerView) {
+        recyclerView = targetRecyclerView
+        if (targetRecyclerView.adapter == null) {
+            throw NullPointerException("RecyclerView.adapter 为 null")
+        }
+        targetRecyclerView.adapter?.registerAdapterDataObserver(this)
+        checkEmptyState()
+    }
+
     fun attachAdapter(adapter: RecyclerView.Adapter<*>) {
         adapter.registerAdapterDataObserver(this)
+        checkEmptyState()
     }
 
     fun detachAdapter(adapter: RecyclerView.Adapter<*>) {
@@ -56,6 +69,9 @@ internal class EmptyViewHelper(private val recyclerView: RecyclerView) : Recycle
 
     private fun checkEmptyState() {
         emptyView?.let {
+            if (!this::recyclerView.isInitialized) {
+                return
+            }
             if (recyclerView.adapter != null && recyclerView.adapter?.itemCount == 0) {
                 it.visibility = RecyclerView.VISIBLE
                 recyclerView.visibility = RecyclerView.GONE

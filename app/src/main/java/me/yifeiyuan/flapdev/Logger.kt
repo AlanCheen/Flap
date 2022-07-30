@@ -5,7 +5,7 @@ import android.util.Log
 /**
  * Created by 程序亦非猿 on 2022/7/17.
  */
-object FLogger {
+object Logger {
 
     private const val TAG = "FLogger"
 

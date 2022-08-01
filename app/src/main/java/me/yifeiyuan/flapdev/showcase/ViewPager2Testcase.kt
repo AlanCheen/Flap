@@ -1,14 +1,11 @@
-package me.yifeiyuan.flapdev.showcase.viewpager2
+package me.yifeiyuan.flapdev.showcase
 
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.ext.HeaderFooterAdapter
-import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
 import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable

@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.ext.FooterViewHolder
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
-import me.yifeiyuan.flap.ext.HeaderViewHolder
 import me.yifeiyuan.flapdev.R
 
 private const val TAG = "HeaderFooterTestcase"
 
 /**
+ * 测试 Header + Footer 功能
+ *
  * Created by 程序亦非猿 on 2022/8/1.
  */
-class HeaderFooterTestcase : BaseCaseFragment() {
+class HeaderFooterTestcase : BaseTestcaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,7 +23,7 @@ class HeaderFooterTestcase : BaseCaseFragment() {
 
         val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
         headerFooterAdapter.setupHeaderView(headerView)
-//
+
         val footerView = LayoutInflater.from(activity).inflate(R.layout.footer_layout, null, false)
         headerFooterAdapter.setupFooterView(footerView)
 

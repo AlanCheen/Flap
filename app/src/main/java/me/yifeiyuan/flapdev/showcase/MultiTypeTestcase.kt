@@ -16,7 +16,7 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
 /**
  * 多类型测试
  */
-class MultiTypeTestcase : BaseCaseFragment() {
+class MultiTypeTestcase : BaseTestcaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

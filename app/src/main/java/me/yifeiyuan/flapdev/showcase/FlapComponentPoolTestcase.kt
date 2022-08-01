@@ -8,7 +8,7 @@ import java.util.ArrayList
 /**
  * Created by 程序亦非猿 on 2022/7/25.
  */
-class FlapComponentPoolTestcase : BaseCaseFragment() {
+class FlapComponentPoolTestcase : BaseTestcaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

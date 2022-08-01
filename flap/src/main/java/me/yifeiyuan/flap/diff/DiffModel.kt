@@ -17,5 +17,5 @@ interface DiffModel {
     //hashCode() == newItem.hashCode()
     fun areContentsTheSame(other: DiffModel): Boolean
 
-    fun getChangePayload(newItem: DiffModel): Any?
+    fun getChangePayload(newItem: DiffModel): Any? = null
 }

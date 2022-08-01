@@ -26,7 +26,7 @@ private const val TAG = "BaseCaseFragment"
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseCaseFragment : Fragment(), Scrollable {
+open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout

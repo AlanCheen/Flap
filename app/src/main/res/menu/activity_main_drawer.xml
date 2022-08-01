@@ -36,8 +36,8 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Header+Footer" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_diff"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="FlapDiffAdapter" />
     </group>
 </menu>

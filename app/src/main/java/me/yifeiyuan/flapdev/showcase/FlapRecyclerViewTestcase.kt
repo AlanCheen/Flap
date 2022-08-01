@@ -5,9 +5,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
@@ -20,7 +18,7 @@ import me.yifeiyuan.flapdev.R
  *
  * 测试 FlapRecyclerView 的功能
  */
-class FlapRecyclerViewTestcase : BaseCaseFragment() {
+class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_case_flap_rv

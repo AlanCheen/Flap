@@ -8,9 +8,11 @@ import java.util.ArrayList
 private const val TAG = "ItemClicksTestcase"
 
 /**
+ * 测试点击和长按事件
+ *
  * Created by 程序亦非猿 on 2022/7/27.
  */
-class ItemClicksTestcase : BaseCaseFragment() {
+class ItemClicksTestcase : BaseTestcaseFragment() {
 
     override fun createAdapter(): FlapAdapter {
         return super.createAdapter().apply {

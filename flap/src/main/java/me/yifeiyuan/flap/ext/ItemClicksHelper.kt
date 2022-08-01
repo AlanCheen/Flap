@@ -20,6 +20,8 @@ typealias OnItemLongClickListener = ((recyclerView: RecyclerView, childView: Vie
  * https://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener
  *
  * Created by 程序亦非猿 on 2022/7/28.
+ *
+ * @since 3.0.0
  */
 internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener {
 

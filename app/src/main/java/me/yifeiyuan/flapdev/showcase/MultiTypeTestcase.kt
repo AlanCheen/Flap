@@ -5,13 +5,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
-import me.yifeiyuan.flapdev.HeaderFooterAdapter
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 

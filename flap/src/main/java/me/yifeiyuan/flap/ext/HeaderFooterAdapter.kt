@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev
+package me.yifeiyuan.flap.ext
 
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +15,7 @@ class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
  * 一个支持设置 header 和 footer 的包装类 Adapter
  *
  * Created by 程序亦非猿 on 2022/7/31.
+ * @since 3.0.0
  */
 class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter<VH>>(var adapter: A) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

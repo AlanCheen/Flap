@@ -19,8 +19,8 @@ class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
  */
 class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter<VH>>(var adapter: A) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var headerView: View? = null
-    var footerView: View? = null
+    private var headerView: View? = null
+    private var footerView: View? = null
 
     init {
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -65,18 +65,14 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
-            // ignore
-        } else {
-            adapter.onBindViewHolder(holder as VH, position)
-        }
+        this.onBindViewHolder(holder, position, mutableListOf())
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
             // ignore
         } else {
-            adapter.onBindViewHolder(holder as VH, position, payloads)
+            adapter.onBindViewHolder(holder as VH, position - getHeaderCount(), payloads)
         }
     }
 
@@ -84,13 +80,13 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter
         if (headerView != null) {
             if (position == 0) {
                 return ITEM_VIEW_TYPE_HEADER
-            } else if (position == itemCount - 1 && footerView != null) {
+            } else if (position == itemCount - getHeaderCount() && footerView != null) {
                 return ITEM_VIEW_TYPE_FOOTER
             } else {
                 return adapter.getItemViewType(position - getHeaderCount())
             }
         } else {
-            if (position == itemCount - 1 && footerView != null) {
+            if (position == itemCount - getHeaderCount() && footerView != null) {
                 return ITEM_VIEW_TYPE_FOOTER
             }
             return adapter.getItemViewType(position)
@@ -155,4 +151,21 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter
         }
     }
 
+    fun setupHeaderView(header: View, layoutParams: RecyclerView.LayoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)) {
+        headerView = header
+        headerView?.layoutParams = layoutParams
+    }
+
+    fun setupFooterView(footer: View, layoutParams: RecyclerView.LayoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)) {
+        footerView = footer
+        footerView?.layoutParams = layoutParams
+    }
+
+    fun isHeader(component: RecyclerView.ViewHolder): Boolean {
+        return HeaderViewHolder::class.java == component.javaClass
+    }
+
+    fun isFooter(component: RecyclerView.ViewHolder): Boolean {
+        return FooterViewHolder::class.java == component.javaClass
+    }
 }

@@ -35,7 +35,7 @@ class ViewPager2Testcase : Fragment() , Scrollable {
         val size = 5
         val list = ArrayList<Any>()
         repeat(size) {
-            list.add(SimpleTextModel("初始数据 $it of $size"))
+            list.add(SimpleTextModel("$it of $size,初始数据 "))
         }
 
         viewPager.adapter = FlapAdapter().apply {

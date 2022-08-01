@@ -105,8 +105,8 @@ open class BaseCaseFragment : Fragment(), Scrollable {
 
         adapter.doOnItemClick { recyclerView, childView, position ->
             Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
-            toast("点击了 position = $position")
             val component = recyclerView.getChildViewHolder(childView)
+            toast("点击了 position = $position，model=${adapter.getItemData(position)}")
         }
 
         adapter.doOnItemLongClick { recyclerView, childView, position ->
@@ -115,6 +115,8 @@ open class BaseCaseFragment : Fragment(), Scrollable {
             true
         }
 
+
+        //配置完结束最后在赋值
         recyclerView.adapter = adapter
     }
 

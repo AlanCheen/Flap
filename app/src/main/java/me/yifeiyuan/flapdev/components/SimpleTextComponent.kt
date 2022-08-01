@@ -35,7 +35,7 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     }
 
     companion object {
-        private const val TAG = "SimpleTextItem"
+        private const val TAG = "SimpleTextComponent"
     }
 }
 

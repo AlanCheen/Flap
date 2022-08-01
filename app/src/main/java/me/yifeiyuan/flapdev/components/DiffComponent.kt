@@ -1,46 +1,44 @@
 package me.yifeiyuan.flapdev.components
 
+import android.os.SystemClock
 import android.view.View
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.differ.IDiffer
+import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**
  * Created by 程序亦非猿 on 2022/8/1.
+ *
+ * 如果都返回 true ，内容修改后再下拉刷新，不会有 onbind 行为
  */
 
-class TestDiffModel(var content: String, var age: Int, var desc: String) : IDiffer {
+class TestDiffModel(var content: String, var id: Int, var desc: String) : IDiffer {
 
-    override fun areItemsTheSame(other: Any): Boolean {
-        if (other.javaClass == TestDiffModel::javaClass) {
-            return false
+    override fun areItemsTheSame(newItem: Any): Boolean {
+        if (newItem.javaClass == TestDiffModel::class.java) {
+            return id == (newItem as TestDiffModel).id
         } else {
             return false
         }
+//        return true
     }
 
-    override fun areContentsTheSame(other: Any): Boolean {
-        if (other.javaClass == TestDiffModel::javaClass) {
-            return false
+    override fun areContentsTheSame(newItem: Any): Boolean {
+        if (newItem.javaClass == TestDiffModel::class.java) {
+            return content == (newItem as TestDiffModel).content && desc == newItem.desc
         } else {
             return false
         }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return super.equals(other)
-    }
-
-    override fun hashCode(): Int {
-        return super.hashCode()
+//        return true
     }
 
     override fun toString(): String {
-        return super.toString()
+        return "(id=$id,content='$content',desc='$desc')TestDiffModel"
     }
 }
 
@@ -53,13 +51,29 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
     override fun onBind(model: TestDiffModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
 
         bindTextView(R.id.content) {
-
+            text = "展示 content ：${model.content}"
         }
-        bindTextView(R.id.age) {
 
+        bindTextView(R.id.id) {
+            text = "展示 ID ：${model.id}"
         }
-        bindTextView(R.id.content) {
 
+        bindTextView(R.id.desc) {
+            text = "展示 desc ：${model.desc}"
+        }
+
+        bindButton(R.id.modifyId) {
+            setOnClickListener {
+                model.id = (SystemClock.uptimeMillis() % 10000).toInt()
+                adapter.notifyItemChanged(position)
+            }
+        }
+
+        bindButton(R.id.modifyContent) {
+            setOnClickListener {
+                model.content = "Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
+                adapter.notifyItemChanged(position)
+            }
         }
     }
 

@@ -6,32 +6,33 @@
     android:background="#C1C3CF">
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"
-        android:gravity="center"
-        android:text="展示 Content"
-        android:textColor="#1565C0"
+        android:gravity="start"
+        android:text="展示 id"
+        android:textColor="#9575CD"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/age"
+        android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"
-        android:gravity="center"
-        android:text="展示 age"
-        android:textColor="#9575CD"
-        app:layout_constraintLeft_toRightOf="@id/content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="start"
+        android:text="展示 Content"
+        android:textColor="#1565C0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/id" />
 
     <TextView
         android:id="@+id/desc"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:gravity="center"
+        android:gravity="start"
         android:text="展示 desc"
         android:textColor="#A67145"
         app:layout_constraintLeft_toRightOf="@id/content"
@@ -58,10 +59,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/modifyAge"
+            android:id="@+id/modifyId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改 Age"
+            android:text="修改 Id"
             android:textAllCaps="false"
             app:layout_constraintLeft_toRightOf="@id/modifyContent"
             app:layout_constraintTop_toTopOf="parent" />

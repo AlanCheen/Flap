@@ -2,10 +2,12 @@ package me.yifeiyuan.flapdev.showcase.viewpager2
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
+import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -17,7 +19,7 @@ import java.util.*
  * FlapAdapter 测试通过
  * FragmentStateAdapter 不需要测试
  */
-class ViewPager2Testcase : Fragment() , Scrollable {
+class ViewPager2Testcase : Fragment(), Scrollable {
 
     lateinit var viewPager: ViewPager2
 
@@ -46,14 +48,18 @@ class ViewPager2Testcase : Fragment() , Scrollable {
              * java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent)
              * at androidx.viewpager2.widget.ViewPager2$4.onChildViewAttachedToWindow(ViewPager2.java:270)
              */
-            doOnBindViewHolderEnd { delegate, component, data, position, payloads ->
+            doOnCreateViewHolderEnd { delegate, viewType, component ->
                 component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             }
-//            registerAdapterHook(object : AdapterHook {
-//                override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
-//                    component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-//                }
-//            })
+
+            doOnItemClick { recyclerView, childView, position ->
+                Toast.makeText(recyclerView.context, "点击了 position=${position}", Toast.LENGTH_SHORT).show()
+            }
+
+            doOnItemLongClick { recyclerView, childView, position ->
+                Toast.makeText(recyclerView.context, "长按了 position=${position}", Toast.LENGTH_SHORT).show()
+                false
+            }
         }
     }
 
@@ -62,22 +68,22 @@ class ViewPager2Testcase : Fragment() , Scrollable {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.horizontal->{
-                viewPager.orientation=ViewPager2.ORIENTATION_HORIZONTAL
+        when (item.itemId) {
+            R.id.horizontal -> {
+                viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             }
-            R.id.vertical->{
-                viewPager.orientation=ViewPager2.ORIENTATION_VERTICAL
+            R.id.vertical -> {
+                viewPager.orientation = ViewPager2.ORIENTATION_VERTICAL
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun scrollToTop() {
-        viewPager.setCurrentItem(0,true)
+        viewPager.setCurrentItem(0, true)
     }
 
     override fun scrollToBottom() {
-        viewPager.setCurrentItem(viewPager.adapter!!.itemCount-1,true)
+        viewPager.setCurrentItem(viewPager.adapter!!.itemCount - 1, true)
     }
 }

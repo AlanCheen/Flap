@@ -6,17 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标记一个类为组件，并配置组件的一些基本信息。
- * <p>
- * 被 @Delegate 标记的组件，会生成一个 AdapterDelegate 类，并被自动注册到 Flap 中。
- * <p>
+ *
+ * 被 @Delegate 注解的组件，会生成一个 AdapterDelegate 类，生成的类的命名规则：组件类名+AdapterDelegate。
+ *
+ *
  * Created by 程序亦非猿 on 2021/9/22.
- * <p>
+ *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  *
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
- * @since 3.0
+ * @since 3.0.0
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
@@ -64,23 +64,4 @@ public @interface Delegate {
      */
     boolean useViewBinding() default false;
 
-//    /**
-//     * todo WIP 使用注解解析 真的有必要吗？ 如果运行时解析 还得改为 Runtime 类型的注解
-//     *
-//     * 标记 AdapterDelegate 代理哪个数据模型
-//     * 是一对一的代理关系
-//     *
-//     * @return AdapterDelegate 所代理的模型的类型
-//     */
-//    Class<?> delegateModel() default NotSet.class;
-
-//    /**
-//     * todo 未实现
-//     * 设置组件的缓存的最大数值
-//     * RecyclerView.RecycledViewPool.setMaxRecycledViews(int,int)
-//     *
-//     * @return 组件最大的缓存数量
-//     */
-//    @Deprecated
-//    int maxRecycledViews() default -1;
 }

@@ -115,7 +115,6 @@ open class BaseCaseFragment : Fragment(), Scrollable {
             true
         }
 
-
         //配置完结束最后在赋值
         recyclerView.adapter = adapter
     }

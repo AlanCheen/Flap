@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
 import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flapdev.R
@@ -40,7 +42,7 @@ class ViewPager2Testcase : Fragment(), Scrollable {
             list.add(SimpleTextModel("$it of $size,初始数据 "))
         }
 
-        viewPager.adapter = FlapAdapter().apply {
+        val adapter = FlapAdapter().apply {
             setData(list)
 
             /**
@@ -61,6 +63,17 @@ class ViewPager2Testcase : Fragment(), Scrollable {
                 false
             }
         }
+
+        // header footer 可以加，也必须是 match_parent 的
+//         val headerFooterAdapter = HeaderFooterAdapter(adapter)
+//
+//         val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
+//         headerFooterAdapter.setupHeaderView(headerView, RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT))
+//
+//         val footerView = LayoutInflater.from(activity).inflate(R.layout.footer_layout, null, false)
+//         headerFooterAdapter.setupFooterView(footerView,RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT))
+
+        viewPager.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

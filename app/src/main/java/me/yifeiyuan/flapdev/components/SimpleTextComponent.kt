@@ -17,7 +17,11 @@ import me.yifeiyuan.flapdev.R
  * 作为文档 Demo
  */
 
-data class SimpleTextModel(val content: String)
+data class SimpleTextModel(val content: String){
+    override fun toString(): String {
+        return "content=$content,SimpleTextModel"
+    }
+}
 
 //@Delegate(layoutName = "flap_item_simple_text")
 @Delegate(layoutId = R.layout.flap_item_simple_text)
@@ -35,7 +39,7 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     }
 
     companion object {
-        private const val TAG = "SimpleTextItem"
+        private const val TAG = "SimpleTextComponent"
     }
 }
 

@@ -32,7 +32,7 @@ internal class EmptyViewHelper : RecyclerView.AdapterDataObserver() {
     fun attachRecyclerView(targetRecyclerView: RecyclerView) {
         recyclerView = targetRecyclerView
         if (targetRecyclerView.adapter == null) {
-            throw NullPointerException("RecyclerView.adapter 为 null")
+            throw NullPointerException("RecyclerView.adapter 为 null，请先给 RecyclerView 设置 Adapter")
         }
         targetRecyclerView.adapter?.registerAdapterDataObserver(this)
         checkEmptyState()

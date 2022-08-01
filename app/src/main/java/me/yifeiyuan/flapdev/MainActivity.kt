@@ -72,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "点击、长按事件功能测试"
                     replace(ItemClicksTestcase::class.java)
                 }
+                R.id.nav_header_footer -> {
+                    subtitle = "Header、Footer"
+                    replace(HeaderFooterTestcase::class.java)
+                }
             }
             drawerLayout.close()
 

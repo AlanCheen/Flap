@@ -68,4 +68,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/buttons" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

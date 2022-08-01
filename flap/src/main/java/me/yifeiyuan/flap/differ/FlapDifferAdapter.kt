@@ -1,5 +1,6 @@
-package me.yifeiyuan.flap.diff
+package me.yifeiyuan.flap.differ
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -8,7 +9,6 @@ import me.yifeiyuan.flap.FlapAdapter
 import java.util.*
 
 /**
- * FlapDiffAdapter supports AsyncListDiffer feature.
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -17,22 +17,32 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0
  */
-class FlapDiffAdapter<T : DiffModel> : FlapAdapter {
+class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
     constructor() {
         differ = AsyncListDiffer(this, object : ItemCallback<T>() {
             override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-                return oldItem.areItemsTheSame(newItem)
+                if (oldItem is IDiffer) {
+                    return oldItem.areItemsTheSame(newItem)
+                }
+                return oldItem.javaClass == newItem.javaClass
             }
 
+            @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-                return oldItem.areContentsTheSame(newItem)
+                if (oldItem is IDiffer) {
+                    return oldItem.areContentsTheSame(newItem)
+                }
+                return oldItem.equals(newItem)
             }
 
             override fun getChangePayload(oldItem: T, newItem: T): Any? {
-                return oldItem.getChangePayload(newItem)
+                if (oldItem is IDiffer) {
+                    oldItem.getChangePayload(newItem)
+                }
+                return null
             }
         })
     }
@@ -59,8 +69,8 @@ class FlapDiffAdapter<T : DiffModel> : FlapAdapter {
         return differ.currentList.size
     }
 
-    override fun getItemData(position: Int): Any {
-        return differ.currentList[position] as Any
+    override fun getItemData(position: Int): T {
+        return differ.currentList[position]
     }
 
     override fun setData(newDataList: MutableList<Any>) {

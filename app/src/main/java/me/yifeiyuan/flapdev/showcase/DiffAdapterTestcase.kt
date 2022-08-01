@@ -1,11 +1,9 @@
 package me.yifeiyuan.flapdev.showcase
 
-import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.diff.DiffModel
-import me.yifeiyuan.flap.diff.FlapDiffAdapter
+import me.yifeiyuan.flap.differ.IDiffer
+import me.yifeiyuan.flap.differ.FlapDifferAdapter
 import me.yifeiyuan.flapdev.components.TestDiffModel
 import java.util.ArrayList
 
@@ -16,7 +14,7 @@ import java.util.ArrayList
 class DiffAdapterTestcase : BaseTestcaseFragment() {
 
     override fun createAdapter(): FlapAdapter {
-        return FlapDiffAdapter<DiffModel>().apply {
+        return FlapDifferAdapter<IDiffer>().apply {
             setData(createRefreshData())
         }
     }

@@ -4,14 +4,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-
 const val ITEM_VIEW_TYPE_HEADER = 2123321000
 const val ITEM_VIEW_TYPE_FOOTER = 2123321001
 
 class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
 class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
 /**
+ * 一个支持设置 header 和 footer 的包装类 Adapter
+ *
  * Created by 程序亦非猿 on 2022/7/31.
  */
 class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter<VH>>(var adapter: A) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

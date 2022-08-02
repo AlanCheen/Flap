@@ -41,7 +41,6 @@ open class FlapRecyclerView
         const val DEFAULT_LAYOUT_TYPE = LAYOUT_TYPE_LINEAR
     }
 
-
     /**
      * RecyclerView.VERTICAL
      * RecyclerView.HORIZONTAL
@@ -73,6 +72,8 @@ open class FlapRecyclerView
      */
     private var recycleChildrenOnDetach = true
 
+    private var supportsChangeAnimations = true
+
     var emptyView: View? = null
         set(value) {
             flapAdapter?.setEmptyView(value)
@@ -89,9 +90,11 @@ open class FlapRecyclerView
 
         val layoutType = flapTypedArray.getInt(R.styleable.FlapRecyclerView_flapLayoutManager, DEFAULT_LAYOUT_TYPE)
 
-        val isDiffEnable = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapDiffEnable, true)
+        val useDifferAdapter = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapUseDifferAdapter, true)
 
         recycleChildrenOnDetach = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapRecycleChildrenOnDetach, true)
+
+        supportsChangeAnimations = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapSupportsChangeAnimations, false)
 
         flapTypedArray.recycle()
 
@@ -117,10 +120,10 @@ open class FlapRecyclerView
 
         //默认禁用 change 动画，以解决闪屏问题
         if (itemAnimator is SimpleItemAnimator) {
-            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = supportsChangeAnimations
         }
 
-        flapAdapter = if (isDiffEnable) FlapDifferAdapter<IDiffer>() else FlapAdapter()
+        flapAdapter = if (useDifferAdapter) FlapDifferAdapter<IDiffer>() else FlapAdapter()
 
         setAdapter(flapAdapter)
     }
@@ -165,6 +168,13 @@ open class FlapRecyclerView
         flapAdapter?.setData(data)
     }
 
+    override fun setItemAnimator(animator: ItemAnimator?) {
+        super.setItemAnimator(animator)
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = supportsChangeAnimations
+        }
+    }
+
     /**
      * 手动切换 null,可以保证 Adapter#onDetachedFromRecyclerView 被调用
      */
@@ -178,7 +188,7 @@ open class FlapRecyclerView
     /**
      * 滚动到顶部
      */
-   fun scrollToTop() = scrollToPosition(0, 0)
+    fun scrollToTop() = scrollToPosition(0, 0)
 
     fun scrollToBottom() = run {
         if (flapAdapter != null && layoutManager != null) {
@@ -202,6 +212,14 @@ open class FlapRecyclerView
         else -> {
             layoutManager?.scrollToPosition(position)
         }
+    }
+
+    fun smoothScrollToPosition(position: Int){
+//        when(layoutManager){
+//            is LinearLayoutManager->{
+//                (layoutManager as LinearLayoutManager).smoothScrollToPosition()
+//            }
+//        }
     }
 
     /**

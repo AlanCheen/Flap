@@ -214,13 +214,13 @@ open class FlapRecyclerView
         }
     }
 
-    fun smoothScrollToPosition(position: Int){
+//    fun smoothScrollToPosition(position: Int){
 //        when(layoutManager){
 //            is LinearLayoutManager->{
 //                (layoutManager as LinearLayoutManager).smoothScrollToPosition()
 //            }
 //        }
-    }
+//    }
 
     /**
      * 设置预加载触发时的行为

@@ -10,8 +10,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.R
-import me.yifeiyuan.flap.diff.DiffModel
-import me.yifeiyuan.flap.diff.FlapDiffAdapter
+import me.yifeiyuan.flap.differ.IDiffer
+import me.yifeiyuan.flap.differ.FlapDifferAdapter
 
 /**
  * TODO 待测试
@@ -120,7 +120,7 @@ open class FlapRecyclerView
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 
-        flapAdapter = if (isDiffEnable) FlapDiffAdapter<DiffModel>() else FlapAdapter()
+        flapAdapter = if (isDiffEnable) FlapDifferAdapter<IDiffer>() else FlapAdapter()
 
         setAdapter(flapAdapter)
     }

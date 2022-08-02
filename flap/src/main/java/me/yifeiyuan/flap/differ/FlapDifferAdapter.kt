@@ -9,6 +9,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import java.util.*
 
 /**
+ * 支持 AsyncListDiffer 更高效的刷新。
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -73,10 +74,21 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
         return differ.currentList[position]
     }
 
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun setData(newDataList: MutableList<Any>) {
         val data = ArrayList<T>()
         for (o in newDataList) {
             data.add(o as T)
+        }
+        submitList(data)
+    }
+
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    override fun appendData(appendDataList: MutableList<Any>) {
+        val data = ArrayList<T>()
+        data.addAll(differ.currentList)
+        appendDataList.forEach {
+            data.add(it as T)
         }
         submitList(data)
     }

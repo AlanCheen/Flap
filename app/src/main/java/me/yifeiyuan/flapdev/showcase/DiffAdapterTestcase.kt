@@ -1,10 +1,16 @@
 package me.yifeiyuan.flapdev.showcase
 
+import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.differ.FlapDifferAdapter
+import me.yifeiyuan.flap.ext.HeaderFooterAdapter
+import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.TestDiffModel
 import java.util.ArrayList
 
@@ -16,6 +22,35 @@ import java.util.ArrayList
  * Created by 程序亦非猿 on 2022/8/1.
  */
 class DiffAdapterTestcase : BaseTestcaseFragment() {
+
+    //如果不测试 header footer,就注释掉 onViewCreated
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        val headerFooterAdapter = HeaderFooterAdapter(adapter)
+//
+//        val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
+//        headerFooterAdapter.setupHeaderView(headerView)
+//
+//        val footerView = LayoutInflater.from(activity).inflate(R.layout.footer_layout, null, false)
+//        headerFooterAdapter.setupFooterView(footerView)
+//
+//        adapter.doOnItemClick { recyclerView, childView, position ->
+//            val component = recyclerView.getChildViewHolder(childView)
+//            if (headerFooterAdapter.isHeader(component)) {
+//                toast("点击了 position = $position，是 Header!")
+//                return@doOnItemClick
+//            }
+//            if (headerFooterAdapter.isFooter(component)) {
+//                toast("点击了 position = $position，是 Footer!")
+//                return@doOnItemClick
+//            }
+//            val realPosition = if (position == 0) position else position - headerFooterAdapter.getHeaderCount()
+//            toast("点击了 position = $position，model=${adapter.getItemData(realPosition)}")
+//        }
+//
+//        recyclerView.adapter = headerFooterAdapter
+//    }
 
     override fun createAdapter(): FlapAdapter {
         return FlapDifferAdapter<IDiffer>().apply {
@@ -29,8 +64,8 @@ class DiffAdapterTestcase : BaseTestcaseFragment() {
 
     override fun createRefreshData(size: Int): MutableList<Any> {
         val list = mutableListOf<Any>()
-        repeat(20){
-            list.add(TestDiffModel("content,$it of 20",it,"this is desc :${it%3}"))
+        repeat(20) {
+            list.add(TestDiffModel("content,$it of 20", it, "this is desc :${it % 3}"))
         }
         return list
     }
@@ -39,7 +74,7 @@ class DiffAdapterTestcase : BaseTestcaseFragment() {
         Handler().postDelayed({
             val list = ArrayList<Any>()
             repeat(size) {
-                list.add(TestDiffModel("content,$it of 20,more data",it,"this is desc :${it%3}"))
+                list.add(TestDiffModel("content,$it of 20,more data", it, "this is desc :${it % 3}"))
             }
             adapter.appendData(list)
         }, 500)

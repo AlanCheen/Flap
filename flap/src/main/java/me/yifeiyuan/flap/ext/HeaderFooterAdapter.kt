@@ -1,8 +1,10 @@
 package me.yifeiyuan.flap.ext
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.FlapDebug
 
 const val ITEM_VIEW_TYPE_HEADER = 2123321000
 const val ITEM_VIEW_TYPE_FOOTER = 2123321001
@@ -10,6 +12,8 @@ const val ITEM_VIEW_TYPE_FOOTER = 2123321001
 class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
 class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+private const val TAG = "HeaderFooterAdapter"
 
 /**
  * 一个支持设置 header 和 footer 的包装类 Adapter
@@ -29,27 +33,31 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : RecyclerView.Adapter
             }
 
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                notifyItemRangeChanged(positionStart, itemCount)
+                FlapDebug.d(TAG, "onItemRangeChanged() called with: positionStart = $positionStart, itemCount = $itemCount")
+                notifyItemRangeChanged(positionStart+getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                notifyItemRangeChanged(positionStart, itemCount, payload)
+                FlapDebug.d(TAG, "onItemRangeChanged() called with: positionStart = $positionStart, itemCount = $itemCount, payload = $payload")
+                notifyItemRangeChanged(positionStart+getHeaderCount(), itemCount, payload)
             }
 
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                notifyItemRangeInserted(positionStart, itemCount)
+                FlapDebug.d(TAG, "onItemRangeInserted() called with: positionStart = $positionStart, itemCount = $itemCount")
+                notifyItemRangeInserted(positionStart+getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                notifyItemRangeRemoved(positionStart, itemCount)
+                FlapDebug.d(TAG, "onItemRangeRemoved() called with: positionStart = $positionStart, itemCount = $itemCount")
+                notifyItemRangeRemoved(positionStart+getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                notifyItemMoved(fromPosition, toPosition)
+                FlapDebug.d(TAG, "onItemRangeMoved() called with: fromPosition = $fromPosition, toPosition = $toPosition, itemCount = $itemCount")
+                notifyItemMoved(fromPosition+getHeaderCount(), toPosition+getHeaderCount())
             }
 
             override fun onStateRestorationPolicyChanged() {
-                super.onStateRestorationPolicyChanged()
                 adapter.stateRestorationPolicy = stateRestorationPolicy
             }
         })

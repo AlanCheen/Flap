@@ -2,6 +2,7 @@ package me.yifeiyuan.flapdev.components
 
 import android.os.SystemClock
 import android.view.View
+import android.widget.Button
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
@@ -54,6 +55,21 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
             bindTextView(R.id.content) {
                 text = "展示 content ：${payloads.get(0)}"
             }
+
+            //当 payloads 更新时，事件点击需要重新设置
+            bindButton(R.id.modifyContent) {
+                setOnClickListener {
+                    model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
+                    adapter.notifyItemChanged(position)
+                }
+            }
+
+            bindButton(R.id.modifyId) {
+                setOnClickListener {
+                    model.id = (SystemClock.uptimeMillis() % 10000).toInt()
+                    adapter.notifyItemChanged(position)
+                }
+            }
             return
         }
 
@@ -78,7 +94,7 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
 
         bindButton(R.id.modifyContent) {
             setOnClickListener {
-                model.content = "Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
+                model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
                 adapter.notifyItemChanged(position)
             }
         }

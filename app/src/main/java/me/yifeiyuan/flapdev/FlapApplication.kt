@@ -6,13 +6,10 @@ import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.hook.ApmHook
-import me.yifeiyuan.flap.hook.DebugHelperHook
-import me.yifeiyuan.flap.ktmodule.KtModuleComponentDelegate
+import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.CustomViewTypeComponentDelegate
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 import me.yifeiyuan.flapdev.components.SimpleTextComponentDelegate
-import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleComponentDelegate
-import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingComponentDelegate
 
 /**
  * Flap
@@ -46,7 +43,7 @@ class FlapApplication : MultiDexApplication() {
             )
 
             //也是全局
-            registerAdapterHooks(DebugHelperHook(), ApmHook())
+            registerAdapterHooks(LoggingHook(), ApmHook())
 
             //打开日志
             setDebug(true)

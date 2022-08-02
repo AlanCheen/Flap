@@ -30,11 +30,15 @@ class TestDiffModel(var content: String, var id: Int, var desc: String) : IDiffe
 
     override fun areContentsTheSame(newItem: Any): Boolean {
         if (newItem.javaClass == TestDiffModel::class.java) {
-            return content == (newItem as TestDiffModel).content && desc == newItem.desc
+            return content == (newItem as TestDiffModel).content
         } else {
             return false
         }
 //        return true
+    }
+
+    override fun getChangePayload(newItem: Any): Any? {
+        return (newItem as TestDiffModel).content
     }
 
     override fun toString(): String {
@@ -49,6 +53,13 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
     }
 
     override fun onBind(model: TestDiffModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+
+        if (payloads.isNotEmpty()) {
+            bindTextView(R.id.content){
+                text = "展示 content ：${payloads.get(0)}"
+            }
+            return
+        }
 
         bindTextView(R.id.content) {
             text = "展示 content ：${model.content}"

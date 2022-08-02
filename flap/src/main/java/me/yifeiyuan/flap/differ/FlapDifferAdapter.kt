@@ -41,7 +41,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
             override fun getChangePayload(oldItem: T, newItem: T): Any? {
                 if (oldItem is IDiffer) {
-                    oldItem.getChangePayload(newItem)
+                   return oldItem.getChangePayload(newItem)
                 }
                 return null
             }

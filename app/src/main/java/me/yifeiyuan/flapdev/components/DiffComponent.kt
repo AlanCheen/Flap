@@ -99,5 +99,4 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
             }
         }
     }
-
 }

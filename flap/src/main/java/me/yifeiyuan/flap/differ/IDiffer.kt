@@ -24,20 +24,16 @@ interface IDiffer {
      *
      * @see androidx.recyclerview.widget.DiffUtil.ItemCallback.areItemsTheSame
      */
-    fun areItemsTheSame(newItem: Any): Boolean {
-        return this.javaClass == newItem.javaClass
-    }
+    fun areItemsTheSame(newItem: Any): Boolean
 
     /**
+     * 用于判断两个数据的内容是否相同
      *
-     * equals
      * 当 areItemsTheSame 返回 true 的时候会调用这个方法
      *
      * @see androidx.recyclerview.widget.DiffUtil.ItemCallback.areContentsTheSame
      */
-    fun areContentsTheSame(newItem: Any): Boolean {
-        return equals(newItem)
-    }
+    fun areContentsTheSame(newItem: Any): Boolean
 
     /**
      * 当 areItemsTheSame 返回 true , 并且 areContentsTheSame 返回 false, 就会调用该方法

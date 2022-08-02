@@ -163,7 +163,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     }
 
     override fun scrollToBottom() {
-        TODO("Not yet implemented")
     }
 
     override fun scrollToTop() {

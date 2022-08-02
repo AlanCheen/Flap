@@ -25,7 +25,7 @@ import me.yifeiyuan.flap.differ.FlapDifferAdapter
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
- * @since 3.0.0
+ * @since TODO 
  */
 open class FlapRecyclerView
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)

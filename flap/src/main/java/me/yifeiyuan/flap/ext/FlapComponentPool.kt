@@ -10,12 +10,13 @@ import me.yifeiyuan.flap.FlapDebug
 private const val TAG = "FlapComponentPool"
 
 /**
- * A global RecycledViewPool that can be shared among RecyclerViews , which is enabled by default.
+ * 自定义 RecycledViewPool
  *
- * todo 考虑下 是否需要实现 ComponentCallbacks2
+ * 一个实现了 ComponentCallbacks2 的 FlapComponentPool，可以在内存不足的时候清理缓存
+ * 要使用的话，需要先注册到 Application
  *
- *
- * @see me.yifeiyuan.flap.FlapAdapter.useComponentPool
+ * @see me.yifeiyuan.flap.Flap.init
+ * @see me.yifeiyuan.flap.FlapAdapter.useGlobalComponentPool
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

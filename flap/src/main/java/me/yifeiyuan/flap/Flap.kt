@@ -1,6 +1,8 @@
 package me.yifeiyuan.flap
 
+import android.app.Application
 import android.content.ComponentCallbacks2
+import android.content.Context
 import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
@@ -33,6 +35,8 @@ object Flap : ComponentCallbacks2, IRegistry {
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
     internal val globalHooks: MutableList<AdapterHook> = mutableListOf()
+
+    var applicationContext: Context? = null
 
     override fun registerAdapterHook(adapterHook: AdapterHook) {
         globalHooks.add(adapterHook)
@@ -82,9 +86,14 @@ object Flap : ComponentCallbacks2, IRegistry {
         injectDelegatesByPlugin(this)
     }
 
-    // TODO: 2021/10/27  ASM 自动注入
+    // TODO: ASM 自动注入 ?
     private fun injectDelegatesByPlugin(flap: Flap) {
 
+    }
+
+    fun init(context: Context) {
+        applicationContext = context.applicationContext
+        applicationContext?.registerComponentCallbacks(this)
     }
 
     fun setDebug(debug: Boolean) {

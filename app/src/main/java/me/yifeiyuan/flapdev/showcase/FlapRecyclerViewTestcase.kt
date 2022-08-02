@@ -1,5 +1,6 @@
 package me.yifeiyuan.flapdev.showcase
 
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,6 +13,8 @@ import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
+
+private const val TAG = "FlapRecyclerViewTestcas"
 
 /**
  * Created by 程序亦非猿 on 2022/2/21.
@@ -32,17 +35,30 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
         flapRecyclerView = recyclerView as FlapRecyclerView
         adapter = flapRecyclerView.adapter as FlapAdapter
 
-        flapRecyclerView.setData(createRefreshData(30))
-
-        val emptyView = view.findViewById<View>(R.id.emptyView)
-
-        flapRecyclerView.emptyView = emptyView
-
         setHasOptionsMenu(true)
 
-        flapRecyclerView.doOnPrefetch {
-            toast("on prefetch")
-            loadMoreData(10)
+        with(flapRecyclerView.flapAdapter) {
+
+            this.setEmptyView(emptyView)
+
+            doOnPreload {
+                toast("on prefetch")
+                loadMoreData(10)
+            }
+
+            doOnItemClick { recyclerView, childView, position ->
+                Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
+                val component = recyclerView.getChildViewHolder(childView)
+                toast("点击了 position = $position，model=${adapter.getItemData(position)}")
+            }
+
+            doOnItemLongClick { recyclerView, childView, position ->
+                Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
+                toast("长按了 position = $position")
+                true
+            }
+
+            setData(createRefreshData(30))
         }
     }
 

@@ -12,20 +12,18 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.R
 import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.differ.FlapDifferAdapter
+import me.yifeiyuan.flap.ext.OnItemClickListener
+import me.yifeiyuan.flap.ext.OnItemLongClickListener
 
 /**
- * TODO 待测试
- *
- * 封装了 Flap 的 RecyclerView，未测试，暂时请不要使用。
- *
- * FlapRecyclerView 和 Flap 的 Adapters 和 LayoutManagers 是深度绑定的。
+ * 为 Flap 定制的 RecyclerView，和 Flap 的 Adapters 和 LayoutManagers 是深度绑定的。
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
  * @author 程序亦非猿 [Follow me](<a> https://github.com/AlanCheen</a>)
  * @since 2020/9/22
- * @since TODO 
+ * @since 3.0.0
  */
 open class FlapRecyclerView
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
@@ -64,7 +62,7 @@ open class FlapRecyclerView
             }
         }
 
-    private var flapAdapter: FlapAdapter? = null
+    var flapAdapter: FlapAdapter
 
     /**
      * 是否在 detach 的时候回收复用 View
@@ -72,13 +70,7 @@ open class FlapRecyclerView
      */
     private var recycleChildrenOnDetach = true
 
-    private var supportsChangeAnimations = true
-
-    var emptyView: View? = null
-        set(value) {
-            flapAdapter?.setEmptyView(value)
-            field = value
-        }
+    private var supportsChangeAnimations = false
 
     init {
 
@@ -134,8 +126,7 @@ open class FlapRecyclerView
      */
     override fun setAdapter(adapter: Adapter<*>?) {
         if (adapter == null) {
-            this.flapAdapter = null
-            super.setAdapter(this.flapAdapter)
+            super.setAdapter(adapter)
         } else if (adapter is FlapAdapter) {
             this.flapAdapter = adapter
             super.setAdapter(this.flapAdapter)
@@ -190,12 +181,6 @@ open class FlapRecyclerView
      */
     fun scrollToTop() = scrollToPosition(0, 0)
 
-    fun scrollToBottom() = run {
-        if (flapAdapter != null && layoutManager != null) {
-            // TODO: 2022/7/20 find bottom
-        }
-    }
-
     /**
      * 滚动列表到指定位置
      *
@@ -221,25 +206,4 @@ open class FlapRecyclerView
 //            }
 //        }
 //    }
-
-    /**
-     * 设置预加载触发时的行为
-     */
-    fun doOnPrefetch(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
-        flapAdapter?.doOnPreload(offset, minItemCount, onPrefetch)
-    }
-
-    /**
-     * 设置是否开启预加载
-     */
-    fun setPrefetchEnable(enable: Boolean) {
-        flapAdapter?.setPreloadEnable(enable)
-    }
-
-    /**
-     * 设置一次预加载行为完成
-     */
-    fun setPrefetchComplete() {
-        flapAdapter?.setPreloadComplete()
-    }
 }

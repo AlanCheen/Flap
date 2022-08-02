@@ -11,6 +11,8 @@ import java.util.*
 /**
  * 支持 AsyncListDiffer 更高效的刷新。
  *
+ * @see IDiffer
+ *
  * Created by 程序亦非猿 on 2021/9/22.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>

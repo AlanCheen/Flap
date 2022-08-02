@@ -43,6 +43,8 @@ interface IDiffer {
      * 当 areItemsTheSame 返回 true , 并且 areContentsTheSame 返回 false, 就会调用该方法
      *
      * @see androidx.recyclerview.widget.DiffUtil.ItemCallback.getChangePayload
+     *
+     * @return 一般返回 areContentsTheSame 中不相同的数据，例如 newItem.xxx
      */
     fun getChangePayload(newItem: Any): Any? = null
 }

@@ -74,7 +74,6 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
             R.id.grid -> {
                 val spanCount = 2
                 flapRecyclerView.layoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
-
                     spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
                             var spanSize = 1
@@ -86,7 +85,6 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
             }
             R.id.staggered -> {
                 flapRecyclerView.layoutManager = FlapStaggeredGridLayoutManager(3).apply {
-
                 }
             }
         }

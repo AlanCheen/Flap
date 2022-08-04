@@ -39,5 +39,15 @@
             android:id="@+id/nav_diff"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="FlapDiffAdapter" />
+        <item
+            android:id="@+id/nav_layout_delegate"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="LayoutAdapterDelegate" />
+        <item
+            android:id="@+id/nav_layout_delegate_dsl"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="LayoutAdapterDelegate DSL" />
+
+
     </group>
 </menu>

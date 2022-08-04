@@ -75,6 +75,15 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "Header、Footer"
                     replace(HeaderFooterTestcase::class.java)
                 }
+                R.id.nav_layout_delegate -> {
+                    subtitle = "LayoutAdapterDelegate"
+                    replace(LayoutAdapterDelegateTestcase::class.java)
+                }
+                R.id.nav_layout_delegate_dsl -> {
+                    subtitle = "LayoutAdapterDelegate DSL"
+                    replace(LayoutDelegateDSLTestcase::class.java)
+                }
+
             }
             drawerLayout.close()
 

@@ -76,7 +76,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
         return differ.currentList[position]
     }
 
-    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun setData(newDataList: MutableList<Any>) {
         val data = ArrayList<T>()
         for (o in newDataList) {

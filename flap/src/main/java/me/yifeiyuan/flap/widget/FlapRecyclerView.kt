@@ -156,7 +156,7 @@ open class FlapRecyclerView
     }
 
     fun setData(data: MutableList<Any>) {
-        flapAdapter?.setData(data)
+        flapAdapter.setData(data)
     }
 
     override fun setItemAnimator(animator: ItemAnimator?) {
@@ -199,11 +199,4 @@ open class FlapRecyclerView
         }
     }
 
-//    fun smoothScrollToPosition(position: Int){
-//        when(layoutManager){
-//            is LinearLayoutManager->{
-//                (layoutManager as LinearLayoutManager).smoothScrollToPosition()
-//            }
-//        }
-//    }
 }

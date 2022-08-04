@@ -30,6 +30,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
     private lateinit var flapRecyclerView: FlapRecyclerView
 
     override fun onInit(view: View) {
+        super.onInit(view)
         recyclerView = view.findViewById(R.id.recyclerView)
 
         flapRecyclerView = recyclerView as FlapRecyclerView

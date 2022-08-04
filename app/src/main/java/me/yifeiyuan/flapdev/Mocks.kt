@@ -21,14 +21,6 @@ fun FlapAdapter.appendMockData() {
     appendData(mockMultiTypeModels())
 }
 
-fun FlapAdapter.appendPrefetchData(size:Int = 10) {
-    val list = ArrayList<Any>()
-    repeat(size){
-        list.add(SimpleTextModel("Prefetch $it of $size"))
-    }
-    appendData(list)
-}
-
 /**
  * 测试多类型数据
  */

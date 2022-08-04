@@ -422,18 +422,18 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      *
      * @see PreloadHook
      */
-    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPrefetch: () -> Unit) {
+    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPreload: () -> Unit) {
         preloadHook?.let {
             unregisterAdapterHook(it)
         }
-        preloadHook = PreloadHook(offset, minItemCount, onPrefetch).also {
+        preloadHook = PreloadHook(offset, minItemCount, onPreload).also {
             registerAdapterHook(it)
         }
     }
 
     /**
      * 设置是否启用预加载
-     * 需要先调用 doOnPrefetch 开启才有效。
+     * 需要先调用 doOnPreload 开启才有效。
      */
     fun setPreloadEnable(enable: Boolean) {
         preloadHook?.preloadEnable = enable

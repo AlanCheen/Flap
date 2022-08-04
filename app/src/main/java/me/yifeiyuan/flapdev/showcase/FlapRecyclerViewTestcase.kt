@@ -43,7 +43,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
             this.setEmptyView(emptyView)
 
             doOnPreload {
-                toast("on prefetch")
+                toast("onPreload 预加载")
                 loadMoreData(10)
             }
 

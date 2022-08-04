@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:flapLayoutManager="linear"
-            app:flapDiffEnable="false"
+            app:flapUseDifferAdapter="false"
             app:spanCount="2"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

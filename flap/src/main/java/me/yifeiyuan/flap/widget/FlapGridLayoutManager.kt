@@ -23,6 +23,10 @@ open class FlapGridLayoutManager
 
     var supportsPredictiveItemAnimations = false
 
+    init {
+        isSmoothScrollbarEnabled = false
+    }
+
     /**
      * Disable predictive animations. There is a bug in RecyclerView which causes views that
      * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the

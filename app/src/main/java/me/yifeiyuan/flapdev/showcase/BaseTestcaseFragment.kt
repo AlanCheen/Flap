@@ -35,7 +35,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var toast: Toast
 
-    lateinit var emptyView:View
+    lateinit var emptyView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)

@@ -25,6 +25,11 @@ open class FlapLinearLayoutManager
 
     var supportsPredictiveItemAnimations = false
 
+    init {
+        //当第一个 Item 高度为 0，会影响 RV 计算是否能滑动，所以设置为 false
+        isSmoothScrollbarEnabled = false
+    }
+
     /**
      * Disable predictive animations. There is a bug in RecyclerView which causes views that
      * are being reloaded to pull invalid ViewHolders from the internal recycler stack if the

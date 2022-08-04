@@ -14,7 +14,7 @@ import me.yifeiyuan.flapdev.R
 class PreloadTestcase : BaseTestcaseFragment() {
 
     companion object {
-        private const val TAG = "PrefetchFragment"
+        private const val TAG = "PreloadTestcase"
     }
 
     private var testPreloadErrorCase = false
@@ -34,7 +34,7 @@ class PreloadTestcase : BaseTestcaseFragment() {
     private fun requestMoreData() {
         Log.d(TAG, "requestMoreData")
         if (testPreloadErrorCase) {
-            Log.d(TAG, "预加载失败场景，必须调用 setPrefetchComplete ")
+            Log.d(TAG, "预加载失败场景，必须调用 setPreloadComplete ")
             adapter.setPreloadComplete() // 当出错时，需要手动调用，不然不会再进行检查
         } else {
             Log.d(TAG, "onViewCreated: 开始预加载")

@@ -1,15 +1,13 @@
 package me.yifeiyuan.flapdev
 
-import android.os.Handler
-import android.os.Looper
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.CustomViewTypeComponentDelegate
-import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 import me.yifeiyuan.flapdev.components.SimpleTextComponentDelegate
+import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
  * Flap
@@ -45,18 +43,11 @@ class FlapApplication : MultiDexApplication() {
             //也是全局
             registerAdapterHooks(LoggingHook(), ApmHook())
 
+            //可选
+            init(this@FlapApplication)
+
             //打开日志
             setDebug(true)
         }
     }
-}
-
-val uiThread = Handler(Looper.getMainLooper())
-
-fun Any.post(runnable: Runnable) {
-    uiThread.post(runnable)
-}
-
-fun Any.postDelay(delay: Long, runnable: Runnable) {
-    uiThread.postDelayed(runnable, delay)
 }

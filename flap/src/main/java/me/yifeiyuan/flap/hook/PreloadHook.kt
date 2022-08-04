@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  *  注意：
  *  1. 每个 PreloadHook 只能绑定一个 Adapter，不可复用。
- *  2. 当预取后出现异常情况，例如加载更多请求失败，需要手动调用 setPrefetchComplete() ，否则不会进行下一次预取检测。
+ *  2. 当预取后出现异常情况，例如加载更多请求失败，需要手动调用 setPreloadComplete() ，否则不会进行下一次预取检测。
  *
  *  @param minItemCount 触发预加载时 Adapter.itemCount 的最小数量要求，可以防止数量不够一页的时候也触发预加载，建议设置成 pageSize
  *  @param offset 偏移量，默认值 0 表示底部最后一个，1 表示最后第二个，以此类推，一般取值 3~5 会是不错的选择

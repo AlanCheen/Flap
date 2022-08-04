@@ -335,16 +335,18 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     }
 
     override fun onViewAttachedToWindow(component: Component<*>) {
-        component.onViewAttachedToWindow(this)
+        val delegate = getDelegateByViewType(component.itemViewType)
+        delegate.onViewAttachedToWindow(this,component)
         hooks.forEach {
-            it.onViewAttachedToWindow(this, getDelegateByViewType(component.itemViewType), component)
+            it.onViewAttachedToWindow(this, delegate, component)
         }
     }
 
     override fun onViewDetachedFromWindow(component: Component<*>) {
-        component.onViewDetachedFromWindow(this)
+        val delegate = getDelegateByViewType(component.itemViewType)
+        delegate.onViewDetachedFromWindow(this,component)
         hooks.forEach {
-            it.onViewDetachedFromWindow(this, getDelegateByViewType(component.itemViewType), component)
+            it.onViewDetachedFromWindow(this, delegate, component)
         }
     }
 

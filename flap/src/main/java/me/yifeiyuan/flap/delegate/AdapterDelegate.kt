@@ -85,4 +85,18 @@ interface AdapterDelegate<M, VH : Component<M>> {
     ) {
         component.bindData(data, position, payloads, adapter, this)
     }
+
+    /**
+     * @see FlapAdapter.onViewAttachedToWindow
+     */
+    fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
+        component.onViewAttachedToWindow(adapter)
+    }
+
+    /**
+     * @see FlapAdapter.onViewDetachedFromWindow
+     */
+    fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
+        component.onViewDetachedFromWindow(adapter)
+    }
 }

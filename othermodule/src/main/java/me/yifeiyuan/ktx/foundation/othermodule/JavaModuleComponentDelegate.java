@@ -26,7 +26,7 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
     @NotNull
     @Override
     public JavaModuleComponent onCreateViewHolder(@NotNull LayoutInflater inflater, @NotNull ViewGroup parent, int viewType) {
-        return new JavaModuleComponent(inflater.inflate(viewType,parent,false));
+        return new JavaModuleComponent(inflater.inflate(viewType, parent, false));
     }
 
     @Override
@@ -41,6 +41,16 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
 
     @Override
     public void onBindViewHolder(@NotNull Component<?> component, @NotNull Object data, int position, @NotNull List<?> payloads, @NotNull FlapAdapter adapter) {
-        component.bindData(data,position, (List<Object>) payloads,adapter,this);
+        component.bindData(data, position, payloads, adapter, this);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NotNull FlapAdapter adapter, @NotNull Component<?> component) {
+        component.onViewAttachedToWindow(adapter);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NotNull FlapAdapter adapter, @NotNull Component<?> component) {
+        component.onViewDetachedFromWindow(adapter);
     }
 }

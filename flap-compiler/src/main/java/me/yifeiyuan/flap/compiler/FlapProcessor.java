@@ -100,7 +100,7 @@ public class FlapProcessor extends AbstractProcessor {
                 try {
                     TypeSpec flapAdapterDelegateTypeSpec = createAdapterDelegateTypeSpec(roundEnvironment, typeElement, (TypeElement) element, delegate);
                     JavaFile.builder(PKG_NAME_DELEGATES, flapAdapterDelegateTypeSpec)
-                            .addFileComment("由 Flap APT 自动生成，请勿修改。")
+                            .addFileComment("该文件由 Flap APT 自动生成，请勿修改。")
                             .build()
                             .writeTo(filer);
                 } catch (IOException e) {

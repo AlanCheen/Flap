@@ -13,6 +13,7 @@ import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.ZeroHeightModel
 
 private const val TAG = "FlapRecyclerViewTestcas"
 
@@ -60,6 +61,12 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
             }
 
             setData(createRefreshData(30))
+        }
+    }
+
+    override fun createRefreshData(size: Int): MutableList<Any> {
+        return super.createRefreshData(size).apply {
+            add(0, ZeroHeightModel())
         }
     }
 

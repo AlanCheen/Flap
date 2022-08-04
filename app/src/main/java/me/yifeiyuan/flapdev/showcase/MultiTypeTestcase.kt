@@ -11,6 +11,7 @@ import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 
 /**
@@ -18,13 +19,20 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
  */
 class MultiTypeTestcase : BaseTestcaseFragment() {
 
+    //测试第一个组件高度为 0 的 case,会导致不能下拉刷新
+    var testZeroHeight = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {
-        return mockMultiTypeModels()
+        val list = mockMultiTypeModels()
+        if (testZeroHeight) {
+            list.add(0, ZeroHeightModel())
+        }
+        return list
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -59,6 +67,10 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 recyclerView.layoutManager = FlapStaggeredGridLayoutManager(3).apply {
 
                 }
+            }
+            R.id.testZeroHeight -> {
+                testZeroHeight = !testZeroHeight
+                onRefresh()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -15,4 +15,7 @@
     <item
         android:id="@+id/staggered"
         android:title="StaggeredGridLayoutManager" />
+
+    <item android:id="@+id/testZeroHeight"
+        android:title="测试第一个组件高度=0"/>
 </menu>

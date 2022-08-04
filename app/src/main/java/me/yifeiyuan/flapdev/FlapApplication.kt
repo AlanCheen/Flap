@@ -7,6 +7,7 @@ import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.CustomViewTypeComponentDelegate
 import me.yifeiyuan.flapdev.components.SimpleTextComponentDelegate
+import me.yifeiyuan.flapdev.components.ZeroHeightComponent
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
@@ -26,6 +27,7 @@ class FlapApplication : MultiDexApplication() {
             //Flap 这里注册的都是是全局的，只是为了测试方便
             //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
             registerAdapterDelegates(
+                    ZeroHeightComponentAdapterDelegate(),
                     SimpleTextComponentDelegate(),
                     SimpleImageComponentAdapterDelegate(),
                     CustomViewTypeComponentDelegate(),

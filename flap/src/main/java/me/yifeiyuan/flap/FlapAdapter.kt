@@ -336,7 +336,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun onViewAttachedToWindow(component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
-        delegate.onViewAttachedToWindow(this,component)
+        delegate.onViewAttachedToWindow(this, component)
         hooks.forEach {
             it.onViewAttachedToWindow(this, delegate, component)
         }
@@ -344,7 +344,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     override fun onViewDetachedFromWindow(component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
-        delegate.onViewDetachedFromWindow(this,component)
+        delegate.onViewDetachedFromWindow(this, component)
         hooks.forEach {
             it.onViewDetachedFromWindow(this, delegate, component)
         }

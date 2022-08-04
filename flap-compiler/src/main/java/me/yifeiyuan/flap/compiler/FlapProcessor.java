@@ -51,8 +51,8 @@ public class FlapProcessor extends AbstractProcessor {
 
     private final ClassName CLASS_ADAPTER_DELEGATE = ClassName.bestGuess("me.yifeiyuan.flap.delegate.AdapterDelegate");
 
-   private final ClassName CLASS_LAYOUT_INFLATER = ClassName.get("android.view", "LayoutInflater");
-   private final ClassName CLASS_VIEW_GROUP = ClassName.get("android.view", "ViewGroup");
+    private final ClassName CLASS_LAYOUT_INFLATER = ClassName.get("android.view", "LayoutInflater");
+    private final ClassName CLASS_VIEW_GROUP = ClassName.get("android.view", "ViewGroup");
 
     private static final String KEY_OPTION_R_CLASS_PATH = "packageName";
 
@@ -113,10 +113,10 @@ public class FlapProcessor extends AbstractProcessor {
     /**
      * 为 Component 生成 AdapterDelegate
      *
-     * @param roundEnvironment     环境
+     * @param roundEnvironment 环境
      * @param typeElement
-     * @param component 当前正在处理的组件
-     * @param adapterDelegate       注解了目标类的 注解，可以获取值
+     * @param component        当前正在处理的组件
+     * @param adapterDelegate  注解了目标类的 注解，可以获取值
      * @return ComponentProxy TypeSpec
      */
     private TypeSpec createAdapterDelegateTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement component, final Delegate adapterDelegate) {
@@ -195,7 +195,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(CLASS_OBJECT, "model")
-                .addStatement("return model.getClass() == $T.class",itemModelClass)
+                .addStatement("return model.getClass() == $T.class", itemModelClass)
                 .returns(Boolean.TYPE);
 
         //AdapterDelegate<List> payloads
@@ -208,10 +208,9 @@ public class FlapProcessor extends AbstractProcessor {
                 .addParameter(CLASS_OBJECT, "data")
                 .addParameter(Integer
                         .TYPE, "position")
-                .addParameter(CLASS_LIST,"payloads")
-                .addParameter(CLASS_FLAP_ADAPTER,"adapter")
-                .addStatement("component.bindData(data,position, (List<Object>) payloads,adapter,this)")
-                ;
+                .addParameter(CLASS_LIST, "payloads")
+                .addParameter(CLASS_FLAP_ADAPTER, "adapter")
+                .addStatement("component.bindData(data, position, payloads, adapter, this)");
 
 //        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
 //                .addAnnotation(Override.class)
@@ -219,6 +218,20 @@ public class FlapProcessor extends AbstractProcessor {
 //                .returns(Class.class)
 //                .addStatement("return " + itemModelClass + ".class")
 //                .build();
+
+        MethodSpec.Builder onViewAttachedToWindow = MethodSpec.methodBuilder("onViewAttachedToWindow")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_FLAP_ADAPTER, "adapter")
+                .addParameter(CLASS_COMPONENT, "component")
+                .addStatement("component.onViewAttachedToWindow(adapter)");
+
+        MethodSpec.Builder onViewDetachedFromWindow = MethodSpec.methodBuilder("onViewDetachedFromWindow")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_FLAP_ADAPTER, "adapter")
+                .addParameter(CLASS_COMPONENT, "component")
+                .addStatement("component.onViewAttachedToWindow(adapter)");
 
         ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, itemModelClass, componentClass);
 
@@ -232,6 +245,8 @@ public class FlapProcessor extends AbstractProcessor {
                         .addMethod(delegateMethodBuilder.build())
                         .addMethod(onBindViewHolderMethodBuilder.build())
 //                        .addMethod(getComponentModelClass)
+                        .addMethod(onViewAttachedToWindow.build())
+                        .addMethod(onViewDetachedFromWindow.build())
                         .addSuperinterface(name);
 
         return builder.build();

@@ -9,12 +9,7 @@ import me.yifeiyuan.flap.FlapAdapter
  */
 
 
-class LayoutAdapterDelegateBuilder<Model>(var modelClass: Class<*>) {
-
-    /**
-     * 资源文件 layout id
-     */
-    private var layoutId: Int = 0
+class LayoutAdapterDelegateBuilder<Model>(private var modelClass: Class<*>, var layoutId: Int = 0) {
 
     private var itemId: Long = RecyclerView.NO_ID
 
@@ -26,7 +21,7 @@ class LayoutAdapterDelegateBuilder<Model>(var modelClass: Class<*>) {
     /**
      * 简单参数的 onBind
      */
-    private var binder: ((component: Component<Model>, model: Model) -> Unit)? = null
+    private var binder: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
 
     private var onViewAttachedToWindow: ((component: Component<*>) -> Unit)? = null
 
@@ -50,7 +45,7 @@ class LayoutAdapterDelegateBuilder<Model>(var modelClass: Class<*>) {
         onViewDetachedFromWindow = onDetach
     }
 
-    fun onBind(onBind: ((component: Component<Model>, model: Model) -> Unit)) {
+    fun onBind(onBind: ((component: Component<Model>, model: Model, position: Int) -> Unit)) {
         binder = onBind
     }
 
@@ -72,7 +67,6 @@ class LayoutAdapterDelegateBuilder<Model>(var modelClass: Class<*>) {
 
     fun build(): LayoutAdapterDelegate<Model, LayoutComponent<Model>> {
         val config = LayoutAdapterDelegateConfig<Model>()
-
         config.modelClass = modelClass
         config.onClickListener = onClickListener
         config.onLongClickListener = onLongClickListener
@@ -82,11 +76,10 @@ class LayoutAdapterDelegateBuilder<Model>(var modelClass: Class<*>) {
         config.itemId = itemId
         config.onViewAttachedToWindow = onViewAttachedToWindow
         config.onViewDetachedFromWindow = onViewDetachedFromWindow
-
         return LayoutAdapterDelegate(config)
     }
 }
 
-inline fun <reified Model> delegateBuilder(builder: LayoutAdapterDelegateBuilder<Model>.() -> Unit): LayoutAdapterDelegate<Model, LayoutComponent<Model>> {
-    return LayoutAdapterDelegateBuilder<Model>(Model::class.java).apply(builder).build()
+inline fun <reified Model> makeDelegate(layoutId: Int, builder: LayoutAdapterDelegateBuilder<Model>.() -> Unit): LayoutAdapterDelegate<Model, LayoutComponent<Model>> {
+    return LayoutAdapterDelegateBuilder<Model>(Model::class.java, layoutId).apply(builder).build()
 }

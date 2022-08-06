@@ -3,10 +3,13 @@ package me.yifeiyuan.flapdev.showcase
 import android.util.Log
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.delegateBuilder
+import me.yifeiyuan.flap.delegate.makeDelegate
+import me.yifeiyuan.flap.event.Event
+import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleTextModel
+import me.yifeiyuan.flapdev.components.TestAllModel
 
 private const val TAG = "LayoutDelegateDSLTest"
 
@@ -18,38 +21,40 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        adapter.registerAdapterDelegates(
+        val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
 
-                delegateBuilder<SimpleTextModel> {
+            onBind { component, model, position ->
+                component.bindTextView(R.id.tv_content) {
+                    text = model.content
+                }
+            }
 
-                    layoutId(R.layout.flap_item_simple_text)
+            onClick { component, model, position ->
+                toast("onClick() called with: component = $component, model = $model, position = $position")
+            }
+        }
 
-                    onLongClick { component, model, position ->
-                        Log.d(TAG, "onLongClick() called with: component = $component, model = $model, position = $position")
-                        toast("onLongClick() called with: component = $component, model = $model, position = $position")
-                        false
-                    }
-
-                    onClick { component, model, position ->
-                        Log.d(TAG, "onClick() called with: component = $component, model = $model, position = $position")
-                        toast("onClick() called with: component = $component, model = $model, position = $position")
-                    }
-
-                    onBind { component, model ->
-                        component.bindTextView(R.id.tv_content) {
-                            text = model.content
+        val testAllDelegate = makeDelegate<TestAllModel>(R.layout.component_test_all_feature) {
+            onBind { component, model, position ->
+                with(component) {
+                    bindButton(R.id.testFireEvent) {
+                        setOnClickListener {
+                            toast("testAllDelegate clicked button")
                         }
                     }
-
-                    onViewAttachedToWindow {
-                        Log.d(TAG, "onViewAttachedToWindow() called")
-                    }
-
-                    onViewDetachedFromWindow {
-                        Log.d(TAG, "onViewDetachedFromWindow() called")
-                    }
                 }
-        )
+            }
+
+            onViewAttachedToWindow {
+                Log.d(TAG, "onViewAttachedToWindow() called")
+            }
+
+            onViewDetachedFromWindow {
+                Log.d(TAG, "onViewDetachedFromWindow() called")
+            }
+        }
+
+        adapter.registerAdapterDelegates(simpleTextDelegate, testAllDelegate)
     }
 
     override fun createAdapter(): FlapAdapter {

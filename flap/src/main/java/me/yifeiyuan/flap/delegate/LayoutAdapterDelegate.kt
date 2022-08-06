@@ -8,13 +8,17 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 
 /**
- * todo
  *
- * LayoutAdapterDelegate 应对的情况：
- * 1. Model 与 LayoutAdapterDelegate 一对一
- * 2. 不想写 Component
- * 3. 不想写自定义 AdapterDelegate
- * 4. layoutId 可以当做 itemViewType 直接用
+ * LayoutAdapterDelegate 是为了降低创建 Component 和 自定义 AdapterDelegate 带来的使用成本而创建的。
+ *
+ * 使用 LayoutAdapterDelegate 的好处：
+ * 1. 不需要写 Component
+ * 2. 不需要写 AdapterDelegate
+ * 3. 有 DSL 支持，更方便
+ *
+ * 使用 LayoutAdapterDelegate 必须要保证的情况：
+ * 1. Model 与 LayoutAdapterDelegate 是一对一的关系
+ * 2. layoutId 可以当做 itemViewType 直接用
  *
  * Created by 程序亦非猿 on 2021/10/27.
  * @since 3.0.0
@@ -23,23 +27,16 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     var config: LayoutAdapterDelegateConfig<T> = LayoutAdapterDelegateConfig()
 
-    companion object {
-
-        inline fun <reified T> createLayoutAdapterDelegate(layoutId: Int, noinline binder: (component: Component<T>, model: T) -> Unit): LayoutAdapterDelegate<T, LayoutComponent<T>> {
-            return LayoutAdapterDelegate(T::class.java, layoutId, binder)
-        }
-    }
-
     /**
      * 最简单的构造，只关心简单的 onBind
      */
-    constructor(modelClass: Class<T>, layoutId: Int, binder: (component: Component<T>, model: T) -> Unit) {
+    constructor(modelClass: Class<T>, layoutId: Int, binder: (component: Component<T>, model: T, position: Int) -> Unit) {
         config.modelClass = modelClass
         config.layoutId = layoutId
         config.binder = binder
     }
 
-    constructor(delegateConfig: LayoutAdapterDelegateConfig<T>) {
+    internal constructor(delegateConfig: LayoutAdapterDelegateConfig<T>) {
         config = delegateConfig
     }
 
@@ -57,7 +54,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
         if (config.binder2 != null) {
             config.binder2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
         } else if (config.binder != null) {
-            config.binder?.invoke(component as Component<T>, data as T)
+            config.binder?.invoke(component as Component<T>, data as T, position)
         }
 
         if (config.onClickListener != null) {
@@ -86,10 +83,12 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
     }
 
     override fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
+        super.onViewAttachedToWindow(adapter, component)
         config.onViewAttachedToWindow?.invoke(component)
     }
 
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
+        super.onViewDetachedFromWindow(adapter, component)
         config.onViewDetachedFromWindow?.invoke(component)
     }
 }
@@ -118,7 +117,7 @@ class LayoutAdapterDelegateConfig<Model> {
     /**
      * 简单参数的 onBind
      */
-    var binder: ((component: Component<Model>, model: Model) -> Unit)? = null
+    var binder: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
 
     var onViewAttachedToWindow: ((component: Component<*>) -> Unit)? = null
 

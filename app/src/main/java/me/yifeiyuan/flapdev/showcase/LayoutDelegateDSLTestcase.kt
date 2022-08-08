@@ -68,7 +68,6 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
 
             onDestroy {
                 Log.d(TAG, "simpleTextDelegate onDestroy() called")
-
             }
         }
 

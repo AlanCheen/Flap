@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.makeDelegate
-import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
@@ -37,6 +36,14 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 toast("onLongClick() called with: component = $this, model = $model, position = $position")
                 true
             }
+
+            onViewAttachedToWindow {
+                Log.d(TAG, "simpleTextDelegate onViewAttachedToWindow() called $position")
+            }
+
+            onViewDetachedFromWindow {
+                Log.d(TAG, "simpleTextDelegate onViewDetachedFromWindow() called $position")
+            }
         }
 
         val testAllDelegate = makeDelegate<TestAllModel>(R.layout.component_test_all_feature) {
@@ -59,11 +66,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             }
 
             onViewAttachedToWindow {
-                Log.d(TAG, "onViewAttachedToWindow() called")
+                Log.d(TAG, "testAllDelegate onViewAttachedToWindow() called $position")
             }
 
             onViewDetachedFromWindow {
-                Log.d(TAG, "onViewDetachedFromWindow() called")
+                Log.d(TAG, "testAllDelegate onViewDetachedFromWindow() called $position")
             }
         }
 

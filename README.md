@@ -16,42 +16,57 @@
 
 <a name="E94H7"></a>
 ## Flap 使用示例：
-定义一个模型类， SimpleTextModel ：
+
+基本使用步骤：
+
+1. 定义一个模型，对应一个组件；
+1. 创建一个 layout ，用于组件渲染；
+1. 创建一个 delegate，并注册到 FlapAdapter;
+
+1）定义一个模型类， SimpleTextModel ：
 ```kotlin
 data class SimpleTextModel(val content: String)
 ```
-定义 SimpleTextComponent，继承 Component ，按需重写 `onBind` 方法：
+2）创建一个 layout ：
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:background="#0ff0ff"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:paddingLeft="16dp"
+        android:text="content"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+</FrameLayout>
+```
+3）创建一个 delegate，并注册到 FlapAdapter：<br />按需重写 `onBind` 方法：
 ```kotlin
-@Delegate(layoutName = "flap_item_simple_text")
-class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
-
-    private val tvContent: TextView = findViewById(R.id.tv_content)
-
-    //参数更多 全面
-    override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
-        FLogger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
-        tvContent.text = model.content
-    }
-
-    //参数更少的 onBind
-    override fun onBind(model: SimpleTextModel) {
-        FLogger.d(TAG, "onBind() called with: model = $model")
-    }
-
-    companion object {
-        private const val TAG = "SimpleTextItem"
+val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+    onBind { model ->
+        bindTextView(R.id.tv_content) {
+            text = model.content
+        }
     }
 }
 ```
-
-使用 FlapAdapter：
-
+使用 FlapAdapter 注册并设置 data：
 ```kotlin
 //创建你的 FlapAdapter
 var adapter: FlapAdapter = FlapAdapter()
 
 //注册 AdapterDelegate
-adapter.registerAdapterDelegate(SimpleTextComponentAdapterDelegate())
+adapter.registerAdapterDelegate(simpleTextDelegate)
 
 val dataList = ArrayList<Any>()
 dataList.add(SimpleTextModel("Android"))

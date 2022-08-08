@@ -103,21 +103,28 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
         }
 
-        adapter.doOnItemClick { recyclerView, childView, position ->
-            Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
-            val component = recyclerView.getChildViewHolder(childView)
-            toast("点击了 position = $position，model=${adapter.getItemData(position)}")
+        if (isClickEnable()) {
+            adapter.doOnItemClick { recyclerView, childView, position ->
+                Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
+                val component = recyclerView.getChildViewHolder(childView)
+                toast("点击了 position = $position，model=${adapter.getItemData(position)}")
+            }
         }
 
-        adapter.doOnItemLongClick { recyclerView, childView, position ->
-            Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
-            toast("长按了 position = $position")
-            true
+        if (isLongClickEnable()) {
+            adapter.doOnItemLongClick { recyclerView, childView, position ->
+                Log.d(TAG, "doOnItemLongClick called with: childView = $childView, position = $position")
+                toast("长按了 position = $position")
+                true
+            }
         }
 
         //配置完结束最后在赋值
         recyclerView.adapter = adapter
     }
+
+    open fun isClickEnable() = true
+    open fun isLongClickEnable() = true
 
     open fun createAdapter() = FlapAdapter().apply {
         setData(createRefreshData())

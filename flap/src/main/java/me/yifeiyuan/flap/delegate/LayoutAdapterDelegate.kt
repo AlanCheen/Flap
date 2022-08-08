@@ -30,7 +30,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
     /**
      * 最简单的构造，只关心简单的 onBind
      */
-    constructor(modelClass: Class<T>, layoutId: Int, binder: (component: Component<T>, model: T, position: Int) -> Unit) {
+    constructor(modelClass: Class<T>, layoutId: Int, binder: Component<T>.(model: T) -> Unit) {
         config.modelClass = modelClass
         config.layoutId = layoutId
         config.binder = binder
@@ -54,7 +54,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
         if (config.binder2 != null) {
             config.binder2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
         } else if (config.binder != null) {
-            config.binder?.invoke(component as Component<T>, data as T, position)
+            config.binder?.invoke(component as Component<T>, data as T)
         }
 
         if (config.onClickListener != null) {
@@ -84,12 +84,12 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     override fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewAttachedToWindow(adapter, component)
-        config.onViewAttachedToWindow?.invoke(component)
+        config.onViewAttachedToWindow?.invoke(component  as Component<T>)
     }
 
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewDetachedFromWindow(adapter, component)
-        config.onViewDetachedFromWindow?.invoke(component)
+        config.onViewDetachedFromWindow?.invoke(component  as Component<T>)
     }
 }
 
@@ -98,7 +98,7 @@ class LayoutComponent<T>(view: View) : Component<T>(view) {
     }
 }
 
-class LayoutAdapterDelegateConfig<Model> {
+class LayoutAdapterDelegateConfig<T> {
 
     var modelClass: Class<*>? = null
 
@@ -112,25 +112,25 @@ class LayoutAdapterDelegateConfig<Model> {
     /**
      * 更多参数的 onBind
      */
-    var binder2: ((component: Component<Model>, model: Model, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    var binder2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 简单参数的 onBind
      */
-    var binder: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
+    var binder: (Component<T>.(model: T) -> Unit)? = null
 
-    var onViewAttachedToWindow: ((component: Component<*>) -> Unit)? = null
+    var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
 
-    var onViewDetachedFromWindow: ((component: Component<*>) -> Unit)? = null
+    var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
 
     /**
      * 单击事件
      */
-    var onClickListener: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
+    var onClickListener: (Component<T>.(model: T, position: Int) -> Unit)? = null
 
     /**
      * 长按事件
      */
-    var onLongClickListener: ((component: Component<Model>, model: Model, position: Int) -> Boolean)? = null
+    var onLongClickListener: (Component<T>.(model: T, position: Int) -> Boolean)? = null
 
 }

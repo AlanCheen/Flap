@@ -30,21 +30,19 @@ class LayoutAdapterDelegateTestcase : BaseTestcaseFragment() {
         val simpleTextDelegate = LayoutAdapterDelegate(
                 SimpleTextModel::class.java,
                 R.layout.flap_item_simple_text,
-        ) { component, model, position ->
-            component.bindTextView(R.id.tv_content) {
+        ) { model ->
+            bindTextView(R.id.tv_content) {
                 text = model.content
             }
         }
 
         val simpleImageDelegate = LayoutAdapterDelegate(SimpleImageModel::class.java,
-                R.layout.flap_item_simple_image){ component, model, position ->
-            with(component) {
-                bindView<ImageView>(R.id.logo) {
-                    DrawableCompat.setTint(drawable, Color.parseColor("#2211fff2"))
+                R.layout.flap_item_simple_image) { model ->
+            bindView<ImageView>(R.id.logo) {
+                DrawableCompat.setTint(drawable, Color.parseColor("#2211fff2"))
 
-                    setOnClickListener {
-                        toast("simpleImageDelegate clicked")
-                    }
+                setOnClickListener {
+                    toast("simpleImageDelegate clicked")
                 }
             }
         }

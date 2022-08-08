@@ -5,64 +5,68 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 
 /**
+ *
+ * LayoutAdapterDelegate DSL 支持
+ *
  * Created by 程序亦非猿 on 2022/8/4.
+ * @since 3.0.0
  */
 
 
 class LayoutAdapterDelegateBuilder<Model>(private var modelClass: Class<*>, var layoutId: Int = 0) {
 
-    private var itemId: Long = RecyclerView.NO_ID
+    /**
+     * 简单参数的 onBind
+     */
+    private var binder: (Component<Model>.(model: Model) -> Unit)? = null
 
     /**
      * 更多参数的 onBind
      */
-    private var binder2: ((component: Component<Model>, model: Model, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    private var binder2: (Component<Model>.(model: Model, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
 
-    /**
-     * 简单参数的 onBind
-     */
-    private var binder: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
+    private var onViewAttachedToWindow: (Component<Model>.() -> Unit)? = null
 
-    private var onViewAttachedToWindow: ((component: Component<*>) -> Unit)? = null
-
-    private var onViewDetachedFromWindow: ((component: Component<*>) -> Unit)? = null
+    private var onViewDetachedFromWindow: (Component<Model>.() -> Unit)? = null
 
     /**
      * 单击事件
      */
-    private var onClickListener: ((component: Component<Model>, model: Model, position: Int) -> Unit)? = null
+    private var onClickListener: (Component<Model>.(model: Model, position: Int) -> Unit)? = null
 
     /**
      * 长按事件
      */
     private var onLongClickListener: ((component: Component<Model>, model: Model, position: Int) -> Boolean)? = null
 
-    fun onViewAttachedToWindow(onAttach: ((component: Component<*>) -> Unit)) {
-        onViewAttachedToWindow = onAttach
-    }
-
-    fun onViewDetachedFromWindow(onDetach: ((component: Component<*>) -> Unit)) {
-        onViewDetachedFromWindow = onDetach
-    }
-
-    fun onBind(onBind: ((component: Component<Model>, model: Model, position: Int) -> Unit)) {
-        binder = onBind
-    }
-
-    fun onClick(onclick: ((component: Component<Model>, model: Model, position: Int) -> Unit)) {
-        onClickListener = onclick
-    }
-
-    fun onLongClick(onLongClick: ((component: Component<Model>, model: Model, position: Int) -> Boolean)) {
-        onLongClickListener = onLongClick
-    }
-
-    fun layoutId(layoutId: Int) {
-        this.layoutId = layoutId
-    }
+    private var itemId: Long = RecyclerView.NO_ID
 
     fun itemId(itemId: Long) {
         this.itemId = itemId
+    }
+
+    fun onBind(onBind: (Component<Model>.(model: Model) -> Unit)) {
+        binder = onBind
+    }
+
+    fun onBind(onBind: (Component<Model>.(model: Model, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)) {
+        binder2 = onBind
+    }
+
+    fun onClick(onclick: (Component<Model>.(model: Model, position: Int) -> Unit)) {
+        onClickListener = onclick
+    }
+
+    fun onLongClick(onLongClick: (Component<Model>.(model: Model, position: Int) -> Boolean)) {
+        onLongClickListener = onLongClick
+    }
+
+    fun onViewAttachedToWindow(onAttach: (Component<Model>.() -> Unit)) {
+        onViewAttachedToWindow = onAttach
+    }
+
+    fun onViewDetachedFromWindow(onDetach: (Component<Model>.() -> Unit)) {
+        onViewDetachedFromWindow = onDetach
     }
 
     fun build(): LayoutAdapterDelegate<Model, LayoutComponent<Model>> {

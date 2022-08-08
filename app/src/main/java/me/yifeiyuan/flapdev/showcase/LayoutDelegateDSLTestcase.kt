@@ -10,6 +10,7 @@ import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
+import me.yifeiyuan.flapdev.mockMultiTypeModels
 
 private const val TAG = "LayoutDelegateDSLTest"
 
@@ -22,27 +23,39 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
         super.onInit(view)
 
         val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
-
-            onBind { component, model, position ->
-                component.bindTextView(R.id.tv_content) {
+            onBind { model ->
+                bindTextView(R.id.tv_content) {
                     text = model.content
                 }
             }
 
-            onClick { component, model, position ->
-                toast("onClick() called with: component = $component, model = $model, position = $position")
+            onClick { model, position ->
+                toast("onClick() called with: component = $this, model = $model, position = $position")
+            }
+
+            onLongClick { model, position ->
+                toast("onLongClick() called with: component = $this, model = $model, position = $position")
+                true
             }
         }
 
         val testAllDelegate = makeDelegate<TestAllModel>(R.layout.component_test_all_feature) {
-            onBind { component, model, position ->
-                with(component) {
-                    bindButton(R.id.testFireEvent) {
-                        setOnClickListener {
-                            toast("testAllDelegate clicked button")
-                        }
+
+            onBind { model, position, payloads, adapter ->
+                bindButton(R.id.testFireEvent) {
+                    setOnClickListener {
+                        toast("testAllDelegate clicked button")
                     }
                 }
+            }
+
+            onClick { model, position ->
+                toast("onClick() called with: component = $this, model = $model, position = $position")
+            }
+
+            onLongClick { model, position ->
+                toast("onLongClick() called with: component = $this, model = $model, position = $position")
+                true
             }
 
             onViewAttachedToWindow {
@@ -71,7 +84,7 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
         return false
     }
 
-//    override fun createRefreshData(size: Int): MutableList<Any> {
-//        return mockMultiTypeModels()
-//    }
+    override fun createRefreshData(size: Int): MutableList<Any> {
+        return mockMultiTypeModels()
+    }
 }

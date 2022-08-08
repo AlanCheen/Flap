@@ -44,6 +44,32 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             onViewDetachedFromWindow {
                 Log.d(TAG, "simpleTextDelegate onViewDetachedFromWindow() called $position")
             }
+
+            onViewRecycled {
+                Log.d(TAG, "onViewRecycled() called")
+            }
+
+            onFailedToRecycleView {
+                Log.d(TAG, "onFailedToRecycleView() called")
+                false
+            }
+
+            onResume {
+                Log.d(TAG, "simpleTextDelegate onResume() called")
+            }
+
+            onPause {
+                Log.d(TAG, "simpleTextDelegate onPause() called")
+            }
+
+            onStop {
+                Log.d(TAG, "simpleTextDelegate onStop() called")
+            }
+
+            onDestroy {
+                Log.d(TAG, "simpleTextDelegate onDestroy() called")
+
+            }
         }
 
         val testAllDelegate = makeDelegate<TestAllModel>(R.layout.component_test_all_feature) {

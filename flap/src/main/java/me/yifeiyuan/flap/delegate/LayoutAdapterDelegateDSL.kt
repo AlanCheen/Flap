@@ -32,10 +32,10 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
     private var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
     private var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
 
-    private var onResume: (Component<T>.() -> Unit)? = null
-    private var onPause: (Component<T>.() -> Unit)? = null
-    private var onStop: (Component<T>.() -> Unit)? = null
-    private var onDestroy: (Component<T>.() -> Unit)? = null
+    private var onResume: (Component<*>.() -> Unit)? = null
+    private var onPause: (Component<*>.() -> Unit)? = null
+    private var onStop: (Component<*>.() -> Unit)? = null
+    private var onDestroy: (Component<*>.() -> Unit)? = null
 
     /**
      * 单击事件
@@ -85,6 +85,22 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
         onFailedToRecycleView = block
     }
 
+    fun onResume(block: (Component<*>.() -> Unit)) {
+        onResume = block
+    }
+
+    fun onPause(block: (Component<*>.() -> Unit)) {
+        onPause = block
+    }
+
+    fun onStop(block: (Component<*>.() -> Unit)) {
+        onStop = block
+    }
+
+    fun onDestroy(block: (Component<*>.() -> Unit)) {
+        onDestroy = block
+    }
+
     fun build(): LayoutAdapterDelegate<T, LayoutComponent<T>> {
         val config = LayoutAdapterDelegateConfig<T>()
         config.modelClass = modelClass
@@ -98,6 +114,10 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
         config.onViewDetachedFromWindow = onViewDetachedFromWindow
         config.onViewRecycled = onViewRecycled
         config.onFailedToRecycleView = onFailedToRecycleView
+        config.onResume = onResume
+        config.onPause = onPause
+        config.onStop = onStop
+        config.onDestroy = onDestroy
         return LayoutAdapterDelegate(config)
     }
 }

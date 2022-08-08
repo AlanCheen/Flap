@@ -188,7 +188,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             payloads: MutableList<Any>
     ) {
         try {
-            tryAttachLifecycleOwner(component)
             val delegate = getDelegateByViewType(component.itemViewType)
             val data = getItemData(position)
             dispatchOnBindViewHolderStart(this, delegate, component, data, position, payloads)
@@ -200,6 +199,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
                     this
             )
             dispatchOnBindViewHolderEnd(this, delegate, component, data, position, payloads)
+            tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
             e.printStackTrace()
             FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)

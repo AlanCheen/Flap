@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.R
 
 /**
  *
@@ -73,6 +74,8 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
         } else {
             component.itemView.setOnLongClickListener(null)
         }
+
+        component.itemView.setTag(R.id.layout_adapter_delegate, this)
     }
 
     override fun getItemViewType(model: Any): Int {
@@ -94,7 +97,8 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
     }
 
     override fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
-        return config.onFailedToRecycleView?.invoke(component as Component<T>, adapter) ?: super.onFailedToRecycleView(adapter, component)
+        return config.onFailedToRecycleView?.invoke(component as Component<T>, adapter)
+                ?: super.onFailedToRecycleView(adapter, component)
     }
 
     override fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
@@ -104,23 +108,32 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 }
 
 class LayoutComponent<T>(view: View) : Component<T>(view) {
+
     override fun onBind(model: T) {
     }
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onResume?.invoke(this as Component<T>)
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onPause?.invoke(this as Component<T>)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onStop?.invoke(this as Component<T>)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onDestroy?.invoke(this as Component<T>)
+    }
+
+    private fun getLayoutAdapterDelegateByTag(): LayoutAdapterDelegate<*, *>? {
+        return itemView.getTag(R.id.layout_adapter_delegate) as? LayoutAdapterDelegate<*, *>
     }
 }
 
@@ -146,12 +159,12 @@ class LayoutAdapterDelegateConfig<T> {
     var binder: (Component<T>.(model: T) -> Unit)? = null
 
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
-
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
-    var onResume: (Component<T>.() -> Unit)? = null
-    var onPause: (Component<T>.() -> Unit)? = null
-    var onStop: (Component<T>.() -> Unit)? = null
-    var onDestroy: (Component<T>.() -> Unit)? = null
+
+    var onResume: (Component<*>.() -> Unit)? = null
+    var onPause: (Component<*>.() -> Unit)? = null
+    var onStop: (Component<*>.() -> Unit)? = null
+    var onDestroy: (Component<*>.() -> Unit)? = null
 
     var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
     var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null

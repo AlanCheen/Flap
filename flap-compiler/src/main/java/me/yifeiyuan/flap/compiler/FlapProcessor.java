@@ -212,13 +212,6 @@ public class FlapProcessor extends AbstractProcessor {
                 .addParameter(CLASS_FLAP_ADAPTER, "adapter")
                 .addStatement("component.bindData(data, position, payloads, adapter, this)");
 
-//        MethodSpec getComponentModelClass = MethodSpec.methodBuilder("getComponentModelClass")
-//                .addAnnotation(Override.class)
-//                .addModifiers(Modifier.PUBLIC)
-//                .returns(Class.class)
-//                .addStatement("return " + itemModelClass + ".class")
-//                .build();
-
         MethodSpec.Builder onViewAttachedToWindow = MethodSpec.methodBuilder("onViewAttachedToWindow")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
@@ -233,6 +226,23 @@ public class FlapProcessor extends AbstractProcessor {
                 .addParameter(CLASS_COMPONENT, "component")
                 .addStatement("component.onViewAttachedToWindow(adapter)");
 
+
+        MethodSpec.Builder onFailedToRecycleView = MethodSpec.methodBuilder("onFailedToRecycleView")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_FLAP_ADAPTER, "adapter")
+                .addParameter(CLASS_COMPONENT, "component")
+                .addStatement("return component.onFailedToRecycleView(adapter)")
+                .returns(Boolean.TYPE);
+
+
+        MethodSpec.Builder onViewRecycled = MethodSpec.methodBuilder("onViewRecycled")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(CLASS_FLAP_ADAPTER, "adapter")
+                .addParameter(CLASS_COMPONENT, "component")
+                .addStatement("component.onViewRecycled(adapter)");
+
         ParameterizedTypeName name = ParameterizedTypeName.get(CLASS_ADAPTER_DELEGATE, itemModelClass, componentClass);
 
         TypeSpec.Builder builder =
@@ -244,9 +254,10 @@ public class FlapProcessor extends AbstractProcessor {
                         .addMethod(getItemIdMethodBuilder.build())
                         .addMethod(delegateMethodBuilder.build())
                         .addMethod(onBindViewHolderMethodBuilder.build())
-//                        .addMethod(getComponentModelClass)
                         .addMethod(onViewAttachedToWindow.build())
                         .addMethod(onViewDetachedFromWindow.build())
+                        .addMethod(onFailedToRecycleView.build())
+                        .addMethod(onViewRecycled.build())
                         .addSuperinterface(name);
 
         return builder.build();

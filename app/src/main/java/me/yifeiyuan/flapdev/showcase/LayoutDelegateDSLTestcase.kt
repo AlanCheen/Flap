@@ -72,6 +72,14 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             onViewDetachedFromWindow {
                 Log.d(TAG, "testAllDelegate onViewDetachedFromWindow() called $position")
             }
+
+            onViewRecycled {
+
+            }
+
+            onFailedToRecycleView {
+                false
+            }
         }
 
         adapter.registerAdapterDelegates(simpleTextDelegate, testAllDelegate)

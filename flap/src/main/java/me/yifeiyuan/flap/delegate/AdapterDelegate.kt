@@ -99,4 +99,18 @@ interface AdapterDelegate<M, VH : Component<M>> {
     fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         component.onViewDetachedFromWindow(adapter)
     }
+
+    /**
+     * @see onFailedToRecycleView
+     */
+    fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+        return component.onFailedToRecycleView(adapter)
+    }
+
+    /**
+     * @see onViewRecycled
+     */
+    fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+        component.onViewRecycled(adapter)
+    }
 }

@@ -326,12 +326,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * 会优先于 FlapComponentPool.putRecycledView 被调用
      */
     override fun onViewRecycled(component: Component<*>) {
-        component.onViewRecycled(this)
-        FlapDebug.d(TAG, "onViewRecycled() called with: component = $component")
+        val delegate = getDelegateByViewType(component.itemViewType)
+        delegate.onViewRecycled(this, component)
     }
 
     override fun onFailedToRecycleView(component: Component<*>): Boolean {
-        return component.onFailedToRecycleView(this)
+        val delegate = getDelegateByViewType(component.itemViewType)
+        return delegate.onFailedToRecycleView(this, component)
     }
 
     override fun onViewAttachedToWindow(component: Component<*>) {

@@ -119,15 +119,15 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    open fun onResume() {
+    open fun onResume(owner: LifecycleOwner) {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    open fun onPause() {
+    open fun onPause(owner: LifecycleOwner) {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    open fun onStop() {
+    open fun onStop(owner: LifecycleOwner) {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

@@ -3,6 +3,7 @@ package me.yifeiyuan.flap.delegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
@@ -84,17 +85,42 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     override fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewAttachedToWindow(adapter, component)
-        config.onViewAttachedToWindow?.invoke(component  as Component<T>)
+        config.onViewAttachedToWindow?.invoke(component as Component<T>)
     }
 
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewDetachedFromWindow(adapter, component)
-        config.onViewDetachedFromWindow?.invoke(component  as Component<T>)
+        config.onViewDetachedFromWindow?.invoke(component as Component<T>)
+    }
+
+    override fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+        return config.onFailedToRecycleView?.invoke(component as Component<T>, adapter) ?: super.onFailedToRecycleView(adapter, component)
+    }
+
+    override fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+        super.onViewRecycled(adapter, component)
+        config.onViewRecycled?.invoke(component as Component<T>, adapter)
     }
 }
 
 class LayoutComponent<T>(view: View) : Component<T>(view) {
     override fun onBind(model: T) {
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
     }
 }
 
@@ -122,6 +148,13 @@ class LayoutAdapterDelegateConfig<T> {
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
 
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
+    var onResume: (Component<T>.() -> Unit)? = null
+    var onPause: (Component<T>.() -> Unit)? = null
+    var onStop: (Component<T>.() -> Unit)? = null
+    var onDestroy: (Component<T>.() -> Unit)? = null
+
+    var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
+    var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
 
     /**
      * 单击事件

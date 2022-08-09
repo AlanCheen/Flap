@@ -11,7 +11,7 @@
 
 > - [Flap 接入文档](https://www.yuque.com/cxyfy/blog/ghsc4b)；
 > - [Flap 更新日志](https://www.yuque.com/cxyfy/blog/ehnxdy)；
-> - [Flap 设计理念](https://www.yuque.com/cxyfy/blog/ehnxdy)；
+> - [Flap 设计理念](https://www.yuque.com/cxyfy/blog/gsi2b8)；
 
 
 <a name="E94H7"></a>

@@ -18,12 +18,12 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
     /**
      * 简单参数的 onBind
      */
-    private var binder: (Component<T>.(model: T) -> Unit)? = null
+    private var onBind: (Component<T>.(model: T) -> Unit)? = null
 
     /**
      * 更多参数的 onBind
      */
-    private var binder2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    private var onBind2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
 
     private var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
 
@@ -54,11 +54,11 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
     }
 
     fun onBind(onBind: (Component<T>.(model: T) -> Unit)) {
-        binder = onBind
+        this.onBind = onBind
     }
 
     fun onBind(onBind: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)) {
-        binder2 = onBind
+        onBind2 = onBind
     }
 
     fun onClick(onclick: (Component<T>.(model: T, position: Int) -> Unit)) {
@@ -106,8 +106,8 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
         config.modelClass = modelClass
         config.onClickListener = onClickListener
         config.onLongClickListener = onLongClickListener
-        config.binder = binder
-        config.binder2 = binder2
+        config.onBind = onBind
+        config.onBind2 = onBind2
         config.layoutId = layoutId
         config.itemId = itemId
         config.onViewAttachedToWindow = onViewAttachedToWindow

@@ -2,6 +2,7 @@ package me.yifeiyuan.flap
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -50,7 +51,6 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     /**
-     * Overriding `onBind` to bind your model to your Component.
      *
      * @param model    The model that you need to bind.
      * @param position position
@@ -69,6 +69,8 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
 
     /**
      * 执行数据绑定，处理业务逻辑
+     *
+     * @see onBind
      */
     abstract fun onBind(model: T)
 
@@ -77,17 +79,17 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     /**
-     * @param flapAdapter The adapter which is using your Component.
      * @see FlapAdapter.onViewAttachedToWindow
      */
+    @CallSuper
     open fun onViewAttachedToWindow(flapAdapter: FlapAdapter) {
         onVisibilityChanged(true, flapAdapter)
     }
 
     /**
-     * @param flapAdapter The adapter which is using your Component.
      * @see FlapAdapter.onViewDetachedFromWindow
      */
+    @CallSuper
     open fun onViewDetachedFromWindow(flapAdapter: FlapAdapter) {
         onVisibilityChanged(false, flapAdapter)
     }
@@ -99,19 +101,18 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
      * @see onViewAttachedToWindow
      * @see onViewDetachedFromWindow
      */
+    @CallSuper
     open fun onVisibilityChanged(visible: Boolean, flapAdapter: FlapAdapter) {
         isVisible = visible
     }
 
     /**
-     * @param flapAdapter The adapter which is using your FlapItem.
      * @see FlapAdapter.onViewRecycled
      */
     open fun onViewRecycled(flapAdapter: FlapAdapter) {}
 
     /**
-     * @param flapAdapter The adapter which is using your FlapItem.
-     * @return True if the View should be recycled, false otherwise.
+     * @return true if the View should be recycled, false otherwise.
      * @see FlapAdapter.onFailedToRecycleView
      */
     open fun onFailedToRecycleView(flapAdapter: FlapAdapter): Boolean {
@@ -130,6 +131,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     open fun onStop(owner: LifecycleOwner) {
     }
 
+    @CallSuper
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onDestroy(owner: LifecycleOwner) {
         owner.lifecycle.removeObserver(this)

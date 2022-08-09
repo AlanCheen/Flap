@@ -35,7 +35,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
     constructor(modelClass: Class<T>, layoutId: Int, binder: Component<T>.(model: T) -> Unit) {
         config.modelClass = modelClass
         config.layoutId = layoutId
-        config.binder = binder
+        config.onBind = binder
     }
 
     internal constructor(delegateConfig: LayoutAdapterDelegateConfig<T>) {
@@ -53,10 +53,10 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
 
-        if (config.binder2 != null) {
-            config.binder2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
-        } else if (config.binder != null) {
-            config.binder?.invoke(component as Component<T>, data as T)
+        if (config.onBind2 != null) {
+            config.onBind2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
+        } else if (config.onBind != null) {
+            config.onBind?.invoke(component as Component<T>, data as T)
         }
 
         if (config.onClickListener != null) {
@@ -151,16 +151,17 @@ class LayoutAdapterDelegateConfig<T> {
     /**
      * 更多参数的 onBind
      */
-    var binder2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    var onBind2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 简单参数的 onBind
      */
-    var binder: (Component<T>.(model: T) -> Unit)? = null
+    var onBind: (Component<T>.(model: T) -> Unit)? = null
 
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
 
+    //TODO 为什么不能使用 Component<T>.() -> Unit？ Nothing
     var onResume: (Component<*>.() -> Unit)? = null
     var onPause: (Component<*>.() -> Unit)? = null
     var onStop: (Component<*>.() -> Unit)? = null

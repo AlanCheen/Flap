@@ -7,6 +7,8 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.showcase.BaseTestcaseFragment
 
 /**
+ * GitHub 代码示例
+ * 
  * Created by 程序亦非猿 on 2022/8/9.
  */
 class GitHubDemoFragment : BaseTestcaseFragment() {

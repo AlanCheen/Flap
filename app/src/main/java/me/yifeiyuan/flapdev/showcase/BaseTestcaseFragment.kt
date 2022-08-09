@@ -62,6 +62,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         emptyView = view.findViewById(R.id.emptyView)
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
+        adapter.setLifecycleOwner(viewLifecycleOwner)
 
         adapter.setEmptyView(emptyView)
 

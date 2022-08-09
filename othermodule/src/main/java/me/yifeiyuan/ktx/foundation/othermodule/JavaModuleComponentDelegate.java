@@ -53,4 +53,14 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
     public void onViewDetachedFromWindow(@NotNull FlapAdapter adapter, @NotNull Component<?> component) {
         component.onViewDetachedFromWindow(adapter);
     }
+
+    @Override
+    public boolean onFailedToRecycleView(@NotNull FlapAdapter adapter, @NotNull Component<?> component) {
+        return component.onFailedToRecycleView(adapter);
+    }
+
+    @Override
+    public void onViewRecycled(@NotNull FlapAdapter adapter, @NotNull Component<?> component) {
+        component.onViewRecycled(adapter);
+    }
 }

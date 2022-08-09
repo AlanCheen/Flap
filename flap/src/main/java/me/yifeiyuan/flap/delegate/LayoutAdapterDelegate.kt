@@ -1,11 +1,15 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package me.yifeiyuan.flap.delegate
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.R
 
 /**
  *
@@ -33,7 +37,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
     constructor(modelClass: Class<T>, layoutId: Int, binder: Component<T>.(model: T) -> Unit) {
         config.modelClass = modelClass
         config.layoutId = layoutId
-        config.binder = binder
+        config.onBind = binder
     }
 
     internal constructor(delegateConfig: LayoutAdapterDelegateConfig<T>) {
@@ -51,15 +55,15 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
 
-        if (config.binder2 != null) {
-            config.binder2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
-        } else if (config.binder != null) {
-            config.binder?.invoke(component as Component<T>, data as T)
+        if (config.onBind2 != null) {
+            config.onBind2?.invoke(component as Component<T>, data as T, position, payloads, adapter)
+        } else if (config.onBind != null) {
+            config.onBind?.invoke(component as Component<T>, data as T)
         }
 
         if (config.onClickListener != null) {
             component.itemView.setOnClickListener {
-                config.onClickListener?.invoke(component as Component<T>, data as T, position)
+                config.onClickListener?.invoke(component as Component<T>, data as T, position, adapter)
             }
         } else {
             component.itemView.setOnClickListener(null)
@@ -67,11 +71,13 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
         if (config.onLongClickListener != null) {
             component.itemView.setOnLongClickListener {
-                config.onLongClickListener!!.invoke(component as Component<T>, data as T, position)
+                config.onLongClickListener!!.invoke(component as Component<T>, data as T, position, adapter)
             }
         } else {
             component.itemView.setOnLongClickListener(null)
         }
+
+        component.itemView.setTag(R.id.layout_adapter_delegate, this)
     }
 
     override fun getItemViewType(model: Any): Int {
@@ -84,17 +90,52 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
     override fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewAttachedToWindow(adapter, component)
-        config.onViewAttachedToWindow?.invoke(component  as Component<T>)
+        config.onViewAttachedToWindow?.invoke(component as Component<T>)
     }
 
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         super.onViewDetachedFromWindow(adapter, component)
-        config.onViewDetachedFromWindow?.invoke(component  as Component<T>)
+        config.onViewDetachedFromWindow?.invoke(component as Component<T>)
+    }
+
+    override fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+        return config.onFailedToRecycleView?.invoke(component as Component<T>, adapter)
+                ?: super.onFailedToRecycleView(adapter, component)
+    }
+
+    override fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+        super.onViewRecycled(adapter, component)
+        config.onViewRecycled?.invoke(component as Component<T>, adapter)
     }
 }
 
 class LayoutComponent<T>(view: View) : Component<T>(view) {
+
     override fun onBind(model: T) {
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onResume?.invoke(this as Component<T>)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onPause?.invoke(this as Component<T>)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onStop?.invoke(this as Component<T>)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+        getLayoutAdapterDelegateByTag()?.config?.onDestroy?.invoke(this as Component<T>)
+    }
+
+    private fun getLayoutAdapterDelegateByTag(): LayoutAdapterDelegate<*, *>? {
+        return itemView.getTag(R.id.layout_adapter_delegate) as? LayoutAdapterDelegate<*, *>
     }
 }
 
@@ -112,25 +153,33 @@ class LayoutAdapterDelegateConfig<T> {
     /**
      * 更多参数的 onBind
      */
-    var binder2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    var onBind2: (Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 简单参数的 onBind
      */
-    var binder: (Component<T>.(model: T) -> Unit)? = null
+    var onBind: (Component<T>.(model: T) -> Unit)? = null
 
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
-
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
+
+    //TODO 为什么不能使用 Component<T>.() -> Unit？ Required Nothing but xx?
+    var onResume: (Component<*>.() -> Unit)? = null
+    var onPause: (Component<*>.() -> Unit)? = null
+    var onStop: (Component<*>.() -> Unit)? = null
+    var onDestroy: (Component<*>.() -> Unit)? = null
+
+    var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
+    var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
 
     /**
      * 单击事件
      */
-    var onClickListener: (Component<T>.(model: T, position: Int) -> Unit)? = null
+    var onClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 长按事件
      */
-    var onLongClickListener: (Component<T>.(model: T, position: Int) -> Boolean)? = null
+    var onLongClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Boolean)? = null
 
 }

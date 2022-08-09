@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.delegate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
@@ -98,5 +99,19 @@ interface AdapterDelegate<M, VH : Component<M>> {
      */
     fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         component.onViewDetachedFromWindow(adapter)
+    }
+
+    /**
+     * @see FlapAdapter.onFailedToRecycleView
+     */
+    fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+        return component.onFailedToRecycleView(adapter)
+    }
+
+    /**
+     * @see FlapAdapter.onViewRecycled
+     */
+    fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+        component.onViewRecycled(adapter)
     }
 }

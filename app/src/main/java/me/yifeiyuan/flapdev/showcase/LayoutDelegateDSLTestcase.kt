@@ -28,11 +28,17 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 }
             }
 
-            onClick { model, position ->
+            onBind { model, position, payloads, adapter ->
+                bindTextView(R.id.tv_content) {
+                    text = model.content
+                }
+            }
+
+            onClick { model, position, adapter ->
                 toast("onClick() called with: component = $this, model = $model, position = $position")
             }
 
-            onLongClick { model, position ->
+            onLongClick { model, position, adapter ->
                 toast("onLongClick() called with: component = $this, model = $model, position = $position")
                 true
             }
@@ -43,6 +49,31 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
 
             onViewDetachedFromWindow {
                 Log.d(TAG, "simpleTextDelegate onViewDetachedFromWindow() called $position")
+            }
+
+            onViewRecycled {
+                Log.d(TAG, "onViewRecycled() called")
+            }
+
+            onFailedToRecycleView {
+                Log.d(TAG, "onFailedToRecycleView() called")
+                false
+            }
+
+            onResume {
+                Log.d(TAG, "simpleTextDelegate onResume() called")
+            }
+
+            onPause {
+                Log.d(TAG, "simpleTextDelegate onPause() called")
+            }
+
+            onStop {
+                Log.d(TAG, "simpleTextDelegate onStop() called")
+            }
+
+            onDestroy {
+                Log.d(TAG, "simpleTextDelegate onDestroy() called")
             }
         }
 
@@ -56,11 +87,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 }
             }
 
-            onClick { model, position ->
+            onClick { model, position, adapter ->
                 toast("onClick() called with: component = $this, model = $model, position = $position")
             }
 
-            onLongClick { model, position ->
+            onLongClick { model, position, adapter ->
                 toast("onLongClick() called with: component = $this, model = $model, position = $position")
                 true
             }
@@ -71,6 +102,22 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
 
             onViewDetachedFromWindow {
                 Log.d(TAG, "testAllDelegate onViewDetachedFromWindow() called $position")
+            }
+
+            onViewRecycled {
+
+            }
+
+            onFailedToRecycleView {
+                false
+            }
+
+            onResume {
+                Log.d(TAG, "testAllDelegate onResume() called")
+            }
+
+            onPause {
+                Log.d(TAG, "testAllDelegate onPause() called")
             }
         }
 

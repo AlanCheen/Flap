@@ -17,9 +17,6 @@ PRs welcome.
     - 🐎 `:racehorse:` when improving performance
     - 🚱 `:non-potable_water:` when plugging memory leaks
     - 📝 `:memo:` when writing docs
-    - 🐧 `:penguin:` when fixing something on Linux
-    - 🍎 `:apple:` when fixing something on macOS
-    - 🏁 `:checkered_flag:` when fixing something on Windows
     - 🐛 `:bug:` when fixing a bug
     - 🔥 `:fire:` when removing code or files
     - 💚 `:green_heart:` when fixing the CI build

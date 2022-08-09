@@ -83,7 +83,10 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "LayoutAdapterDelegate DSL"
                     replace(LayoutDelegateDSLTestcase::class.java)
                 }
-
+                R.id.nav_github_demo -> {
+                    subtitle = "GitHub Demo"
+                    replace(GitHubDemoFragment::class.java)
+                }
             }
             drawerLayout.close()
 

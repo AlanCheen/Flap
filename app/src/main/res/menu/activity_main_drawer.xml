@@ -47,7 +47,10 @@
             android:id="@+id/nav_layout_delegate_dsl"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="LayoutAdapterDelegate DSL" />
-
+        <item
+            android:id="@+id/nav_github_demo"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="GitHub Demo" />
 
     </group>
 </menu>

@@ -28,6 +28,12 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 }
             }
 
+            onBind { model, position, payloads, adapter ->
+                bindTextView(R.id.tv_content) {
+                    text = model.content
+                }
+            }
+
             onClick { model, position ->
                 toast("onClick() called with: component = $this, model = $model, position = $position")
             }
@@ -104,6 +110,14 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
 
             onFailedToRecycleView {
                 false
+            }
+
+            onResume {
+                Log.d(TAG, "testAllDelegate onResume() called")
+            }
+
+            onPause {
+                Log.d(TAG, "testAllDelegate onPause() called")
             }
         }
 

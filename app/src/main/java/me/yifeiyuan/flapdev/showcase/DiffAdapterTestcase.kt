@@ -58,10 +58,6 @@ class DiffAdapterTestcase : BaseTestcaseFragment() {
         }
     }
 
-    override fun onInit(view: View) {
-        super.onInit(view)
-    }
-
     override fun createRefreshData(size: Int): MutableList<Any> {
         val list = mutableListOf<Any>()
         repeat(20) {

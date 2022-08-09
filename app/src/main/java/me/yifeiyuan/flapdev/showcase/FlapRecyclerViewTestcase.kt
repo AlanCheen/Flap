@@ -66,7 +66,8 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
     override fun createRefreshData(size: Int): MutableList<Any> {
         return super.createRefreshData(size).apply {
-            add(0, ZeroHeightModel())
+            // 测试第一个 item 是 高度=0 的组件是否影响下拉刷新，结果应该是：依然能够下拉刷新。
+//            add(0, ZeroHeightModel())
         }
     }
 
@@ -81,7 +82,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.emptyData -> {
-                flapRecyclerView.setData(createRefreshData(0))
+                flapRecyclerView.setData(mutableListOf())
             }
             R.id.resetData -> {
                 flapRecyclerView.setData(createRefreshData(30))

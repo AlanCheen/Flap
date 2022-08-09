@@ -14,6 +14,9 @@ import me.yifeiyuan.ktx.foundation.othermodule.databinding.FlapItemVbBinding
  * 使用 ViewBinding 的例子
  * Created by 程序亦非猿 on 2020/9/30.
  */
+
+class ViewBindingModel
+
 @Delegate(layoutName = "flap_item_vb", useViewBinding = true)
 class ViewBindingComponent(var binding: FlapItemVbBinding) : Component<ViewBindingModel>(binding.root) {
 

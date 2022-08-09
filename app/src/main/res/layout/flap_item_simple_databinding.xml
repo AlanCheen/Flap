@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel" />
+            type="me.yifeiyuan.flapdev.components.SimpleDataBindingModel" />
 
     </data>
 

@@ -2,7 +2,6 @@ package me.yifeiyuan.flap.ext
 
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import me.yifeiyuan.flap.FlapDebug

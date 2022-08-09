@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package me.yifeiyuan.flap.differ
 
 import android.annotation.SuppressLint
@@ -38,7 +39,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
                 if (oldItem is IDiffer) {
                     return oldItem.areContentsTheSame(newItem)
                 }
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
 
             override fun getChangePayload(oldItem: T, newItem: T): Any? {

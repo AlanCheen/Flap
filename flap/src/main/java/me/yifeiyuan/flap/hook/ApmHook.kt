@@ -50,7 +50,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         val cost = endTime - createStartTime
         FlapDebug.d(
                 TAG,
-                "${delegate?.javaClass?.simpleName} 【创建】组件完成，耗时 $cost (毫秒)，组件为：$component"
+                "${delegate.javaClass.simpleName} 【创建】组件完成，耗时 $cost (毫秒)，组件为：$component"
         )
         if (cost > createTimeCostThreshold) {
             onCreateAlarm(adapter, delegate, viewType, component, cost)

@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package me.yifeiyuan.flap.delegate
 
 import androidx.recyclerview.widget.RecyclerView
@@ -127,5 +128,5 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
 }
 
 inline fun <reified T> makeDelegate(layoutId: Int, builder: LayoutAdapterDelegateBuilder<T>.() -> Unit): LayoutAdapterDelegate<T, LayoutComponent<T>> {
-    return LayoutAdapterDelegateBuilder<T>(T::class.java, layoutId).apply(builder).build()
+    return LayoutAdapterDelegateBuilder(T::class.java, layoutId).apply(builder).build()
 }

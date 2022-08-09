@@ -39,20 +39,3 @@ dependencies {
 
     implementation project(':flap-annotations')
 }
-
-//apply plugin: "guru.stefma.bintrayrelease"
-//
-//version = "3.0.0"
-//group = "me.yifeiyuan.flap"
-//androidArtifact {
-//    artifactId = "flap"
-//}
-//publish {
-//    userOrg = 'alancheen'
-//    dryRun = false
-//    desc = 'Flap'
-//    website = 'https://github.com/AlanCheen/Flap'
-//}
-//repositories {
-//    mavenCentral()
-//}

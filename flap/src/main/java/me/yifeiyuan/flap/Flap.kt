@@ -1,13 +1,12 @@
 package me.yifeiyuan.flap
 
-import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
-import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.ext.FlapComponentPool
+import me.yifeiyuan.flap.hook.AdapterHook
 
 /**
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>

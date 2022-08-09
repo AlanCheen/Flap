@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate","unused")
 
 package me.yifeiyuan.flap
 
@@ -58,7 +58,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
-    private val hooks: MutableList<AdapterHook> = mutableListOf<AdapterHook>()
+    private val hooks: MutableList<AdapterHook> = mutableListOf()
 
     /**
      * RecyclerView 滑动到底部触发预加载

@@ -23,7 +23,6 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".DifferActivity" />
         <activity android:name=".KotlinTestActivity" />
     </application>
 

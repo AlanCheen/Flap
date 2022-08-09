@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "多 itemViewType"
                     replace(MultiTypeTestcase::class.java)
                 }
-                R.id.nav_prefetch -> {
+                R.id.nav_preload -> {
                     title = "预加载"
                     subtitle = "在滑动到底部之前预先加载"
                     replace(PreloadTestcase::class.java)
@@ -113,15 +113,4 @@ class MainActivity : AppCompatActivity() {
     private fun <T : Fragment> replace(fragmentClass: Class<T>, args: Bundle? = null) {
         supportFragmentManager.beginTransaction().replace(R.id.container, fragmentClass, args).commitAllowingStateLoss()
     }
-
-//    private fun createAdvanceTestCase(recyclerView: RecyclerView) {
-//        val models = mockModels()
-//        val adapter: FlapAdapter = ShowcaseAdapter()
-//        adapter.setUseComponentPool(true)
-//                .setLifecycleEnable(true)
-//                .setLifecycleOwner(this)
-//                .data = models
-//        recyclerView.adapter = adapter
-//    }
-
 }

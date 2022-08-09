@@ -51,38 +51,13 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
 
     override fun onBind(model: TestDiffModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
 
-        if (payloads.isNotEmpty()) {
-            bindTextView(R.id.content) {
-                text = "展示 content ：${payloads.get(0)}"
+        //当 payloads 更新时，事件点击需要重新设置
+        bindButton(R.id.modifyContent) {
+            setOnClickListener {
+                model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
+                adapter.notifyItemChanged(position, model.content)//不会闪
+//                adapter.notifyItemChanged(position)//会闪
             }
-
-            //当 payloads 更新时，事件点击需要重新设置
-            bindButton(R.id.modifyContent) {
-                setOnClickListener {
-                    model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
-                    adapter.notifyItemChanged(position)
-                }
-            }
-
-            bindButton(R.id.modifyId) {
-                setOnClickListener {
-                    model.id = (SystemClock.uptimeMillis() % 10000).toInt()
-                    adapter.notifyItemChanged(position)
-                }
-            }
-            return
-        }
-
-        bindTextView(R.id.content) {
-            text = "展示 content ：${model.content}"
-        }
-
-        bindTextView(R.id.id) {
-            text = "展示 ID ：${model.id}"
-        }
-
-        bindTextView(R.id.desc) {
-            text = "展示 desc ：${model.desc}"
         }
 
         bindButton(R.id.modifyId) {
@@ -92,10 +67,21 @@ class DiffComponent(view: View) : Component<TestDiffModel>(view) {
             }
         }
 
-        bindButton(R.id.modifyContent) {
-            setOnClickListener {
-                model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
-                adapter.notifyItemChanged(position)
+        if (payloads.isNotEmpty()) {
+            bindTextView(R.id.content) {
+                text = "展示 content ：${payloads.get(0)}"
+            }
+        } else {
+            bindTextView(R.id.content) {
+                text = "展示 content ：${model.content}"
+            }
+
+            bindTextView(R.id.id) {
+                text = "展示 ID ：${model.id}"
+            }
+
+            bindTextView(R.id.desc) {
+                text = "展示 desc ：${model.desc}"
             }
         }
     }

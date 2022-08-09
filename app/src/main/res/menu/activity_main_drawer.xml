@@ -10,12 +10,12 @@
             android:icon="@drawable/ic_menu_send"
             android:title="多类型" />
         <item
-            android:id="@+id/nav_prefetch"
+            android:id="@+id/nav_preload"
             android:icon="@drawable/ic_menu_camera"
             android:title="预加载" />
         <item
             android:id="@+id/nav_component_pool"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_info_details"
             android:title="ComponentPool" />
         <item
             android:id="@+id/nav_flap_rv"
@@ -24,7 +24,7 @@
 
         <item
             android:id="@+id/nav_viewpager2"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_manage"
             android:title="ViewPager2" />
 
         <item
@@ -33,12 +33,12 @@
             android:title="点击/长按事件" />
         <item
             android:id="@+id/nav_header_footer"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_share"
             android:title="Header+Footer" />
         <item
             android:id="@+id/nav_diff"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="FlapDiffAdapter" />
+            android:title="FlapDifferAdapter" />
         <item
             android:id="@+id/nav_layout_delegate"
             android:icon="@drawable/ic_menu_slideshow"
@@ -49,7 +49,7 @@
             android:title="LayoutAdapterDelegate DSL" />
         <item
             android:id="@+id/nav_github_demo"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_camera"
             android:title="GitHub Demo" />
 
     </group>

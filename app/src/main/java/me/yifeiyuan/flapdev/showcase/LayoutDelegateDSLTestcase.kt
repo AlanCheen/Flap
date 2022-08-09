@@ -34,11 +34,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 }
             }
 
-            onClick { model, position ->
+            onClick { model, position, adapter ->
                 toast("onClick() called with: component = $this, model = $model, position = $position")
             }
 
-            onLongClick { model, position ->
+            onLongClick { model, position, adapter ->
                 toast("onLongClick() called with: component = $this, model = $model, position = $position")
                 true
             }
@@ -87,11 +87,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
                 }
             }
 
-            onClick { model, position ->
+            onClick { model, position, adapter ->
                 toast("onClick() called with: component = $this, model = $model, position = $position")
             }
 
-            onLongClick { model, position ->
+            onLongClick { model, position, adapter ->
                 toast("onLongClick() called with: component = $this, model = $model, position = $position")
                 true
             }

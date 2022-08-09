@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package me.yifeiyuan.flap.delegate
 
 import android.view.LayoutInflater
@@ -61,7 +63,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
         if (config.onClickListener != null) {
             component.itemView.setOnClickListener {
-                config.onClickListener?.invoke(component as Component<T>, data as T, position)
+                config.onClickListener?.invoke(component as Component<T>, data as T, position, adapter)
             }
         } else {
             component.itemView.setOnClickListener(null)
@@ -69,7 +71,7 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
         if (config.onLongClickListener != null) {
             component.itemView.setOnLongClickListener {
-                config.onLongClickListener!!.invoke(component as Component<T>, data as T, position)
+                config.onLongClickListener!!.invoke(component as Component<T>, data as T, position, adapter)
             }
         } else {
             component.itemView.setOnLongClickListener(null)
@@ -161,7 +163,7 @@ class LayoutAdapterDelegateConfig<T> {
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
 
-    //TODO 为什么不能使用 Component<T>.() -> Unit？ Nothing
+    //TODO 为什么不能使用 Component<T>.() -> Unit？ Required Nothing but xx?
     var onResume: (Component<*>.() -> Unit)? = null
     var onPause: (Component<*>.() -> Unit)? = null
     var onStop: (Component<*>.() -> Unit)? = null
@@ -173,11 +175,11 @@ class LayoutAdapterDelegateConfig<T> {
     /**
      * 单击事件
      */
-    var onClickListener: (Component<T>.(model: T, position: Int) -> Unit)? = null
+    var onClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 长按事件
      */
-    var onLongClickListener: (Component<T>.(model: T, position: Int) -> Boolean)? = null
+    var onLongClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Boolean)? = null
 
 }

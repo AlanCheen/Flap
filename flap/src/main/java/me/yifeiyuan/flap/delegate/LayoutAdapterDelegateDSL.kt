@@ -12,8 +12,12 @@ import me.yifeiyuan.flap.FlapAdapter
  * @since 3.0.0
  */
 
-
-class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layoutId: Int = 0) {
+/**
+ *
+ * @param modelClass 要代理的模型类
+ * @param layoutId 布局id
+ */
+class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layoutId: Int = 0) {
 
     /**
      * 简单参数的 onBind
@@ -40,12 +44,12 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
     /**
      * 单击事件
      */
-    private var onClickListener: (Component<T>.(model: T, position: Int) -> Unit)? = null
+    private var onClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Unit)? = null
 
     /**
      * 长按事件
      */
-    private var onLongClickListener: ((component: Component<T>, model: T, position: Int) -> Boolean)? = null
+    private var onLongClickListener: ((component: Component<T>, model: T, position: Int, adapter: FlapAdapter) -> Boolean)? = null
 
     private var itemId: Long = RecyclerView.NO_ID
 
@@ -61,11 +65,11 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<*>, var layo
         onBind2 = onBind
     }
 
-    fun onClick(onclick: (Component<T>.(model: T, position: Int) -> Unit)) {
+    fun onClick(onclick: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Unit)) {
         onClickListener = onclick
     }
 
-    fun onLongClick(onLongClick: (Component<T>.(model: T, position: Int) -> Boolean)) {
+    fun onLongClick(onLongClick: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Boolean)) {
         onLongClickListener = onLongClick
     }
 

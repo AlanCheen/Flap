@@ -38,8 +38,4 @@ class CustomViewTypeComponentDelegate : AdapterDelegate<CustomViewTypeModel, Cus
     override fun getItemViewType(model: Any): Int {
         return CustomViewTypeComponent.CUSTOM_ITEM_VIEW_TYPE
     }
-
-    override fun getItemId(model: Any): Long {
-        return super.getItemId(model)
-    }
 }

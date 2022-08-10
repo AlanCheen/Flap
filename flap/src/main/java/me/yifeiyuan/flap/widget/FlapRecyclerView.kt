@@ -1,8 +1,9 @@
+@file:Suppress("LeakingThis", "unused", "CascadeIf")
+
 package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -10,10 +11,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.R
-import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.differ.FlapDifferAdapter
-import me.yifeiyuan.flap.ext.OnItemClickListener
-import me.yifeiyuan.flap.ext.OnItemLongClickListener
+import me.yifeiyuan.flap.differ.IDiffer
 
 /**
  * 为 Flap 定制的 RecyclerView，和 Flap 的 Adapters 和 LayoutManagers 是深度绑定的。
@@ -116,8 +115,7 @@ open class FlapRecyclerView
         }
 
         flapAdapter = if (useDifferAdapter) FlapDifferAdapter<IDiffer>() else FlapAdapter()
-
-        setAdapter(flapAdapter)
+        adapter = flapAdapter
     }
 
     /**
@@ -172,8 +170,7 @@ open class FlapRecyclerView
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy(owner: LifecycleOwner) {
         owner.lifecycle.removeObserver(this)
-//        flapAdapter?.onDetachedFromRecyclerView(this)
-        setAdapter(null)
+        adapter = null
     }
 
     /**

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package me.yifeiyuan.flap.delegate
 
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import me.yifeiyuan.flap.FlapAdapter
  *
  * @param modelClass 要代理的模型类
  * @param layoutId 布局id
+ * @since 3.0.0
  */
 class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layoutId: Int = 0) {
 
@@ -36,10 +39,10 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
     private var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
     private var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
 
-    private var onResume: (Component<*>.() -> Unit)? = null
-    private var onPause: (Component<*>.() -> Unit)? = null
-    private var onStop: (Component<*>.() -> Unit)? = null
-    private var onDestroy: (Component<*>.() -> Unit)? = null
+    private var onResume: (Component<T>.() -> Unit)? = null
+    private var onPause: (Component<T>.() -> Unit)? = null
+    private var onStop: (Component<T>.() -> Unit)? = null
+    private var onDestroy: (Component<T>.() -> Unit)? = null
 
     /**
      * 单击事件
@@ -89,19 +92,19 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
         onFailedToRecycleView = block
     }
 
-    fun onResume(block: (Component<*>.() -> Unit)) {
+    fun onResume(block: (Component<T>.() -> Unit)) {
         onResume = block
     }
 
-    fun onPause(block: (Component<*>.() -> Unit)) {
+    fun onPause(block: (Component<T>.() -> Unit)) {
         onPause = block
     }
 
-    fun onStop(block: (Component<*>.() -> Unit)) {
+    fun onStop(block: (Component<T>.() -> Unit)) {
         onStop = block
     }
 
-    fun onDestroy(block: (Component<*>.() -> Unit)) {
+    fun onDestroy(block: (Component<T>.() -> Unit)) {
         onDestroy = block
     }
 
@@ -127,5 +130,5 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
 }
 
 inline fun <reified T> makeDelegate(layoutId: Int, builder: LayoutAdapterDelegateBuilder<T>.() -> Unit): LayoutAdapterDelegate<T, LayoutComponent<T>> {
-    return LayoutAdapterDelegateBuilder<T>(T::class.java, layoutId).apply(builder).build()
+    return LayoutAdapterDelegateBuilder(T::class.java, layoutId).apply(builder).build()
 }

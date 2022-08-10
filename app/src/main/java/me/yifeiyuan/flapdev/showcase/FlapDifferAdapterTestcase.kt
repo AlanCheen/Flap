@@ -16,12 +16,15 @@ import java.util.ArrayList
 
 
 /**
+ * 测试 FlapDifferAdapter 功能
  *
  * 测试说明，点击按钮后，再下拉刷新，只有被修改了的数据才会有刷新动画
  *
+ * @see FlapDifferAdapter
+ *
  * Created by 程序亦非猿 on 2022/8/1.
  */
-class DiffAdapterTestcase : BaseTestcaseFragment() {
+class FlapDifferAdapterTestcase : BaseTestcaseFragment() {
 
     //如果不测试 header footer,就注释掉 onViewCreated
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,10 +59,6 @@ class DiffAdapterTestcase : BaseTestcaseFragment() {
         return FlapDifferAdapter<IDiffer>().apply {
             setData(createRefreshData())
         }
-    }
-
-    override fun onInit(view: View) {
-        super.onInit(view)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

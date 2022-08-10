@@ -44,11 +44,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             }
 
             onViewAttachedToWindow {
-                Log.d(TAG, "simpleTextDelegate onViewAttachedToWindow() called $position")
+                Log.d(TAG, "simpleTextDelegate onViewAttachedToWindow() called ,position=$position")
             }
 
             onViewDetachedFromWindow {
-                Log.d(TAG, "simpleTextDelegate onViewDetachedFromWindow() called $position")
+                Log.d(TAG, "simpleTextDelegate onViewDetachedFromWindow() called ,position=$position")
             }
 
             onViewRecycled {
@@ -97,11 +97,11 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             }
 
             onViewAttachedToWindow {
-                Log.d(TAG, "testAllDelegate onViewAttachedToWindow() called $position")
+                Log.d(TAG, "testAllDelegate onViewAttachedToWindow() called ,position=$position")
             }
 
             onViewDetachedFromWindow {
-                Log.d(TAG, "testAllDelegate onViewDetachedFromWindow() called $position")
+                Log.d(TAG, "testAllDelegate onViewDetachedFromWindow() called ,position=$position")
             }
 
             onViewRecycled {

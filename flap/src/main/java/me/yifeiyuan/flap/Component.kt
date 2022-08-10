@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package me.yifeiyuan.flap
 
 import android.content.Context

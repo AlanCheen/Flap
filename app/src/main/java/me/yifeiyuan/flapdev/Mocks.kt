@@ -1,9 +1,8 @@
 package me.yifeiyuan.flapdev
 
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
-import me.yifeiyuan.flapdev.components.databindingsample.SimpleDataBindingModel
+import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.generictest.GenericModel
 import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
@@ -12,14 +11,6 @@ import java.util.*
 /**
  * Created by 程序亦非猿 on 2021/9/28.
  */
-
-fun FlapAdapter.mockData() {
-    setData(mockMultiTypeModels())
-}
-
-fun FlapAdapter.appendMockData() {
-    appendData(mockMultiTypeModels())
-}
 
 /**
  * 测试多类型数据

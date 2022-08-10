@@ -29,7 +29,7 @@ import me.yifeiyuan.flap.R
  */
 class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
 
-    var config: LayoutAdapterDelegateConfig<T> = LayoutAdapterDelegateConfig()
+    private var config: LayoutAdapterDelegateConfig<T> = LayoutAdapterDelegateConfig()
 
     /**
      * 最简单的构造，只关心简单的 onBind
@@ -107,6 +107,22 @@ class LayoutAdapterDelegate<T, C : LayoutComponent<T>> : AdapterDelegate<T, C> {
         super.onViewRecycled(adapter, component)
         config.onViewRecycled?.invoke(component as Component<T>, adapter)
     }
+
+    internal fun componentOnResume(component: Component<*>, owner: LifecycleOwner) {
+        config.onResume?.invoke(component as Component<T>)
+    }
+
+    internal fun componentOnPause(component: Component<*>, owner: LifecycleOwner) {
+        config.onPause?.invoke(component as Component<T>)
+    }
+
+    internal fun componentOnStop(component: Component<*>, owner: LifecycleOwner) {
+        config.onStop?.invoke(component as Component<T>)
+    }
+
+    internal fun componentOnDestroy(component: Component<*>, owner: LifecycleOwner) {
+        config.onDestroy?.invoke(component as Component<T>)
+    }
 }
 
 class LayoutComponent<T>(view: View) : Component<T>(view) {
@@ -116,22 +132,22 @@ class LayoutComponent<T>(view: View) : Component<T>(view) {
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        getLayoutAdapterDelegateByTag()?.config?.onResume?.invoke(this as Component<T>)
+        getLayoutAdapterDelegateByTag()?.componentOnResume(this, owner)
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        getLayoutAdapterDelegateByTag()?.config?.onPause?.invoke(this as Component<T>)
+        getLayoutAdapterDelegateByTag()?.componentOnPause(this, owner)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        getLayoutAdapterDelegateByTag()?.config?.onStop?.invoke(this as Component<T>)
+        getLayoutAdapterDelegateByTag()?.componentOnStop(this, owner)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
-        getLayoutAdapterDelegateByTag()?.config?.onDestroy?.invoke(this as Component<T>)
+        getLayoutAdapterDelegateByTag()?.componentOnDestroy(this, owner)
     }
 
     private fun getLayoutAdapterDelegateByTag(): LayoutAdapterDelegate<*, *>? {
@@ -141,7 +157,7 @@ class LayoutComponent<T>(view: View) : Component<T>(view) {
 
 class LayoutAdapterDelegateConfig<T> {
 
-    var modelClass: Class<*>? = null
+    var modelClass: Class<T>? = null
 
     /**
      * 资源文件 layout id
@@ -163,11 +179,10 @@ class LayoutAdapterDelegateConfig<T> {
     var onViewAttachedToWindow: (Component<T>.() -> Unit)? = null
     var onViewDetachedFromWindow: (Component<T>.() -> Unit)? = null
 
-    //TODO 为什么不能使用 Component<T>.() -> Unit？ Required Nothing but xx?
-    var onResume: (Component<*>.() -> Unit)? = null
-    var onPause: (Component<*>.() -> Unit)? = null
-    var onStop: (Component<*>.() -> Unit)? = null
-    var onDestroy: (Component<*>.() -> Unit)? = null
+    var onResume: (Component<T>.() -> Unit)? = null
+    var onPause: (Component<T>.() -> Unit)? = null
+    var onStop: (Component<T>.() -> Unit)? = null
+    var onDestroy: (Component<T>.() -> Unit)? = null
 
     var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
     var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
@@ -181,5 +196,4 @@ class LayoutAdapterDelegateConfig<T> {
      * 长按事件
      */
     var onLongClickListener: (Component<T>.(model: T, position: Int, adapter: FlapAdapter) -> Boolean)? = null
-
 }

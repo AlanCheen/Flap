@@ -2,7 +2,6 @@ package me.yifeiyuan.flap.delegate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter

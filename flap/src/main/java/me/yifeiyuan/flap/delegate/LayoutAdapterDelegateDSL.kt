@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 package me.yifeiyuan.flap.delegate
 
 import androidx.recyclerview.widget.RecyclerView
@@ -37,10 +38,10 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
     private var onViewRecycled: (Component<T>.(adapter: FlapAdapter) -> Unit)? = null
     private var onFailedToRecycleView: (Component<T>.(adapter: FlapAdapter) -> Boolean)? = null
 
-    private var onResume: (Component<*>.() -> Unit)? = null
-    private var onPause: (Component<*>.() -> Unit)? = null
-    private var onStop: (Component<*>.() -> Unit)? = null
-    private var onDestroy: (Component<*>.() -> Unit)? = null
+    private var onResume: (Component<T>.() -> Unit)? = null
+    private var onPause: (Component<T>.() -> Unit)? = null
+    private var onStop: (Component<T>.() -> Unit)? = null
+    private var onDestroy: (Component<T>.() -> Unit)? = null
 
     /**
      * 单击事件
@@ -90,19 +91,19 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
         onFailedToRecycleView = block
     }
 
-    fun onResume(block: (Component<*>.() -> Unit)) {
+    fun onResume(block: (Component<T>.() -> Unit)) {
         onResume = block
     }
 
-    fun onPause(block: (Component<*>.() -> Unit)) {
+    fun onPause(block: (Component<T>.() -> Unit)) {
         onPause = block
     }
 
-    fun onStop(block: (Component<*>.() -> Unit)) {
+    fun onStop(block: (Component<T>.() -> Unit)) {
         onStop = block
     }
 
-    fun onDestroy(block: (Component<*>.() -> Unit)) {
+    fun onDestroy(block: (Component<T>.() -> Unit)) {
         onDestroy = block
     }
 

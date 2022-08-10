@@ -18,6 +18,7 @@ import me.yifeiyuan.flap.FlapAdapter
  *
  * @param modelClass 要代理的模型类
  * @param layoutId 布局id
+ * @since 3.0.0
  */
 class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layoutId: Int = 0) {
 

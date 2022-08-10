@@ -65,7 +65,9 @@ class MainActivity : AppCompatActivity() {
                     replace(ViewPager2Testcase::class.java)
                 }
                 R.id.nav_diff -> {
-                    replace(DiffAdapterTestcase::class.java)
+                    title = "FlapDifferAdapter"
+                    subtitle = "修改数据后，下拉刷新观察"
+                    replace(FlapDifferAdapterTestcase::class.java)
                 }
                 R.id.nav_clicks -> {
                     subtitle = "点击、长按事件功能测试"

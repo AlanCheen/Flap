@@ -16,8 +16,8 @@ private const val TAG = "HeaderFooterTestcase"
  */
 class HeaderFooterTestcase : BaseTestcaseFragment() {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onInit(view: View) {
+        super.onInit(view)
 
         val headerFooterAdapter = HeaderFooterAdapter(adapter)
 

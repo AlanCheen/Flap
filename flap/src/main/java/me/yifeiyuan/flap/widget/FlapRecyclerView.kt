@@ -4,12 +4,14 @@ package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.R
 import me.yifeiyuan.flap.differ.FlapDifferAdapter
 import me.yifeiyuan.flap.differ.IDiffer
@@ -129,7 +131,7 @@ open class FlapRecyclerView
             this.flapAdapter = adapter
             super.setAdapter(this.flapAdapter)
         } else {
-            throw IllegalArgumentException("setAdapter 只支持 Flap 内置的 Adapter！")
+            FlapDebug.e(TAG, "setAdapter: 设置了非 FlapAdapter 的实例，可能影响部分功能")
         }
     }
 

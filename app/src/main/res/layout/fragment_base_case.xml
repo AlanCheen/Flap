@@ -12,6 +12,7 @@
         android:gravity="center"
         android:text="无数据时展示"
         android:textSize="40dp"
+        android:visibility="gone"
         />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

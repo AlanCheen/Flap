@@ -31,7 +31,8 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 .bind(recyclerView)
                 .adapter(adapter)
                 .autoHide(true)
-                .skeletonCount(10)
+                .count(10)
+                .shimmer(true)
 //                .layout(R.layout.skeleton_layout) // 单个资源
                 .layouts { //多资源
                     when (it % 3) {

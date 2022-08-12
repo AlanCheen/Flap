@@ -5,6 +5,7 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.ext.OnAdapterDataChangedObserver
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -50,29 +51,11 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
 
     var preloadEnable = true
 
-    //reset when data changed
-    private val observer = object : RecyclerView.AdapterDataObserver() {
-        override fun onChanged() {
-            setPreloadComplete()
-        }
-
-        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-            setPreloadComplete()
-        }
-
-        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-            setPreloadComplete()
-        }
-
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            setPreloadComplete()
-        }
-
-        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-            setPreloadComplete()
-        }
-
-        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+    /**
+     * 当数据变化就重置
+     */
+    private val observer = object : OnAdapterDataChangedObserver() {
+        override fun onDataChanged() {
             setPreloadComplete()
         }
     }

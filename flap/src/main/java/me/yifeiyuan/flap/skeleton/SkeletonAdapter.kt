@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class SkeletonAdapter : RecyclerView.Adapter<SkeletonViewHolder>() {
 
+    var shimmer: Boolean = false
     var skeletonItemCount: Int = 0
 
     @LayoutRes
@@ -22,7 +23,16 @@ class SkeletonAdapter : RecyclerView.Adapter<SkeletonViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkeletonViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(viewType, parent, false)
+        val view: View
+        if (shimmer) {
+            val shimmerView = ShimmerFrameLayout(parent.context)
+            shimmerView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+            shimmerView.shimmer?.autoStart = true
+            inflater.inflate(viewType, shimmerView, true)
+            view = shimmerView
+        } else {
+            view = inflater.inflate(viewType, parent, false)
+        }
         return SkeletonViewHolder(view)
     }
 

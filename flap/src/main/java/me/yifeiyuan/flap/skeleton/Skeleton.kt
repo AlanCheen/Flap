@@ -47,8 +47,13 @@ class Skeleton : RecyclerView.AdapterDataObserver() {
         return this
     }
 
-    fun skeletonCount(count: Int): Skeleton {
+    fun count(count: Int): Skeleton {
         skeletonAdapter.skeletonItemCount = count
+        return this
+    }
+
+    fun shimmer(enable: Boolean) : Skeleton{
+        skeletonAdapter.shimmer = enable
         return this
     }
 
@@ -64,7 +69,6 @@ class Skeleton : RecyclerView.AdapterDataObserver() {
             targetRecyclerView.visibility = View.VISIBLE
         }
         targetRecyclerView.adapter = skeletonAdapter
-
         isShowing = true
         return this
     }

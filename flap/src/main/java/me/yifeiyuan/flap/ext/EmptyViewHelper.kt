@@ -2,7 +2,6 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.NullPointerException
 
 /**
  *
@@ -13,7 +12,7 @@ import java.lang.NullPointerException
  * Created by 程序亦非猿 on 2022/6/16.
  * @since 3.0.0
  */
-internal class EmptyViewHelper : RecyclerView.AdapterDataObserver() {
+class EmptyViewHelper : OnAdapterDataChangedObserver() {
 
     /**
      * 设置空状态下需要展示的 View
@@ -22,59 +21,62 @@ internal class EmptyViewHelper : RecyclerView.AdapterDataObserver() {
      * 注意：emptyView 必须是已经加入到布局中的，是有 parent 的
      */
     var emptyView: View? = null
-        set(value) {
-            field = value
-            checkEmptyState()
-        }
 
-    lateinit var recyclerView: RecyclerView
+    /**
+     * 展示内容的 View
+     */
+    var contentView: RecyclerView? = null
 
     fun attachRecyclerView(targetRecyclerView: RecyclerView) {
-        recyclerView = targetRecyclerView
-        if (targetRecyclerView.adapter == null) {
-            throw NullPointerException("RecyclerView.adapter 为 null，请先给 RecyclerView 设置 Adapter")
+        contentView = targetRecyclerView
+        contentView?.adapter?.let {
+            attachAdapter(it)
         }
-        targetRecyclerView.adapter?.registerAdapterDataObserver(this)
-        checkEmptyState()
     }
 
-    fun detachRecyclerView(targetRecyclerView: RecyclerView) {
-        targetRecyclerView.adapter?.unregisterAdapterDataObserver(this)
+    fun detachRecyclerView() {
+        contentView?.adapter?.let {
+            detachAdapter(it)
+        }
     }
 
-    override fun onChanged() {
-        super.onChanged()
-        checkEmptyState()
+    /**
+     *
+     * @param adapter RecyclerView.adapter
+     * @param checkRightNow 是否立即检查是否展示 empty view
+     */
+    fun attachAdapter(adapter: RecyclerView.Adapter<*>, checkRightNow: Boolean = false) {
+        try {
+            adapter.registerAdapterDataObserver(this)
+        } catch (e: Exception) {
+            //ignore
+        }
+
+        if (checkRightNow) {
+            maybeShowEmptyView()
+        }
     }
 
-    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-        super.onItemRangeInserted(positionStart, itemCount)
-        checkEmptyState()
+    fun detachAdapter(adapter: RecyclerView.Adapter<*>) {
+        try {
+            adapter.unregisterAdapterDataObserver(this)
+        } catch (e: Exception) {
+            //ignore
+        }
     }
 
-    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-        super.onItemRangeRemoved(positionStart, itemCount)
-        checkEmptyState()
+    override fun onAdapterDataChanged() {
+        maybeShowEmptyView()
     }
 
-    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-        super.onItemRangeChanged(positionStart, itemCount, payload)
-        checkEmptyState()
-    }
-
-    private fun checkEmptyState() {
-        emptyView?.let {
-            if (!this::recyclerView.isInitialized) {
-                return
-            }
-            if (recyclerView.adapter != null && recyclerView.adapter?.itemCount == 0) {
-                it.visibility = RecyclerView.VISIBLE
-                recyclerView.visibility = RecyclerView.GONE
+    private fun maybeShowEmptyView() {
+        if (contentView != null && emptyView != null)
+            if (contentView!!.adapter != null && contentView!!.adapter?.itemCount == 0) {
+                emptyView?.visibility = View.VISIBLE
+                contentView?.visibility = View.GONE
             } else {
-                it.visibility = RecyclerView.GONE
-                recyclerView.visibility = RecyclerView.VISIBLE
+                emptyView?.visibility = View.GONE
+                contentView?.visibility = View.VISIBLE
             }
-        }
     }
-
 }

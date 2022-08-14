@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.ExtraParamsProvider
+import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
@@ -29,6 +30,7 @@ private const val TAG = "BaseCaseFragment"
 open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var recyclerView: RecyclerView
+
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     lateinit var adapter: FlapAdapter
@@ -120,15 +122,22 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
         }
 
-        //配置完结束最后在赋值
+        //配置完结束最后再赋值
         recyclerView.adapter = adapter
+
+        swipeRefreshLayout.isRefreshing = true
+
+        Handler().postDelayed({
+            adapter.setData(createRefreshData())
+            swipeRefreshLayout.isRefreshing = false
+        }, getRefreshDelayedTime())
     }
 
     open fun isClickEnable() = true
     open fun isLongClickEnable() = true
 
     open fun createAdapter() = FlapAdapter().apply {
-        setData(createRefreshData())
+//        setData(createRefreshData())
     }
 
     open fun getLayoutId(): Int = R.layout.fragment_base_case

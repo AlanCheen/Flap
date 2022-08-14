@@ -1,12 +1,12 @@
 package me.yifeiyuan.flapdev.showcase
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
@@ -21,10 +21,38 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
 
     //测试第一个组件高度为 0 的 case,会导致不能下拉刷新
     var testZeroHeight = false
+    lateinit var skeletonHelper: Skeleton
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onInit(view: View) {
+        super.onInit(view)
         setHasOptionsMenu(true)
+
+        skeletonHelper = Skeleton()
+                .bind(recyclerView)
+                .adapter(adapter)
+                .autoHide(true)
+                .count(10)
+                .shimmer(true)
+//                .layout(R.layout.skeleton_layout) // 单个资源
+                .layouts { //多资源
+                    when (it % 3) {
+                        0 -> {
+                            R.layout.skeleton_layout
+                        }
+                        1 -> {
+                            R.layout.skeleton_layout2
+                        }
+                        2 -> {
+                            R.layout.skeleton_layout3
+                        }
+                        else -> {
+                            R.layout.skeleton_layout
+                        }
+                    }
+                }
+                .onlyOnce(false)
+                .withEmptyViewHelper(adapter.emptyViewHelper)
+                .show()
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {
@@ -42,6 +70,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.emptyData -> {
+                skeletonHelper.hide()
                 adapter.setData(mutableListOf())
             }
             R.id.resetData -> {
@@ -71,6 +100,13 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
             R.id.testZeroHeight -> {
                 testZeroHeight = !testZeroHeight
                 onRefresh()
+            }
+            R.id.toggleSkeleton -> {
+                if (skeletonHelper.isShowing) {
+                    skeletonHelper.hide()
+                } else {
+                    skeletonHelper.show()
+                }
             }
         }
         return super.onOptionsItemSelected(item)

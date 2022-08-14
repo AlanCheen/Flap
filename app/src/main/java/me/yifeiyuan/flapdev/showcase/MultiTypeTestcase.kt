@@ -50,6 +50,8 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                         }
                     }
                 }
+                .onlyOnce(false)
+                .withEmptyViewHelper(adapter.emptyViewHelper)
                 .show()
     }
 
@@ -68,6 +70,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.emptyData -> {
+                skeletonHelper.hide()
                 adapter.setData(mutableListOf())
             }
             R.id.resetData -> {

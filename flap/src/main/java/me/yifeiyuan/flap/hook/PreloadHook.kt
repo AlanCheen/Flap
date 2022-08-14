@@ -52,10 +52,10 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
     var preloadEnable = true
 
     /**
-     * 当数据变化就重置
+     * 当数据变化就自动重置
      */
     private val observer = object : OnAdapterDataChangedObserver() {
-        override fun onDataChanged() {
+        override fun onAdapterDataChanged() {
             setPreloadComplete()
         }
     }

@@ -88,7 +88,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     var paramProvider: ExtraParamsProvider? = null
 
     private var itemClicksHelper = ItemClicksHelper()
-    private val emptyViewHelper = EmptyViewHelper()
+    val emptyViewHelper = EmptyViewHelper()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -319,7 +319,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         super.onDetachedFromRecyclerView(recyclerView)
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
-        emptyViewHelper.detachRecyclerView(recyclerView)
+        emptyViewHelper.detachRecyclerView()
     }
 
     /**

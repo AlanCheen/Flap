@@ -2,7 +2,6 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.NullPointerException
 
 /**
  *
@@ -13,7 +12,7 @@ import java.lang.NullPointerException
  * Created by 程序亦非猿 on 2022/6/16.
  * @since 3.0.0
  */
-internal class EmptyViewHelper : OnAdapterDataChangedObserver() {
+class EmptyViewHelper : OnAdapterDataChangedObserver() {
 
     /**
      * 设置空状态下需要展示的 View
@@ -23,40 +22,61 @@ internal class EmptyViewHelper : OnAdapterDataChangedObserver() {
      */
     var emptyView: View? = null
 
-    lateinit var recyclerView: RecyclerView
+    /**
+     * 展示内容的 View
+     */
+    var contentView: RecyclerView? = null
 
-    fun attachRecyclerView(targetRecyclerView: RecyclerView, checkRightNow: Boolean = false) {
-        recyclerView = targetRecyclerView
-        if (targetRecyclerView.adapter == null) {
-            throw NullPointerException("RecyclerView.adapter 为 null，请先给 RecyclerView 设置 Adapter")
+    fun attachRecyclerView(targetRecyclerView: RecyclerView) {
+        contentView = targetRecyclerView
+        contentView?.adapter?.let {
+            attachAdapter(it)
         }
-        targetRecyclerView.adapter?.registerAdapterDataObserver(this)
+    }
+
+    fun detachRecyclerView() {
+        contentView?.adapter?.let {
+            detachAdapter(it)
+        }
+    }
+
+    /**
+     *
+     * @param adapter RecyclerView.adapter
+     * @param checkRightNow 是否立即检查是否展示 empty view
+     */
+    fun attachAdapter(adapter: RecyclerView.Adapter<*>, checkRightNow: Boolean = false) {
+        try {
+            adapter.registerAdapterDataObserver(this)
+        } catch (e: Exception) {
+            //ignore
+        }
+
         if (checkRightNow) {
             maybeShowEmptyView()
         }
     }
 
-    fun detachRecyclerView(targetRecyclerView: RecyclerView) {
-        targetRecyclerView.adapter?.unregisterAdapterDataObserver(this)
+    fun detachAdapter(adapter: RecyclerView.Adapter<*>) {
+        try {
+            adapter.unregisterAdapterDataObserver(this)
+        } catch (e: Exception) {
+            //ignore
+        }
     }
 
-    override fun onDataChanged() {
+    override fun onAdapterDataChanged() {
         maybeShowEmptyView()
     }
 
     private fun maybeShowEmptyView() {
-        emptyView?.let {
-            if (!this::recyclerView.isInitialized) {
-                return
-            }
-            if (recyclerView.adapter != null && recyclerView.adapter?.itemCount == 0) {
-                it.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
+        if (contentView != null && emptyView != null)
+            if (contentView!!.adapter != null && contentView!!.adapter?.itemCount == 0) {
+                emptyView?.visibility = View.VISIBLE
+                contentView?.visibility = View.GONE
             } else {
-                it.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                emptyView?.visibility = View.GONE
+                contentView?.visibility = View.VISIBLE
             }
-        }
     }
-
 }

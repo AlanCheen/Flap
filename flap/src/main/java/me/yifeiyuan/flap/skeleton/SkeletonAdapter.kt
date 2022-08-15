@@ -19,7 +19,7 @@ class SkeletonAdapter : RecyclerView.Adapter<SkeletonViewHolder>() {
     @LayoutRes
     var skeletonLayoutRes: Int = -1
 
-    var multiSkeletonLayoutRes: ((positon: Int) -> Int)? = null
+    var multiSkeletonLayoutRes: ((position: Int) -> Int)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkeletonViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -27,10 +27,10 @@ class EmptyViewHelper : OnAdapterDataChangedObserver() {
      */
     var contentView: RecyclerView? = null
 
-    fun attachRecyclerView(targetRecyclerView: RecyclerView) {
+    fun attachRecyclerView(targetRecyclerView: RecyclerView, checkRightNow: Boolean = false) {
         contentView = targetRecyclerView
         contentView?.adapter?.let {
-            attachAdapter(it)
+            attachAdapter(it,checkRightNow)
         }
     }
 

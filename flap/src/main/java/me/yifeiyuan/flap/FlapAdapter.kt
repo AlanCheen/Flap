@@ -1,8 +1,9 @@
-@file:Suppress("MemberVisibilityCanBePrivate","unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package me.yifeiyuan.flap
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +59,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
-    private val hooks: MutableList<AdapterHook> = mutableListOf()
+    private val adapterHooks: MutableList<AdapterHook> = mutableListOf()
 
     /**
      * RecyclerView 滑动到底部触发预加载
@@ -90,11 +91,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     private var itemClicksHelper = ItemClicksHelper()
     val emptyViewHelper = EmptyViewHelper()
 
+    lateinit var componentPool: ComponentPool
+
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
 
     init {
-        hooks.addAll(Flap.globalHooks)
+        adapterHooks.addAll(Flap.globalHooks)
         adapterDelegates.addAll(Flap.globalAdapterDelegates)
         Flap.globalDefaultAdapterDelegate?.let {
             defaultAdapterDelegate = it
@@ -104,19 +107,19 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     }
 
     override fun registerAdapterHook(adapterHook: AdapterHook) {
-        hooks.add(adapterHook)
+        adapterHooks.add(adapterHook)
     }
 
     override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
-        hooks.addAll(adapterHooks)
+        this.adapterHooks.addAll(adapterHooks)
     }
 
     override fun unregisterAdapterHook(adapterHook: AdapterHook) {
-        hooks.remove(adapterHook)
+        adapterHooks.remove(adapterHook)
     }
 
     override fun clearAdapterHooks() {
-        hooks.clear()
+        adapterHooks.clear()
     }
 
     override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
@@ -162,7 +165,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     }
 
     private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onCreateViewHolderStart(adapter, delegate, viewType)
         }
     }
@@ -173,7 +176,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             viewType: Int,
             component: Component<*>
     ) {
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onCreateViewHolderEnd(adapter, delegate, viewType, component)
         }
     }
@@ -214,7 +217,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             position: Int,
             payloads: MutableList<Any>
     ) {
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onBindViewHolderStart(adapter, delegate, component, data, position, payloads)
         }
     }
@@ -227,7 +230,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             position: Int,
             payloads: MutableList<Any>
     ) {
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
         }
     }
@@ -307,12 +310,18 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
 
-        val pool = if (useGlobalComponentPool) Flap.globalComponentPool else FlapComponentPool()
-        recyclerView.setRecycledViewPool(pool)
-//        recyclerView.context.applicationContext.registerComponentCallbacks(pool)
+        if (!this::componentPool.isInitialized) {
+            componentPool = if (useGlobalComponentPool) Flap.globalComponentPool else ComponentPool()
+        }
+
+        if (recyclerView.recycledViewPool != componentPool) {
+            recyclerView.setRecycledViewPool(componentPool)
+        }
+
+        bindingContext.applicationContext.registerComponentCallbacks(componentPool)
 
         itemClicksHelper.attachRecyclerView(recyclerView)
-        emptyViewHelper.attachRecyclerView(recyclerView)
+        emptyViewHelper.attachRecyclerView(recyclerView, true)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -320,6 +329,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
         emptyViewHelper.detachRecyclerView()
+        bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
     }
 
     /**
@@ -338,7 +348,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     override fun onViewAttachedToWindow(component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(this, component)
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onViewAttachedToWindow(this, delegate, component)
         }
     }
@@ -346,7 +356,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     override fun onViewDetachedFromWindow(component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(this, component)
-        hooks.forEach {
+        adapterHooks.forEach {
             it.onViewDetachedFromWindow(this, delegate, component)
         }
     }

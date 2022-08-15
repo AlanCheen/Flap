@@ -14,7 +14,7 @@ interface EventObserver {
 /**
  * 包装成函数调用
  */
-internal class EventObserverWrapper<T>(var block: (Event<T>) -> Unit) : EventObserver {
+internal class EventObserverWrapper<T>(val block: (Event<T>) -> Unit) : EventObserver {
     override fun onEvent(event: Event<*>) {
         block(event as Event<T>)
     }

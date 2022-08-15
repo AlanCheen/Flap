@@ -8,7 +8,7 @@ import me.yifeiyuan.flapdev.showcase.BaseTestcaseFragment
 
 /**
  * GitHub 代码示例
- * 
+ *
  * Created by 程序亦非猿 on 2022/8/9.
  */
 class GitHubDemoFragment : BaseTestcaseFragment() {
@@ -33,5 +33,13 @@ class GitHubDemoFragment : BaseTestcaseFragment() {
         dataList.add(SimpleTextModel("Kotlin"))
 
         adapter.setData(dataList)
+    }
+
+    override fun createRefreshData(size: Int): MutableList<Any> {
+        return mutableListOf(
+                SimpleTextModel("Android"),
+                SimpleTextModel("Java"),
+                SimpleTextModel("Kotlin")
+        )
     }
 }

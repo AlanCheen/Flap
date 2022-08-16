@@ -10,6 +10,7 @@ import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
+import me.yifeiyuan.flapdev.LogService
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels

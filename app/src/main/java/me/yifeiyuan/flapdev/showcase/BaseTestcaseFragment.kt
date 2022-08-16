@@ -17,6 +17,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.ExtraParamsProvider
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flapdev.LogService
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -111,6 +112,12 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 Log.d(TAG, "doOnItemClick called with: childView = $childView, position = $position")
                 val component = recyclerView.getChildViewHolder(childView)
                 toast("点击了 position = $position，model=${adapter.getItemData(position)}")
+
+                val logService = adapter.getService(LogService::class.java)
+                logService?.log("LogService Message")
+
+                val logService2 = adapter.getService<LogService>("LogService")
+                logService2?.log("LogService Message 2222222222")
             }
         }
 
@@ -121,6 +128,10 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 true
             }
         }
+
+        adapter.registerService(LogService::class.java)
+        adapter.registerService("LogService",LogService::class.java)
+
 
         //配置完结束最后再赋值
         recyclerView.adapter = adapter

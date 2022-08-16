@@ -3,7 +3,6 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,8 @@ import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
+import me.yifeiyuan.flap.service.FlapService
+import me.yifeiyuan.flap.service.ServiceManager
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -101,6 +102,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
+
+    private val serviceManager = ServiceManager()
 
     init {
         adapterHooks.addAll(Flap.globalHooks)
@@ -507,6 +510,30 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     fun setEmptyView(emptyView: View?) {
         emptyViewHelper.emptyView = emptyView
+    }
+
+    fun <T : FlapService> registerService(clazz: Class<T>) {
+        serviceManager.registerService(clazz)
+    }
+
+    fun <T : FlapService> registerService(clazz: Class<T>, service: T) {
+        serviceManager.registerService(clazz, service)
+    }
+
+    fun <T : FlapService> getService(clazz: Class<T>): T? {
+        return serviceManager.getService(clazz)
+    }
+
+    fun <T : FlapService> registerService(serviceName: String, clazz: Class<T>) {
+        serviceManager.registerService(serviceName, clazz)
+    }
+
+    fun <T : FlapService> registerService(serviceName: String, service: T) {
+        serviceManager.registerService(serviceName, service)
+    }
+
+    fun <T : FlapService> getService(serviceName: String): T? {
+        return serviceManager.getService(serviceName)
     }
 
     /**

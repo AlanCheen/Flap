@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_component_pool -> {
                     title = "ComponentPool"
-                    subtitle = "缓存功能测试"
+                    subtitle = "滑动列表观察缓存情况"
                     replace(ComponentPoolTestcase::class.java)
                 }
                 R.id.nav_flap_rv -> {

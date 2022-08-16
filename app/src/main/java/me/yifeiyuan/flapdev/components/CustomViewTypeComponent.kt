@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -13,7 +14,7 @@ import me.yifeiyuan.flapdev.R
  * Created by 程序亦非猿 on 2019/1/18.
  */
 
-class CustomViewTypeModel
+class CustomViewTypeModel(var content: String = "自定义 itemViewType 的 Component")
 
 class CustomViewTypeComponent(itemView: View) : Component<CustomViewTypeModel>(itemView) {
 
@@ -22,6 +23,9 @@ class CustomViewTypeComponent(itemView: View) : Component<CustomViewTypeModel>(i
     }
 
     override fun onBind(model: CustomViewTypeModel) {
+        bindTextView(R.id.tv_content) {
+            text = model.content
+        }
     }
 }
 

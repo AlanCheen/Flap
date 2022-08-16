@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
-import me.yifeiyuan.flap.ext.FlapComponentPool
 import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.pool.ComponentPool
 
 /**
- * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
+ * Flap 存放全局的配置
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -27,7 +27,7 @@ object Flap : ComponentCallbacks2, IRegistry {
      */
     var inflateWithApplicationContext = false
 
-    internal val globalComponentPool = FlapComponentPool()
+    internal val globalComponentPool = ComponentPool()
 
     internal val globalAdapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 
@@ -57,8 +57,8 @@ object Flap : ComponentCallbacks2, IRegistry {
         globalAdapterDelegates.add(adapterDelegate)
     }
 
-    override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
-        globalAdapterDelegates.addAll(delegates)
+    override fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>) {
+        globalAdapterDelegates.addAll(adapterDelegates)
     }
 
     override fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
@@ -79,15 +79,6 @@ object Flap : ComponentCallbacks2, IRegistry {
 
     override fun onLowMemory() {
         globalComponentPool.onLowMemory()
-    }
-
-    init {
-        injectDelegatesByPlugin(this)
-    }
-
-    // TODO: ASM 自动注入 ?
-    private fun injectDelegatesByPlugin(flap: Flap) {
-
     }
 
     fun init(context: Context) {

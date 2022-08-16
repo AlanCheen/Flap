@@ -12,8 +12,7 @@
         android:gravity="center"
         android:text="无数据时展示"
         android:textSize="40dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -28,4 +27,12 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D50000"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="12dp"
+        />
 </FrameLayout>

@@ -1,8 +1,7 @@
-package me.yifeiyuan.flap.ext
+package me.yifeiyuan.flap.pool
 
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import me.yifeiyuan.flap.FlapDebug
@@ -49,7 +48,7 @@ open class ComponentPool : RecycledViewPool(), ComponentCallbacks2 {
         FlapDebug.d(TAG, "putRecycledView() called with: scrap = $scrap")
     }
 
-    //参考 Glide 的 memoryCache 策略实现
+    //参考 Glide 的 MemoryCache 实现
     override fun onTrimMemory(level: Int) {
         when (level) {
             in ComponentCallbacks2.TRIM_MEMORY_BACKGROUND..ComponentCallbacks2.TRIM_MEMORY_COMPLETE -> {

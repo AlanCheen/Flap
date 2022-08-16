@@ -16,6 +16,7 @@ import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
+import me.yifeiyuan.flap.pool.ComponentPool
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -46,6 +47,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * Components 是否监听生命周期事件
      */
     private var lifecycleEnable = true
+
+    /**
+     * 是否使用 ComponentPool
+     */
+    private var useComponentPool = true
 
     /**
      * 是否使用全局的 ComponentPool 做缓存
@@ -310,15 +316,16 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
             setLifecycleOwner(recyclerView.context as LifecycleOwner)
         }
 
-        if (!this::componentPool.isInitialized) {
-            componentPool = if (useGlobalComponentPool) Flap.globalComponentPool else ComponentPool()
-        }
+        if (useComponentPool) {
+            if (!this::componentPool.isInitialized) {
+                componentPool = if (useGlobalComponentPool) Flap.globalComponentPool else ComponentPool()
+            }
 
-        if (recyclerView.recycledViewPool != componentPool) {
-            recyclerView.setRecycledViewPool(componentPool)
+            if (recyclerView.recycledViewPool != componentPool) {
+                recyclerView.setRecycledViewPool(componentPool)
+            }
+            bindingContext.applicationContext.registerComponentCallbacks(componentPool)
         }
-
-        bindingContext.applicationContext.registerComponentCallbacks(componentPool)
 
         itemClicksHelper.attachRecyclerView(recyclerView)
         emptyViewHelper.attachRecyclerView(recyclerView, true)
@@ -329,7 +336,9 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
         emptyViewHelper.detachRecyclerView()
-        bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
+        if (this::componentPool.isInitialized) {
+            bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
+        }
     }
 
     /**
@@ -393,8 +402,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      * @param enable false by default
      * @return this
      */
-    fun setUseGlobalComponentPool(enable: Boolean): FlapAdapter {
+    fun enableGlobalComponentPool(enable: Boolean): FlapAdapter {
         useGlobalComponentPool = enable
+        return this
+    }
+
+    fun enableComponentPool(enable: Boolean): FlapAdapter {
+        useComponentPool = enable
         return this
     }
 

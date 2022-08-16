@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
                     replace(PreloadTestcase::class.java)
                 }
                 R.id.nav_component_pool -> {
-                    title = "测试 FlapComponentPool"
+                    title = "ComponentPool"
                     subtitle = "缓存功能测试"
-                    replace(FlapComponentPoolTestcase::class.java)
+                    replace(ComponentPoolTestcase::class.java)
                 }
                 R.id.nav_flap_rv -> {
                     title = "FlapRecyclerView"
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     replace(FlapRecyclerViewTestcase::class.java)
                 }
                 R.id.nav_viewpager2 -> {
-                    title = "ViewPager2"
+                    title = "ViewPager2 适配"
                     subtitle = "ViewPager2+FlapAdapter"
                     replace(ViewPager2Testcase::class.java)
                 }

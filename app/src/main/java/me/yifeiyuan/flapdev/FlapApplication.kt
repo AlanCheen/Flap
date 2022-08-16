@@ -43,7 +43,9 @@ class FlapApplication : MultiDexApplication() {
             )
 
             //也是全局
-            registerAdapterHooks(LoggingHook(), ApmHook())
+            registerAdapterHooks(LoggingHook(),
+//                    ApmHook()
+            )
 
             //可选
             init(this@FlapApplication)

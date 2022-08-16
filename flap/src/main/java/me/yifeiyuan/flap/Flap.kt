@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
-import me.yifeiyuan.flap.ext.ComponentPool
 import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.pool.ComponentPool
 
 /**
  * Flap 存放全局的配置

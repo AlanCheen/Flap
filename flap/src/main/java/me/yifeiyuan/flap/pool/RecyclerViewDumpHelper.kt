@@ -9,6 +9,8 @@ import java.util.*
  * Dump RecyclerView 的缓存情况
  *
  * Created by 程序亦非猿 on 2022/8/15.
+ *
+ * @since 3.0.2
  */
 
 private const val TAG = "RecyclerViewDumpHelper"
@@ -143,7 +145,7 @@ class RecyclerMediator(val recyclerView: RecyclerView) {
                 .appendLine("mCachedViews:")
                 .appendLine("mCachedViews.size=${mCachedViews?.size}")
                 .appendLine("mCachedViews=$mCachedViews")
-                .appendLine("${poolMediator.dump()}")
+                .appendLine(poolMediator.dump())
                 .appendLine(">>>>>>> Recycler End <<<<<<<<")
         return stringBuilder.toString()
     }
@@ -227,7 +229,7 @@ class RecycledViewPoolMediator(private val pool: RecyclerView.RecycledViewPool) 
             val itemViewType = mScrap.keyAt(i)
             val scrapData = mScrap.valueAt(i)
             val scrapDataMediator = ScrapDataMediator(scrapData)
-            stringBuilder.appendLine("index=$i,itemViewType=$itemViewType,scrapData.size=${scrapDataMediator.mScrapHeap.size},scrapData=$scrapDataMediator")
+            stringBuilder.appendLine("index=$i,itemViewType=$itemViewType,mScrapHeap.size=${scrapDataMediator.mScrapHeap.size},scrapData=$scrapDataMediator")
         }
 
         stringBuilder.appendLine("======= Recycler.RecycledViewPool End =======")
@@ -275,24 +277,27 @@ class ScrapDataMediator(private val scrapData: Any) {
     private val mCreateRunningAverageNsField: Field
     private val mBindRunningAverageNsField: Field
 
-    private val scrapDataClass: Class<*>
-
     init {
-
         val scrapDataClassName = RecyclerView::class.java.name + "$" + "RecycledViewPool" + "$" + "ScrapData"
-        scrapDataClass = Class.forName(scrapDataClassName)
+        val scrapDataClass = Class.forName(scrapDataClassName)
 
-        mScrapHeapField = scrapDataClass.getDeclaredField("mScrapHeap").also {
-            it.isAccessible = true
-        }
-        mMaxScrapField = scrapDataClass.getDeclaredField("mMaxScrap").also {
-            it.isAccessible = true
-        }
-        mCreateRunningAverageNsField = scrapDataClass.getDeclaredField("mCreateRunningAverageNs").also {
-            it.isAccessible = true
-        }
-        mBindRunningAverageNsField = scrapDataClass.getDeclaredField("mBindRunningAverageNs").also {
-            it.isAccessible = true
+        scrapDataClass.run {
+
+            mScrapHeapField = getDeclaredField("mScrapHeap").also {
+                it.isAccessible = true
+            }
+
+            mMaxScrapField = getDeclaredField("mMaxScrap").also {
+                it.isAccessible = true
+            }
+
+            mCreateRunningAverageNsField = getDeclaredField("mCreateRunningAverageNs").also {
+                it.isAccessible = true
+            }
+
+            mBindRunningAverageNsField = getDeclaredField("mBindRunningAverageNs").also {
+                it.isAccessible = true
+            }
         }
     }
 

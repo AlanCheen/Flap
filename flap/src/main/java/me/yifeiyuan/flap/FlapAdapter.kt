@@ -31,7 +31,7 @@ import me.yifeiyuan.flap.service.AdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry , IAdapterServiceManager {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -94,7 +94,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry , IAdap
      */
     var inflateWithApplicationContext = false
 
-    var paramProvider: ExtraParamsProvider? = null
+    private var paramProvider: ExtraParamsProvider? = null
 
     private var itemClicksHelper = ItemClicksHelper()
     val emptyViewHelper = EmptyViewHelper()
@@ -482,6 +482,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry , IAdap
     @Suppress("UNCHECKED_CAST")
     open fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
+    }
+
+    fun setParamProvider(block: (key: String) -> Any?) {
+        paramProvider = ExtraParamsProviderWrapper(block)
     }
 
     /**

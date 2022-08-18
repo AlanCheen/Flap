@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import android.view.Menu
@@ -13,7 +13,6 @@ import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.components.ZeroHeightModel
 
 private const val TAG = "FlapRecyclerViewTestcas"
 

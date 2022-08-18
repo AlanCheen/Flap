@@ -4,7 +4,7 @@ import android.view.View
 import me.yifeiyuan.flap.delegate.makeDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import me.yifeiyuan.flapdev.showcase.BaseTestcaseFragment
+import me.yifeiyuan.flapdev.testcases.BaseTestcaseFragment
 
 /**
  * GitHub 代码示例

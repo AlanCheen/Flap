@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import me.yifeiyuan.flap.FlapAdapter

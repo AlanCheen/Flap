@@ -8,8 +8,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import me.yifeiyuan.flapdev.showcase.*
-import me.yifeiyuan.flapdev.showcase.ViewPager2Testcase
+import me.yifeiyuan.flapdev.testcases.*
+import me.yifeiyuan.flapdev.testcases.ViewPager2Testcase
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.content.Context
 import android.os.Bundle
@@ -89,20 +89,18 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
         }
 
-        adapter.paramProvider = object : ExtraParamsProvider {
-            override fun getParam(key: String): Any? {
-                return when (key) {
-                    "intValue" -> {
-                        233
-                    }
-                    "stringValue" -> {
-                        "这是一个 stringValue"
-                    }
-                    "booleanValue" -> {
-                        true
-                    }
-                    else -> "Unknown Key"
+        adapter.setParamProvider {
+            when (it) {
+                "intValue" -> {
+                    233
                 }
+                "stringValue" -> {
+                    "这是一个 stringValue"
+                }
+                "booleanValue" -> {
+                    true
+                }
+                else -> "Unknown Key"
             }
         }
 
@@ -137,11 +135,10 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     }
 
     open fun isClickEnable() = true
+
     open fun isLongClickEnable() = true
 
-    open fun createAdapter() = FlapAdapter().apply {
-//        setData(createRefreshData())
-    }
+    open fun createAdapter() = FlapAdapter()
 
     open fun getLayoutId(): Int = R.layout.fragment_base_case
 

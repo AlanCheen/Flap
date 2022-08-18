@@ -3,7 +3,6 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,9 @@ import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
+import me.yifeiyuan.flap.service.AdapterService
+import me.yifeiyuan.flap.service.IAdapterServiceManager
+import me.yifeiyuan.flap.service.AdapterServiceManager
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -29,7 +31,7 @@ import me.yifeiyuan.flap.pool.ComponentPool
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry , IAdapterServiceManager {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -101,6 +103,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
+
+    private val serviceManager = AdapterServiceManager()
 
     init {
         adapterHooks.addAll(Flap.globalHooks)
@@ -507,6 +511,30 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     fun setEmptyView(emptyView: View?) {
         emptyViewHelper.emptyView = emptyView
+    }
+
+    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
+        serviceManager.registerAdapterService(serviceClass)
+    }
+
+    override fun <T : AdapterService> registerAdapterService(clazz: Class<T>, service: T) {
+        serviceManager.registerAdapterService(clazz, service)
+    }
+
+    override fun <T : AdapterService> getAdapterService(clazz: Class<T>): T? {
+        return serviceManager.getAdapterService(clazz)
+    }
+
+    override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {
+        serviceManager.registerAdapterService(serviceName, serviceClass)
+    }
+
+    override fun <T : AdapterService> registerAdapterService(serviceName: String, service: T) {
+        serviceManager.registerAdapterService(serviceName, service)
+    }
+
+    override fun <T : AdapterService> getAdapterService(serviceName: String): T? {
+        return serviceManager.getAdapterService(serviceName)
     }
 
     /**

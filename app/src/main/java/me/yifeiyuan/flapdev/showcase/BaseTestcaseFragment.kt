@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.ExtraParamsProvider
-import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flapdev.TestService
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -121,6 +121,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 true
             }
         }
+
+        adapter.registerAdapterService(TestService::class.java)
+        adapter.registerAdapterService("LogService",TestService::class.java)
 
         //配置完结束最后再赋值
         recyclerView.adapter = adapter

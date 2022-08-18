@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.ExtraParamsProvider
+import me.yifeiyuan.flap.ext.FlapItemTouchHelper
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flapdev.LogService
@@ -132,11 +133,12 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         adapter.registerService(LogService::class.java)
         adapter.registerService("LogService",LogService::class.java)
 
-
         //配置完结束最后再赋值
         recyclerView.adapter = adapter
 
         swipeRefreshLayout.isRefreshing = true
+
+        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
 
         Handler().postDelayed({
             adapter.setData(createRefreshData())

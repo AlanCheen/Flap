@@ -18,6 +18,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
 import me.yifeiyuan.flap.service.FlapService
 import me.yifeiyuan.flap.service.ServiceManager
+import java.util.*
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -534,6 +535,20 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
 
     fun <T : FlapService> getService(serviceName: String): T? {
         return serviceManager.getService(serviceName)
+    }
+
+    fun removeDataAt(position: Int, notify: Boolean = true) {
+        data.removeAt(position)
+        if (notify) {
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun swapData(position: Int, targetPosition: Int, notify: Boolean = true) {
+        Collections.swap(data, position, targetPosition)
+        if (notify) {
+            notifyItemMoved(position,targetPosition)
+        }
     }
 
     /**

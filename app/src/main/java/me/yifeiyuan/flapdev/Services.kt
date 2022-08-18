@@ -9,9 +9,13 @@ import me.yifeiyuan.flap.service.AdapterService
 
 private const val TAG = "Services"
 
-class LogService : AdapterService {
+class TestService : AdapterService {
 
     fun log(message: String){
         Log.d(TAG, "log() called with: message = $message")
+    }
+
+    fun testResult():String{
+        return "TestService.testResult is called!"
     }
 }

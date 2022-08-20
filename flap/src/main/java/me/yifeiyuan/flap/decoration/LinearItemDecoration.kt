@@ -3,7 +3,9 @@ package me.yifeiyuan.flap.decoration
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 
@@ -40,5 +42,9 @@ class LinearItemDecoration : DividerItemDecoration {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(c, parent, state)
+    }
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        super.getItemOffsets(outRect, view, parent, state)
     }
 }

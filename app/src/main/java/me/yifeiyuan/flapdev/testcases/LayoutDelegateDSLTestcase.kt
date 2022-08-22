@@ -3,7 +3,7 @@ package me.yifeiyuan.flapdev.testcases
 import android.util.Log
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.makeDelegate
+import me.yifeiyuan.flap.delegate.adapterDelegate
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
@@ -21,7 +21,7 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+        val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
             onBind { model ->
                 bindTextView(R.id.tv_content) {
                     text = model.content
@@ -77,7 +77,7 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-        val testAllDelegate = makeDelegate<TestAllModel>(R.layout.component_test_all_feature) {
+        val testAllDelegate = adapterDelegate<TestAllModel>(R.layout.component_test_all_feature) {
 
             onBind { model, position, payloads, adapter ->
                 bindButton(R.id.testFireEvent) {

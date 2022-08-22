@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 
 /**
+ * todo
  * GridSpaceItemDecoration 只绘制间隔，不能绘制 Drawable
  * 适用于 GridLayoutManager 和 StaggeredGridLayoutManager
  *
  * Created by 程序亦非猿 on 2022/8/18.
- * @since 3.0.4
+ * @since 3.0.?
  */
 class GridSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerView.VERTICAL) : RecyclerView.ItemDecoration() {
 

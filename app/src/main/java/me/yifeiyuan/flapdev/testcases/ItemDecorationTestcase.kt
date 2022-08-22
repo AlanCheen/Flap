@@ -45,7 +45,6 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
                 .withFirstItemTopEdge(true)
                 .withLastItemBottomEdge(true)
-
         //--2
 
         //--3
@@ -53,10 +52,9 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
 //        linearItemDecoration = LinearItemDecoration(requireActivity(), resources.getDimensionPixelSize(R.dimen.item_decoration_size))
         //--3
 
-//        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6)).apply {
-//            isIncludeFirstItemTopSpace = false
-//            isIncludeLastItemBottomSpace = false
-//        }
+//        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
+//                .withFirstItemTopEdge(false)
+//                .withLastItemBottomEdge(false)
 
 //        gridItemDecoration = GridItemDecoration(drawable!!)
 

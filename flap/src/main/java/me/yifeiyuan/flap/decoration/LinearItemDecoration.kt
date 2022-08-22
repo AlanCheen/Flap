@@ -89,8 +89,8 @@ class LinearItemDecoration : RecyclerView.ItemDecoration {
 
     private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
         canvas.save()
-        val top: Int
-        val bottom: Int
+        var top: Int
+        var bottom: Int
         if (parent.clipToPadding) {
             top = parent.paddingTop
             bottom = parent.height - parent.paddingBottom
@@ -105,7 +105,11 @@ class LinearItemDecoration : RecyclerView.ItemDecoration {
             val child: View = parent.getChildAt(i)
             parent.layoutManager?.getDecoratedBoundsWithMargins(child, bounds)
             val right: Int = bounds.right + Math.round(child.translationX)
-            val left: Int = right - drawable.intrinsicWidth
+            var left: Int = right - drawable.intrinsicWidth
+            if (isIncludeFirstItemTopEdge && i == 0) {
+                left = 0
+            }
+            bottom = child.height
             drawable.setBounds(left, top, right, bottom)
             drawable.draw(canvas)
         }

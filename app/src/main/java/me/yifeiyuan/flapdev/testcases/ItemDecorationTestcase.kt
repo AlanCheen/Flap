@@ -59,20 +59,26 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
 
         gridItemDecoration = GridSpaceItemDecoration(requireActivity().toPixel(6))
 
-        currentItemDecoration = linearItemDecoration
+        initLayoutManagers()
 
-        recyclerView.addItemDecoration(linearItemDecoration)
+        currentItemDecoration = gridItemDecoration
+        recyclerView.addItemDecoration(currentItemDecoration)
 
-        linearLayoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-        currentLM = linearLayoutManager
+        currentLM = gridLayoutManager
         recyclerView.layoutManager = currentLM
+
+        recyclerView.setBackgroundColor(Color.parseColor("#16000000"))
+    }
+
+    private fun initLayoutManagers() {
+        linearLayoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
         val spanCount = 3
         gridLayoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     var spanSize = 1
-//                            spanSize = if (position % 2 == 0) 2 else 1
+    //                            spanSize = if (position % 2 == 0) 2 else 1
                     return spanSize
                 }
             }

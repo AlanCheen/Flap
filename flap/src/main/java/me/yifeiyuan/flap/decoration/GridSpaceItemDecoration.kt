@@ -20,7 +20,9 @@ class GridSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerVie
      * 如果 true，那么每个 item 的垂直方向的 space 就在顶部，表现为第一行的 item 和 RecyclerView 的最顶部有一个间隙
      * 反之则在底部
      */
-    var isTopSpace = false
+    var isIncludeFirstRowTopEdge = true
+
+    var isIncludeLastRowTopEdge = true
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
@@ -34,13 +36,13 @@ class GridSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerVie
         val width = space
 
         if (orientation == RecyclerView.VERTICAL) {
-            outRect.top = if (isTopSpace) height else 0
-            outRect.bottom = if (isTopSpace) 0 else height
+            outRect.top = if (isIncludeFirstRowTopEdge) height else 0
+            outRect.bottom = if (isIncludeFirstRowTopEdge) 0 else height
             outRect.left = (column - 1) * width / spanCount // 最左边的 left 不绘制
             outRect.right = (spanCount - column) * width / spanCount //最右边的 right 不绘制
         } else {
-            outRect.right = space
-            outRect.left = 0
+            outRect.right = width
+            outRect.left = if (isIncludeFirstRowTopEdge) width else 0
             outRect.top = space - column * space / spanCount
             outRect.bottom = (column + 1) * space / spanCount
         }
@@ -55,5 +57,16 @@ class GridSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerVie
             spanCount = layoutManager.spanCount
         }
         return spanCount
+    }
+
+    fun withFirstRowEdge(enable: Boolean): GridSpaceItemDecoration {
+        isIncludeFirstRowTopEdge = enable
+        return this
+    }
+
+    fun isLastRow(position: Int, parent: RecyclerView): Boolean {
+
+
+        return false
     }
 }

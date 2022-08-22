@@ -129,6 +129,6 @@ class LayoutAdapterDelegateBuilder<T>(private var modelClass: Class<T>, var layo
     }
 }
 
-inline fun <reified T> makeDelegate(layoutId: Int, builder: LayoutAdapterDelegateBuilder<T>.() -> Unit): LayoutAdapterDelegate<T, LayoutComponent<T>> {
+inline fun <reified T> adapterDelegate(layoutId: Int, builder: LayoutAdapterDelegateBuilder<T>.() -> Unit): LayoutAdapterDelegate<T, LayoutComponent<T>> {
     return LayoutAdapterDelegateBuilder(T::class.java, layoutId).apply(builder).build()
 }

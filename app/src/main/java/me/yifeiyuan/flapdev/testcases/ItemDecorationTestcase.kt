@@ -37,19 +37,18 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         val drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.linear_item_decoration)
 
         //--1
-//        linearItemDecoration = LinearItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
-//        linearItemDecoration.setDrawable(drawable!!)
+//        linearItemDecoration = LinearItemDecoration(drawable!!, DividerItemDecoration.VERTICAL)
         //--1
 
         //--2
-        linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
-                .withFirstItemTopEdge(true)
-                .withLastItemBottomEdge(true)
+//        linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
+//                .withFirstItemTopEdge(true)
+//                .withLastItemBottomEdge(true)
         //--2
 
         //--3
-//        linearItemDecoration = LinearItemDecoration(requireActivity(), resources.getDimensionPixelSize(R.dimen.item_decoration_size), Color.parseColor("#ff0000"))
-//        linearItemDecoration = LinearItemDecoration(requireActivity(), resources.getDimensionPixelSize(R.dimen.item_decoration_size))
+//        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size), Color.parseColor("#ff0000"))
+        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size))
         //--3
 
 //        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))

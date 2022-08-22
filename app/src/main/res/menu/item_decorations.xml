@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/linear"
+        android:title="LinearLayoutManager" />
+    <item
+        android:id="@+id/grid"
+        android:title="GridLayoutManager" />
+    <item
+        android:id="@+id/staggered"
+        android:title="StaggeredGridLayoutManager" />
+    <item
+        android:id="@+id/horizontal"
+        android:title="Horizontal" />
+    <item
+        android:id="@+id/vertical"
+        android:title="Vertical" />
+</menu>

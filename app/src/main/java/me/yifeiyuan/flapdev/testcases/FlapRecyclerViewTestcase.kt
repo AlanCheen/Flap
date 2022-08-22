@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import android.view.Menu
@@ -8,21 +8,25 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.components.ZeroHeightModel
+import me.yifeiyuan.flapdev.toPixel
 
 private const val TAG = "FlapRecyclerViewTestcas"
 
 /**
- * Created by 程序亦非猿 on 2022/2/21.
  *
  * 测试 FlapRecyclerView 的功能
+ *
+ * Created by 程序亦非猿 on 2022/2/21.
  */
 class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
+
+    private lateinit var linearSpaceItemDecoration : LinearSpaceItemDecoration
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_case_flap_rv
@@ -62,6 +66,9 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
             setData(createRefreshData(30))
         }
+
+        linearSpaceItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
+        recyclerView.addItemDecoration(linearSpaceItemDecoration)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {
@@ -88,9 +95,11 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
                 flapRecyclerView.setData(createRefreshData(30))
             }
             R.id.horizontal -> {
+                linearSpaceItemDecoration.orientation = RecyclerView.HORIZONTAL
                 flapRecyclerView.orientation = RecyclerView.HORIZONTAL
             }
             R.id.vertical -> {
+                linearSpaceItemDecoration.orientation = RecyclerView.VERTICAL
                 flapRecyclerView.orientation = RecyclerView.VERTICAL
             }
             R.id.linear -> {

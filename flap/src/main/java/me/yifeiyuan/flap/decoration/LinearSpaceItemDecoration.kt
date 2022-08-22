@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
  * @param space 间隔，单位像素
  * @param orientation 方向，默认垂直
  *
- * @see isIncludeLastItemBottomSpace 可以设置最后一个 item 的底部与 RecyclerView 之间是否需要加间隔
- * @see isIncludeFirstItemTopSpace 可以设置第一个 item 的顶部与 RecyclerView 之间是否需要加间隔
+ * @see isIncludeLastItemBottomEdge 可以设置最后一个 item 的底部与 RecyclerView 之间是否需要加间隔
+ * @see isIncludeFirstItemTopEdge 可以设置第一个 item 的顶部与 RecyclerView 之间是否需要加间隔
  *
  * Created by 程序亦非猿 on 2022/8/19.
  * @since 3.0.4
@@ -25,12 +25,12 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
     /**
      * 第一个 item 的顶部与 RecyclerView 之间是否需要加间隔
      */
-    var isIncludeFirstItemTopSpace = false
+    private var isIncludeFirstItemTopEdge = false
 
     /**
      * 最后一个 item 的底部与 RecyclerView 之间是否需要加间隔
      */
-    var isIncludeLastItemBottomSpace = true
+    private var isIncludeLastItemBottomEdge = true
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
 
@@ -41,7 +41,7 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
             outRect.left = 0
             outRect.right = 0
 
-            if (isIncludeFirstItemTopSpace && position == 0) {
+            if (isIncludeFirstItemTopEdge && position == 0) {
                 outRect.top = space
             } else {
                 outRect.top = 0
@@ -49,7 +49,7 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
 
             outRect.bottom = space
 
-            if (!isIncludeLastItemBottomSpace) {
+            if (!isIncludeLastItemBottomEdge) {
                 val isLastOne = parent.adapter != null && parent.adapter!!.itemCount > 0 && parent.adapter!!.itemCount - 1 == position
                 if (isLastOne) {
                     outRect.bottom = 0
@@ -59,7 +59,7 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
             outRect.top = 0
             outRect.bottom = 0
 
-            if (isIncludeFirstItemTopSpace && position == 0) {
+            if (isIncludeFirstItemTopEdge && position == 0) {
                 outRect.left = space
             } else {
                 outRect.left = 0
@@ -67,12 +67,22 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
 
             outRect.right = space
 
-            if (!isIncludeLastItemBottomSpace) {
+            if (!isIncludeLastItemBottomEdge) {
                 val isLastOne = parent.adapter != null && parent.adapter!!.itemCount > 0 && parent.adapter!!.itemCount - 1 == position
                 if (isLastOne) {
                     outRect.right = 0
                 }
             }
         }
+    }
+
+    fun withFirstItemTopEdge(enable: Boolean): LinearSpaceItemDecoration {
+        isIncludeFirstItemTopEdge = enable
+        return this
+    }
+
+    fun withLastItemBottomEdge(enable: Boolean): LinearSpaceItemDecoration {
+        isIncludeLastItemBottomEdge = enable
+        return this
     }
 }

@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "GitHub Demo"
                     replace(GitHubDemoFragment::class.java)
                 }
+                R.id.nav_item_decorations -> {
+                    subtitle = "ItemDecorations"
+                    replace(ItemDecorationTestcase::class.java)
+                }
             }
             drawerLayout.close()
 

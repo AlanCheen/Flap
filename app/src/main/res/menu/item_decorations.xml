@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/emptyData"
-        android:title="测试空场景" />
-    <item
-        android:id="@+id/resetData"
-        android:title="重置数据" />
-    <item
         android:id="@+id/linear"
         android:title="LinearLayoutManager" />
     <item
@@ -15,11 +9,10 @@
     <item
         android:id="@+id/staggered"
         android:title="StaggeredGridLayoutManager" />
-
-    <item android:id="@+id/testZeroHeight"
-        android:title="测试第一个组件高度=0"/>
-
-    <item android:id="@+id/toggleSkeleton"
-        android:title="开关骨架屏效果"/>
-
+    <item
+        android:id="@+id/horizontal"
+        android:title="Horizontal" />
+    <item
+        android:id="@+id/vertical"
+        android:title="Vertical" />
 </menu>

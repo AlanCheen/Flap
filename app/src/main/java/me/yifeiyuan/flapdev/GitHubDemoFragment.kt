@@ -1,6 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import android.view.View
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.delegate.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -15,6 +16,8 @@ class GitHubDemoFragment : BaseTestcaseFragment() {
 
     override fun onInit(view: View) {
         super.onInit(view)
+
+        recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
 
         val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
             onBind { model ->

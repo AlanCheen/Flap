@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
@@ -13,6 +14,7 @@ import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
+import me.yifeiyuan.flapdev.toPixel
 
 /**
  * 多类型测试
@@ -53,6 +55,8 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 .onlyOnce(false)
                 .withEmptyViewHelper(adapter.emptyViewHelper)
                 .show()
+
+        recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

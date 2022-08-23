@@ -23,6 +23,8 @@ class PreloadTestcase : BaseTestcaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         useAdapter()
+
+        recyclerView.addItemDecoration(linearItemDecoration)
     }
 
     private fun useAdapter() {

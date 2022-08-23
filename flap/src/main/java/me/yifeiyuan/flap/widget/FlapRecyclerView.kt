@@ -61,6 +61,7 @@ open class FlapRecyclerView
                     (layoutManager as StaggeredGridLayoutManager).orientation = value
                 }
             }
+            tryInvalidateItemDecorations()
         }
 
     var flapAdapter: FlapAdapter
@@ -152,6 +153,13 @@ open class FlapRecyclerView
 
             is StaggeredGridLayoutManager -> {
             }
+        }
+        tryInvalidateItemDecorations()
+    }
+
+    private fun tryInvalidateItemDecorations() {
+        if (itemDecorationCount != 0) {
+            invalidateItemDecorations()
         }
     }
 

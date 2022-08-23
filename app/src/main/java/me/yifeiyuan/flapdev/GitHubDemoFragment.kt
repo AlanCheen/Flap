@@ -1,10 +1,11 @@
 package me.yifeiyuan.flapdev
 
 import android.view.View
-import me.yifeiyuan.flap.delegate.makeDelegate
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
+import me.yifeiyuan.flap.delegate.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import me.yifeiyuan.flapdev.showcase.BaseTestcaseFragment
+import me.yifeiyuan.flapdev.testcases.BaseTestcaseFragment
 
 /**
  * GitHub 代码示例
@@ -16,7 +17,9 @@ class GitHubDemoFragment : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+        recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
+
+        val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
             onBind { model ->
                 bindTextView(R.id.tv_content) {
                     text = model.content

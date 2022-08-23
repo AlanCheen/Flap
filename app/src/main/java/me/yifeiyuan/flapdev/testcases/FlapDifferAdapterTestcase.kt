@@ -1,16 +1,9 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
-import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.differ.FlapDifferAdapter
-import me.yifeiyuan.flap.ext.HeaderFooterAdapter
-import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.TestDiffModel
 import java.util.ArrayList
 

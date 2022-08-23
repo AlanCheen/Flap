@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.graphics.Color
 import android.view.View

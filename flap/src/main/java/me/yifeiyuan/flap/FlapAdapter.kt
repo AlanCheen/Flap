@@ -16,9 +16,10 @@ import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
-import me.yifeiyuan.flap.service.FlapService
-import me.yifeiyuan.flap.service.ServiceManager
 import java.util.*
+import me.yifeiyuan.flap.service.AdapterService
+import me.yifeiyuan.flap.service.IAdapterServiceManager
+import me.yifeiyuan.flap.service.AdapterServiceManager
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -31,7 +32,7 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -94,7 +95,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
      */
     var inflateWithApplicationContext = false
 
-    var paramProvider: ExtraParamsProvider? = null
+    private var paramProvider: ExtraParamsProvider? = null
 
     private var itemClicksHelper = ItemClicksHelper()
     val emptyViewHelper = EmptyViewHelper()
@@ -104,7 +105,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
 
-    private val serviceManager = ServiceManager()
+    private val serviceManager = AdapterServiceManager()
 
     init {
         adapterHooks.addAll(Flap.globalHooks)
@@ -484,6 +485,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         return paramProvider?.getParam(key) as? P?
     }
 
+    fun setParamProvider(block: (key: String) -> Any?) {
+        paramProvider = ExtraParamsProviderWrapper(block)
+    }
+
     /**
      *
      * @see FlapAdapter.inflateWithApplicationContext
@@ -513,28 +518,28 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry {
         emptyViewHelper.emptyView = emptyView
     }
 
-    fun <T : FlapService> registerService(clazz: Class<T>) {
-        serviceManager.registerService(clazz)
+    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
+        serviceManager.registerAdapterService(serviceClass)
     }
 
-    fun <T : FlapService> registerService(clazz: Class<T>, service: T) {
-        serviceManager.registerService(clazz, service)
+    override fun <T : AdapterService> registerAdapterService(clazz: Class<T>, service: T) {
+        serviceManager.registerAdapterService(clazz, service)
     }
 
-    fun <T : FlapService> getService(clazz: Class<T>): T? {
-        return serviceManager.getService(clazz)
+    override fun <T : AdapterService> getAdapterService(clazz: Class<T>): T? {
+        return serviceManager.getAdapterService(clazz)
     }
 
-    fun <T : FlapService> registerService(serviceName: String, clazz: Class<T>) {
-        serviceManager.registerService(serviceName, clazz)
+    override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {
+        serviceManager.registerAdapterService(serviceName, serviceClass)
     }
 
-    fun <T : FlapService> registerService(serviceName: String, service: T) {
-        serviceManager.registerService(serviceName, service)
+    override fun <T : AdapterService> registerAdapterService(serviceName: String, service: T) {
+        serviceManager.registerAdapterService(serviceName, service)
     }
 
-    fun <T : FlapService> getService(serviceName: String): T? {
-        return serviceManager.getService(serviceName)
+    override fun <T : AdapterService> getAdapterService(serviceName: String): T? {
+        return serviceManager.getAdapterService(serviceName)
     }
 
     fun removeDataAt(position: Int, notify: Boolean = true) {

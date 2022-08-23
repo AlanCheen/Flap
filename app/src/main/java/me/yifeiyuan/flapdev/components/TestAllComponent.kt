@@ -9,6 +9,7 @@ import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.ext.bindButton
+import me.yifeiyuan.flapdev.TestService
 import me.yifeiyuan.flapdev.R
 import kotlin.text.StringBuilder
 
@@ -57,6 +58,19 @@ class TestAllComponent(view: View) : Component<TestAllModel>(view) {
                         .toString()
 
                 messageTextView.text = "Adapter.getParam results=$results"
+            }
+        }
+
+        bindButton(R.id.testGetAdapterService) {
+            setOnClickListener {
+
+                val logService = adapter.getAdapterService(TestService::class.java)
+                logService?.log("LogService Message")
+
+                val logService2 = adapter.getAdapterService<TestService>("LogService")
+
+                val result = logService2?.testResult()
+                messageTextView.text = result
             }
         }
     }

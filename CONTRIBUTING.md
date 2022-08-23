@@ -1,8 +1,6 @@
-PRs welcome.
+## 贡献
 
-
-
-
+发 PR 提 issue 都欢迎~
 
 ## Styleguides
 

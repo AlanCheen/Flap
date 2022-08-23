@@ -33,7 +33,6 @@ data class SimpleTextModel(val content: String)
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
     android:background="#0ff0ff"
     android:orientation="horizontal">
 
@@ -52,7 +51,7 @@ data class SimpleTextModel(val content: String)
 ```
 3）创建一个 delegate，并注册到 FlapAdapter：<br />按需重写 `onBind` 方法：
 ```kotlin
-val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
     onBind { model ->
         bindTextView(R.id.tv_content) {
             text = model.content
@@ -62,6 +61,8 @@ val simpleTextDelegate = makeDelegate<SimpleTextModel>(R.layout.flap_item_simple
 ```
 使用 FlapAdapter 注册并设置 data：
 ```kotlin
+recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
+
 //创建你的 FlapAdapter
 var adapter: FlapAdapter = FlapAdapter()
 

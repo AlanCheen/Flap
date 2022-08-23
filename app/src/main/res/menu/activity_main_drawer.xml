@@ -50,10 +50,14 @@
         <item
             android:id="@+id/nav_dismiss"
             android:icon="@drawable/ic_menu_camera"
-            android:title="SwipeToDismiss" /><item
-        android:id="@+id/nav_github_demo"
-        android:icon="@drawable/ic_menu_camera"
-        android:title="GitHub Demo" />
-
+            android:title="SwipeToDismiss" />
+        <item
+            android:id="@+id/nav_item_decorations"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="ItemDecorations" />
+        <item
+            android:id="@+id/nav_github_demo"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="GitHub Demo" />
     </group>
 </menu>

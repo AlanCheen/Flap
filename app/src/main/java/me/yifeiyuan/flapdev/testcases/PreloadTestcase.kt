@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +23,8 @@ class PreloadTestcase : BaseTestcaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         useAdapter()
+
+        recyclerView.addItemDecoration(linearItemDecoration)
     }
 
     private fun useAdapter() {

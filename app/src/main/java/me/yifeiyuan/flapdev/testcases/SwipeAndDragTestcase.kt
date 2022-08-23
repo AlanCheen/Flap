@@ -1,4 +1,4 @@
-package me.yifeiyuan.flapdev.showcase
+package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import android.view.View
@@ -17,11 +17,14 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
 
     override fun onInit(view: View) {
         super.onInit(view)
+
         FlapItemTouchHelper(adapter).apply {
             isLongPressDragEnable = true
             isSwipeEnable = true
             attachToRecyclerView(recyclerView)
         }
+
+        recyclerView.addItemDecoration(spaceItemDecoration)
     }
 
     override fun createAdapter(): FlapAdapter {

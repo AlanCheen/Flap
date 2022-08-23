@@ -1,6 +1,5 @@
 package me.yifeiyuan.flap.ext
 
-import android.graphics.Canvas
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.FlapAdapter
 
@@ -10,7 +9,7 @@ import me.yifeiyuan.flap.FlapAdapter
  *
  * Created by 程序亦非猿 on 2022/8/17.
  *
- * @since 3.0.4
+ * @since 3.0.6
  */
 class FlapItemTouchHelper(private val adapter: FlapAdapter) : ItemTouchHelper.Callback() {
 

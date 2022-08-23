@@ -7,6 +7,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
+import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
@@ -56,7 +57,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 .withEmptyViewHelper(adapter.emptyViewHelper)
                 .show()
 
-        recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
+        recyclerView.addItemDecoration(linearItemDecoration)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {
@@ -82,9 +83,10 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
             }
             R.id.linear -> {
                 recyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+                recyclerView.invalidateItemDecorations()
             }
             R.id.grid -> {
-                val spanCount = 2
+                val spanCount = 3
                 recyclerView.layoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
 
                     spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -95,11 +97,11 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                         }
                     }
                 }
+                recyclerView.invalidateItemDecorations()
             }
             R.id.staggered -> {
-                recyclerView.layoutManager = FlapStaggeredGridLayoutManager(3).apply {
-
-                }
+                recyclerView.layoutManager = FlapStaggeredGridLayoutManager(3)
+                recyclerView.invalidateItemDecorations()
             }
             R.id.testZeroHeight -> {
                 testZeroHeight = !testZeroHeight

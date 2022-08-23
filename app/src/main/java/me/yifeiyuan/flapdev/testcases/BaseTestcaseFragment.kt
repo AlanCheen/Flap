@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.decoration.GridSpaceItemDecoration
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
+import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
@@ -175,29 +176,15 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     open fun initItemDecorations() {
         val drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.linear_item_decoration)
 
-        //--1
         //        linearItemDecoration = LinearItemDecoration(drawable!!, DividerItemDecoration.VERTICAL)
-        //--1
 
-        //--2
-        //        linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
-        //                .withFirstItemTopEdge(true)
-        //                .withLastItemBottomEdge(true)
-        //--2
-
-        //--3
-        //        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size), Color.parseColor("#ff0000"))
-        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size))
-        //--3
+        linearItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
 
         //        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
         //                .withFirstItemTopEdge(false)
         //                .withLastItemBottomEdge(false)
 
-        //        gridItemDecoration = GridItemDecoration(drawable!!)
-
-        gridItemDecoration = GridSpaceItemDecoration(requireActivity().toPixel(12))
-                .withFirstRowEdge(true)
+        gridItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
     }
 
     open fun isClickEnable() = true
@@ -221,7 +208,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         adapter.setData(createRefreshData(size))
     }
 
-    open fun createRefreshData(size: Int = 30): MutableList<Any> {
+    open fun createRefreshData(size: Int = 40): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
             list.add(SimpleTextModel("初始数据 $it of $size"))
@@ -264,5 +251,72 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 }
             }
         }
+    }
+
+    /**
+     * 0 Linear
+     * 1 Grid
+     * 2 Staggered
+     */
+    fun switchLayoutManager(type: Int) {
+        when (type) {
+            0 -> {
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = linearItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+
+                currentLayoutManager = linearLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
+            1 -> {
+
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = gridItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+
+                currentLayoutManager = gridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
+            2 -> {
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = gridItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+
+                currentLayoutManager = staggeredGridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
+        }
+    }
+
+    fun updateOrientation(orientation: Int) {
+
+        when (currentItemDecoration) {
+            is LinearItemDecoration -> {
+                (currentItemDecoration as LinearItemDecoration).orientation = orientation
+            }
+            is LinearSpaceItemDecoration -> {
+                (currentItemDecoration as LinearSpaceItemDecoration).orientation = orientation
+            }
+            is SpaceItemDecoration -> {
+                // do nothing
+            }
+        }
+
+        when (currentLayoutManager) {
+            is LinearLayoutManager -> {
+                (currentLayoutManager as LinearLayoutManager).orientation = orientation
+            }
+            is GridLayoutManager -> {
+                (currentLayoutManager as GridLayoutManager).orientation = orientation
+            }
+            is StaggeredGridLayoutManager -> {
+                (currentLayoutManager as StaggeredGridLayoutManager).orientation = orientation
+            }
+        }
+
+        recyclerView.invalidateItemDecorations()
     }
 }

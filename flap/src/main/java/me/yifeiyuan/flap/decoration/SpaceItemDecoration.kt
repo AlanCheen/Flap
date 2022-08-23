@@ -21,7 +21,7 @@ import me.yifeiyuan.flap.FlapDebug
  *
  * Created by 程序亦非猿 on 2022/8/23.
  *
- * @since 3.0.4
+ * @since 3.0.5
  */
 class SpaceItemDecoration(
         private val space: Int,

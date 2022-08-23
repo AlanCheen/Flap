@@ -8,17 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.decoration.GridSpaceItemDecoration
+import me.yifeiyuan.flap.decoration.LinearItemDecoration
+import me.yifeiyuan.flap.widget.FlapGridLayoutManager
+import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.TestService
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
+import me.yifeiyuan.flapdev.toPixel
 import java.util.ArrayList
 
 private const val TAG = "BaseCaseFragment"
@@ -37,6 +45,15 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     lateinit var toast: Toast
 
     lateinit var emptyView: View
+
+    lateinit var linearItemDecoration: RecyclerView.ItemDecoration
+    lateinit var gridItemDecoration: RecyclerView.ItemDecoration
+    lateinit var currentItemDecoration: RecyclerView.ItemDecoration
+
+    lateinit var linearLayoutManager: FlapLinearLayoutManager
+    lateinit var gridLayoutManager: FlapGridLayoutManager
+    lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
+    lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayoutId(), container, false)
@@ -120,7 +137,10 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         adapter.registerAdapterService(TestService::class.java)
-        adapter.registerAdapterService("LogService",TestService::class.java)
+        adapter.registerAdapterService("LogService", TestService::class.java)
+
+        initLayoutManagers()
+        initItemDecorations()
 
         //配置完结束最后再赋值
         recyclerView.adapter = adapter
@@ -131,6 +151,53 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             adapter.setData(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
         }, getRefreshDelayedTime())
+    }
+
+    open fun initLayoutManagers() {
+        linearLayoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+
+        val spanCount = 3
+        gridLayoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    var spanSize = 1
+                    //                            spanSize = if (position % 2 == 0) 2 else 1
+                    return spanSize
+                }
+            }
+        }
+
+        staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(3).apply {
+            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        }
+    }
+
+    open fun initItemDecorations() {
+        val drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.linear_item_decoration)
+
+        //--1
+        //        linearItemDecoration = LinearItemDecoration(drawable!!, DividerItemDecoration.VERTICAL)
+        //--1
+
+        //--2
+        //        linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
+        //                .withFirstItemTopEdge(true)
+        //                .withLastItemBottomEdge(true)
+        //--2
+
+        //--3
+        //        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size), Color.parseColor("#ff0000"))
+        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size))
+        //--3
+
+        //        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
+        //                .withFirstItemTopEdge(false)
+        //                .withLastItemBottomEdge(false)
+
+        //        gridItemDecoration = GridItemDecoration(drawable!!)
+
+        gridItemDecoration = GridSpaceItemDecoration(requireActivity().toPixel(12))
+                .withFirstRowEdge(true)
     }
 
     open fun isClickEnable() = true
@@ -154,7 +221,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         adapter.setData(createRefreshData(size))
     }
 
-    open fun createRefreshData(size: Int = 20): MutableList<Any> {
+    open fun createRefreshData(size: Int = 30): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
             list.add(SimpleTextModel("初始数据 $it of $size"))

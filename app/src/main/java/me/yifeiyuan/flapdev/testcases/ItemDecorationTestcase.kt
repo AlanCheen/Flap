@@ -5,14 +5,18 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.*
-import me.yifeiyuan.flap.decoration.*
+import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.decoration.GridItemDecoration
+import me.yifeiyuan.flap.decoration.GridSpaceItemDecoration
+import me.yifeiyuan.flap.decoration.LinearItemDecoration
+import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
+import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.toPixel
+import kotlin.random.Random
 
 /**
  * Created by 程序亦非猿 on 2022/8/18.
@@ -20,71 +24,22 @@ import me.yifeiyuan.flapdev.toPixel
 
 class ItemDecorationTestcase : BaseTestcaseFragment() {
 
-    lateinit var linearItemDecoration: RecyclerView.ItemDecoration
-    lateinit var gridItemDecoration: RecyclerView.ItemDecoration
-
-    lateinit var currentItemDecoration: RecyclerView.ItemDecoration
-    lateinit var currentLM: RecyclerView.LayoutManager
-
-    lateinit var linearLayoutManager: FlapLinearLayoutManager
-    lateinit var gridLayoutManager: FlapGridLayoutManager
-    lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
-
     override fun onInit(view: View) {
         super.onInit(view)
         setHasOptionsMenu(true)
 
-        val drawable = ContextCompat.getDrawable(requireActivity(), R.drawable.linear_item_decoration)
-
-        //--1
-//        linearItemDecoration = LinearItemDecoration(drawable!!, DividerItemDecoration.VERTICAL)
-        //--1
-
-        //--2
-//        linearItemDecoration = LinearItemDecoration(requireActivity().toPixel(6), Color.BLUE)
-//                .withFirstItemTopEdge(true)
-//                .withLastItemBottomEdge(true)
-        //--2
-
-        //--3
-//        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size), Color.parseColor("#ff0000"))
-        linearItemDecoration = LinearItemDecoration(resources.getDimensionPixelSize(R.dimen.item_decoration_size))
-        //--3
-
-//        linearItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
-//                .withFirstItemTopEdge(false)
-//                .withLastItemBottomEdge(false)
-
-//        gridItemDecoration = GridItemDecoration(drawable!!)
-
-        gridItemDecoration = GridSpaceItemDecoration(requireActivity().toPixel(6))
-
-        initLayoutManagers()
-
         currentItemDecoration = gridItemDecoration
         recyclerView.addItemDecoration(currentItemDecoration)
 
-        currentLM = gridLayoutManager
-        recyclerView.layoutManager = currentLM
+        currentLayoutManager = gridLayoutManager
+        recyclerView.layoutManager = currentLayoutManager
 
         recyclerView.setBackgroundColor(Color.parseColor("#16000000"))
-    }
 
-    private fun initLayoutManagers() {
-        linearLayoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-
-        val spanCount = 3
-        gridLayoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
-            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    var spanSize = 1
-    //                            spanSize = if (position % 2 == 0) 2 else 1
-                    return spanSize
-                }
-            }
+        adapter.doOnCreateViewHolderEnd { adapter, delegate, viewType, component ->
+            val preLP = component.itemView.layoutParams
+            preLP.height = Random.nextInt(requireActivity().toPixel(50), requireActivity().toPixel(150))
         }
-
-        staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(3).apply {}
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,8 +55,8 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
                 recyclerView.addItemDecoration(currentItemDecoration)
                 recyclerView.invalidateItemDecorations()
 
-                currentLM = linearLayoutManager
-                recyclerView.layoutManager = currentLM
+                currentLayoutManager = linearLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
             }
             R.id.grid -> {
                 recyclerView.removeItemDecoration(currentItemDecoration)
@@ -109,8 +64,8 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
                 recyclerView.addItemDecoration(currentItemDecoration)
                 recyclerView.invalidateItemDecorations()
 
-                currentLM = gridLayoutManager
-                recyclerView.layoutManager = currentLM
+                currentLayoutManager = gridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
             }
             R.id.staggered -> {
                 recyclerView.removeItemDecoration(currentItemDecoration)
@@ -118,8 +73,8 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
                 recyclerView.addItemDecoration(currentItemDecoration)
                 recyclerView.invalidateItemDecorations()
 
-                currentLM = staggeredGridLayoutManager
-                recyclerView.layoutManager = currentLM
+                currentLayoutManager = staggeredGridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
             }
 
             R.id.horizontal -> {
@@ -149,15 +104,15 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
             }
         }
 
-        when (currentLM) {
+        when (currentLayoutManager) {
             is FlapLinearLayoutManager -> {
-                (currentLM as FlapLinearLayoutManager).orientation = orientation
+                (currentLayoutManager as FlapLinearLayoutManager).orientation = orientation
             }
             is FlapGridLayoutManager -> {
-                (currentLM as FlapGridLayoutManager).orientation = orientation
+                (currentLayoutManager as FlapGridLayoutManager).orientation = orientation
             }
             is FlapStaggeredGridLayoutManager -> {
-                (currentLM as FlapStaggeredGridLayoutManager).orientation = orientation
+                (currentLayoutManager as FlapStaggeredGridLayoutManager).orientation = orientation
             }
         }
 

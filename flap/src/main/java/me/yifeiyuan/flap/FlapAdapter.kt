@@ -16,6 +16,7 @@ import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
+import java.util.*
 import me.yifeiyuan.flap.service.AdapterService
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.service.AdapterServiceManager
@@ -31,7 +32,7 @@ import me.yifeiyuan.flap.service.AdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager, SwipeDragHelper.Callback {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -541,9 +542,31 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
         return serviceManager.getAdapterService(serviceName)
     }
 
-    /**
-     * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
-     */
-    internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
+    fun removeDataAt(position: Int, notify: Boolean = true) {
+        data.removeAt(position)
+        if (notify) {
+            notifyItemRemoved(position)
+        }
+    }
+
+    fun swapData(fromPosition: Int, toPosition: Int, notify: Boolean = true) {
+        Collections.swap(data, fromPosition, toPosition)
+        if (notify) {
+            notifyItemMoved(fromPosition, toPosition)
+        }
+    }
+
+    override fun onItemDismiss(position: Int) {
+        removeDataAt(position)
+    }
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+        swapData(fromPosition, toPosition)
+    }
 }
+
+/**
+ * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
+ */
+internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
 

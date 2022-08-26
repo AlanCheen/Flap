@@ -47,6 +47,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var emptyView: View
 
+    lateinit var spaceItemDecoration: SpaceItemDecoration
+
     lateinit var linearItemDecoration: RecyclerView.ItemDecoration
     lateinit var gridItemDecoration: RecyclerView.ItemDecoration
     lateinit var currentItemDecoration: RecyclerView.ItemDecoration
@@ -148,6 +150,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
         swipeRefreshLayout.isRefreshing = true
 
+//        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
+
         Handler().postDelayed({
             adapter.setData(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
@@ -185,6 +189,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         //                .withLastItemBottomEdge(false)
 
         gridItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
+
+        spaceItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
     }
 
     open fun isClickEnable() = true

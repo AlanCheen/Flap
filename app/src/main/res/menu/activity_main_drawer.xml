@@ -48,6 +48,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="LayoutAdapterDelegate DSL" />
         <item
+            android:id="@+id/nav_dismiss"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Swipe And Drag" />
+        <item
             android:id="@+id/nav_item_decorations"
             android:icon="@drawable/ic_menu_camera"
             android:title="ItemDecorations" />

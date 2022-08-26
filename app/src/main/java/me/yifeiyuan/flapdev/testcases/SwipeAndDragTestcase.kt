@@ -1,5 +1,7 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
@@ -18,21 +20,19 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        SwipeDragHelper(adapter).apply {
-            isDragEnable = true
-            isSwipeEnable = true
-//            swipeFlags = ItemTouchHelper.START
-
-            doOnMove { fromPosition, toPosition ->
-                toast("移动交换了 $fromPosition to $toPosition")
-            }
-
-            doOnDismiss {
-                toast("滑动删除了一个 item , position=$it")
-            }
-
-            attachToRecyclerView(recyclerView)
-        }
+        val swipeDragHelper = SwipeDragHelper(adapter)
+                .withDragEnable(true)
+                .withSwipeEnable(true)
+//                .withDragFlags()
+//                .withSwipeFlags()
+                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
+                .doOnItemDismiss {
+                    toast("滑动删除了一个 item , position=$it")
+                }
+                .doOnItemMove { fromPosition, toPosition ->
+                    toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .attachToRecyclerView(recyclerView)
 
         recyclerView.addItemDecoration(spaceItemDecoration)
     }

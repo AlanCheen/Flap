@@ -3,7 +3,7 @@ package me.yifeiyuan.flapdev.testcases
 import android.util.Log
 import android.view.View
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.ext.FlapItemTouchHelper
+import me.yifeiyuan.flap.ext.SwipeDragHelper
 
 
 private const val TAG = "ItemClicksTestcase"
@@ -18,9 +18,19 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        FlapItemTouchHelper(adapter).apply {
-            isLongPressDragEnable = true
+        SwipeDragHelper(adapter).apply {
+            isDragEnable = true
             isSwipeEnable = true
+//            swipeFlags = ItemTouchHelper.START
+
+            doOnMove { fromPosition, toPosition ->
+                toast("移动交换了 $fromPosition to $toPosition")
+            }
+
+            doOnDismiss {
+                toast("滑动删除了一个 item , position=$it")
+            }
+
             attachToRecyclerView(recyclerView)
         }
 

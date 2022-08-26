@@ -32,7 +32,7 @@ import me.yifeiyuan.flap.service.AdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager, SwipeDragHelper.Callback {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -549,16 +549,24 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
         }
     }
 
-    fun swapData(position: Int, targetPosition: Int, notify: Boolean = true) {
-        Collections.swap(data, position, targetPosition)
+    fun swapData(fromPosition: Int, toPosition: Int, notify: Boolean = true) {
+        Collections.swap(data, fromPosition, toPosition)
         if (notify) {
-            notifyItemMoved(position,targetPosition)
+            notifyItemMoved(fromPosition, toPosition)
         }
     }
 
-    /**
-     * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
-     */
-    internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
+    override fun onItemDismiss(position: Int) {
+        removeDataAt(position)
+    }
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+        swapData(fromPosition, toPosition)
+    }
 }
+
+/**
+ * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
+ */
+internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
 

@@ -50,7 +50,7 @@
         <item
             android:id="@+id/nav_dismiss"
             android:icon="@drawable/ic_menu_camera"
-            android:title="SwipeToDismiss" />
+            android:title="Swipe And Drag" />
         <item
             android:id="@+id/nav_item_decorations"
             android:icon="@drawable/ic_menu_camera"

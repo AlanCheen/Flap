@@ -95,7 +95,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return false
     }
 
-    fun doOnItemMove(block: (fromPosition: Int, toPosition: Int) -> Unit): SwipeDragHelper {
+    fun onItemMove(block: (fromPosition: Int, toPosition: Int) -> Unit): SwipeDragHelper {
         onMove = block
         return this
     }
@@ -106,7 +106,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         callback.onItemDismiss(viewHolder.adapterPosition)
     }
 
-    fun doOnItemDismiss(block: (position: Int) -> Unit): SwipeDragHelper {
+    fun onItemDismiss(block: (position: Int) -> Unit): SwipeDragHelper {
         onDismiss = block
         return this
     }

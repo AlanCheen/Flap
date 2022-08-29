@@ -48,8 +48,16 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        val finalDragFlags = if (dragFlags != -1) dragFlags else genDefaultDragFlags(recyclerView, viewHolder)
-        val finalSwipeFlags = if (swipeFlags != -1) swipeFlags else genDefaultSwipeFlags(recyclerView, viewHolder)
+        var finalDragFlags = if (dragFlags != -1) dragFlags else genDefaultDragFlags(recyclerView, viewHolder)
+        if (viewHolder is SwipeDragConfig) {
+            finalDragFlags = if (viewHolder.isDragEnable()) finalDragFlags else 0
+        }
+
+        var finalSwipeFlags = if (swipeFlags != -1) swipeFlags else genDefaultSwipeFlags(recyclerView, viewHolder)
+
+        if (viewHolder is SwipeDragConfig) {
+            finalSwipeFlags = if (viewHolder.isSwipeEnable()) finalSwipeFlags else 0
+        }
         return makeMovementFlags(finalDragFlags, finalSwipeFlags)
     }
 

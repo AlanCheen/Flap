@@ -9,9 +9,25 @@ import me.yifeiyuan.flap.FlapAdapter
 const val ITEM_VIEW_TYPE_HEADER = 2123321000
 const val ITEM_VIEW_TYPE_FOOTER = 2123321001
 
-class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)
+class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), SwipeDragConfig {
+    override fun isSwipeEnable(): Boolean {
+        return false
+    }
 
-class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    override fun isDragEnable(): Boolean {
+        return false
+    }
+}
+
+class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), SwipeDragConfig {
+    override fun isSwipeEnable(): Boolean {
+        return false
+    }
+
+    override fun isDragEnable(): Boolean {
+        return false
+    }
+}
 
 /**
  * 一个支持设置 header 和 footer 的包装类 Adapter
@@ -19,7 +35,7 @@ class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view)
  * Created by 程序亦非猿 on 2022/7/31.
  * @since 3.0.0
  */
-class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : FlapAdapter>(var adapter: A) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback {
+class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback {
 
     private var headerView: View? = null
     private var footerView: View? = null
@@ -31,23 +47,23 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : FlapAdapter>(var ada
             }
 
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                notifyItemRangeChanged(positionStart+getHeaderCount(), itemCount)
+                notifyItemRangeChanged(positionStart + getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-                notifyItemRangeChanged(positionStart+getHeaderCount(), itemCount, payload)
+                notifyItemRangeChanged(positionStart + getHeaderCount(), itemCount, payload)
             }
 
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                notifyItemRangeInserted(positionStart+getHeaderCount(), itemCount)
+                notifyItemRangeInserted(positionStart + getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                notifyItemRangeRemoved(positionStart+getHeaderCount(), itemCount)
+                notifyItemRangeRemoved(positionStart + getHeaderCount(), itemCount)
             }
 
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-                notifyItemMoved(fromPosition+getHeaderCount(), toPosition+getHeaderCount())
+                notifyItemMoved(fromPosition + getHeaderCount(), toPosition + getHeaderCount())
             }
 
             override fun onStateRestorationPolicyChanged() {
@@ -73,7 +89,7 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : FlapAdapter>(var ada
         if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
             // ignore
         } else {
-            adapter.onBindViewHolder(holder as Component<*> , position - getHeaderCount(), payloads)
+            adapter.onBindViewHolder(holder as Component<*>, position - getHeaderCount(), payloads)
         }
     }
 
@@ -171,10 +187,10 @@ class HeaderFooterAdapter<VH : RecyclerView.ViewHolder, A : FlapAdapter>(var ada
     }
 
     override fun onItemDismiss(position: Int) {
-        adapter.removeDataAt(position)
+        adapter.removeDataAt(position - getHeaderCount())
     }
 
     override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        adapter.swapData(fromPosition,toPosition)
+        adapter.swapData(fromPosition - getHeaderCount(), toPosition - getHeaderCount())
     }
 }

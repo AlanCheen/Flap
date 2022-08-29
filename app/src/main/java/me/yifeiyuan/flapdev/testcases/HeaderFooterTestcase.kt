@@ -24,7 +24,7 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val headerFooterAdapter = HeaderFooterAdapter<RecyclerView.ViewHolder,FlapAdapter>(adapter)
+        val headerFooterAdapter = HeaderFooterAdapter(adapter)
 
         val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
         headerFooterAdapter.setupHeaderView(headerView)

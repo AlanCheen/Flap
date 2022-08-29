@@ -19,18 +19,18 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     /**
      * 拖动是否可用
      */
-   private var isDragEnable = true
+    private var isDragEnable = true
 
     /**
      * 滑动删除是否可用
      */
     private var isSwipeEnable = true
 
-   private var dragFlags = -1
-   private var swipeFlags = -1
+    private var dragFlags = -1
+    private var swipeFlags = -1
 
-   private var swipeThreshold = 0.5f
-   private var dragThreshold = 0.5f
+    private var swipeThreshold = 0.5f
+    private var dragThreshold = 0.5f
 
     private var onMove: ((fromPosition: Int, toPosition: Int) -> Unit)? = null
     private var onDismiss: ((position: Int) -> Unit)? = null
@@ -151,10 +151,10 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
             swipeBackground?.let {
                 val itemView = viewHolder.itemView
                 if (dX > 0) {
-                    it.setBounds(itemView.left, itemView.top, itemView.left + dX.toInt(), itemView.bottom)
+                    it.setBounds(itemView.left, itemView.top, itemView.right.coerceAtMost(itemView.left + dX.toInt()), itemView.bottom)
                     it.draw(c)
                 } else {
-                    it.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+                    it.setBounds(itemView.left.coerceAtLeast(itemView.right + dX.toInt()), itemView.top, itemView.right, itemView.bottom)
                     it.draw(c)
                 }
             }

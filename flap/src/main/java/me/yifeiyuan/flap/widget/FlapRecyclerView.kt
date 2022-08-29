@@ -164,7 +164,7 @@ open class FlapRecyclerView
     }
 
     fun setData(data: MutableList<Any>) {
-        flapAdapter.setData(data)
+        flapAdapter.setDataAndNotify(data)
     }
 
     override fun setItemAnimator(animator: ItemAnimator?) {

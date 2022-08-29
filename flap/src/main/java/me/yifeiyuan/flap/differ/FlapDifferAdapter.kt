@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 package me.yifeiyuan.flap.differ
 
 import android.annotation.SuppressLint
@@ -44,7 +45,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
             override fun getChangePayload(oldItem: T, newItem: T): Any? {
                 if (oldItem is IDiffer) {
-                   return oldItem.getChangePayload(newItem)
+                    return oldItem.getChangePayload(newItem)
                 }
                 return null
             }
@@ -86,6 +87,11 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
         submitList(data)
     }
 
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    override fun setDataAndNotify(newDataList: MutableList<Any>, notifyAll: Boolean) {
+        this.setData(newDataList)
+    }
+
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun appendData(appendDataList: MutableList<Any>) {
         val data = ArrayList<T>()
@@ -94,5 +100,10 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
             data.add(it as T)
         }
         submitList(data)
+    }
+
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    override fun appendDataAndNotify(appendDataList: MutableList<Any>, notifyAll: Boolean) {
+        this.appendData(appendDataList)
     }
 }

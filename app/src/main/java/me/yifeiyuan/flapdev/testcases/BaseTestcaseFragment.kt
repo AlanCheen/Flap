@@ -58,14 +58,16 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutId(), container, false)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         toast = Toast.makeText(context.applicationContext, "", Toast.LENGTH_SHORT)
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    open fun getLayoutId(): Int = R.layout.fragment_base_case
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -153,7 +155,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 //        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
 
         Handler().postDelayed({
-            adapter.setData(createRefreshData())
+            adapter.setDataAndNotify(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
         }, getRefreshDelayedTime())
     }
@@ -199,8 +201,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     open fun createAdapter() = FlapAdapter()
 
-    open fun getLayoutId(): Int = R.layout.fragment_base_case
-
     open fun onRefresh() {
         swipeRefreshLayout.postDelayed({
             refreshData(20)
@@ -211,10 +211,10 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     open fun getRefreshDelayedTime() = 1000L
 
     open fun refreshData(size: Int = 20) {
-        adapter.setData(createRefreshData(size))
+        adapter.setDataAndNotify(createRefreshData(size))
     }
 
-    open fun createRefreshData(size: Int = 40): MutableList<Any> {
+    open fun createRefreshData(size: Int = 20): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
             list.add(SimpleTextModel("初始数据 $it of $size"))
@@ -228,7 +228,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             repeat(size) {
                 list.add(SimpleTextModel("加载更多数据 $it of $size"))
             }
-            adapter.appendData(list)
+            adapter.appendDataAndNotify(list)
         }, 500)
     }
 

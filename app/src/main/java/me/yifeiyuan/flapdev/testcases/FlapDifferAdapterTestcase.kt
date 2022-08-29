@@ -68,7 +68,7 @@ class FlapDifferAdapterTestcase : BaseTestcaseFragment() {
             repeat(size) {
                 list.add(TestDiffModel("content,$it of 20,more data", it, "this is desc :${it % 3}"))
             }
-            adapter.appendData(list)
+            adapter.appendDataAndNotify(list)
         }, 500)
     }
 

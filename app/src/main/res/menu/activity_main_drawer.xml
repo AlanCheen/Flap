@@ -52,6 +52,10 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Swipe And Drag" />
         <item
+            android:id="@+id/nav_animation"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="动画" />
+        <item
             android:id="@+id/nav_item_decorations"
             android:icon="@drawable/ic_menu_camera"
             android:title="ItemDecorations" />

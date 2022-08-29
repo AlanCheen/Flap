@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "滑动删除&拖放"
                     replace(SwipeAndDragTestcase::class.java)
                 }
+                R.id.nav_animation -> {
+                    subtitle = "动画"
+                    replace(AnimationTestcase::class.java)
+                }
                 R.id.nav_github_demo -> {
                     subtitle = "GitHub Demo"
                     replace(GitHubDemoFragment::class.java)

@@ -58,14 +58,16 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayoutId(), container, false)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         toast = Toast.makeText(context.applicationContext, "", Toast.LENGTH_SHORT)
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    open fun getLayoutId(): Int = R.layout.fragment_base_case
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -198,8 +200,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     open fun isLongClickEnable() = true
 
     open fun createAdapter() = FlapAdapter()
-
-    open fun getLayoutId(): Int = R.layout.fragment_base_case
 
     open fun onRefresh() {
         swipeRefreshLayout.postDelayed({

@@ -154,12 +154,29 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
     open fun setData(newDataList: MutableList<Any>) {
         data.clear()
         data.addAll(newDataList)
-        notifyDataSetChanged()
+    }
+
+    open fun setDataAndNotify(newDataList: MutableList<Any>, notifyAll: Boolean = false) {
+        data.clear()
+        data.addAll(newDataList)
+        if (notifyAll) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRangeChanged(0, newDataList.size)
+        }
     }
 
     open fun appendData(appendDataList: MutableList<Any>) {
         data.addAll(appendDataList)
-        notifyDataSetChanged()
+    }
+
+    open fun appendDataAndNotify(appendDataList: MutableList<Any>, notifyAll: Boolean = false) {
+        data.addAll(appendDataList)
+        if (notifyAll) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRangeInserted(itemCount - appendDataList.size, appendDataList.size)
+        }
     }
 
     override fun getItemCount(): Int {

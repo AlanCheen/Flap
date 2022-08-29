@@ -155,7 +155,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 //        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
 
         Handler().postDelayed({
-            adapter.setData(createRefreshData())
+            adapter.setDataAndNotify(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
         }, getRefreshDelayedTime())
     }
@@ -211,7 +211,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     open fun getRefreshDelayedTime() = 1000L
 
     open fun refreshData(size: Int = 20) {
-        adapter.setData(createRefreshData(size))
+        adapter.setDataAndNotify(createRefreshData(size))
     }
 
     open fun createRefreshData(size: Int = 20): MutableList<Any> {
@@ -228,7 +228,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             repeat(size) {
                 list.add(SimpleTextModel("加载更多数据 $it of $size"))
             }
-            adapter.appendData(list)
+            adapter.appendDataAndNotify(list)
         }, 500)
     }
 

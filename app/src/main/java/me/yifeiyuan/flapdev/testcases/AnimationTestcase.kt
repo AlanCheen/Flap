@@ -23,6 +23,7 @@ class AnimationTestcase : BaseTestcaseFragment() {
     val scaleInAdapterAnimation = ScaleInAdapterAnimation()
     val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()
     val slideInLeftAdapterAnimation = SlideInLeftAdapterAnimation()
+    val slideInBottomAdapterAnimation = SlideInBottomAdapterAnimation()
 
     var currentAdapterAnimation: BaseAdapterAnimation? = null
 
@@ -73,6 +74,11 @@ class AnimationTestcase : BaseTestcaseFragment() {
                 currentAdapterAnimation = alphaInAdapterAnimation
                 currentAdapterAnimation!!.attachToAdapter(adapter)
             }
+            R.id.slideInBottom -> {
+                resetAdapterAnimation()
+                currentAdapterAnimation = slideInBottomAdapterAnimation
+                currentAdapterAnimation!!.attachToAdapter(adapter)
+            }
 
             R.id.animators -> {
                 resetAdapterAnimation()
@@ -90,7 +96,10 @@ class AnimationTestcase : BaseTestcaseFragment() {
     }
 
     private fun resetData() {
-        adapter.setData(createRefreshData())
+        adapter.setDataAndNotify(createRefreshData())
+        currentAdapterAnimation?.let {
+            it.reset()
+        }
     }
 
     private fun resetAdapterAnimation() {

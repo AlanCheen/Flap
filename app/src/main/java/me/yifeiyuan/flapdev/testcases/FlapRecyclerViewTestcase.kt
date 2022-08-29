@@ -64,7 +64,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
                 true
             }
 
-            setData(createRefreshData(30))
+            setDataAndNotify(createRefreshData(30))
         }
 
         linearSpaceItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))

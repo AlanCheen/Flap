@@ -10,7 +10,9 @@
     <item
         android:id="@+id/slideInLeft"
         android:title="SlideInLeft" />
-
+    <item
+        android:id="@+id/slideInBottom"
+        android:title="SlideInBottom" />
     <item
         android:id="@+id/alphaIn"
         android:title="AlphaIn" />

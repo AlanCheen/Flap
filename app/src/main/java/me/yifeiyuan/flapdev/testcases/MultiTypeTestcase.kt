@@ -76,10 +76,10 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
         when (item.itemId) {
             R.id.emptyData -> {
                 skeletonHelper.hide()
-                adapter.setData(mutableListOf())
+                adapter.setDataAndNotify(mutableListOf())
             }
             R.id.resetData -> {
-                adapter.setData(mockMultiTypeModels())
+                adapter.setDataAndNotify(mockMultiTypeModels())
             }
             R.id.linear -> {
                 recyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)

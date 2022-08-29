@@ -35,7 +35,7 @@ class GitHubDemoFragment : BaseTestcaseFragment() {
         dataList.add(SimpleTextModel("Java"))
         dataList.add(SimpleTextModel("Kotlin"))
 
-        adapter.setData(dataList)
+        adapter.setDataAndNotify(dataList)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

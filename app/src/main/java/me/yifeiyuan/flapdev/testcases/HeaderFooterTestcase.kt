@@ -1,9 +1,15 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
+import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flapdev.R
 
 private const val TAG = "HeaderFooterTestcase"
@@ -18,7 +24,7 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val headerFooterAdapter = HeaderFooterAdapter(adapter)
+        val headerFooterAdapter = HeaderFooterAdapter<RecyclerView.ViewHolder,FlapAdapter>(adapter)
 
         val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
         headerFooterAdapter.setupHeaderView(headerView)
@@ -43,5 +49,19 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
         }
 
         recyclerView.adapter = headerFooterAdapter
+
+        SwipeDragHelper(headerFooterAdapter)
+                .withDragEnable(true)
+                .withSwipeEnable(true)
+                .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
+                .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
+                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
+                .onItemDismiss {
+                    toast("滑动删除了一个 item , position=$it")
+                }
+                .onItemMove { fromPosition, toPosition ->
+                    toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .attachToRecyclerView(recyclerView)
     }
 }

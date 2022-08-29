@@ -19,13 +19,13 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
  */
 class AnimationTestcase : BaseTestcaseFragment() {
 
-    val alphaInAdapterAnimation = AlphaInAdapterAnimation()
-    val scaleInAdapterAnimation = ScaleInAdapterAnimation()
-    val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()
-    val slideInLeftAdapterAnimation = SlideInLeftAdapterAnimation()
-    val slideInBottomAdapterAnimation = SlideInBottomAdapterAnimation()
+   private val alphaInAdapterAnimation = AlphaInAdapterAnimation()
+   private val scaleInAdapterAnimation = ScaleInAdapterAnimation()
+   private val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()
+   private val slideInLeftAdapterAnimation = SlideInLeftAdapterAnimation()
+   private val slideInBottomAdapterAnimation = SlideInBottomAdapterAnimation()
 
-    var currentAdapterAnimation: BaseAdapterAnimation? = null
+    lateinit var currentAdapterAnimation: BaseAdapterAnimation
 
     override fun onInit(view: View) {
         super.onInit(view)
@@ -36,13 +36,10 @@ class AnimationTestcase : BaseTestcaseFragment() {
             loadMoreData(20)
         }
 
-        currentAdapterAnimation = alphaInAdapterAnimation
-        currentAdapterAnimation!!.attachToAdapter(adapter)
+        currentAdapterAnimation = slideInBottomAdapterAnimation
+        currentAdapterAnimation.attachToAdapter(adapter)
+
         recyclerView.addItemDecoration(spaceItemDecoration)
-
-//        SlideInRightAdapterAnimation().attachToAdapter(adapter)
-
-//        recyclerView.itemAnimator = ScaleInAnimator()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -57,27 +54,27 @@ class AnimationTestcase : BaseTestcaseFragment() {
             R.id.slideInLeft -> {
                 resetAdapterAnimation()
                 currentAdapterAnimation = slideInLeftAdapterAnimation
-                currentAdapterAnimation!!.attachToAdapter(adapter)
+                currentAdapterAnimation.attachToAdapter(adapter)
             }
             R.id.slideInRight -> {
                 resetAdapterAnimation()
                 currentAdapterAnimation = slideInRightAdapterAnimation
-                currentAdapterAnimation!!.attachToAdapter(adapter)
+                currentAdapterAnimation.attachToAdapter(adapter)
             }
             R.id.scaleIn -> {
                 resetAdapterAnimation()
                 currentAdapterAnimation = scaleInAdapterAnimation
-                currentAdapterAnimation!!.attachToAdapter(adapter)
+                currentAdapterAnimation.attachToAdapter(adapter)
             }
             R.id.alphaIn -> {
                 resetAdapterAnimation()
                 currentAdapterAnimation = alphaInAdapterAnimation
-                currentAdapterAnimation!!.attachToAdapter(adapter)
+                currentAdapterAnimation.attachToAdapter(adapter)
             }
             R.id.slideInBottom -> {
                 resetAdapterAnimation()
                 currentAdapterAnimation = slideInBottomAdapterAnimation
-                currentAdapterAnimation!!.attachToAdapter(adapter)
+                currentAdapterAnimation.attachToAdapter(adapter)
             }
 
             R.id.animators -> {
@@ -97,13 +94,11 @@ class AnimationTestcase : BaseTestcaseFragment() {
 
     private fun resetData() {
         adapter.setDataAndNotify(createRefreshData())
-        currentAdapterAnimation?.let {
-            it.reset()
-        }
+        currentAdapterAnimation.reset()
     }
 
     private fun resetAdapterAnimation() {
-        currentAdapterAnimation?.let {
+        currentAdapterAnimation.let {
             it.reset()
             adapter.unregisterAdapterHook(it)
         }

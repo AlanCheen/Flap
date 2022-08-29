@@ -40,13 +40,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="FlapDifferAdapter" />
         <item
-            android:id="@+id/nav_layout_delegate"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="LayoutAdapterDelegate" />
-        <item
             android:id="@+id/nav_layout_delegate_dsl"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="LayoutAdapterDelegate DSL" />
+            android:title="AdapterDelegate DSL" />
         <item
             android:id="@+id/nav_dismiss"
             android:icon="@drawable/ic_menu_camera"

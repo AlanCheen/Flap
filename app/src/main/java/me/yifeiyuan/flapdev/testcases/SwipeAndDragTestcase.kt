@@ -21,7 +21,7 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val swipeDragHelper = SwipeDragHelper(adapter)
+        SwipeDragHelper(adapter)
                 .withDragEnable(true)
                 .withSwipeEnable(true)
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)

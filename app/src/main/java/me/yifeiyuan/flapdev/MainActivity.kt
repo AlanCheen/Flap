@@ -77,13 +77,9 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "Header、Footer"
                     replace(HeaderFooterTestcase::class.java)
                 }
-                R.id.nav_layout_delegate -> {
-                    subtitle = "LayoutAdapterDelegate"
-                    replace(LayoutAdapterDelegateTestcase::class.java)
-                }
                 R.id.nav_layout_delegate_dsl -> {
-                    subtitle = "LayoutAdapterDelegate DSL"
-                    replace(LayoutDelegateDSLTestcase::class.java)
+                    subtitle = "AdapterDelegate DSL"
+                    replace(AdapterDelegateDSLTestcase::class.java)
                 }
                 R.id.nav_dismiss -> {
                     subtitle = "滑动删除&拖放"

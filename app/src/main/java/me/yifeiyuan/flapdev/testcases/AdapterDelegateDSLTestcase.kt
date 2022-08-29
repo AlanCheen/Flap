@@ -2,11 +2,15 @@ package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.delegate.LayoutAdapterDelegate
 import me.yifeiyuan.flap.delegate.adapterDelegate
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
+import me.yifeiyuan.flap.ext.bindView
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
@@ -14,9 +18,11 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
 private const val TAG = "LayoutDelegateDSLTest"
 
 /**
+ * 测试 AdapterDelegate DSL
+ *
  * Created by 程序亦非猿 on 2022/8/4.
  */
-class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
+class AdapterDelegateDSLTestcase : BaseTestcaseFragment() {
 
     override fun onInit(view: View) {
         super.onInit(view)
@@ -121,7 +127,16 @@ class LayoutDelegateDSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-        adapter.registerAdapterDelegates(simpleTextDelegate, testAllDelegate)
+        val simpleImageDelegate = LayoutAdapterDelegate(SimpleImageModel::class.java,
+                R.layout.flap_item_simple_image) { model ->
+            bindView<ImageView>(R.id.logo) {
+                setOnClickListener {
+                    toast("simpleImageDelegate clicked")
+                }
+            }
+        }
+
+        adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate)
     }
 
     override fun createAdapter(): FlapAdapter {

@@ -542,6 +542,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
         return serviceManager.getAdapterService(serviceName)
     }
 
+    fun insertDataAt(position: Int, element: Any, notify: Boolean = true) {
+        this.data.add(position, element)
+        if (notify) {
+            notifyItemInserted(position)
+        }
+    }
+
     fun removeDataAt(position: Int, notify: Boolean = true) {
         data.removeAt(position)
         if (notify) {

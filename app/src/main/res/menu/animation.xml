@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/resetData"
+        android:title="重置数据" />
+    <item
+        android:id="@+id/slideInRight"
+        android:title="SlideInRight" />
+    <item
+        android:id="@+id/slideInLeft"
+        android:title="SlideInLeft" />
+
+    <item
+        android:id="@+id/alphaIn"
+        android:title="AlphaIn" />
+
+    <item
+        android:id="@+id/scaleIn"
+        android:title="ScaleIn" />
+    <item
+        android:id="@+id/animators"
+        android:title="使用 recyclerview-animators" />
+
+    <item
+        android:id="@+id/addOne"
+        android:title="增加一个" />
+
+    <item
+        android:id="@+id/removeOne"
+        android:title="删除一个" />
+</menu>

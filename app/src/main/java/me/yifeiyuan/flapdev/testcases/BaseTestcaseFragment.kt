@@ -214,7 +214,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         adapter.setData(createRefreshData(size))
     }
 
-    open fun createRefreshData(size: Int = 40): MutableList<Any> {
+    open fun createRefreshData(size: Int = 20): MutableList<Any> {
         val list = ArrayList<Any>()
         repeat(size) {
             list.add(SimpleTextModel("初始数据 $it of $size"))

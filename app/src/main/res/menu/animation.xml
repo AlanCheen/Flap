@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/resetData"
         android:title="重置数据" />
@@ -23,9 +24,9 @@
 
     <item
         android:id="@+id/addOne"
-        android:title="增加一个" />
+        android:title="增加一个" app:showAsAction="always"/>
 
     <item
         android:id="@+id/removeOne"
-        android:title="删除一个" />
+        android:title="删除一个" app:showAsAction="always"/>
 </menu>

@@ -19,11 +19,11 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
  */
 class AnimationTestcase : BaseTestcaseFragment() {
 
-   private val alphaInAdapterAnimation = AlphaInAdapterAnimation()
-   private val scaleInAdapterAnimation = ScaleInAdapterAnimation()
-   private val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()
-   private val slideInLeftAdapterAnimation = SlideInLeftAdapterAnimation()
-   private val slideInBottomAdapterAnimation = SlideInBottomAdapterAnimation()
+    private val alphaInAdapterAnimation = AlphaInAdapterAnimation()
+    private val scaleInAdapterAnimation = ScaleInAdapterAnimation()
+    private val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()
+    private val slideInLeftAdapterAnimation = SlideInLeftAdapterAnimation()
+    private val slideInBottomAdapterAnimation = SlideInBottomAdapterAnimation()
 
     lateinit var currentAdapterAnimation: BaseAdapterAnimation
 

@@ -63,7 +63,8 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 .withSwipeEnable(true)
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
-                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
+//                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
+                .withSwipeBackgroundColor(Color.parseColor("#ff0000"))
                 .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }

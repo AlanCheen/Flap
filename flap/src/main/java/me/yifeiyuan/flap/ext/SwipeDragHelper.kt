@@ -1,9 +1,11 @@
 package me.yifeiyuan.flap.ext
 
 import android.graphics.Canvas
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.ComponentConfig
+
 
 typealias  OnItemMoveListener = (fromPosition: Int, toPosition: Int) -> Unit
 /**
@@ -235,7 +237,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            //滑动的时候可以绘制背景
+            //滑动删除的时候可以绘制背景
             swipeBackground?.let {
                 val itemView = viewHolder.itemView
                 if (dX > 0) {
@@ -271,6 +273,30 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    /**
+     * 快捷设置 dragFlags 为垂直方向 up or down
+     */
+    fun forVerticalList(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        return this
+    }
+
+    /**
+     * 快捷设置 dragFlags 为水平方向 left or right
+     */
+    fun forHorizontalList(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        return this
+    }
+
+    /**
+     * 快捷设置 dragFlags 为全方向
+     */
+    fun forGrid(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        return this
+    }
+
     fun withDragFlags(dragFlags: Int): SwipeDragHelper {
         this.dragFlags = dragFlags
         return this
@@ -291,17 +317,25 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    /**
+     * 设置被滑动的 item 的背景
+     */
     fun withSwipeBackground(swipeBackground: Drawable): SwipeDragHelper {
         this.swipeBackground = swipeBackground
+        return this
+    }
+
+    fun withSwipeBackgroundColor(color: Int): SwipeDragHelper {
+        this.swipeBackground = ColorDrawable(color)
         return this
     }
 
     interface Callback {
         fun onSwipeStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
         fun onSwipeReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
-        fun onSwiped(position: Int)
+        fun onSwiped(position: Int) {}
         fun onDragStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
-        fun onMoved(fromPosition: Int, toPosition: Int)
+        fun onMoved(fromPosition: Int, toPosition: Int) {}
         fun onDragReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
     }
 }

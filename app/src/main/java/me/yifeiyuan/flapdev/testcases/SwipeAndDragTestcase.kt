@@ -24,6 +24,9 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
         SwipeDragHelper(adapter)
                 .withDragEnable(true)
                 .withSwipeEnable(true)
+//                .forVerticalList()
+//                .forHorizontalList()
+//                .forGrid()
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
                 .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
@@ -32,6 +35,22 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
                 }
                 .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .onDragStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "开始拖动 position=$adapterPosition")
+                    toast("开始拖动 position=$adapterPosition")
+                }
+                .onDragReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "拖动结束 position=$adapterPosition")
+                    toast("拖动结束 position=$adapterPosition")
+                }
+                .onSwipeStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动开始 position=$adapterPosition")
+                    toast("滑动开始 position=$adapterPosition")
+                }
+                .onSwipeReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动结束 position=$adapterPosition")
+                    toast("滑动结束 position=$adapterPosition")
                 }
                 .attachToRecyclerView(recyclerView)
 

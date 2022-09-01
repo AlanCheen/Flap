@@ -9,7 +9,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 
 
-private const val TAG = "ItemClicksTestcase"
+private const val TAG = "SwipeAndDragTestcase"
 
 /**
  * 测试滑动删除&拖放

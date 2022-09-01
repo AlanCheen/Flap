@@ -143,28 +143,28 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return false
     }
 
-    fun onItemMoved(block: OnItemMoveListener): SwipeDragHelper {
-        onMoved = block
+    fun onItemMoved(listener: OnItemMoveListener): SwipeDragHelper {
+        onMoved = listener
         return this
     }
 
-    fun onSwipeStarted(block: OnSwipeStartedListener): SwipeDragHelper {
-        onSwipeStarted = block
+    fun onSwipeStarted(listener: OnSwipeStartedListener): SwipeDragHelper {
+        onSwipeStarted = listener
         return this
     }
 
-    fun onSwipeReleased(block: OnSwipeReleasedListener): SwipeDragHelper {
-        onSwipedReleased = block
+    fun onSwipeReleased(listener: OnSwipeReleasedListener): SwipeDragHelper {
+        onSwipedReleased = listener
         return this
     }
 
-    fun onDragStarted(block: OnDragStartedListener): SwipeDragHelper {
-        onDragStarted = block
+    fun onDragStarted(listener: OnDragStartedListener): SwipeDragHelper {
+        onDragStarted = listener
         return this
     }
 
-    fun onDragReleased(block: OnDragReleasedListener): SwipeDragHelper {
-        onDragReleased = block
+    fun onDragReleased(listener: OnDragReleasedListener): SwipeDragHelper {
+        onDragReleased = listener
         return this
     }
 
@@ -174,8 +174,8 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         callback.onSwiped(viewHolder.adapterPosition)
     }
 
-    fun onItemSwiped(block: OnItemSwipedListener): SwipeDragHelper {
-        onSwiped = block
+    fun onItemSwiped(listener: OnItemSwipedListener): SwipeDragHelper {
+        onSwiped = listener
         return this
     }
 

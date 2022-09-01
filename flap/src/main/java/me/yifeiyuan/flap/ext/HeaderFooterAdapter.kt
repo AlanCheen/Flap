@@ -205,11 +205,11 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         return FooterViewHolder::class.java == component.javaClass
     }
 
-    override fun onItemDismiss(position: Int) {
+    override fun onSwiped(position: Int) {
         adapter.removeDataAt(position - getHeaderCount())
     }
 
-    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+    override fun onMoved(fromPosition: Int, toPosition: Int) {
         adapter.swapData(fromPosition - getHeaderCount(), toPosition - getHeaderCount())
     }
 }

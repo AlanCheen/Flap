@@ -6,7 +6,18 @@ import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.ComponentConfig
 
 typealias  OnItemMoveListener = (fromPosition: Int, toPosition: Int) -> Unit
-typealias  OnItemDismissListener = (position: Int) -> Unit
+/**
+ * item 被删除
+ */
+typealias  OnItemSwipedListener = (position: Int) -> Unit
+typealias  OnSwipeStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+/**
+ * 一次滑动手势释放
+ * 但是不代表被删除
+ */
+typealias  OnSwipeReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+typealias  OnDragStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+typealias  OnDragReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
 
 /**
  *
@@ -39,8 +50,14 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     private var swipeThreshold = 0.5f
     private var dragThreshold = 0.5f
 
-    private var onMove: OnItemMoveListener? = null
-    private var onDismiss: OnItemDismissListener? = null
+    private var onMoved: OnItemMoveListener? = null
+    private var onSwiped: OnItemSwipedListener? = null
+
+    private var onSwipeStarted: OnSwipeStartedListener? = null
+    private var onSwipedReleased: OnSwipeReleasedListener? = null
+
+    private var onDragStarted: OnDragStartedListener? = null
+    private var onDragReleased: OnDragReleasedListener? = null
 
     private var swipeBackground: Drawable? = null
 
@@ -118,25 +135,45 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         if (viewHolder.itemViewType == target.itemViewType) {
-            onMove?.invoke(viewHolder.adapterPosition, target.adapterPosition)
+            onMoved?.invoke(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
         return false
     }
 
-    fun onItemMove(block: OnItemMoveListener): SwipeDragHelper {
-        onMove = block
+    fun onItemMoved(block: OnItemMoveListener): SwipeDragHelper {
+        onMoved = block
+        return this
+    }
+
+    fun onSwipeStarted(block: OnSwipeStartedListener): SwipeDragHelper {
+        onSwipeStarted = block
+        return this
+    }
+
+    fun onSwipeReleased(block: OnSwipeReleasedListener): SwipeDragHelper {
+        onSwipedReleased = block
+        return this
+    }
+
+    fun onDragStarted(block: OnDragStartedListener): SwipeDragHelper {
+        onDragStarted = block
+        return this
+    }
+
+    fun onDragReleased(block: OnDragReleasedListener): SwipeDragHelper {
+        onDragReleased = block
         return this
     }
 
     //Item 被滑动删除了调用
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onDismiss?.invoke(viewHolder.adapterPosition)
-        callback.onItemDismiss(viewHolder.adapterPosition)
+        onSwiped?.invoke(viewHolder.adapterPosition)
+        callback.onSwiped(viewHolder.adapterPosition)
     }
 
-    fun onItemDismiss(block: OnItemDismissListener): SwipeDragHelper {
-        onDismiss = block
+    fun onItemSwiped(block: OnItemSwipedListener): SwipeDragHelper {
+        onSwiped = block
         return this
     }
 
@@ -145,8 +182,30 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    var swipedViewHolder: RecyclerView.ViewHolder? = null
+    var draggedViewHolder: RecyclerView.ViewHolder? = null
+
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
+        if (ItemTouchHelper.ACTION_STATE_SWIPE == actionState) {
+            swipedViewHolder = viewHolder
+            callback.onSwipeStarted(viewHolder!!, viewHolder.adapterPosition)
+            onSwipeStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+        } else if (ItemTouchHelper.ACTION_STATE_DRAG == actionState) {
+            draggedViewHolder = viewHolder
+            callback.onDragStarted(viewHolder!!, viewHolder.adapterPosition)
+            onDragStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+        } else if (ItemTouchHelper.ACTION_STATE_IDLE == actionState) {
+            if (draggedViewHolder != null) {
+                callback.onDragReleased(draggedViewHolder!!, draggedViewHolder!!.adapterPosition)
+                onDragReleased?.invoke(draggedViewHolder!!, draggedViewHolder!!.adapterPosition)
+                draggedViewHolder = null
+            } else if (swipedViewHolder != null) {
+                callback.onSwipeReleased(swipedViewHolder!!, swipedViewHolder!!.adapterPosition)
+                onSwipedReleased?.invoke(swipedViewHolder!!, swipedViewHolder!!.adapterPosition)
+                swipedViewHolder = null
+            }
+        }
     }
 
     override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
@@ -162,7 +221,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
      */
     override fun onMoved(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-        callback.onItemMoved(fromPos, toPos)
+        callback.onMoved(fromPos, toPos)
     }
 
     /**
@@ -238,7 +297,11 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     }
 
     interface Callback {
-        fun onItemDismiss(position: Int)
-        fun onItemMoved(fromPosition: Int, toPosition: Int)
+        fun onSwipeStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onSwipeReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onSwiped(position: Int)
+        fun onDragStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onMoved(fromPosition: Int, toPosition: Int)
+        fun onDragReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
     }
 }

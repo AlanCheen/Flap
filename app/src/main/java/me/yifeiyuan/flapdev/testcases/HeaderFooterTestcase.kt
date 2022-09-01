@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flapdev.R
@@ -56,11 +54,27 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
                 .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
-                .onItemDismiss {
+                .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }
-                .onItemMove { fromPosition, toPosition ->
+                .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .onDragStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "开始拖动 position=$adapterPosition")
+                    toast("开始拖动 position=$adapterPosition")
+                }
+                .onDragReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "拖动结束 position=$adapterPosition")
+                    toast("拖动结束 position=$adapterPosition")
+                }
+                .onSwipeStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动开始 position=$adapterPosition")
+                    toast("滑动开始 position=$adapterPosition")
+                }
+                .onSwipeReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动结束 position=$adapterPosition")
+                    toast("滑动结束 position=$adapterPosition")
                 }
                 .attachToRecyclerView(recyclerView)
     }

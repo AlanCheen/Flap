@@ -27,10 +27,10 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
                 .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
-                .onItemDismiss {
+                .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }
-                .onItemMove { fromPosition, toPosition ->
+                .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
                 }
                 .attachToRecyclerView(recyclerView)

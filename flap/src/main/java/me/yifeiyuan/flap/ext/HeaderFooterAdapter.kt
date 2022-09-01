@@ -88,6 +88,7 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
                 adapter.stateRestorationPolicy = stateRestorationPolicy
             }
         })
+        setHasStableIds(adapter.hasStableIds())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

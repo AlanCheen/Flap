@@ -1,10 +1,25 @@
 package me.yifeiyuan.flap.ext
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.*
+import me.yifeiyuan.flap.ComponentConfig
+
+
+typealias  OnItemMoveListener = (fromPosition: Int, toPosition: Int) -> Unit
+/**
+ * item 被删除
+ */
+typealias  OnItemSwipedListener = (position: Int) -> Unit
+typealias  OnSwipeStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+/**
+ * 一次滑动手势释放
+ * 但是不代表被删除
+ */
+typealias  OnSwipeReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+typealias  OnDragStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+typealias  OnDragReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
 
 /**
  *
@@ -16,24 +31,35 @@ import androidx.recyclerview.widget.*
  */
 class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback() {
 
+    companion object {
+        const val FLAG_DISABLE = 0
+        const val FLAG_UN_SET = -1
+    }
+
     /**
      * 拖动是否可用
      */
-   private var isDragEnable = true
+    private var isDragEnable = true
 
     /**
      * 滑动删除是否可用
      */
     private var isSwipeEnable = true
 
-   private var dragFlags = -1
-   private var swipeFlags = -1
+    private var dragFlags = FLAG_UN_SET
+    private var swipeFlags = FLAG_UN_SET
 
-   private var swipeThreshold = 0.5f
-   private var dragThreshold = 0.5f
+    private var swipeThreshold = 0.5f
+    private var dragThreshold = 0.5f
 
-    private var onMove: ((fromPosition: Int, toPosition: Int) -> Unit)? = null
-    private var onDismiss: ((position: Int) -> Unit)? = null
+    private var onMoved: OnItemMoveListener? = null
+    private var onSwiped: OnItemSwipedListener? = null
+
+    private var onSwipeStarted: OnSwipeStartedListener? = null
+    private var onSwipedReleased: OnSwipeReleasedListener? = null
+
+    private var onDragStarted: OnDragStartedListener? = null
+    private var onDragReleased: OnDragReleasedListener? = null
 
     private var swipeBackground: Drawable? = null
 
@@ -48,12 +74,31 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        val finalDragFlags = if (dragFlags != -1) dragFlags else genDefaultDragFlags(recyclerView, viewHolder)
-        val finalSwipeFlags = if (swipeFlags != -1) swipeFlags else genDefaultSwipeFlags(recyclerView, viewHolder)
+        var finalDragFlags = if (dragFlags != FLAG_UN_SET) dragFlags else getDefaultDragFlags(recyclerView, viewHolder)
+        if (viewHolder is ComponentConfig) {
+            if (viewHolder.isDragEnable()) {
+                finalDragFlags = if (viewHolder.getDragFlags() == FLAG_UN_SET) finalDragFlags else 0
+            } else {
+                finalDragFlags = FLAG_DISABLE
+            }
+        }
+
+        var finalSwipeFlags = if (swipeFlags != FLAG_UN_SET) swipeFlags else getDefaultSwipeFlags(recyclerView, viewHolder)
+
+        if (viewHolder is ComponentConfig) {
+            if (viewHolder.isSwipeEnable()) {
+                finalSwipeFlags = if (viewHolder.getSwipeFlags() == FLAG_UN_SET) finalSwipeFlags else 0
+            } else {
+                finalSwipeFlags = FLAG_DISABLE
+            }
+        }
         return makeMovementFlags(finalDragFlags, finalSwipeFlags)
     }
 
-    private fun genDefaultDragFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    /**
+     * 根据 layoutManager 提供默认 dragFlags
+     */
+    private fun getDefaultDragFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         return when (recyclerView.layoutManager) {
             is StaggeredGridLayoutManager -> {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -70,7 +115,10 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         }
     }
 
-    private fun genDefaultSwipeFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    /**
+     * 根据 layoutManager 提供默认 swipeFlags
+     */
+    private fun getDefaultSwipeFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         return when (recyclerView.layoutManager) {
             is StaggeredGridLayoutManager -> {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -89,25 +137,45 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         if (viewHolder.itemViewType == target.itemViewType) {
-            onMove?.invoke(viewHolder.adapterPosition, target.adapterPosition)
+            onMoved?.invoke(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
         return false
     }
 
-    fun onItemMove(block: (fromPosition: Int, toPosition: Int) -> Unit): SwipeDragHelper {
-        onMove = block
+    fun onItemMoved(listener: OnItemMoveListener): SwipeDragHelper {
+        onMoved = listener
+        return this
+    }
+
+    fun onSwipeStarted(listener: OnSwipeStartedListener): SwipeDragHelper {
+        onSwipeStarted = listener
+        return this
+    }
+
+    fun onSwipeReleased(listener: OnSwipeReleasedListener): SwipeDragHelper {
+        onSwipedReleased = listener
+        return this
+    }
+
+    fun onDragStarted(listener: OnDragStartedListener): SwipeDragHelper {
+        onDragStarted = listener
+        return this
+    }
+
+    fun onDragReleased(listener: OnDragReleasedListener): SwipeDragHelper {
+        onDragReleased = listener
         return this
     }
 
     //Item 被滑动删除了调用
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onDismiss?.invoke(viewHolder.adapterPosition)
-        callback.onItemDismiss(viewHolder.adapterPosition)
+        onSwiped?.invoke(viewHolder.adapterPosition)
+        callback.onSwiped(viewHolder.adapterPosition)
     }
 
-    fun onItemDismiss(block: (position: Int) -> Unit): SwipeDragHelper {
-        onDismiss = block
+    fun onItemSwiped(listener: OnItemSwipedListener): SwipeDragHelper {
+        onSwiped = listener
         return this
     }
 
@@ -116,8 +184,30 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    var swipedViewHolder: RecyclerView.ViewHolder? = null
+    var draggedViewHolder: RecyclerView.ViewHolder? = null
+
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
+        if (ItemTouchHelper.ACTION_STATE_SWIPE == actionState) {
+            swipedViewHolder = viewHolder
+            callback.onSwipeStarted(viewHolder!!, viewHolder.adapterPosition)
+            onSwipeStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+        } else if (ItemTouchHelper.ACTION_STATE_DRAG == actionState) {
+            draggedViewHolder = viewHolder
+            callback.onDragStarted(viewHolder!!, viewHolder.adapterPosition)
+            onDragStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+        } else if (ItemTouchHelper.ACTION_STATE_IDLE == actionState) {
+            if (draggedViewHolder != null) {
+                callback.onDragReleased(draggedViewHolder!!, draggedViewHolder!!.adapterPosition)
+                onDragReleased?.invoke(draggedViewHolder!!, draggedViewHolder!!.adapterPosition)
+                draggedViewHolder = null
+            } else if (swipedViewHolder != null) {
+                callback.onSwipeReleased(swipedViewHolder!!, swipedViewHolder!!.adapterPosition)
+                onSwipedReleased?.invoke(swipedViewHolder!!, swipedViewHolder!!.adapterPosition)
+                swipedViewHolder = null
+            }
+        }
     }
 
     override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
@@ -133,7 +223,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
      */
     override fun onMoved(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-        callback.onItemMoved(fromPos, toPos)
+        callback.onMoved(fromPos, toPos)
     }
 
     /**
@@ -147,14 +237,14 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            //滑动的时候可以绘制背景
+            //滑动删除的时候可以绘制背景
             swipeBackground?.let {
                 val itemView = viewHolder.itemView
                 if (dX > 0) {
-                    it.setBounds(itemView.left, itemView.top, itemView.left + dX.toInt(), itemView.bottom)
+                    it.setBounds(itemView.left, itemView.top, itemView.right.coerceAtMost(itemView.left + dX.toInt()), itemView.bottom)
                     it.draw(c)
                 } else {
-                    it.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+                    it.setBounds(itemView.left.coerceAtLeast(itemView.right + dX.toInt()), itemView.top, itemView.right, itemView.bottom)
                     it.draw(c)
                 }
             }
@@ -183,6 +273,30 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    /**
+     * 快捷设置 dragFlags 为垂直方向 up or down
+     */
+    fun forVerticalList(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        return this
+    }
+
+    /**
+     * 快捷设置 dragFlags 为水平方向 left or right
+     */
+    fun forHorizontalList(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        return this
+    }
+
+    /**
+     * 快捷设置 dragFlags 为全方向
+     */
+    fun forGrid(): SwipeDragHelper {
+        this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        return this
+    }
+
     fun withDragFlags(dragFlags: Int): SwipeDragHelper {
         this.dragFlags = dragFlags
         return this
@@ -203,13 +317,25 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return this
     }
 
+    /**
+     * 设置被滑动的 item 的背景
+     */
     fun withSwipeBackground(swipeBackground: Drawable): SwipeDragHelper {
         this.swipeBackground = swipeBackground
         return this
     }
 
+    fun withSwipeBackgroundColor(color: Int): SwipeDragHelper {
+        this.swipeBackground = ColorDrawable(color)
+        return this
+    }
+
     interface Callback {
-        fun onItemDismiss(position: Int)
-        fun onItemMoved(fromPosition: Int, toPosition: Int)
+        fun onSwipeStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onSwipeReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onSwiped(position: Int) {}
+        fun onDragStarted(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
+        fun onMoved(fromPosition: Int, toPosition: Int) {}
+        fun onDragReleased(viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) {}
     }
 }

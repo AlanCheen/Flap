@@ -9,7 +9,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 
 
-private const val TAG = "ItemClicksTestcase"
+private const val TAG = "SwipeAndDragTestcase"
 
 /**
  * 测试滑动删除&拖放
@@ -21,17 +21,36 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
     override fun onInit(view: View) {
         super.onInit(view)
 
-        val swipeDragHelper = SwipeDragHelper(adapter)
+        SwipeDragHelper(adapter)
                 .withDragEnable(true)
                 .withSwipeEnable(true)
+//                .forVerticalList()
+//                .forHorizontalList()
+//                .forGrid()
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
                 .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
-                .onItemDismiss {
+                .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }
-                .onItemMove { fromPosition, toPosition ->
+                .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .onDragStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "开始拖动 position=$adapterPosition")
+                    toast("开始拖动 position=$adapterPosition")
+                }
+                .onDragReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "拖动结束 position=$adapterPosition")
+                    toast("拖动结束 position=$adapterPosition")
+                }
+                .onSwipeStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动开始 position=$adapterPosition")
+                    toast("滑动开始 position=$adapterPosition")
+                }
+                .onSwipeReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动结束 position=$adapterPosition")
+                    toast("滑动结束 position=$adapterPosition")
                 }
                 .attachToRecyclerView(recyclerView)
 

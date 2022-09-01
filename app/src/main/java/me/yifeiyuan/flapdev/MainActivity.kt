@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
+        navView.setItemIconTintList(null)
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_app_bar_open_drawer_description, R.string.navigation_drawer_close)
         drawerLayout.setDrawerListener(toggle)
         toggle.syncState()
@@ -77,13 +78,9 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "Header、Footer"
                     replace(HeaderFooterTestcase::class.java)
                 }
-                R.id.nav_layout_delegate -> {
-                    subtitle = "LayoutAdapterDelegate"
-                    replace(LayoutAdapterDelegateTestcase::class.java)
-                }
                 R.id.nav_layout_delegate_dsl -> {
-                    subtitle = "LayoutAdapterDelegate DSL"
-                    replace(LayoutDelegateDSLTestcase::class.java)
+                    subtitle = "AdapterDelegate DSL"
+                    replace(AdapterDelegateDSLTestcase::class.java)
                 }
                 R.id.nav_dismiss -> {
                     subtitle = "滑动删除&拖放"

@@ -580,11 +580,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
         }
     }
 
-    override fun onItemDismiss(position: Int) {
+    override fun onSwiped(position: Int) {
         removeDataAt(position)
     }
 
-    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+    override fun onMoved(fromPosition: Int, toPosition: Int) {
         swapData(fromPosition, toPosition)
     }
 }

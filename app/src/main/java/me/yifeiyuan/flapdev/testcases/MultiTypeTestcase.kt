@@ -1,13 +1,15 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
-import me.yifeiyuan.flap.decoration.SpaceItemDecoration
+import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
@@ -15,7 +17,6 @@ import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
-import me.yifeiyuan.flapdev.toPixel
 
 /**
  * 多类型测试
@@ -56,6 +57,21 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 .onlyOnce(false)
                 .withEmptyViewHelper(adapter.emptyViewHelper)
                 .show()
+
+        SwipeDragHelper(adapter)
+                .withDragEnable(true)
+                .withSwipeEnable(true)
+                .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
+                .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
+//                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
+                .withSwipeBackgroundColor(Color.parseColor("#ff0000"))
+                .onItemSwiped {
+                    toast("滑动删除了一个 item , position=$it")
+                }
+                .onItemMoved { fromPosition, toPosition ->
+                    toast("移动交换了 $fromPosition to $toPosition")
+                }
+                .attachToRecyclerView(recyclerView)
 
         recyclerView.addItemDecoration(linearItemDecoration)
     }

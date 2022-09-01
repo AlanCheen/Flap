@@ -4,27 +4,45 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.ComponentConfig
 import me.yifeiyuan.flap.FlapAdapter
 
 const val ITEM_VIEW_TYPE_HEADER = 2123321000
 const val ITEM_VIEW_TYPE_FOOTER = 2123321001
 
-class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), SwipeDragConfig {
+class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
     override fun isSwipeEnable(): Boolean {
         return false
     }
 
     override fun isDragEnable(): Boolean {
+        return false
+    }
+
+    override fun isClickable(): Boolean {
+        return false
+    }
+
+    override fun isLongClickable(): Boolean {
         return false
     }
 }
 
-class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), SwipeDragConfig {
+class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
+
     override fun isSwipeEnable(): Boolean {
         return false
     }
 
     override fun isDragEnable(): Boolean {
+        return false
+    }
+
+    override fun isClickable(): Boolean {
+        return false
+    }
+
+    override fun isLongClickable(): Boolean {
         return false
     }
 }

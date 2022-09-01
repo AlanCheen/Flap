@@ -2,6 +2,7 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.ComponentConfig
 
 
 typealias OnItemClickListener = ((recyclerView: RecyclerView, childView: View, position: Int) -> Unit)
@@ -42,16 +43,35 @@ internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener 
     }
 
     override fun onChildViewAttachedToWindow(view: View) {
+        val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(view)
+
         onItemClickListener?.let {
-            view.setOnClickListener(internalOnClickListener)
+            if (holder is ComponentConfig) {
+                if (holder.isClickable()) {
+                    view.setOnClickListener(internalOnClickListener)
+                } else {
+                    view.setOnClickListener(null)
+                }
+            } else {
+                view.setOnClickListener(internalOnClickListener)
+            }
         }
 
         onItemLongClickListener?.let {
-            view.setOnLongClickListener(internalOnLongClickListener)
+            if (holder is ComponentConfig) {
+                if (holder.isLongClickable()) {
+                    view.setOnLongClickListener(internalOnLongClickListener)
+                } else {
+                    view.setOnLongClickListener(null)
+                }
+            } else {
+                view.setOnLongClickListener(internalOnLongClickListener)
+            }
         }
     }
 
     override fun onChildViewDetachedFromWindow(view: View) {
+        //do nothing
     }
 
     fun attachRecyclerView(recyclerView: RecyclerView) {

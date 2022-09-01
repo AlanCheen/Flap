@@ -30,7 +30,7 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  * @since 2020/9/22
  * @since 3.0.0
  */
-abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver {
+abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver, ComponentConfig {
 
     /**
      * 默认情况下 context 是 Activity Context ；

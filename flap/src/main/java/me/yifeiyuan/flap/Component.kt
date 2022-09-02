@@ -3,9 +3,12 @@
 package me.yifeiyuan.flap
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.View
-import androidx.annotation.CallSuper
-import androidx.annotation.IdRes
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -137,6 +140,23 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onDestroy(owner: LifecycleOwner) {
         owner.lifecycle.removeObserver(this)
+    }
+
+    fun getString(@StringRes resId: Int): String {
+        return context.getString(resId)
+    }
+
+    fun getDrawable(@DrawableRes id: Int): Drawable? {
+        return ContextCompat.getDrawable(context, id)
+    }
+
+    @ColorInt
+    fun getColor(@ColorRes id: Int): Int {
+        return ContextCompat.getColor(context, id)
+    }
+
+    fun getColorStateList(@ColorRes id: Int): ColorStateList? {
+        return ContextCompat.getColorStateList(context, id)
     }
 
 }

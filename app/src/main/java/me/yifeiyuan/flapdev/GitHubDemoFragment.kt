@@ -2,7 +2,7 @@ package me.yifeiyuan.flapdev
 
 import android.view.View
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
-import me.yifeiyuan.flap.delegate.adapterDelegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.testcases.BaseTestcaseFragment

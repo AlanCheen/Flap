@@ -4,8 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.LayoutAdapterDelegate
-import me.yifeiyuan.flap.delegate.adapterDelegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flap.ext.bindView
@@ -127,12 +126,26 @@ class AdapterDelegateDSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-        val simpleImageDelegate = LayoutAdapterDelegate(SimpleImageModel::class.java,
-                R.layout.flap_item_simple_image) { model ->
-            bindView<ImageView>(R.id.logo) {
-                setOnClickListener {
-                    toast("simpleImageDelegate clicked")
+//        val simpleImageDelegate = LayoutAdapterDelegate(SimpleImageModel::class.java,
+//                R.layout.flap_item_simple_image) { model ->
+//            bindView<ImageView>(R.id.logo) {
+//                setOnClickListener {
+//                    toast("simpleImageDelegate clicked")
+//                }
+//            }
+//        }
+
+        val simpleImageDelegate = adapterDelegate<SimpleImageModel>(R.layout.flap_item_simple_image) {
+
+            onBind { model, position, payloads, adapter ->
+                bindView<ImageView>(R.id.logo) {
+                    setOnClickListener {
+                        toast("simpleImageDelegate clicked")
+                    }
                 }
+            }
+            onResume {
+                Log.d(TAG, "simpleImageDelegate onResume() called $this")
             }
         }
 

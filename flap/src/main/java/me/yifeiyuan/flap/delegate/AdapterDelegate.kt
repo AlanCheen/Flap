@@ -66,7 +66,7 @@ interface AdapterDelegate<M, VH : Component<M>> {
     /**
      * @see RecyclerView.Adapter.getItemId
      */
-    fun getItemId(model: Any): Long = RecyclerView.NO_ID
+    fun getItemId(model: Any, position: Int): Long = RecyclerView.NO_ID
 
     /**
      * @see RecyclerView.Adapter.getItemViewType

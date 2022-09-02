@@ -49,11 +49,19 @@ internal class FallbackComponent(v: View) : Component<Any>(v) {
         }
     }
 
-    override fun isDragEnable(): Boolean {
+    override fun isClickable(): Boolean {
         return false
     }
 
-    override fun isSwipeEnable(): Boolean {
+    override fun isLongClickable(): Boolean {
+        return false
+    }
+
+    override fun isDragEnabled(): Boolean {
+        return false
+    }
+
+    override fun isSwipeEnabled(): Boolean {
         return false
     }
 }

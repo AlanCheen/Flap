@@ -11,11 +11,11 @@ const val ITEM_VIEW_TYPE_HEADER = 2123321000
 const val ITEM_VIEW_TYPE_FOOTER = 2123321001
 
 class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
-    override fun isSwipeEnable(): Boolean {
+    override fun isSwipeEnabled(): Boolean {
         return false
     }
 
-    override fun isDragEnable(): Boolean {
+    override fun isDragEnabled(): Boolean {
         return false
     }
 
@@ -30,11 +30,11 @@ class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentCon
 
 class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
 
-    override fun isSwipeEnable(): Boolean {
+    override fun isSwipeEnabled(): Boolean {
         return false
     }
 
-    override fun isDragEnable(): Boolean {
+    override fun isDragEnabled(): Boolean {
         return false
     }
 

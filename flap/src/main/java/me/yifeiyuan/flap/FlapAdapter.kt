@@ -307,7 +307,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
     override fun getItemId(position: Int): Long {
         val itemData = getItemData(position)
         val delegate = getDelegateByViewType(getItemViewType(position))
-        return delegate.getItemId(itemData)
+        return delegate.getItemId(itemData, position)
     }
 
     /**

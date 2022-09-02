@@ -30,7 +30,7 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
     }
 
     @Override
-    public long getItemId(@NotNull Object model) {
+    public long getItemId(@NotNull Object model, int position) {
         return 0;
     }
 

@@ -186,6 +186,7 @@ public class FlapProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
 //                .addParameter(itemModelClass, "model")
                 .addParameter(CLASS_OBJECT, "model")
+                .addParameter(Integer.TYPE, "position")
                 .addStatement("return 0")
                 .returns(Long.TYPE);
 

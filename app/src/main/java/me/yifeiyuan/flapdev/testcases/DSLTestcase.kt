@@ -18,7 +18,7 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 
-private const val TAG = "LayoutDelegateDSLTest"
+private const val TAG = "DSLTestcase"
 
 /**
  * 测试 DSL
@@ -29,6 +29,8 @@ class DSLTestcase : BaseTestcaseFragment() {
 
     override fun onInit(view: View) {
         super.onInit(view)
+
+        recyclerView.addItemDecoration(linearItemDecoration)
 
         val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
             onBind { model ->
@@ -129,15 +131,6 @@ class DSLTestcase : BaseTestcaseFragment() {
                 Log.d(TAG, "testAllDelegate onPause() called")
             }
         }
-
-//        val simpleImageDelegate = LayoutAdapterDelegate(SimpleImageModel::class.java,
-//                R.layout.flap_item_simple_image) { model ->
-//            bindView<ImageView>(R.id.logo) {
-//                setOnClickListener {
-//                    toast("simpleImageDelegate clicked")
-//                }
-//            }
-//        }
 
         val simpleImageDelegate = adapterDelegate<SimpleImageModel>(R.layout.flap_item_simple_image) {
 

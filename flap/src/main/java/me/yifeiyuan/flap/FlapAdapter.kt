@@ -539,12 +539,12 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
         serviceManager.registerAdapterService(serviceClass)
     }
 
-    override fun <T : AdapterService> registerAdapterService(clazz: Class<T>, service: T) {
-        serviceManager.registerAdapterService(clazz, service)
+    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T) {
+        serviceManager.registerAdapterService(serviceClass, service)
     }
 
-    override fun <T : AdapterService> getAdapterService(clazz: Class<T>): T? {
-        return serviceManager.getAdapterService(clazz)
+    override fun <T : AdapterService> getAdapterService(serviceClass: Class<T>): T? {
+        return serviceManager.getAdapterService(serviceClass)
     }
 
     override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {

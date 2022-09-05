@@ -73,7 +73,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
     /**
      * RecyclerView 滑动到底部触发预加载
      */
-    var preloadHook: PreloadHook? = null
+    private var preloadHook: PreloadHook? = null
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()

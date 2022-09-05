@@ -40,9 +40,7 @@ class SpaceItemDecoration(
         val adapterPos = parent.getChildAdapterPosition(view)
         val adapterSize = parent.adapter?.itemCount ?: 0
 
-        val layoutManager = parent.layoutManager
-
-        when (layoutManager) {
+        when (val layoutManager = parent.layoutManager) {
             is StaggeredGridLayoutManager -> {
                 val layoutParams = view.layoutParams as StaggeredGridLayoutManager.LayoutParams
 

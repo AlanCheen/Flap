@@ -146,6 +146,10 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
         return context.getString(resId)
     }
 
+    fun getString(@StringRes resId: Int, vararg formatArgs: Any): String {
+        return context.getString(resId, *formatArgs)
+    }
+
     fun getDrawable(@DrawableRes id: Int): Drawable? {
         return ContextCompat.getDrawable(context, id)
     }

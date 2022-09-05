@@ -3,11 +3,15 @@ package me.yifeiyuan.flapdev.testcases
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.dsl.adapterDelegate
+import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flap.ext.bindView
+import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -17,11 +21,11 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
 private const val TAG = "LayoutDelegateDSLTest"
 
 /**
- * 测试 AdapterDelegate DSL
+ * 测试 DSL
  *
  * Created by 程序亦非猿 on 2022/8/4.
  */
-class AdapterDelegateDSLTestcase : BaseTestcaseFragment() {
+class DSLTestcase : BaseTestcaseFragment() {
 
     override fun onInit(view: View) {
         super.onInit(view)
@@ -149,7 +153,22 @@ class AdapterDelegateDSLTestcase : BaseTestcaseFragment() {
             }
         }
 
+//        val hook2 = object : AdapterHook{
+//            override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+//
+//            }
+//        }
+        val hook = adapterHook {
+            onBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
+                Log.d(TAG, "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
+            }
+        }
+
+
+
         adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate)
+
+        adapter.registerAdapterHook(hook)
     }
 
     override fun createAdapter(): FlapAdapter {

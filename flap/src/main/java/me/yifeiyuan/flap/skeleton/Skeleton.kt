@@ -54,59 +54,56 @@ class Skeleton : OnAdapterDataChangedObserver() {
      */
     var emptyViewHelper: EmptyViewHelper? = null
 
-    fun bind(recyclerView: RecyclerView): Skeleton {
+    fun bind(recyclerView: RecyclerView) = apply {
         targetRecyclerView = recyclerView
         targetRecyclerView.adapter?.let {
             adapter(it)
         }
-        return this
     }
 
-    fun adapter(adapter: RecyclerView.Adapter<*>): Skeleton {
+    fun adapter(adapter: RecyclerView.Adapter<*>) = apply {
         targetAdapter = adapter
-        return this
     }
 
-    fun layout(@LayoutRes layoutRes: Int): Skeleton {
+    fun layout(@LayoutRes layoutRes: Int) = apply {
         skeletonAdapter.skeletonLayoutRes = layoutRes
-        return this
+
     }
 
-    fun layouts(layouts: ((position: Int) -> Int)): Skeleton {
+    fun layouts(layouts: ((position: Int) -> Int)) = apply {
         skeletonAdapter.multiSkeletonLayoutRes = layouts
-        return this
+
     }
 
-    fun count(count: Int): Skeleton {
+    fun count(count: Int) = apply {
         skeletonAdapter.skeletonItemCount = count
-        return this
+
     }
 
-    fun shimmer(enable: Boolean): Skeleton {
+    fun shimmer(enable: Boolean) = apply {
         skeletonAdapter.shimmer = enable
-        return this
+
     }
 
-    fun autoHide(autoHide: Boolean): Skeleton {
+    fun autoHide(autoHide: Boolean) = apply {
         this.autoHide = autoHide
         if (autoHide) {
             targetAdapter.registerAdapterDataObserver(this)
         }
-        return this
+
     }
 
-    fun withEmptyViewHelper(emptyViewHelper: EmptyViewHelper): Skeleton {
+    fun withEmptyViewHelper(emptyViewHelper: EmptyViewHelper) = apply {
         this.emptyViewHelper = emptyViewHelper
-        return this
+
     }
 
     /**只展示一次*/
-    fun onlyOnce(onlyOnce: Boolean): Skeleton {
+    fun onlyOnce(onlyOnce: Boolean) = apply {
         this.onlyOnce = onlyOnce
-        return this
     }
 
-    fun show(): Skeleton {
+    fun show() = apply {
         if (skeletonAdapter.skeletonItemCount < 0) {
             throw IllegalArgumentException("skeletonCount 不能小于 0！")
         }
@@ -133,7 +130,7 @@ class Skeleton : OnAdapterDataChangedObserver() {
         return this
     }
 
-    fun hide(): Skeleton {
+    fun hide() = apply {
         if (targetRecyclerView.visibility != View.VISIBLE) {
             targetRecyclerView.visibility = View.VISIBLE
         }
@@ -145,7 +142,6 @@ class Skeleton : OnAdapterDataChangedObserver() {
         emptyViewHelper?.attachAdapter(targetAdapter)
 
         isShowing = false
-        return this
     }
 
     override fun onAdapterDataChanged() {
@@ -153,5 +149,4 @@ class Skeleton : OnAdapterDataChangedObserver() {
             hide()
         }
     }
-
 }

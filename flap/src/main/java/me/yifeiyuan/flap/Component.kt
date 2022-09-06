@@ -5,7 +5,6 @@ package me.yifeiyuan.flap
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.View
 import androidx.annotation.*
 import androidx.core.content.ContextCompat

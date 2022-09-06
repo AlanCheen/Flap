@@ -5,6 +5,4 @@ package me.yifeiyuan.flap.service
  *
  * @since 3.0.3
  */
-interface AdapterService {
-
-}
+interface AdapterService

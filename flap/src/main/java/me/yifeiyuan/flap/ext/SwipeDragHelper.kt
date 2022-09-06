@@ -143,29 +143,24 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         return false
     }
 
-    fun onItemMoved(listener: OnItemMoveListener): SwipeDragHelper {
+    fun onItemMoved(listener: OnItemMoveListener) = apply {
         onMoved = listener
-        return this
     }
 
-    fun onSwipeStarted(listener: OnSwipeStartedListener): SwipeDragHelper {
+    fun onSwipeStarted(listener: OnSwipeStartedListener)= apply {
         onSwipeStarted = listener
-        return this
     }
 
-    fun onSwipeReleased(listener: OnSwipeReleasedListener): SwipeDragHelper {
+    fun onSwipeReleased(listener: OnSwipeReleasedListener)= apply {
         onSwipedReleased = listener
-        return this
     }
 
-    fun onDragStarted(listener: OnDragStartedListener): SwipeDragHelper {
+    fun onDragStarted(listener: OnDragStartedListener)= apply {
         onDragStarted = listener
-        return this
     }
 
-    fun onDragReleased(listener: OnDragReleasedListener): SwipeDragHelper {
+    fun onDragReleased(listener: OnDragReleasedListener)= apply {
         onDragReleased = listener
-        return this
     }
 
     //Item 被滑动删除了调用
@@ -174,14 +169,12 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         callback.onSwiped(viewHolder.adapterPosition)
     }
 
-    fun onItemSwiped(listener: OnItemSwipedListener): SwipeDragHelper {
+    fun onItemSwiped(listener: OnItemSwipedListener)= apply {
         onSwiped = listener
-        return this
     }
 
-    fun attachToRecyclerView(recyclerView: RecyclerView): SwipeDragHelper {
+    fun attachToRecyclerView(recyclerView: RecyclerView)= apply {
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        return this
     }
 
     var swipedViewHolder: RecyclerView.ViewHolder? = null
@@ -260,74 +253,63 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     /**
      * 拖动是否可用
      */
-    fun withDragEnable(enable: Boolean): SwipeDragHelper {
+    fun withDragEnable(enable: Boolean)= apply {
         isDragEnable = enable
-        return this
     }
 
     /**
      * 滑动删除是否可用
      */
-    fun withSwipeEnable(enable: Boolean): SwipeDragHelper {
+    fun withSwipeEnable(enable: Boolean)= apply {
         isSwipeEnable = enable
-        return this
     }
 
     /**
      * 快捷设置 dragFlags 为垂直方向 up or down
      */
-    fun forVerticalList(): SwipeDragHelper {
+    fun forVerticalList()= apply {
         this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        return this
     }
 
     /**
      * 快捷设置 dragFlags 为水平方向 left or right
      */
-    fun forHorizontalList(): SwipeDragHelper {
+    fun forHorizontalList()= apply {
         this.dragFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        return this
     }
 
     /**
      * 快捷设置 dragFlags 为全方向
      */
-    fun forGrid(): SwipeDragHelper {
+    fun forGrid()= apply {
         this.dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        return this
     }
 
-    fun withDragFlags(dragFlags: Int): SwipeDragHelper {
+    fun withDragFlags(dragFlags: Int)= apply {
         this.dragFlags = dragFlags
-        return this
     }
 
-    fun withSwipeFlags(swipeFlags: Int): SwipeDragHelper {
+    fun withSwipeFlags(swipeFlags: Int)= apply {
         this.swipeFlags = swipeFlags
-        return this
     }
 
-    fun withSwipeThreshold(swipeThreshold: Float): SwipeDragHelper {
+    fun withSwipeThreshold(swipeThreshold: Float)= apply {
         this.swipeThreshold = swipeThreshold
-        return this
     }
 
-    fun withDragThreshold(dragThreshold: Float): SwipeDragHelper {
+    fun withDragThreshold(dragThreshold: Float)= apply {
         this.dragThreshold = dragThreshold
-        return this
     }
 
     /**
      * 设置被滑动的 item 的背景
      */
-    fun withSwipeBackground(swipeBackground: Drawable): SwipeDragHelper {
+    fun withSwipeBackground(swipeBackground: Drawable)= apply {
         this.swipeBackground = swipeBackground
-        return this
     }
 
-    fun withSwipeBackgroundColor(color: Int): SwipeDragHelper {
+    fun withSwipeBackgroundColor(color: Int)= apply {
         this.swipeBackground = ColorDrawable(color)
-        return this
     }
 
     interface Callback {

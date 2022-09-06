@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package me.yifeiyuan.flap.dsl
 
 import me.yifeiyuan.flap.Component

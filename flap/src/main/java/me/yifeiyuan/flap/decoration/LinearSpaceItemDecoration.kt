@@ -45,9 +45,7 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
 
         val adapterSize = parent.adapter?.itemCount ?: 0
 
-        val layoutManager = parent.layoutManager
-
-        when (layoutManager) {
+        when (val layoutManager = parent.layoutManager) {
 
             is LinearLayoutManager -> {
                 val isFirst = position == 0

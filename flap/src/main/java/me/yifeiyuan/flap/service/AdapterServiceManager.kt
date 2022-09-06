@@ -13,44 +13,40 @@ package me.yifeiyuan.flap.service
 @Suppress("UNCHECKED_CAST")
 internal class AdapterServiceManager : IAdapterServiceManager {
 
-    private val services = mutableMapOf<Class<*>, AdapterService>()
-
-    /**
-     * 有名字的 Service
-     */
-    private val namedServices = mutableMapOf<String, AdapterService>()
+    override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
+    override val namedAdapterServices: MutableMap<String, AdapterService> = mutableMapOf()
 
     override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
         try {
             val service = serviceClass.getConstructor().newInstance()
-            services[serviceClass] = service
+            adapterServices[serviceClass] = service
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T) {
-        services[serviceClass] = service
+        adapterServices[serviceClass] = service
     }
 
     override fun <T : AdapterService> getAdapterService(serviceClass: Class<T>): T? {
-        return services[serviceClass] as? T
+        return adapterServices[serviceClass] as? T
     }
 
     override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {
         try {
             val service = serviceClass.getConstructor().newInstance()
-            namedServices[serviceName] = service
+            namedAdapterServices[serviceName] = service
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun <T : AdapterService> registerAdapterService(serviceName: String, service: T) {
-        namedServices[serviceName] = service
+        namedAdapterServices[serviceName] = service
     }
 
     override fun <T : AdapterService> getAdapterService(serviceName: String): T? {
-        return namedServices[serviceName] as? T
+        return namedAdapterServices[serviceName] as? T
     }
 }

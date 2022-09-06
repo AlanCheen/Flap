@@ -7,6 +7,13 @@ package me.yifeiyuan.flap.service
  */
 interface IAdapterServiceManager {
 
+    val adapterServices: MutableMap<Class<*>, AdapterService>
+
+    /**
+     * 有名字的 Service
+     */
+    val namedAdapterServices: MutableMap<String, AdapterService>
+
     fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>)
 
     fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T)

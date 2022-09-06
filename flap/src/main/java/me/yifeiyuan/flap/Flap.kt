@@ -4,9 +4,15 @@ import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
+import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.hook.AdapterHookManager
+import me.yifeiyuan.flap.hook.IAdapterHookManager
 import me.yifeiyuan.flap.pool.ComponentPool
+import me.yifeiyuan.flap.service.AdapterServiceManager
+import me.yifeiyuan.flap.service.IAdapterServiceManager
 
 /**
  * Flap 存放全局的配置
@@ -18,7 +24,7 @@ import me.yifeiyuan.flap.pool.ComponentPool
  * @since 2020/9/22
  * @since 3.0.0
  */
-object Flap : ComponentCallbacks2, IRegistry {
+object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
 
     /**
      * 是否使用 application context 来创建 Component
@@ -29,45 +35,9 @@ object Flap : ComponentCallbacks2, IRegistry {
 
     internal val globalComponentPool = ComponentPool()
 
-    internal val globalAdapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
-
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
-    internal val globalHooks: MutableList<AdapterHook> = mutableListOf()
-
     var applicationContext: Context? = null
-
-    override fun registerAdapterHook(adapterHook: AdapterHook) {
-        globalHooks.add(adapterHook)
-    }
-
-    override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
-        globalHooks.addAll(adapterHooks)
-    }
-
-    override fun unregisterAdapterHook(adapterHook: AdapterHook) {
-        globalHooks.remove(adapterHook)
-    }
-
-    override fun clearAdapterHooks() {
-        globalHooks.clear()
-    }
-
-    override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        globalAdapterDelegates.add(adapterDelegate)
-    }
-
-    override fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>) {
-        globalAdapterDelegates.addAll(adapterDelegates)
-    }
-
-    override fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        globalAdapterDelegates.remove(adapterDelegate)
-    }
-
-    override fun clearAdapterDelegates() {
-        globalAdapterDelegates.clear()
-    }
 
     override fun onTrimMemory(level: Int) {
         globalComponentPool.onTrimMemory(level)

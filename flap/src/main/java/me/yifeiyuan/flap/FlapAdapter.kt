@@ -9,15 +9,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.delegate.AdapterDelegateManager
+import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.event.EventObserver
 import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
-import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.hook.AdapterHookManager
+import me.yifeiyuan.flap.hook.IAdapterHookManager
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
 import java.util.*
-import me.yifeiyuan.flap.service.AdapterService
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.service.AdapterServiceManager
 
@@ -32,7 +34,7 @@ import me.yifeiyuan.flap.service.AdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapterServiceManager, SwipeDragHelper.Callback {
+open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager(), SwipeDragHelper.Callback {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -66,14 +68,10 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
      */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
 
-    private val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
-
-    private val adapterHooks: MutableList<AdapterHook> = mutableListOf()
-
     /**
      * RecyclerView 滑动到底部触发预加载
      */
-    var preloadHook: PreloadHook? = null
+    private var preloadHook: PreloadHook? = null
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
@@ -105,50 +103,17 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
 
-    private val serviceManager = AdapterServiceManager()
-
     init {
-        adapterHooks.addAll(Flap.globalHooks)
-        adapterDelegates.addAll(Flap.globalAdapterDelegates)
+        adapterHooks.addAll(Flap.adapterHooks)
+        adapterDelegates.addAll(Flap.adapterDelegates)
+        adapterServices.putAll(Flap.adapterServices)
+        namedAdapterServices.putAll(Flap.namedAdapterServices)
+
         Flap.globalDefaultAdapterDelegate?.let {
             defaultAdapterDelegate = it
         }
 
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
-    }
-
-    override fun registerAdapterHook(adapterHook: AdapterHook) {
-        adapterHooks.add(adapterHook)
-    }
-
-    override fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {
-        this.adapterHooks.addAll(adapterHooks)
-    }
-
-    override fun unregisterAdapterHook(adapterHook: AdapterHook) {
-        adapterHooks.remove(adapterHook)
-    }
-
-    override fun clearAdapterHooks() {
-        adapterHooks.clear()
-    }
-
-    override fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        adapterDelegates.add(adapterDelegate)
-    }
-
-    override fun registerAdapterDelegates(vararg delegates: AdapterDelegate<*, *>) {
-        delegates.forEach {
-            registerAdapterDelegate(it)
-        }
-    }
-
-    override fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
-        adapterDelegates.remove(adapterDelegate)
-    }
-
-    override fun clearAdapterDelegates() {
-        adapterDelegates.clear()
     }
 
     open fun setData(newDataList: MutableList<Any>) {
@@ -533,30 +498,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IRegistry, IAdapt
 
     fun setEmptyView(emptyView: View?) {
         emptyViewHelper.emptyView = emptyView
-    }
-
-    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
-        serviceManager.registerAdapterService(serviceClass)
-    }
-
-    override fun <T : AdapterService> registerAdapterService(clazz: Class<T>, service: T) {
-        serviceManager.registerAdapterService(clazz, service)
-    }
-
-    override fun <T : AdapterService> getAdapterService(clazz: Class<T>): T? {
-        return serviceManager.getAdapterService(clazz)
-    }
-
-    override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {
-        serviceManager.registerAdapterService(serviceName, serviceClass)
-    }
-
-    override fun <T : AdapterService> registerAdapterService(serviceName: String, service: T) {
-        serviceManager.registerAdapterService(serviceName, service)
-    }
-
-    override fun <T : AdapterService> getAdapterService(serviceName: String): T? {
-        return serviceManager.getAdapterService(serviceName)
     }
 
     fun insertDataAt(position: Int, element: Any, notify: Boolean = true) {

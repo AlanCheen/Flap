@@ -4,7 +4,6 @@ package me.yifeiyuan.flap.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner

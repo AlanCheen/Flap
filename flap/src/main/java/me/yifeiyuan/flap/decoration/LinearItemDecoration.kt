@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.roundToInt
 
 /**
  * 可以绘制 Drawable 的 ItemDecoration，可以设置间隔的颜色和大小
@@ -76,7 +77,7 @@ class LinearItemDecoration : RecyclerView.ItemDecoration {
         for (i in 0 until childCount) {
             val child: View = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, bounds)
-            val bottom: Int = bounds.bottom + Math.round(child.translationY)
+            val bottom: Int = bounds.bottom + child.translationY.roundToInt()
             var top: Int = bottom - drawable.intrinsicHeight
             if (isIncludeFirstItemTopEdge && i == 0) {
                 top = 0
@@ -104,7 +105,7 @@ class LinearItemDecoration : RecyclerView.ItemDecoration {
         for (i in 0 until childCount) {
             val child: View = parent.getChildAt(i)
             parent.layoutManager?.getDecoratedBoundsWithMargins(child, bounds)
-            val right: Int = bounds.right + Math.round(child.translationX)
+            val right: Int = bounds.right + child.translationX.roundToInt()
             var left: Int = right - drawable.intrinsicWidth
             if (isIncludeFirstItemTopEdge && i == 0) {
                 left = 0

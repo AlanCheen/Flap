@@ -9,7 +9,15 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 
 /**
- * Created by 程序亦非猿 on 2022/9/2.
+ *
+ * LayoutAdapterDelegate 是为了降低创建 Component 和 自定义 AdapterDelegate 带来的使用成本而创建的。
+ *
+ * 使用 LayoutAdapterDelegate 必须要保证的情况：
+ * 1. Model 与 LayoutAdapterDelegate 是一对一的关系
+ * 2. layoutId 可以当做 itemViewType 直接用
+ *
+ * Created by 程序亦非猿 on 2021/10/27.
+ * @since 3.0.0
  */
 class LayoutAdapterDelegate<T>(
         private var modelClass: Class<T>?,
@@ -17,7 +25,7 @@ class LayoutAdapterDelegate<T>(
         private var layoutId: Int,
         private var itemId: Long = RecyclerView.NO_ID,
         private var isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == modelClass },
-        private var block: Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit,
+        private var onBind: Component<T>.(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit,
 ) : AdapterDelegate<T, Component<T>> {
 
     override fun delegate(model: Any): Boolean {
@@ -30,7 +38,7 @@ class LayoutAdapterDelegate<T>(
     }
 
     override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
-        block.invoke(component as Component<T>, data as T, position, payloads, adapter)
+        onBind.invoke(component as Component<T>, data as T, position, payloads, adapter)
     }
 
     override fun getItemViewType(model: Any): Int {

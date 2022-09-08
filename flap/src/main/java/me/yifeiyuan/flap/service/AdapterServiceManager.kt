@@ -10,26 +10,8 @@ package me.yifeiyuan.flap.service
  * Created by 程序亦非猿 on 2022/8/16.
  * @since 3.0.3
  */
-@Suppress("UNCHECKED_CAST")
 internal class AdapterServiceManager : IAdapterServiceManager {
 
     override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
-
-    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
-        try {
-            val service = serviceClass.getConstructor().newInstance()
-            adapterServices[serviceClass] = service
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T) {
-        adapterServices[serviceClass] = service
-    }
-
-    override fun <T : AdapterService> getAdapterService(serviceClass: Class<T>): T? {
-        return adapterServices[serviceClass] as? T
-    }
 
 }

@@ -12,9 +12,13 @@ import me.yifeiyuan.flap.FlapAdapter
  *
  * LayoutAdapterDelegate 是为了降低创建 Component 和 自定义 AdapterDelegate 带来的使用成本而创建的。
  *
- * 使用 LayoutAdapterDelegate 必须要保证的情况：
- * 1. Model 与 LayoutAdapterDelegate 是一对一的关系
- * 2. layoutId 可以当做 itemViewType 直接用
+ * 使用 LayoutAdapterDelegate 只适用于：
+ * - layoutId 可以当做 itemViewType 直接用
+ * - 只关心 onBind 处理逻辑
+ *
+ * LayoutAdapterDelegate 的使用体验介于 自定义 AdapterDelegate 和 DSL 中间，看情况选择。
+ *
+ * @see me.yifeiyuan.flap.dsl.adapterDelegate
  *
  * Created by 程序亦非猿 on 2021/10/27.
  * @since 3.0.0
@@ -34,7 +38,7 @@ class LayoutAdapterDelegate<T>(
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): Component<T> {
         val view = inflater.inflate(viewType, parent, false)
-        return LayoutComponent(view)
+        return Component(view)
     }
 
     override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
@@ -47,11 +51,5 @@ class LayoutAdapterDelegate<T>(
 
     override fun getItemId(model: Any, position: Int): Long {
         return itemId
-    }
-}
-
-class LayoutComponent<T>(view: View) : Component<T>(view) {
-
-    override fun onBind(model: T) {
     }
 }

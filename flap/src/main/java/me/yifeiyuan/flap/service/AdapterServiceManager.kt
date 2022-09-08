@@ -14,7 +14,6 @@ package me.yifeiyuan.flap.service
 internal class AdapterServiceManager : IAdapterServiceManager {
 
     override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
-    override val namedAdapterServices: MutableMap<String, AdapterService> = mutableMapOf()
 
     override fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
         try {
@@ -33,20 +32,4 @@ internal class AdapterServiceManager : IAdapterServiceManager {
         return adapterServices[serviceClass] as? T
     }
 
-    override fun <T : AdapterService> registerAdapterService(serviceName: String, serviceClass: Class<T>) {
-        try {
-            val service = serviceClass.getConstructor().newInstance()
-            namedAdapterServices[serviceName] = service
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun <T : AdapterService> registerAdapterService(serviceName: String, service: T) {
-        namedAdapterServices[serviceName] = service
-    }
-
-    override fun <T : AdapterService> getAdapterService(serviceName: String): T? {
-        return namedAdapterServices[serviceName] as? T
-    }
 }

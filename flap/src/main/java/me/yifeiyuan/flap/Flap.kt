@@ -7,7 +7,6 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
-import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.AdapterHookManager
 import me.yifeiyuan.flap.hook.IAdapterHookManager
 import me.yifeiyuan.flap.pool.ComponentPool

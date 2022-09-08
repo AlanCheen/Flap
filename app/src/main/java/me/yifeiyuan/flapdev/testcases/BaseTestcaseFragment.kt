@@ -142,7 +142,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         adapter.registerAdapterService(TestService::class.java)
-        adapter.registerAdapterService("LogService", TestService::class.java)
 
         initLayoutManagers()
         initItemDecorations()

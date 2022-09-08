@@ -14,19 +14,29 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 /**
  * 支持 AdapterDelegate DSL 功能
  *
- * @since 3.0.9
- */
-inline fun <reified T> adapterDelegate(@LayoutRes layoutId: Int, noinline isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == T::class.java }, noinline componentInitializer: DslComponent<T>.() -> Unit): DslAdapterDelegate<T> {
-    return DslAdapterDelegate(T::class.java, layoutId, isDelegateFor = isDelegateFor, block = componentInitializer)
-}
-
-/**
- * Created by 程序亦非猿 on 2022/9/1.
+ * @param layoutId 资源 id
+ * @param isDelegateFor 代理关系
+ * @param itemId
+ * @param componentInitializer 初始化 DslComponent 设置
  *
  * @since 3.0.9
  */
+inline fun <reified T> adapterDelegate(
+        @LayoutRes layoutId: Int,
+        noinline isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == T::class.java },
+        itemId: Long = RecyclerView.NO_ID,
+        noinline componentInitializer: DslComponent<T>.() -> Unit): DslAdapterDelegate<T> {
+    return DslAdapterDelegate(T::class.java, layoutId, itemId, isDelegateFor = isDelegateFor, block = componentInitializer)
+}
+
+/**
+ * 支持 DSL 化的 AdapterDelegate
+ *
+ * Created by 程序亦非猿 on 2022/9/1.
+ * @since 3.0.9
+ */
 class DslAdapterDelegate<T>(
-        private var modelClass: Class<T>?,
+        private var modelClass: Class<T>,
         @LayoutRes private var layoutId: Int,
         private var itemId: Long = RecyclerView.NO_ID,
         private var isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == modelClass },
@@ -103,24 +113,27 @@ class DslComponent<T>(view: View) : Component<T>(view) {
             onBind?.invoke(model)
         }
 
-        if (onClickListener != null && isClickable()) {
+        if (onClickListener != null) {
             itemView.setOnClickListener {
-                onClickListener?.invoke(model, position, adapter)
+                if (isClickable()) {
+                    onClickListener?.invoke(model, position, adapter)
+                }
             }
         } else {
             itemView.setOnClickListener(null)
         }
 
-        if (onLongClickListener != null && isLongClickable()) {
+        if (onLongClickListener != null) {
             itemView.setOnLongClickListener {
-                onLongClickListener!!.invoke(model, position, adapter)
+                if (isLongClickable()) {
+                    onLongClickListener!!.invoke(model, position, adapter)
+                } else {
+                    false
+                }
             }
         } else {
             itemView.setOnLongClickListener(null)
         }
-    }
-
-    override fun onBind(model: T) {
     }
 
     override fun onViewAttachedToWindow(flapAdapter: FlapAdapter) {

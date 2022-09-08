@@ -66,11 +66,7 @@ class TestAllComponent(view: View) : Component<TestAllModel>(view) {
 
                 val logService = adapter.getAdapterService(TestService::class.java)
                 logService?.log("LogService Message")
-
-                val logService2 = adapter.getAdapterService<TestService>("LogService")
-
-                val result = logService2?.testResult()
-                messageTextView.text = result
+                messageTextView.text = logService?.testResult()
             }
         }
     }

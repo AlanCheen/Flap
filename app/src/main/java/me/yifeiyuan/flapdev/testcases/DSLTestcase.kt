@@ -6,16 +6,16 @@ import android.widget.ImageView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.delegate.LayoutAdapterDelegate
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.dsl.adapterHook
-import me.yifeiyuan.flap.ext.bindButton
-import me.yifeiyuan.flap.ext.bindTextView
-import me.yifeiyuan.flap.ext.bindView
+import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
+import me.yifeiyuan.flapdev.components.TestBinderModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 
 private const val TAG = "DSLTestcase"
@@ -157,7 +157,9 @@ class DSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-
+//        val layoutDelegate = LayoutAdapterDelegate(TestBinderModel::class.java, R.layout.flap_item_binder) {
+//            model: TestBinderModel, position: Int, payloads: List<Any>, adapter: FlapAdapter ->
+//        }
 
         adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate)
 

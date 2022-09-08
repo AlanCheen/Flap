@@ -9,16 +9,14 @@ import java.lang.reflect.ParameterizedType
 
 /**
  *
- * A delegate class that delegates some methods of FlapAdapter.
+ * AdapterDelegate 是一个代理类，负责代理 Adapter 的部分方法。
  *
- * AdapterDelegate 是 FlapAdapter 的代理类，负责代理 Adapter 的部分方法。
- * 当一个 AdapterDelegate.delegate(model) 返回 true 表示它负责接手这个数据模型。
+ * 每个 model 都应该有一个对应的 AdapterDelegate，当一个 AdapterDelegate.delegate(model) 返回 true 表示它负责代理这个 model。
  * 一般一个 AdapterDelegate 代理一个类型的 Model，是一对一的关系，这样更加解耦。
  * 这样可以解耦 Adapter 对不同类型的 Model 的处理。
  *
  * 如果一个 model 没有任何 AdapterDelegate 代理，那么 FallbackAdapterDelegate 会兜底处理
  * @see FallbackAdapterDelegate
- *
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

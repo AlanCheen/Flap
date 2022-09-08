@@ -32,7 +32,7 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  * @since 2020/9/22
  * @since 3.0.0
  */
-abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver, ComponentConfig {
+open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), LifecycleObserver, ComponentConfig {
 
     /**
      * 默认情况下 context 是 Activity Context ；
@@ -55,6 +55,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
     }
 
     /**
+     * 执行数据绑定，处理业务逻辑
      *
      * @param model    The model that you need to bind.
      * @param position position
@@ -76,7 +77,7 @@ abstract class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView),
      *
      * @see onBind
      */
-    abstract fun onBind(model: T)
+    open fun onBind(model: T) {}
 
     protected fun <V : View> findViewById(@IdRes viewId: Int): V {
         return itemView.findViewById<View>(viewId) as V

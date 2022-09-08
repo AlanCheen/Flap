@@ -34,39 +34,27 @@ internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener 
 
     private val internalOnClickListener = View.OnClickListener { v ->
         val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
-        onItemClickListener?.invoke(recyclerView, v, holder.position)
+        if (holder is ComponentConfig && holder.isClickable()) {
+            onItemClickListener?.invoke(recyclerView, v, holder.position)
+        }
     }
 
     private val internalOnLongClickListener = View.OnLongClickListener { v ->
         val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(v)
-        onItemLongClickListener?.invoke(recyclerView, v, holder.position) ?: false
+        if (holder is ComponentConfig && holder.isLongClickable()) {
+            onItemLongClickListener?.invoke(recyclerView, v, holder.position) ?: false
+        } else {
+            false
+        }
     }
 
     override fun onChildViewAttachedToWindow(view: View) {
-        val holder: RecyclerView.ViewHolder = recyclerView.getChildViewHolder(view)
-
         onItemClickListener?.let {
-            if (holder is ComponentConfig) {
-                if (holder.isClickable()) {
-                    view.setOnClickListener(internalOnClickListener)
-                } else {
-                    view.setOnClickListener(null)
-                }
-            } else {
-                view.setOnClickListener(internalOnClickListener)
-            }
+            view.setOnClickListener(internalOnClickListener)
         }
 
         onItemLongClickListener?.let {
-            if (holder is ComponentConfig) {
-                if (holder.isLongClickable()) {
-                    view.setOnLongClickListener(internalOnLongClickListener)
-                } else {
-                    view.setOnLongClickListener(null)
-                }
-            } else {
-                view.setOnLongClickListener(internalOnLongClickListener)
-            }
+            view.setOnLongClickListener(internalOnLongClickListener)
         }
     }
 

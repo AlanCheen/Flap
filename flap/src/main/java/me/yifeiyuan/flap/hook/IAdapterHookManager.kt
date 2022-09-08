@@ -3,6 +3,9 @@ package me.yifeiyuan.flap.hook
 import androidx.annotation.NonNull
 
 /**
+ * AdapterHook 管理者的抽象
+ * @see AdapterHookManager
+ *
  * Created by 程序亦非猿 on 2022/9/5.
  * @since 3.1.0
  */

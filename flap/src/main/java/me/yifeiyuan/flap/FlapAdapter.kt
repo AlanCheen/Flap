@@ -107,7 +107,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         adapterHooks.addAll(Flap.adapterHooks)
         adapterDelegates.addAll(Flap.adapterDelegates)
         adapterServices.putAll(Flap.adapterServices)
-        namedAdapterServices.putAll(Flap.namedAdapterServices)
 
         Flap.globalDefaultAdapterDelegate?.let {
             defaultAdapterDelegate = it

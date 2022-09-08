@@ -23,7 +23,7 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
+object Flap : ComponentCallbacks2, IFlapManager by FlapManager() {
 
     /**
      * 是否使用 application context 来创建 Component

@@ -14,16 +14,28 @@ interface IAdapterServiceManager {
     /**
      * 注册 AdapterService，并反射实例化
      */
-    fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>)
+    fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
+        try {
+            val service = serviceClass.getConstructor().newInstance()
+            adapterServices[serviceClass] = service
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     /**
      * 注册 AdapterService 实例
      */
-    fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T)
+    fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T) {
+        adapterServices[serviceClass] = service
+    }
 
     /**
      * 获取 AdapterService
      */
-    fun <T : AdapterService> getAdapterService(serviceClass: Class<T>): T?
+    @Suppress("UNCHECKED_CAST")
+    fun <T : AdapterService> getAdapterService(serviceClass: Class<T>): T? {
+        return adapterServices[serviceClass] as? T
+    }
 
 }

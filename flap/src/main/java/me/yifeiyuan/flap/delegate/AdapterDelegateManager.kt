@@ -5,6 +5,6 @@ package me.yifeiyuan.flap.delegate
  *
  * @since 3.1.0
  */
-class AdapterDelegateManager :IAdapterDelegateManager{
+class AdapterDelegateManager : IAdapterDelegateManager {
     override val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
 }

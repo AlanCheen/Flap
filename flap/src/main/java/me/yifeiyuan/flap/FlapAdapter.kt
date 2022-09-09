@@ -59,11 +59,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
     private var useComponentPool = true
 
     /**
-     * 是否使用全局的 ComponentPool 做缓存
-     */
-    private var useGlobalComponentPool = false
-
-    /**
      * 默认 AdapterDelegate，兜底处理
      */
     private var defaultAdapterDelegate: AdapterDelegate<*, *>? = null
@@ -98,7 +93,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
     private var itemClicksHelper = ItemClicksHelper()
     val emptyViewHelper = EmptyViewHelper()
 
-    lateinit var componentPool: ComponentPool
+    var componentPool: ComponentPool = ComponentPool()
 
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
@@ -303,10 +298,6 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         }
 
         if (useComponentPool) {
-            if (!this::componentPool.isInitialized) {
-                componentPool = if (useGlobalComponentPool) Flap.globalComponentPool else ComponentPool()
-            }
-
             if (recyclerView.recycledViewPool != componentPool) {
                 recyclerView.setRecycledViewPool(componentPool)
             }
@@ -322,7 +313,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
         emptyViewHelper.detachRecyclerView()
-        if (this::componentPool.isInitialized) {
+        if (useComponentPool) {
             bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
         }
     }
@@ -378,20 +369,20 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         return this
     }
 
-    /**
-     * Set whether use the global RecycledViewPool or not.
-     *
-     * NOTE : Call this before you call RecyclerView.setAdapter.
-     *
-     * 是否使用全局单例的 FlapComponentPool
-     *
-     * @param enable false by default
-     * @return this
-     */
-    fun enableGlobalComponentPool(enable: Boolean): FlapAdapter {
-        useGlobalComponentPool = enable
-        return this
-    }
+//    /**
+//     * Set whether use the global RecycledViewPool or not.
+//     *
+//     * NOTE : Call this before you call RecyclerView.setAdapter.
+//     *
+//     * 是否使用全局单例的 FlapComponentPool
+//     *
+//     * @param enable false by default
+//     * @return this
+//     */
+//    fun enableGlobalComponentPool(enable: Boolean): FlapAdapter {
+//        useGlobalComponentPool = enable
+//        return this
+//    }
 
     fun enableComponentPool(enable: Boolean): FlapAdapter {
         useComponentPool = enable

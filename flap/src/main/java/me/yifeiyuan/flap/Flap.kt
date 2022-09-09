@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap
 
+import android.annotation.SuppressLint
 import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.res.Configuration
@@ -23,7 +24,7 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
+object Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
 
     /**
      * 是否使用 application context 来创建 Component
@@ -32,27 +33,16 @@ object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), 
      */
     var inflateWithApplicationContext = false
 
-    internal val globalComponentPool = ComponentPool()
-
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
-    var applicationContext: Context? = null
-
-    override fun onTrimMemory(level: Int) {
-        globalComponentPool.onTrimMemory(level)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        globalComponentPool.onConfigurationChanged(newConfig)
-    }
-
-    override fun onLowMemory() {
-        globalComponentPool.onLowMemory()
-    }
+    @SuppressLint("StaticFieldLeak")
+    lateinit var config: FlapGlobalConfig
 
     fun init(context: Context) {
-        applicationContext = context.applicationContext
-        applicationContext?.registerComponentCallbacks(this)
+    }
+
+    fun init(globalConfig: FlapGlobalConfig) {
+        config = globalConfig
     }
 
     fun setDebug(debug: Boolean) {

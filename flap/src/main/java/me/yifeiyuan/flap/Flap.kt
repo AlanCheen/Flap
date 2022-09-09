@@ -36,8 +36,6 @@ object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), 
 
     internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
 
-    var applicationContext: Context? = null
-
     override fun onTrimMemory(level: Int) {
         globalComponentPool.onTrimMemory(level)
     }
@@ -50,12 +48,15 @@ object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), 
         globalComponentPool.onLowMemory()
     }
 
-    fun init(context: Context) {
-        applicationContext = context.applicationContext
-        applicationContext?.registerComponentCallbacks(this)
+    fun withContext(context: Context) = apply {
+        context.applicationContext.registerComponentCallbacks(this)
     }
 
-    fun setDebug(debug: Boolean) {
+    fun withFallbackAdapterDelegate(fallbackAdapterDelegate: AdapterDelegate<*, *>) = apply {
+        globalDefaultAdapterDelegate = fallbackAdapterDelegate
+    }
+
+    fun setDebug(debug: Boolean) = apply {
         FlapDebug.isDebug = debug
     }
 

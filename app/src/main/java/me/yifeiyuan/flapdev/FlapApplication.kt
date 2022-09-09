@@ -48,7 +48,7 @@ class FlapApplication : MultiDexApplication() {
             )
 
             //可选
-            init(this@FlapApplication)
+            withContext(this@FlapApplication)
 
             //打开日志
             setDebug(true)

@@ -161,13 +161,11 @@ class LinearItemDecoration : RecyclerView.ItemDecoration {
         }
     }
 
-    fun withFirstItemTopEdge(enable: Boolean): LinearItemDecoration {
+    fun withFirstItemTopEdge(enable: Boolean) = apply {
         isIncludeFirstItemTopEdge = enable
-        return this
     }
 
-    fun withLastItemBottomEdge(enable: Boolean): LinearItemDecoration {
+    fun withLastItemBottomEdge(enable: Boolean) = apply {
         isIncludeLastItemBottomEdge = enable
-        return this
     }
 }

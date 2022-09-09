@@ -49,6 +49,12 @@ class Skeleton : OnAdapterDataChangedObserver() {
     var hasShown = false
 
     /**
+     * true : 在展示 skeleton 的时候不可以滑动 RV
+     * true to suppress layout and scroll, false to re-enable.
+     */
+    var suppressLayout = false
+
+    /**
      * EmptyViewHelper 基于 Adapter 而 Skeleton 会动态切换 Adapter，导致 EmptyViewHelper 判断失败；
      * 所以如果使用了 EmptyViewHelper 就一定要设置；
      */
@@ -67,22 +73,18 @@ class Skeleton : OnAdapterDataChangedObserver() {
 
     fun layout(@LayoutRes layoutRes: Int) = apply {
         skeletonAdapter.skeletonLayoutRes = layoutRes
-
     }
 
     fun layouts(layouts: ((position: Int) -> Int)) = apply {
         skeletonAdapter.multiSkeletonLayoutRes = layouts
-
     }
 
     fun count(count: Int) = apply {
         skeletonAdapter.skeletonItemCount = count
-
     }
 
     fun shimmer(enable: Boolean) = apply {
         skeletonAdapter.shimmer = enable
-
     }
 
     fun autoHide(autoHide: Boolean) = apply {
@@ -90,12 +92,10 @@ class Skeleton : OnAdapterDataChangedObserver() {
         if (autoHide) {
             targetAdapter.registerAdapterDataObserver(this)
         }
-
     }
 
     fun withEmptyViewHelper(emptyViewHelper: EmptyViewHelper) = apply {
         this.emptyViewHelper = emptyViewHelper
-
     }
 
     /**只展示一次*/
@@ -103,12 +103,16 @@ class Skeleton : OnAdapterDataChangedObserver() {
         this.onlyOnce = onlyOnce
     }
 
+    fun suppressLayout(suppressLayout: Boolean) = apply {
+        this.suppressLayout = suppressLayout
+    }
+
     fun show() = apply {
         if (skeletonAdapter.skeletonItemCount < 0) {
-            throw IllegalArgumentException("skeletonCount 不能小于 0！")
+            throw IllegalArgumentException("skeleton count 不能小于 0！")
         }
         if (skeletonAdapter.skeletonLayoutRes <= 0 && skeletonAdapter.multiSkeletonLayoutRes == null) {
-            throw IllegalArgumentException("未设置 skeletonLayoutRes 和 multiSkeletonLayoutRes ！")
+            throw IllegalArgumentException("未设置 skeletonLayoutRes 或 multiSkeletonLayoutRes ！")
         }
 
         if (onlyOnce && hasShown) {
@@ -123,11 +127,14 @@ class Skeleton : OnAdapterDataChangedObserver() {
 
         targetRecyclerView.adapter = skeletonAdapter
 
+        if (!targetRecyclerView.isComputingLayout && suppressLayout) {
+            targetRecyclerView.suppressLayout(true)
+        }
+
         emptyViewHelper?.attachAdapter(skeletonAdapter, true)
 
         isShowing = true
         hasShown = true
-        return this
     }
 
     fun hide() = apply {

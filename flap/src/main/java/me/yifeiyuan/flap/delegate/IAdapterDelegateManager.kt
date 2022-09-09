@@ -12,33 +12,40 @@ import androidx.annotation.NonNull
  */
 interface IAdapterDelegateManager {
 
-    val adapterDelegates: MutableList<AdapterDelegate<*,*>>
+    val adapterDelegates: MutableList<AdapterDelegate<*, *>>
 
     /**
      * 注册单个 AdapterDelegate
      */
-    fun registerAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>){
+    fun registerAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*, *>) {
         this.adapterDelegates.add(adapterDelegate)
+    }
+
+    /**
+     * 注册单个 AdapterDelegate，并指定 index
+     */
+    fun registerAdapterDelegate(index: Int, @NonNull adapterDelegate: AdapterDelegate<*, *>) {
+        this.adapterDelegates.add(index, adapterDelegate)
     }
 
     /**
      * 注册多个 AdapterDelegate
      */
-    fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>){
+    fun registerAdapterDelegates(vararg adapterDelegates: AdapterDelegate<*, *>) {
         this.adapterDelegates.addAll(adapterDelegates)
     }
 
     /**
      * 注销单个 AdapterDelegate
      */
-    fun unregisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*,*>){
+    fun unregisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*, *>) {
         this.adapterDelegates.remove(adapterDelegate)
     }
 
     /**
      * 注销所有 AdapterDelegate
      */
-    fun clearAdapterDelegates(){
+    fun clearAdapterDelegates() {
         adapterDelegates.clear()
     }
 }

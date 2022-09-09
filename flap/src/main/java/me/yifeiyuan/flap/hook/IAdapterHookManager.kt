@@ -13,7 +13,7 @@ interface IAdapterHookManager {
 
     val adapterHooks: MutableList<AdapterHook>
 
-    fun registerAdapterHook(@NonNull adapterHook: AdapterHook) {
+    fun registerAdapterHook(adapterHook: AdapterHook) {
         adapterHooks.add(adapterHook)
     }
 
@@ -21,7 +21,7 @@ interface IAdapterHookManager {
         this.adapterHooks.addAll(adapterHooks)
     }
 
-    fun unregisterAdapterHook(@NonNull adapterHook: AdapterHook) {
+    fun unregisterAdapterHook(adapterHook: AdapterHook) {
         adapterHooks.remove(adapterHook)
     }
 

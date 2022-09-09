@@ -1,7 +1,5 @@
 package me.yifeiyuan.flap.delegate
 
-import androidx.annotation.NonNull
-
 /**
  * AdapterDelegate 管理者的抽象
  *
@@ -17,14 +15,14 @@ interface IAdapterDelegateManager {
     /**
      * 注册单个 AdapterDelegate
      */
-    fun registerAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*, *>) {
+    fun registerAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         this.adapterDelegates.add(adapterDelegate)
     }
 
     /**
      * 注册单个 AdapterDelegate，并指定 index
      */
-    fun registerAdapterDelegate(index: Int, @NonNull adapterDelegate: AdapterDelegate<*, *>) {
+    fun registerAdapterDelegate(index: Int, adapterDelegate: AdapterDelegate<*, *>) {
         this.adapterDelegates.add(index, adapterDelegate)
     }
 
@@ -38,7 +36,7 @@ interface IAdapterDelegateManager {
     /**
      * 注销单个 AdapterDelegate
      */
-    fun unregisterAdapterDelegate(@NonNull adapterDelegate: AdapterDelegate<*, *>) {
+    fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {
         this.adapterDelegates.remove(adapterDelegate)
     }
 

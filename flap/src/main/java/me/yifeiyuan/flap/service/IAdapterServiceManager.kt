@@ -3,6 +3,8 @@ package me.yifeiyuan.flap.service
 /**
  * AdapterService 管理，可以注册或获取 AdapterService
  *
+ * 可以在 Activity 中注册 AdapterService，在 Component 中使用。
+ *
  * Created by 程序亦非猿 on 2022/8/18.
  *
  * @since 3.0.3
@@ -12,7 +14,7 @@ interface IAdapterServiceManager {
     val adapterServices: MutableMap<Class<*>, AdapterService>
 
     /**
-     * 注册 AdapterService，并调用反射进行实例化
+     * 注册 AdapterService，并反射调用无参构造器进行实例化
      */
     fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
         try {
@@ -24,7 +26,7 @@ interface IAdapterServiceManager {
     }
 
     /**
-     * 注册多个 AdapterService，并调用反射进行实例化
+     * 注册多个 AdapterService，并反射调用无参构造器进行实例化
      */
     fun <T : AdapterService> registerAdapterServices(vararg serviceClasses: Class<T>) {
         try {

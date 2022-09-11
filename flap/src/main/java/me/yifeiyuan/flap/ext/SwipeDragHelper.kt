@@ -185,11 +185,11 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         if (ItemTouchHelper.ACTION_STATE_SWIPE == actionState) {
             swipedViewHolder = viewHolder
             callback.onSwipeStarted(viewHolder!!, viewHolder.adapterPosition)
-            onSwipeStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+            onSwipeStarted?.invoke(viewHolder, viewHolder.adapterPosition)
         } else if (ItemTouchHelper.ACTION_STATE_DRAG == actionState) {
             draggedViewHolder = viewHolder
             callback.onDragStarted(viewHolder!!, viewHolder.adapterPosition)
-            onDragStarted?.invoke(viewHolder!!, viewHolder.adapterPosition)
+            onDragStarted?.invoke(viewHolder, viewHolder.adapterPosition)
         } else if (ItemTouchHelper.ACTION_STATE_IDLE == actionState) {
             if (draggedViewHolder != null) {
                 callback.onDragReleased(draggedViewHolder!!, draggedViewHolder!!.adapterPosition)

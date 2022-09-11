@@ -143,6 +143,7 @@ public class Shimmer {
     bounds.set(-padding, -padding, width(viewWidth) + padding, height(viewHeight) + padding);
   }
 
+  @SuppressWarnings({"SameParameterValue", "UnusedReturnValue"})
   public abstract static class Builder<T extends Builder<T>> {
     final Shimmer mShimmer = new Shimmer();
 

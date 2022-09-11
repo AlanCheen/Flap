@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "LeakingThis", "LeakingThis", "LeakingThis")
 
 package me.yifeiyuan.flap
 
@@ -108,9 +108,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         adapterDelegates.addAll(Flap.adapterDelegates)
         adapterServices.putAll(Flap.adapterServices)
 
-        Flap.globalDefaultAdapterDelegate?.let {
-            defaultAdapterDelegate = it
-        }
+        defaultAdapterDelegate = Flap.globalDefaultAdapterDelegate
 
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }

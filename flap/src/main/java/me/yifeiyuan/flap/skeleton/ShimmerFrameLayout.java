@@ -30,6 +30,7 @@ import me.yifeiyuan.flap.R;
  * Copy from https://github.com/facebook/shimmer-android
  * @since 3.0.1
  */
+@SuppressWarnings("UnusedReturnValue")
 public class ShimmerFrameLayout extends FrameLayout {
     private final Paint mContentPaint = new Paint();
     private final ShimmerDrawable mShimmerDrawable = new ShimmerDrawable();

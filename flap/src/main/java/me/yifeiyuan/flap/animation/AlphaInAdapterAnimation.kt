@@ -10,7 +10,7 @@ import me.yifeiyuan.flap.Component
  *
  * @since 3.0.7
  */
-class AlphaInAdapterAnimation(var startAlpha: Float = 0f) : BaseAdapterAnimation() {
+class AlphaInAdapterAnimation(private var startAlpha: Float = 0f) : BaseAdapterAnimation() {
 
     override fun createAnimator(view: View, component: Component<*>, data: Any, position: Int): Animator {
         return ObjectAnimator.ofFloat(view, "alpha", startAlpha, 1f)

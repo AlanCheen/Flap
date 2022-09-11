@@ -32,9 +32,9 @@ object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), 
      */
     var inflateWithApplicationContext = false
 
-    internal val globalComponentPool = ComponentPool()
+    internal val globalComponentPool: ComponentPool by lazy { ComponentPool() }
 
-    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *>? = FallbackAdapterDelegate()
+    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *> = FallbackAdapterDelegate()
 
     override fun onTrimMemory(level: Int) {
         globalComponentPool.onTrimMemory(level)

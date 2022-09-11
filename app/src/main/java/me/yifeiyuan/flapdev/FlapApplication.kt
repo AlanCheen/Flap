@@ -22,6 +22,7 @@ class FlapApplication : MultiDexApplication() {
     }
 
     private fun initFlap() {
+
         Flap.apply {
 
             //Flap 这里注册的都是是全局的，只是为了测试方便
@@ -46,6 +47,8 @@ class FlapApplication : MultiDexApplication() {
             registerAdapterHooks(LoggingHook(),
 //                    ApmHook()
             )
+
+            registerAdapterService(TestService::class.java)
 
             //可选
             withContext(this@FlapApplication)

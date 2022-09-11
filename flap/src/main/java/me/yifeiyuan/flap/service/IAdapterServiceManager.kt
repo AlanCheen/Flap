@@ -12,12 +12,26 @@ interface IAdapterServiceManager {
     val adapterServices: MutableMap<Class<*>, AdapterService>
 
     /**
-     * 注册 AdapterService，并反射实例化
+     * 注册 AdapterService，并调用反射进行实例化
      */
     fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>) {
         try {
             val service = serviceClass.getConstructor().newInstance()
             adapterServices[serviceClass] = service
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 注册多个 AdapterService，并调用反射进行实例化
+     */
+    fun <T : AdapterService> registerAdapterServices(vararg serviceClasses: Class<T>) {
+        try {
+            serviceClasses.forEach {
+                val service = it.getConstructor().newInstance()
+                adapterServices[it] = service
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -175,6 +175,36 @@ class DslComponent<T>(view: View) : Component<T>(view) {
         return onFailedToRecycleView?.invoke() ?: super.onFailedToRecycleView(flapAdapter)
     }
 
+    var swipeFlags: Int? = null
+    override fun getSwipeFlags(): Int {
+        return swipeFlags ?: super.getSwipeFlags()
+    }
+
+    var dragFlags: Int? = null
+    override fun getDragFlags(): Int {
+        return dragFlags ?: super.getDragFlags()
+    }
+
+    var swipeEnable: Boolean? = null
+    override fun isSwipeEnabled(): Boolean {
+        return swipeEnable ?: super.isSwipeEnabled()
+    }
+
+    var dragEnable: Boolean? = null
+    override fun isDragEnabled(): Boolean {
+        return dragEnable ?: super.isDragEnabled()
+    }
+
+    var clickable: Boolean? = null
+    override fun isClickable(): Boolean {
+        return clickable ?: super.isClickable()
+    }
+
+    var longClickable: Boolean? = null
+    override fun isLongClickable(): Boolean {
+        return longClickable ?: super.isLongClickable()
+    }
+
     fun onBind(onBind: ((model: T) -> Unit)) {
         this.onBind = onBind
     }

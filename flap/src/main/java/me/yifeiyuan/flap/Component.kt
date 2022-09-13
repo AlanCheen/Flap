@@ -52,6 +52,9 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
 
     internal var _bindingData: Any? = null
 
+    /**
+     * @since 3.1.2
+     */
     val data: T
         get() = if (_bindingData == null) {
             throw IllegalArgumentException("onBind 还未调用，不可以使用 bindingData")

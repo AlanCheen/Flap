@@ -118,7 +118,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         data.addAll(newDataList)
     }
 
-    open fun setDataAndNotify(newDataList: MutableList<Any>, notifyAll: Boolean = false) {
+    open fun <T:Any>setDataAndNotify(newDataList: MutableList<T>, notifyAll: Boolean = false) {
         data.clear()
         data.addAll(newDataList)
         if (notifyAll) {

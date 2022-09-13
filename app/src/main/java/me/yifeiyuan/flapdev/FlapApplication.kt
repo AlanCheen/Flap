@@ -1,13 +1,11 @@
 package me.yifeiyuan.flapdev
 
+import android.app.Application
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
-import me.yifeiyuan.flap.hook.ApmHook
 import me.yifeiyuan.flap.hook.LoggingHook
-import me.yifeiyuan.flapdev.components.CustomViewTypeComponentDelegate
-import me.yifeiyuan.flapdev.components.SimpleTextComponentDelegate
-import me.yifeiyuan.flapdev.components.ZeroHeightComponent
+import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
@@ -16,8 +14,14 @@ import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
  */
 class FlapApplication : MultiDexApplication() {
 
+    companion object{
+
+        var application :Application?=null
+    }
+
     override fun onCreate() {
         super.onCreate()
+        application = this
         initFlap()
     }
 
@@ -28,6 +32,8 @@ class FlapApplication : MultiDexApplication() {
             //Flap 这里注册的都是是全局的，只是为了测试方便
             //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
             registerAdapterDelegates(
+                    fullConfigAdapterDelegate(),
+                    bannerAdapterDelegate(),
                     ZeroHeightComponentAdapterDelegate(),
                     SimpleTextComponentDelegate(),
                     SimpleImageComponentAdapterDelegate(),

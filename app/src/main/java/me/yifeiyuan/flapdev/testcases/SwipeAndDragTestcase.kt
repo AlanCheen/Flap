@@ -1,10 +1,12 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 
@@ -39,10 +41,18 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
                 .onDragStarted { viewHolder, adapterPosition ->
                     Log.d(TAG, "开始拖动 position=$adapterPosition")
                     toast("开始拖动 position=$adapterPosition")
+
+                    //做个放大动画
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f, 1.5f)
+                    scaleY.start()
                 }
                 .onDragReleased { viewHolder, adapterPosition ->
                     Log.d(TAG, "拖动结束 position=$adapterPosition")
                     toast("拖动结束 position=$adapterPosition")
+
+                    //恢复原状
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f)
+                    scaleY.start()
                 }
                 .onSwipeStarted { viewHolder, adapterPosition ->
                     Log.d(TAG, "滑动开始 position=$adapterPosition")
@@ -51,6 +61,9 @@ class SwipeAndDragTestcase : BaseTestcaseFragment() {
                 .onSwipeReleased { viewHolder, adapterPosition ->
                     Log.d(TAG, "滑动结束 position=$adapterPosition")
                     toast("滑动结束 position=$adapterPosition")
+                }
+                .onClearView { viewHolder, adapterPosition ->
+                    Log.d(TAG, "onClearView called position=$adapterPosition")
                 }
                 .attachToRecyclerView(recyclerView)
 

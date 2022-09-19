@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "LeakingThis", "LeakingThis", "LeakingThis")
 
 package me.yifeiyuan.flap
 
@@ -108,9 +108,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         adapterDelegates.addAll(Flap.adapterDelegates)
         adapterServices.putAll(Flap.adapterServices)
 
-        Flap.globalDefaultAdapterDelegate?.let {
-            defaultAdapterDelegate = it
-        }
+        defaultAdapterDelegate = Flap.globalDefaultAdapterDelegate
 
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
@@ -120,7 +118,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         data.addAll(newDataList)
     }
 
-    open fun setDataAndNotify(newDataList: MutableList<Any>, notifyAll: Boolean = false) {
+    open fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, notifyAll: Boolean = false) {
         data.clear()
         data.addAll(newDataList)
         if (notifyAll) {
@@ -361,9 +359,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
      * @see handleOnAttachedToRecyclerView
      */
-    fun setLifecycleOwner(lifecycleOwner: LifecycleOwner): FlapAdapter {
+    fun setLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
         this.lifecycleOwner = lifecycleOwner
-        return this
     }
 
     /**
@@ -373,9 +370,8 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      *
      * @param lifecycleEnable 是否开启
      */
-    fun setLifecycleEnable(lifecycleEnable: Boolean): FlapAdapter {
+    fun setLifecycleEnable(lifecycleEnable: Boolean) = apply {
         this.lifecycleEnable = lifecycleEnable
-        return this
     }
 
     /**
@@ -386,16 +382,13 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 是否使用全局单例的 FlapComponentPool
      *
      * @param enable false by default
-     * @return this
      */
-    fun enableGlobalComponentPool(enable: Boolean): FlapAdapter {
+    fun enableGlobalComponentPool(enable: Boolean) = apply {
         useGlobalComponentPool = enable
-        return this
     }
 
-    fun enableComponentPool(enable: Boolean): FlapAdapter {
+    fun enableComponentPool(enable: Boolean) = apply {
         useComponentPool = enable
-        return this
     }
 
     /**
@@ -415,14 +408,14 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 观察指定 eventName 的事件
      * @see fireEvent
      */
-    fun <T> observeEvent(eventName: String, block: (Event<T>) -> Unit) {
+    fun <T> observeEvent(eventName: String, block: (Event<T>) -> Unit) = apply {
         eventObservers[eventName] = EventObserverWrapper(block)
     }
 
     /**
      * 观察所有的事件
      */
-    fun observerEvents(block: (Event<*>) -> Unit) {
+    fun observerEvents(block: (Event<*>) -> Unit) = apply {
         allEventsObserver = object : EventObserver {
             override fun onEvent(event: Event<*>) {
                 block.invoke(event)
@@ -435,7 +428,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      *
      * @see PreloadHook
      */
-    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPreload: () -> Unit) {
+    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPreload: () -> Unit) = apply {
         preloadHook?.let {
             unregisterAdapterHook(it)
         }
@@ -448,7 +441,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 设置是否启用预加载
      * 需要先调用 doOnPreload 开启才有效。
      */
-    fun setPreloadEnable(enable: Boolean) {
+    fun setPreloadEnable(enable: Boolean) = apply {
         preloadHook?.preloadEnable = enable
     }
 
@@ -466,7 +459,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
         return paramProvider?.getParam(key) as? P?
     }
 
-    fun setParamProvider(block: (key: String) -> Any?) {
+    fun setParamProvider(block: (key: String) -> Any?) = apply {
         paramProvider = ExtraParamsProviderWrapper(block)
     }
 
@@ -483,7 +476,7 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 设置点击事件监听
      * @see doOnItemLongClick
      */
-    fun doOnItemClick(onItemClick: OnItemClickListener?) {
+    fun doOnItemClick(onItemClick: OnItemClickListener?) = apply {
         itemClicksHelper.onItemClickListener = onItemClick
     }
 
@@ -491,11 +484,11 @@ open class FlapAdapter : RecyclerView.Adapter<Component<*>>(), IAdapterHookManag
      * 设置长按事件监听
      * @see doOnItemClick
      */
-    fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) {
+    fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) = apply {
         itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
 
-    fun setEmptyView(emptyView: View?) {
+    fun setEmptyView(emptyView: View?) = apply {
         emptyViewHelper.emptyView = emptyView
     }
 

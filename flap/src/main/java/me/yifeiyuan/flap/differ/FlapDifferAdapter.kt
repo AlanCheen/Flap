@@ -22,6 +22,7 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0.0
  */
+@Suppress("UNCHECKED_CAST")
 class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
@@ -88,8 +89,8 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
-    override fun setDataAndNotify(newDataList: MutableList<Any>, notifyAll: Boolean) {
-        this.setData(newDataList)
+    override fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, notifyAll: Boolean) {
+        super.setDataAndNotify(newDataList, notifyAll)
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))

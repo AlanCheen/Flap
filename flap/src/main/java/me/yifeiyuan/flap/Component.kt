@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import java.lang.IllegalArgumentException
 
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
@@ -42,15 +43,29 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * @see FlapAdapter.inflateWithApplicationContext
      * @see FlapAdapter.getActivityContext
      */
-    protected val context: Context = itemView.context
+    val context: Context = itemView.context
 
     /**
      * @return true if component is visible
      */
     protected var isVisible = false
 
+    internal var _bindingData: Any? = null
+
+    /**
+     * @since 3.1.2
+     */
+    val data: T
+        get() = if (_bindingData == null) {
+            throw IllegalArgumentException("onBind 还未调用，不可以使用 bindingData")
+        } else {
+            @Suppress("UNCHECKED_CAST")
+            _bindingData as T
+        }
+
     @Suppress("UNCHECKED_CAST")
     fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+        _bindingData = model
         onBind(model as T, position, payloads, adapter, delegate)
     }
 
@@ -62,7 +77,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * @param adapter  Your adapter.
      * @param payloads The payloads you may need.
      */
-    open fun onBind(
+    protected open fun onBind(
             model: T,
             position: Int,
             payloads: List<Any>,
@@ -77,9 +92,10 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      *
      * @see onBind
      */
-    open fun onBind(model: T) {}
+    protected open fun onBind(model: T) {}
 
-    protected fun <V : View> findViewById(@IdRes viewId: Int): V {
+    @Suppress("UNCHECKED_CAST")
+    fun <V : View> findViewById(@IdRes viewId: Int): V {
         return itemView.findViewById<View>(viewId) as V
     }
 

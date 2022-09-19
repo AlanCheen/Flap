@@ -21,7 +21,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * @see me.yifeiyuan.flap.dsl.adapterDelegate
  *
  * Created by 程序亦非猿 on 2021/10/27.
- * @since 3.0.0
+ * @since 3.1.1
  */
 class LayoutAdapterDelegate<T>(
         private var modelClass: Class<T>?,

@@ -74,13 +74,11 @@ class LinearSpaceItemDecoration(var space: Int, var orientation: Int = RecyclerV
         }
     }
 
-    fun withFirstItemTopEdge(enable: Boolean): LinearSpaceItemDecoration {
+    fun withFirstItemTopEdge(enable: Boolean)= apply {
         isIncludeFirstItemTopEdge = enable
-        return this
     }
 
-    fun withLastItemBottomEdge(enable: Boolean): LinearSpaceItemDecoration {
+    fun withLastItemBottomEdge(enable: Boolean)= apply {
         isIncludeLastItemBottomEdge = enable
-        return this
     }
 }

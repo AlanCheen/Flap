@@ -160,9 +160,7 @@ class DSLTestcase : BaseTestcaseFragment() {
 //        }
 
         val viewBindingDelegate = adapterDelegateViewBinding<ViewBindingModel, FlapItemVbBinding>(
-                { layoutInflater, parent ->
-                    FlapItemVbBinding.inflate(layoutInflater, parent, false)
-                }
+                { layoutInflater, parent -> FlapItemVbBinding.inflate(layoutInflater, parent, false) }
         ) {
 
             onBind { model ->

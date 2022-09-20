@@ -72,7 +72,7 @@ class DslAdapterDelegate<T>(
  *
  * @since 3.0.9
  */
-class DslComponent<T>(view: View) : Component<T>(view) {
+open class DslComponent<T>(view: View) : Component<T>(view) {
 
     /**
      * 更多参数的 onBind

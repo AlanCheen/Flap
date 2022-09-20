@@ -98,6 +98,7 @@ dependencies {
     implementation project(':ktmodule')
 
     implementation project(':flap')
+    implementation project(':flap-dsl-viewbinding')
     implementation project(':flap-annotations')
 //    implementation project(':flap-gradle-plugin')
     kapt project(':flap-compiler')

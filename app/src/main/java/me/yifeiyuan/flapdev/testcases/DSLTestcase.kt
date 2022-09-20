@@ -6,12 +6,15 @@ import android.widget.ImageView
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.dsl.adapterHook
+import me.yifeiyuan.flap.dsl.viewbinding.adapterDelegateViewBinding
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
 import me.yifeiyuan.flapdev.mockMultiTypeModels
+import me.yifeiyuan.ktx.foundation.othermodule.databinding.FlapItemVbBinding
+import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
 
 private const val TAG = "DSLTestcase"
 
@@ -156,7 +159,30 @@ class DSLTestcase : BaseTestcaseFragment() {
 //            model: TestBinderModel, position: Int, payloads: List<Any>, adapter: FlapAdapter ->
 //        }
 
-        adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate)
+        val viewBindingDelegate = adapterDelegateViewBinding<ViewBindingModel, FlapItemVbBinding>(
+                { layoutInflater, parent ->
+                    FlapItemVbBinding.inflate(layoutInflater, parent, false)
+                }
+        ) {
+
+            onBind { model ->
+                binding.tvContent.text = "这是个用 adapterDelegateViewBinding DSL 处理的组件"
+            }
+
+            onClick { model, position, adapter ->
+                toast("viewBindingDelegate onClick() called with: component = $this, model = $model, position = $position")
+            }
+
+            onResume {
+                Log.d(TAG, "viewBindingDelegate onResume() called")
+            }
+
+            onPause {
+                Log.d(TAG, "viewBindingDelegate onPause() called")
+            }
+        }
+
+        adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate, viewBindingDelegate)
 
         adapter.registerAdapterHook(hook)
     }

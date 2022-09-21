@@ -10,14 +10,9 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.dsl.DslComponent
 
 /**
- * Created by 程序亦非猿 on 2022/9/21.
- */
-
-/**
- * ViewDataBinding?
- * 支持  AdapterDelegate ViewBinding DSL 功能
+ * 支持  AdapterDelegate DataBinding DSL 功能
  * Created by 程序亦非猿 on 2022/9/20.
- * @since 3.1.3
+ * @since 3.1.4
  */
 inline fun <reified T, reified D : ViewDataBinding> adapterDelegateDataBinding(
         @LayoutRes layoutId: Int,
@@ -29,9 +24,9 @@ inline fun <reified T, reified D : ViewDataBinding> adapterDelegateDataBinding(
 }
 
 /**
- * 支持  AdapterDelegate ViewBinding DSL 功能
+ * 支持  AdapterDelegate DataBinding DSL 功能
  * Created by 程序亦非猿 on 2022/9/20.
- * @since 3.1.3
+ * @since 3.1.4
  */
 class DataBindingDslAdapterDelegate<T, D : ViewDataBinding>(
         private var modelClass: Class<T>,
@@ -65,6 +60,6 @@ class DataBindingDslAdapterDelegate<T, D : ViewDataBinding>(
 /**
  * 支持  AdapterDelegate DataBinding DSL 功能
  * Created by 程序亦非猿 on 2022/9/20.
- * @since 3.1.3
+ * @since 3.1.4
  */
 class DataBindingDslComponent<T, V : ViewDataBinding>(val binding: V) : DslComponent<T>(binding.root)

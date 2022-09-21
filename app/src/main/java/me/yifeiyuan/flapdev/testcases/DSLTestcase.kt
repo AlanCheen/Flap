@@ -6,12 +6,15 @@ import android.widget.ImageView
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.dsl.adapterHook
+import me.yifeiyuan.flap.dsl.databinding.adapterDelegateDataBinding
 import me.yifeiyuan.flap.dsl.viewbinding.adapterDelegateViewBinding
 import me.yifeiyuan.flap.ext.*
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
+import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 import me.yifeiyuan.ktx.foundation.othermodule.databinding.FlapItemVbBinding
 import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
@@ -180,7 +183,15 @@ class DSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-        adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate, viewBindingDelegate)
+        val dataBindingDelegate = adapterDelegateDataBinding<SimpleDataBindingModel, FlapItemSimpleDatabindingBinding>(R.layout.flap_item_simple_databinding) {
+
+            onBind { model ->
+                binding.model = model
+                binding.executePendingBindings()
+            }
+        }
+
+        adapter.registerAdapterDelegates(simpleTextDelegate, simpleImageDelegate, testAllDelegate, viewBindingDelegate, dataBindingDelegate)
 
         adapter.registerAdapterHook(hook)
     }

@@ -295,7 +295,27 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
     @Override
     public void onScrollStateChanged(int state) {
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            checkForGaps();
+            boolean hasGaps = checkForGaps();
+            Log.d(TAG, "onScrollStateChanged: hasGaps=" + hasGaps);
+            Log.d(TAG, "onScrollStateChanged: firstChildPosition=" + getFirstChildPosition());
+            int[] firstVisibleItems = new int[mSpanCount];
+            findFirstCompletelyVisibleItemPositions(firstVisibleItems);
+            Log.d(TAG, "onScrollStateChanged: firstVisibleItems=" + firstVisibleItems[0] + "-" + firstVisibleItems[1]);
+
+            boolean needReLayout = false;
+            for (int firstVisibleItem : firstVisibleItems) {
+                View child = getChildAt(firstVisibleItem);
+                if (child != null) {
+                    int top = child.getTop();
+                    if (top != 0) {
+                        needReLayout = true;
+                    }
+                    Log.d(TAG, "onScrollStateChanged: top=" + child.getTop());
+                }
+            }
+            if (needReLayout) {
+                requestLayout();
+            }
         }
     }
 
@@ -1194,7 +1214,7 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
 //                ? shouldReMeasureChild(child, widthSpec, heightSpec, lp)
 //                : shouldMeasureChild(child, widthSpec, heightSpec, lp);
 //        if (measure) {
-            child.measure(widthSpec, heightSpec);
+        child.measure(widthSpec, heightSpec);
 //        }
 
     }
@@ -1571,7 +1591,7 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
             FlapIndexedStaggeredGridLayoutManager.Span currentSpan;
             final boolean assignSpan = spanIndex == FlapIndexedStaggeredGridLayoutManager.LayoutParams.INVALID_SPAN_ID;
             if (assignSpan) {
-                currentSpan = lp.mFullSpan ? mSpans[0] : getNextSpan(layoutState,view,lp.getViewAdapterPosition());
+                currentSpan = lp.mFullSpan ? mSpans[0] : getNextSpan(layoutState, view, lp.getViewAdapterPosition());
                 mLazySpanLookup.setSpan(position, currentSpan);
                 if (DEBUG) {
                     Log.d(TAG, "assigned " + currentSpan.mIndex + " for " + position);
@@ -2065,7 +2085,9 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
         requestLayout();
     }
 
-    /** @hide */
+    /**
+     * @hide
+     */
     @Override
     @RestrictTo(LIBRARY)
     public void collectAdjacentPrefetchPositions(int dx, int dy, RecyclerView.State state,
@@ -2695,10 +2717,11 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
          * area. This is used e.g. inside
          * {@link #onFocusSearchFailed(View, int, RecyclerView.Recycler, RecyclerView.State)} for
          * calculating the next unfocusable child to become visible on the screen.
-         * @param fromIndex The child position index to start the search from.
-         * @param toIndex The child position index to end the search at.
-         * @param completelyVisible True if we have to only consider completely visible views,
-         *                          false otherwise.
+         *
+         * @param fromIndex               The child position index to start the search from.
+         * @param toIndex                 The child position index to end the search at.
+         * @param completelyVisible       True if we have to only consider completely visible views,
+         *                                false otherwise.
          * @param acceptCompletelyVisible True if we can consider both partially or fully visible
          *                                views, false, if only a partially visible child should be
          *                                returned.
@@ -3000,11 +3023,11 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
         }
 
         /**
-         * @param minPos inclusive
-         * @param maxPos exclusive
-         * @param gapDir if not 0, returns FSIs on in that direction
+         * @param minPos              inclusive
+         * @param maxPos              exclusive
+         * @param gapDir              if not 0, returns FSIs on in that direction
          * @param hasUnwantedGapAfter If true, when full span item has unwanted gaps, it will be
-         *                        returned even if its gap direction does not match.
+         *                            returned even if its gap direction does not match.
          */
         public FlapIndexedStaggeredGridLayoutManager.LazySpanLookup.FullSpanItem getFirstFullSpanItemInRange(int minPos, int maxPos, int gapDir,
                                                                                                              boolean hasUnwantedGapAfter) {

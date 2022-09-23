@@ -47,7 +47,7 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         }
 
         adapter.doOnPreload {
-            staggeredGridLayoutManager.invalidateSpanAssignments()
+//            staggeredGridLayoutManager.invalidateSpanAssignments()
             loadMoreData(20)
         }
 
@@ -57,6 +57,13 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
                 val index = (component.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).spanIndex
                 Log.d("StaggeredGridL", "onInit() called with: position = $position, spanIndex = $index")
             }
+        }
+
+        adapter.doOnItemLongClick { recyclerView, childView, position ->
+            if (position == 0) {
+                recyclerView.requestLayout()
+            }
+            false
         }
     }
 

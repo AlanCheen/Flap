@@ -40,10 +40,8 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         }
 
         adapter.doOnBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
-
             if (recyclerView.layoutManager is StaggeredGridLayoutManager) {
                 val index = (component.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).spanIndex
-
                 Log.d("StaggeredGridL", "onInit() called with: position = $position, spanIndex = $index")
             }
         }
@@ -52,6 +50,7 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
             staggeredGridLayoutManager.invalidateSpanAssignments()
             loadMoreData(20)
         }
+
         adapter.doOnItemClick { recyclerView, childView, position ->
             if (recyclerView.layoutManager is StaggeredGridLayoutManager) {
                 val component  = recyclerView.getChildViewHolder(childView)

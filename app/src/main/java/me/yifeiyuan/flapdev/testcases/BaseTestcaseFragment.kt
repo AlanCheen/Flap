@@ -171,7 +171,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         staggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
-            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
     }
 

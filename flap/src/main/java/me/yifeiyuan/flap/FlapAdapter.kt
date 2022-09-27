@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused", "LeakingThis", "LeakingThis", "LeakingThis")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "LeakingThis")
 
 package me.yifeiyuan.flap
 

@@ -1,7 +1,5 @@
 package me.yifeiyuan.flap.hook
 
-import androidx.annotation.NonNull
-
 /**
  * AdapterHook 管理者的抽象
  * @see AdapterHookManager
@@ -15,6 +13,10 @@ interface IAdapterHookManager {
 
     fun registerAdapterHook(adapterHook: AdapterHook) {
         adapterHooks.add(adapterHook)
+    }
+
+    fun registerAdapterHook(index: Int, adapterHook: AdapterHook) {
+        adapterHooks.add(index, adapterHook)
     }
 
     fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {

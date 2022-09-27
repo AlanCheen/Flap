@@ -20,15 +20,12 @@ import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
+import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapRecyclerView
-import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
-import me.yifeiyuan.flapdev.TestService
-import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.Scrollable
+import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import me.yifeiyuan.flapdev.toPixel
-import java.util.ArrayList
+import java.util.*
 
 private const val TAG = "BaseCaseFragment"
 
@@ -55,7 +52,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var linearLayoutManager: FlapLinearLayoutManager
     lateinit var gridLayoutManager: FlapGridLayoutManager
-    lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
+    lateinit var staggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
     override fun onAttach(context: Context) {
@@ -173,7 +170,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
         }
 
-        staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(3).apply {
+        staggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
             gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
     }

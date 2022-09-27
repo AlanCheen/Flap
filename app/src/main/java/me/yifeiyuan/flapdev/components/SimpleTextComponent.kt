@@ -3,10 +3,12 @@ package me.yifeiyuan.flapdev.components
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.ViewTypeGenerator
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flapdev.Logger
 import me.yifeiyuan.flapdev.R
@@ -51,10 +53,11 @@ class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextC
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleTextComponent {
-        return SimpleTextComponent(inflater.inflate(viewType, parent, false))
+        return SimpleTextComponent(inflater.inflate(R.layout.flap_item_simple_text, parent, false))
     }
 
     override fun getItemViewType(model: Any): Int {
-        return R.layout.flap_item_simple_text
+        return ViewTypeGenerator.generateViewType()
+//        return R.layout.flap_item_simple_text
     }
 }

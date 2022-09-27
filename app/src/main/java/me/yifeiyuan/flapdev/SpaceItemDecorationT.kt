@@ -1,4 +1,4 @@
-package me.yifeiyuan.flap.decoration
+package me.yifeiyuan.flapdev
 
 import android.graphics.Rect
 import android.view.View
@@ -24,7 +24,7 @@ import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
  *
  * @since 3.0.5
  */
-class SpaceItemDecoration(
+class SpaceItemDecorationT(
         private val space: Int,
         private var isIncludeFirstRowTopEdge: Boolean = false,
         private var isIncludeLastRowBottomEdge: Boolean = false
@@ -42,7 +42,7 @@ class SpaceItemDecoration(
         val adapterSize = parent.adapter?.itemCount ?: 0
 
         when (val layoutManager = parent.layoutManager) {
-            is FlapIndexedStaggeredGridLayoutManager -> {
+            is FlapIndexedStaggeredGridLayoutManager ->{
                 val layoutParams = view.layoutParams as FlapIndexedStaggeredGridLayoutManager.LayoutParams
                 val isAxisEndSpan = (layoutParams.spanIndex + 1) % layoutManager.spanCount == 0
                 val isCrossAxisEndSpan = adapterPos >= (adapterSize - layoutManager.spanCount)

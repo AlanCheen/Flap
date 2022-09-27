@@ -28,7 +28,22 @@ import java.util.List;
 import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
+ * FlapIndexedStaggeredGridLayoutManager 会按照 Adapter.data 中的 index 来布局 Component，而不是完全混乱的。
+ *
+ * 例如：
+ * 0 1 2
+ * 3 4 5
+ * 6 7 8
+ *
+ * 代码基于 rv 1.2.1 的 StaggeredGridLayoutManager 代码修改
+ *
  * Created by 程序亦非猿 on 2022/9/22.
+ *
+ * @see IndexedAdapterHelper
+ * @see IndexedLayoutState
+ * @see IndexedOpReorderer
+ * @see IndexedScrollbarHelper
+ * @since 3.1.5
  */
 public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutManager implements
         RecyclerView.SmoothScroller.ScrollVectorProvider {
@@ -295,27 +310,37 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
     @Override
     public void onScrollStateChanged(int state) {
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            boolean hasGaps = checkForGaps();
-            Log.d(TAG, "onScrollStateChanged: hasGaps=" + hasGaps);
-            Log.d(TAG, "onScrollStateChanged: firstChildPosition=" + getFirstChildPosition());
-            int[] firstVisibleItems = new int[mSpanCount];
-            findFirstCompletelyVisibleItemPositions(firstVisibleItems);
-            Log.d(TAG, "onScrollStateChanged: firstVisibleItems=" + firstVisibleItems[0] + "-" + firstVisibleItems[1]);
+            checkForGaps();
+            if (reLayoutOnScrollToTop) {
+                handleAutoReLayoutWhenScrollToTop();
+            }
+        }
+    }
 
-            boolean needReLayout = false;
-            for (int firstVisibleItem : firstVisibleItems) {
-                View child = getChildAt(firstVisibleItem);
-                if (child != null) {
-                    int top = child.getTop();
-                    if (top != 0) {
-                        needReLayout = true;
-                    }
-                    Log.d(TAG, "onScrollStateChanged: top=" + child.getTop());
+    private boolean reLayoutOnScrollToTop = false;
+
+    public void setReLayoutOnScrollToTop(boolean reLayoutOnScrollToTop) {
+        this.reLayoutOnScrollToTop = reLayoutOnScrollToTop;
+    }
+
+    private void handleAutoReLayoutWhenScrollToTop(){
+        int[] firstVisibleItems = new int[mSpanCount];
+        findFirstCompletelyVisibleItemPositions(firstVisibleItems);
+        Log.d(TAG, "onScrollStateChanged: firstVisibleItems=" + firstVisibleItems[0] + "-" + firstVisibleItems[1]);
+
+        boolean needReLayout = false;
+        for (int firstVisibleItem : firstVisibleItems) {
+            View child = getChildAt(firstVisibleItem);
+            if (child != null) {
+                int top = child.getTop();
+                if (top != 0) {
+                    needReLayout = true;
                 }
+                Log.d(TAG, "onScrollStateChanged: top=" + child.getTop());
             }
-            if (needReLayout) {
-                requestLayout();
-            }
+        }
+        if (needReLayout) {
+            requestLayout();
         }
     }
 
@@ -1591,7 +1616,7 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
             FlapIndexedStaggeredGridLayoutManager.Span currentSpan;
             final boolean assignSpan = spanIndex == FlapIndexedStaggeredGridLayoutManager.LayoutParams.INVALID_SPAN_ID;
             if (assignSpan) {
-                currentSpan = lp.mFullSpan ? mSpans[0] : getNextSpan(layoutState, view, lp.getViewAdapterPosition());
+                currentSpan = lp.mFullSpan ? mSpans[0] : getNextSpan(layoutState, lp.getViewAdapterPosition());
                 mLazySpanLookup.setSpan(position, currentSpan);
                 if (DEBUG) {
                     Log.d(TAG, "assigned " + currentSpan.mIndex + " for " + position);
@@ -1956,7 +1981,7 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
     /**
      * Finds the span for the next view.
      */
-    private FlapIndexedStaggeredGridLayoutManager.Span getNextSpan(IndexedLayoutState layoutState, View view, int viewAdapterPosition) {
+    private FlapIndexedStaggeredGridLayoutManager.Span getNextSpan(IndexedLayoutState layoutState, int viewAdapterPosition) {
         final boolean preferLastSpan = preferLastSpan(layoutState.mLayoutDirection);
         final int startIndex, endIndex, diff;
         if (preferLastSpan) {

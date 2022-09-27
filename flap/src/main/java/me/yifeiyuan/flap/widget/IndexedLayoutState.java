@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
+ * 代码基于 StaggeredGridLayoutManager 用到的 androidx.recyclerview.widget.LayoutState 修改
  * Created by 程序亦非猿 on 2022/9/22.
  */
 class IndexedLayoutState {

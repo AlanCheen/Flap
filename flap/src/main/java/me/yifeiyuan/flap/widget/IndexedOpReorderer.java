@@ -4,6 +4,7 @@ package me.yifeiyuan.flap.widget;
 import java.util.List;
 
 /**
+ * 代码基于 StaggeredGridLayoutManager 用到的 androidx.recyclerview.widget.OpReorderer 修改
  * Created by 程序亦非猿 on 2022/9/22.
  */
 class IndexedOpReorderer {

@@ -82,30 +82,26 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         emptyView = view.findViewById(R.id.emptyView)
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
-        adapter.setLifecycleOwner(viewLifecycleOwner)
-
-        adapter.setEmptyView(emptyView)
-
-        adapter.observeEvent<String>("showToast") {
-            toast(it.arg ?: "Default Message")
-            Log.d("observeEvent", "showToast event ")
-        }
-
-        adapter.observeEvent<Int>("intEvent") {
-            Log.d("observeEvent", "intEvent called")
-        }
-
-        adapter.observerEvents {
-            when (it.eventName) {
-                "showToast" -> {
-                    Log.d("observerEvents", "showToast ~~ ${it.arg}")
-                    it.setEventResult(isSuccess = true)
+                .withLifecycleOwner(viewLifecycleOwner)
+                .withEmptyView(emptyView)
+                .observeEvent<String>("showToast") {
+                    toast(it.arg ?: "Default Message")
+                    Log.d("observeEvent", "showToast event ")
                 }
-                "intEvent" -> {
-                    Log.d("observerEvents", "intEvent ~~ ${it.arg}")
+                .observeEvent<Int>("intEvent") {
+                    Log.d("observeEvent", "intEvent called")
                 }
-            }
-        }
+                .observerEvents {
+                    when (it.eventName) {
+                        "showToast" -> {
+                            Log.d("observerEvents", "showToast ~~ ${it.arg}")
+                            it.setEventResult(isSuccess = true)
+                        }
+                        "intEvent" -> {
+                            Log.d("observerEvents", "intEvent ~~ ${it.arg}")
+                        }
+                    }
+                }
 
         adapter.setParamProvider {
             when (it) {
@@ -148,8 +144,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
         swipeRefreshLayout.isRefreshing = true
 
-//        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
-
         Handler().postDelayed({
             adapter.setDataAndNotify(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
@@ -164,7 +158,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     var spanSize = 1
-                    //                            spanSize = if (position % 2 == 0) 2 else 1
+                    //spanSize = if (position % 2 == 0) 2 else 1
                     return spanSize
                 }
             }
@@ -316,6 +310,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
             is StaggeredGridLayoutManager -> {
                 (currentLayoutManager as StaggeredGridLayoutManager).orientation = orientation
+            }
+            is FlapIndexedStaggeredGridLayoutManager -> {
+                (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = orientation
             }
         }
 

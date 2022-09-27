@@ -45,7 +45,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
         with(flapRecyclerView.flapAdapter) {
 
-            this.setEmptyView(emptyView)
+            this.withEmptyView(emptyView)
 
             doOnPreload {
                 toast("onPreload 预加载")

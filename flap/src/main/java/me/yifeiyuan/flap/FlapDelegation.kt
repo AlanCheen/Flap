@@ -2,6 +2,7 @@ package me.yifeiyuan.flap
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.AdapterDelegateManager
@@ -25,6 +26,17 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
          */
         internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
     }
+
+    /**
+     * Components 监听的生命周期对象，一般是 Activity
+     * 默认取的是 RecyclerView.Context
+     */
+    internal var lifecycleOwner: LifecycleOwner? = null
+
+    /**
+     * Components 是否监听生命周期事件
+     */
+    internal var lifecycleEnable = true
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
@@ -79,9 +91,24 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
                     adapter
             )
             dispatchOnBindViewHolderEnd(adapter, delegate, component, itemData, position, payloads)
+            tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
             e.printStackTrace()
             FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)
+        }
+    }
+
+    /**
+     * Attaches the component to lifecycle if need.
+     *
+     * @param component The component we are going to bind.
+     */
+    private fun tryAttachLifecycleOwner(component: Component<*>) {
+        if (lifecycleEnable) {
+            if (lifecycleOwner == null) {
+                throw NullPointerException("lifecycleOwner == null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
+            }
+            lifecycleOwner!!.lifecycle.addObserver(component)
         }
     }
 
@@ -176,6 +203,11 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     internal fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
         FlapDebug.d(TAG, "onAttachedToRecyclerView: ")
+        //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
+        if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
+            lifecycleOwner = recyclerView.context as LifecycleOwner
+        }
     }
 
     internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {

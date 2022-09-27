@@ -39,17 +39,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     private var data: MutableList<Any> = mutableListOf()
 
     /**
-     * Components 监听的生命周期对象，一般是 Activity
-     * 默认取的是 RecyclerView.Context
-     */
-    private var lifecycleOwner: LifecycleOwner? = null
-
-    /**
-     * Components 是否监听生命周期事件
-     */
-    private var lifecycleEnable = true
-
-    /**
      * 是否使用 ComponentPool
      */
     private var useComponentPool = true
@@ -150,7 +139,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     ) {
         val data = getItemData(position)
         delegation.onBindViewHolder(this, data, component, position, payloads)
-        tryAttachLifecycleOwner(component)
     }
 
     open fun getItemData(position: Int): Any {
@@ -167,20 +155,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         return delegation.getItemId(position, itemData)
     }
 
-    /**
-     * Attaches the component to lifecycle if need.
-     *
-     * @param component The component we are going to bind.
-     */
-    private fun tryAttachLifecycleOwner(component: Component<*>) {
-        if (lifecycleEnable) {
-            if (lifecycleOwner == null) {
-                throw NullPointerException("lifecycleOwner == null,无法监听生命周期,请先调用 #setLifecycleOwner()")
-            }
-            lifecycleOwner!!.lifecycle.addObserver(component)
-        }
-    }
-
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         handleOnAttachedToRecyclerView(recyclerView)
@@ -190,11 +164,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
         bindingRecyclerView = recyclerView
         bindingContext = recyclerView.context
-        //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
-        if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
-            FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
-            setLifecycleOwner(recyclerView.context as LifecycleOwner)
-        }
 
         if (useComponentPool) {
             if (!this::componentPool.isInitialized) {
@@ -241,23 +210,18 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     }
 
     /**
-     * 设置 Component 监听的 LifecycleOwner
+     * 设置 Component 绑定的 LifecycleOwner
      * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
-     * @see handleOnAttachedToRecyclerView
      */
-    fun setLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
-        this.lifecycleOwner = lifecycleOwner
+    fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
+        delegation.lifecycleOwner = lifecycleOwner
     }
 
     /**
-     * 设置 Component 是否监听生命周期
-     *
-     * 默认开启
-     *
-     * @param lifecycleEnable 是否开启
+     * 设置 Component 是否监听生命周期，默认开启
      */
-    fun setLifecycleEnable(lifecycleEnable: Boolean) = apply {
-        this.lifecycleEnable = lifecycleEnable
+    fun withLifecycleEnable(enable: Boolean) = apply {
+        delegation.lifecycleEnable = enable
     }
 
     /**
@@ -269,11 +233,11 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
      *
      * @param enable false by default
      */
-    fun enableGlobalComponentPool(enable: Boolean) = apply {
+    fun withGlobalComponentPoolEnable(enable: Boolean) = apply {
         useGlobalComponentPool = enable
     }
 
-    fun enableComponentPool(enable: Boolean) = apply {
+    fun withComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }
 
@@ -374,7 +338,7 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
 
-    fun setEmptyView(emptyView: View?) = apply {
+    fun withEmptyView(emptyView: View?) = apply {
         emptyViewHelper.emptyView = emptyView
     }
 

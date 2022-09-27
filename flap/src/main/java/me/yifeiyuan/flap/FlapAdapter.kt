@@ -106,10 +106,10 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         data.addAll(newDataList)
     }
 
-    open fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, notifyAll: Boolean = false) {
+    open fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean = false) {
         data.clear()
         data.addAll(newDataList)
-        if (notifyAll) {
+        if (byNotifyDataSetChanged) {
             notifyDataSetChanged()
         } else {
             notifyItemRangeChanged(0, newDataList.size)
@@ -120,9 +120,9 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         data.addAll(appendDataList)
     }
 
-    open fun appendDataAndNotify(appendDataList: MutableList<Any>, notifyAll: Boolean = false) {
+    open fun appendDataAndNotify(appendDataList: MutableList<Any>, byNotifyDataSetChanged: Boolean = false) {
         data.addAll(appendDataList)
-        if (notifyAll) {
+        if (byNotifyDataSetChanged) {
             notifyDataSetChanged()
         } else {
             notifyItemRangeInserted(itemCount - appendDataList.size, appendDataList.size)
@@ -134,7 +134,8 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
-        val layoutInflater = LayoutInflater.from(if (inflateWithApplicationContext) parent.context.applicationContext else parent.context)
+        val context = if (inflateWithApplicationContext) parent.context.applicationContext else parent.context
+        val layoutInflater = LayoutInflater.from(context)
         return delegation.onCreateViewHolder(this, parent, viewType, layoutInflater)
     }
 
@@ -212,7 +213,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
         itemClicksHelper.detachRecyclerView(recyclerView)
         emptyViewHelper.detachRecyclerView()
         if (this::componentPool.isInitialized) {
@@ -378,17 +378,17 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         emptyViewHelper.emptyView = emptyView
     }
 
-    fun insertDataAt(position: Int, element: Any, notify: Boolean = true) {
-        this.data.add(position, element)
+    fun insertDataAt(index: Int, element: Any, notify: Boolean = true) {
+        this.data.add(index, element)
         if (notify) {
-            notifyItemInserted(position)
+            notifyItemInserted(index)
         }
     }
 
-    fun removeDataAt(position: Int, notify: Boolean = true) {
-        data.removeAt(position)
+    fun removeDataAt(index: Int, notify: Boolean = true) {
+        data.removeAt(index)
         if (notify) {
-            notifyItemRemoved(position)
+            notifyItemRemoved(index)
         }
     }
 

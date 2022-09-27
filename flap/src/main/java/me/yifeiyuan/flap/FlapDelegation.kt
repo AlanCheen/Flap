@@ -175,10 +175,10 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     }
 
     internal fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
-        //do nothing
+        FlapDebug.d(TAG, "onAttachedToRecyclerView: ")
     }
 
     internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
-        //do nothing
+        FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
     }
 }

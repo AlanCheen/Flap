@@ -969,9 +969,12 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
                 totalSpace, mSecondaryOrientation.getMode());
     }
 
+    boolean supportsPredictiveItemAnimations = false;
+
     @Override
     public boolean supportsPredictiveItemAnimations() {
-        return mPendingSavedState == null;
+//        return mPendingSavedState == null;
+        return supportsPredictiveItemAnimations;
     }
 
     /**

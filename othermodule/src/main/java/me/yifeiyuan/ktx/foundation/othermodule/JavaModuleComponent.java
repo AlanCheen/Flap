@@ -4,10 +4,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import me.yifeiyuan.flap.Component;
-import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.annotations.Delegate;
 
 /**

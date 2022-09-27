@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import me.yifeiyuan.flap.annotations.Delegate;
 import me.yifeiyuan.flap.delegate.AdapterDelegate;
 import me.yifeiyuan.flap.Component;
 import me.yifeiyuan.flap.FlapAdapter;
@@ -20,7 +19,7 @@ public class JavaModuleComponentDelegate implements AdapterDelegate<JavaModuleMo
 
     @Override
     public boolean delegate(@Nullable Object model) {
-        return model.getClass() == JavaModuleModel.class;
+        return JavaModuleModel.class == model.getClass();
     }
 
     @NotNull

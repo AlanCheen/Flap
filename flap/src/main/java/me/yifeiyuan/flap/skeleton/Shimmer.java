@@ -455,6 +455,7 @@ public class Shimmer {
     }
   }
 
+  @SuppressWarnings("UnusedReturnValue")
   public static class ColorHighlightBuilder extends Builder<ColorHighlightBuilder> {
     public ColorHighlightBuilder() {
       mShimmer.alphaShimmer = false;

@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.yifeiyuan.ktx.foundation.othermodule">
+<manifest package="me.yifeiyuan.ktx.foundation.othermodule">
 
     /
 </manifest>

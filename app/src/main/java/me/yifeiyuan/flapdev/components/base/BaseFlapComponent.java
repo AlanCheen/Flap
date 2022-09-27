@@ -2,9 +2,6 @@ package me.yifeiyuan.flapdev.components.base;
 
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
-import me.yifeiyuan.flap.FlapAdapter;
 import me.yifeiyuan.flap.Component;
 
 /**

@@ -98,7 +98,7 @@ public class FlapProcessor extends AbstractProcessor {
             Delegate delegate = element.getAnnotation(Delegate.class);
             if (null != delegate) {
                 try {
-                    TypeSpec flapAdapterDelegateTypeSpec = createAdapterDelegateTypeSpec(roundEnvironment, typeElement, (TypeElement) element, delegate);
+                    TypeSpec flapAdapterDelegateTypeSpec = createAdapterDelegateTypeSpec((TypeElement) element, delegate);
                     JavaFile.builder(PKG_NAME_DELEGATES, flapAdapterDelegateTypeSpec)
                             .addFileComment("该文件由 Flap APT 自动生成，请勿修改。")
                             .build()
@@ -113,13 +113,11 @@ public class FlapProcessor extends AbstractProcessor {
     /**
      * 为 Component 生成 AdapterDelegate
      *
-     * @param roundEnvironment 环境
-     * @param typeElement
      * @param component        当前正在处理的组件
      * @param adapterDelegate  注解了目标类的 注解，可以获取值
      * @return ComponentProxy TypeSpec
      */
-    private TypeSpec createAdapterDelegateTypeSpec(final RoundEnvironment roundEnvironment, final TypeElement typeElement, final TypeElement component, final Delegate adapterDelegate) {
+    private TypeSpec createAdapterDelegateTypeSpec(final TypeElement component, final Delegate adapterDelegate) {
 
         ClassName componentClass = (ClassName) ClassName.get(component.asType());
 

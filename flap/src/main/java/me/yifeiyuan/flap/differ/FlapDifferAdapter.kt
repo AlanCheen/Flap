@@ -27,7 +27,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
-    constructor() {
+    constructor() : super() {
         differ = AsyncListDiffer(this, object : ItemCallback<T>() {
             override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
                 if (oldItem is IDiffer) {

@@ -89,3 +89,8 @@ inline fun <reified T> Any.ifIs(block: T.() -> Unit) {
         block.invoke(this)
     }
 }
+
+typealias UnitBlock = () -> Unit
+typealias BooleanBlock = () -> Boolean
+typealias ResultBlock<T> = () -> T
+typealias NullableResultBlock<T> = () -> T?

@@ -87,6 +87,9 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
             R.id.staggered -> {
                 switchLayoutManager(2)
             }
+            R.id.indexed_staggered->{
+                switchLayoutManager(3)
+            }
 
             R.id.horizontal -> {
                 updateOrientation(RecyclerView.HORIZONTAL)

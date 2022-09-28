@@ -35,6 +35,10 @@ fun Component<*>.bindTextView(viewId: Int, binder: TextView.() -> Unit) {
     view.binder()
 }
 
+fun Component<*>.setText(viewId: Int, text: CharSequence?) {
+    itemView.findViewById<TextView>(viewId).text = text
+}
+
 fun Component<*>.bindButton(viewId: Int, binder: Button.() -> Unit) {
     val textView = itemView.findViewById<Button>(viewId)
     textView.binder()

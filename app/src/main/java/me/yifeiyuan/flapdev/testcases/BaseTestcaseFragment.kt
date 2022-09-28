@@ -19,10 +19,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.decoration.SpaceItemDecoration
-import me.yifeiyuan.flap.widget.FlapGridLayoutManager
-import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
-import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
-import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flap.widget.*
 import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.*
@@ -52,7 +49,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var linearLayoutManager: FlapLinearLayoutManager
     lateinit var gridLayoutManager: FlapGridLayoutManager
-    lateinit var staggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
+    lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
+    lateinit var indexedStaggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
     override fun onAttach(context: Context) {
@@ -164,9 +162,11 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
         }
 
-        staggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
+        indexedStaggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
             gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
+
+        staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(2)
     }
 
     open fun initItemDecorations() {
@@ -242,6 +242,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 is StaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
+                is FlapIndexedStaggeredGridLayoutManager->{
+                    layoutManager.scrollToPositionWithOffset(0, 0)
+                }
                 else -> {
                     layoutManager?.scrollToPosition(0)
                 }
@@ -253,6 +256,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
      * 0 Linear
      * 1 Grid
      * 2 Staggered
+     * 3 IndexedStaggered
      */
     fun switchLayoutManager(type: Int) {
         when (type) {
@@ -282,6 +286,15 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 recyclerView.invalidateItemDecorations()
 
                 currentLayoutManager = staggeredGridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
+            3 -> {
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = gridItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+
+                currentLayoutManager = indexedStaggeredGridLayoutManager
                 recyclerView.layoutManager = currentLayoutManager
             }
         }

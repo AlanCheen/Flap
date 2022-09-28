@@ -10,6 +10,9 @@
         android:id="@+id/staggered"
         android:title="StaggeredGridLayoutManager" />
     <item
+        android:id="@+id/indexed_staggered"
+        android:title="IndexedStaggeredGridLayoutManager" />
+    <item
         android:id="@+id/horizontal"
         android:title="Horizontal" />
     <item

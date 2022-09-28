@@ -6,16 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import me.yifeiyuan.flap.FlapDebug
 
-private const val TAG = "ComponentPool"
-
 /**
- * 自定义 RecycledViewPool
+ * 自定义的 RecycledViewPool，实现了 ComponentCallbacks2 ，可以在内存不足的时候清理缓存
  *
- * 一个实现了 ComponentCallbacks2 的 ComponentPool，可以在内存不足的时候清理缓存
- * 要使用的话，需要先注册到 Application
- *
- * @see me.yifeiyuan.flap.Flap.init
- * @see me.yifeiyuan.flap.FlapAdapter.useGlobalComponentPool
+ * @see me.yifeiyuan.flap.FlapAdapter.withComponentPoolEnable 设置开关
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -25,6 +19,10 @@ private const val TAG = "ComponentPool"
  * @since 3.0.2
  */
 open class ComponentPool : RecycledViewPool(), ComponentCallbacks2 {
+
+    companion object {
+        private const val TAG = "ComponentPool"
+    }
 
     override fun setMaxRecycledViews(viewType: Int, max: Int) {
         super.setMaxRecycledViews(viewType, max)

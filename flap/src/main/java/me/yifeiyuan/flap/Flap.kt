@@ -1,20 +1,21 @@
 package me.yifeiyuan.flap
 
-import android.content.ComponentCallbacks2
 import android.content.Context
-import android.content.res.Configuration
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.hook.AdapterHookManager
 import me.yifeiyuan.flap.hook.IAdapterHookManager
-import me.yifeiyuan.flap.pool.ComponentPool
 import me.yifeiyuan.flap.service.AdapterServiceManager
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 
 /**
- * Flap 存放全局的配置
+ * Flap 存放全局的配置，会应用于所有的 FlapAdapter 实例
+ *
+ * - AdapterDelegate
+ * - AdapterHook
+ * - AdapterService
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -23,37 +24,24 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-object Flap : ComponentCallbacks2, IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
+object Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
 
     /**
      * 是否使用 application context 来创建 Component
-     *
-     * @see FlapAdapter.onCreateViewHolder
      */
     var inflateWithApplicationContext = false
 
-    internal val globalComponentPool: ComponentPool by lazy { ComponentPool() }
-
-    internal var globalDefaultAdapterDelegate: AdapterDelegate<*, *> = FallbackAdapterDelegate()
-
-    override fun onTrimMemory(level: Int) {
-        globalComponentPool.onTrimMemory(level)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        globalComponentPool.onConfigurationChanged(newConfig)
-    }
-
-    override fun onLowMemory() {
-        globalComponentPool.onLowMemory()
-    }
+    internal var globalFallbackAdapterDelegate: AdapterDelegate<*, *> = FallbackAdapterDelegate()
 
     fun withContext(context: Context) = apply {
-        context.applicationContext.registerComponentCallbacks(this)
+        context.applicationContext
     }
 
+    /**
+     * 设置全局的 FallbackAdapterDelegate
+     */
     fun withFallbackAdapterDelegate(fallbackAdapterDelegate: AdapterDelegate<*, *>) = apply {
-        globalDefaultAdapterDelegate = fallbackAdapterDelegate
+        globalFallbackAdapterDelegate = fallbackAdapterDelegate
     }
 
     fun setDebug(debug: Boolean) = apply {

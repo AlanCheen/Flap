@@ -44,11 +44,6 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     private var useComponentPool = true
 
     /**
-     * 是否使用全局的 ComponentPool 做缓存
-     */
-    private var useGlobalComponentPool = false
-
-    /**
      * RecyclerView 滑动到底部触发预加载
      */
     private var preloadHook: PreloadHook? = null
@@ -85,7 +80,7 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
         adapterDelegates.addAll(Flap.adapterDelegates)
         adapterServices.putAll(Flap.adapterServices)
 
-        delegation.fallbackDelegate = Flap.globalDefaultAdapterDelegate
+        delegation.fallbackDelegate = Flap.globalFallbackAdapterDelegate
 
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
@@ -167,7 +162,7 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
 
         if (useComponentPool) {
             if (!this::componentPool.isInitialized) {
-                componentPool = if (useGlobalComponentPool) Flap.globalComponentPool else ComponentPool()
+                componentPool = ComponentPool()
             }
 
             if (recyclerView.recycledViewPool != componentPool) {
@@ -225,18 +220,8 @@ open class FlapAdapter(val delegation: FlapDelegation = FlapDelegation()) : Recy
     }
 
     /**
-     * Set whether use the global RecycledViewPool or not.
-     *
-     * NOTE : Call this before you call RecyclerView.setAdapter.
-     *
-     * 是否使用全局单例的 FlapComponentPool
-     *
-     * @param enable false by default
+     * 设置是否使用 ComponentPool 作为缓存池
      */
-    fun withGlobalComponentPoolEnable(enable: Boolean) = apply {
-        useGlobalComponentPool = enable
-    }
-
     fun withComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }

@@ -90,7 +90,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean) {
-        super.setDataAndNotify(newDataList, byNotifyDataSetChanged)
+        throw UnsupportedOperationException()
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
@@ -106,5 +106,14 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun appendDataAndNotify(appendDataList: MutableList<Any>, byNotifyDataSetChanged: Boolean) {
         this.appendData(appendDataList)
+    }
+
+    override fun addData(index: Int, dataList: List<Any>) {
+        throw UnsupportedOperationException()
+    }
+
+    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(dataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    override fun addDataAndNotify(dataList: List<Any>, index: Int, byNotifyDataSetChanged: Boolean) {
+        throw UnsupportedOperationException()
     }
 }

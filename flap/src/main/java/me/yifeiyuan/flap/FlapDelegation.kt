@@ -63,8 +63,12 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     }
 
     private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
-        adapterHooks.forEach {
-            it.onCreateViewHolderStart(adapter, delegate, viewType)
+        try {
+            adapterHooks.forEach {
+                it.onCreateViewHolderStart(adapter, delegate, viewType)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -74,8 +78,12 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             viewType: Int,
             component: Component<*>
     ) {
-        adapterHooks.forEach {
-            it.onCreateViewHolderEnd(adapter, delegate, viewType, component)
+        try {
+            adapterHooks.forEach {
+                it.onCreateViewHolderEnd(adapter, delegate, viewType, component)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -131,8 +139,12 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             position: Int,
             payloads: MutableList<Any>
     ) {
-        adapterHooks.forEach {
-            it.onBindViewHolderStart(adapter, delegate, component, itemData, position, payloads)
+        try {
+            adapterHooks.forEach {
+                it.onBindViewHolderStart(adapter, delegate, component, itemData, position, payloads)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -144,8 +156,12 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             position: Int,
             payloads: MutableList<Any>
     ) {
-        adapterHooks.forEach {
-            it.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
+        try {
+            adapterHooks.forEach {
+                it.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -199,16 +215,24 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     internal fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
-        adapterHooks.forEach {
-            it.onViewAttachedToWindow(adapter, delegate, component)
+        try {
+            adapterHooks.forEach {
+                it.onViewAttachedToWindow(adapter, delegate, component)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     internal fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
-        adapterHooks.forEach {
-            it.onViewDetachedFromWindow(adapter, delegate, component)
+        try {
+            adapterHooks.forEach {
+                it.onViewDetachedFromWindow(adapter, delegate, component)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -218,18 +242,22 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
             lifecycleOwner = recyclerView.context as LifecycleOwner
         }
-        adapterHooks.forEach {
-            try {
+        try {
+            adapterHooks.forEach {
                 it.onAttachedToRecyclerView(adapter, recyclerView)
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
-        adapterHooks.forEach {
-            it.onDetachedFromRecyclerView(adapter, recyclerView)
+        try {
+            adapterHooks.forEach {
+                it.onDetachedFromRecyclerView(adapter, recyclerView)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

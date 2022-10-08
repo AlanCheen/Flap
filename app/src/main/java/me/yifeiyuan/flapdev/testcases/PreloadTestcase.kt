@@ -26,13 +26,13 @@ class PreloadTestcase : BaseTestcaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        useAdapter()
+        setupPreload()
 
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.addItemDecoration(linearItemDecoration)
     }
 
-    private fun useAdapter() {
+    private fun setupPreload() {
         //滑动到底部
         adapter.doOnPreload(offset = 0, minItemCount = 2, direction = PreloadHook.SCROLL_DOWN) {
             requestMoreData()

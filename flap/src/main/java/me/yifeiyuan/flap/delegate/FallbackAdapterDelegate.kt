@@ -17,7 +17,7 @@ import me.yifeiyuan.flap.FlapDebug
  *
  * 开发者也可以自己定义自己的 FallbackAdapterDelegate。
  *
- * @see me.yifeiyuan.flap.Flap.globalDefaultAdapterDelegate
+ * @see me.yifeiyuan.flap.Flap.globalFallbackAdapterDelegate
  * @see me.yifeiyuan.flap.FlapAdapter.defaultAdapterDelegate
  * @see FallbackComponent
  *

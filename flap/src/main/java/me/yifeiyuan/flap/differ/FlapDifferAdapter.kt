@@ -27,7 +27,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     private val differ: AsyncListDiffer<T>
 
-    constructor() {
+    constructor() : super() {
         differ = AsyncListDiffer(this, object : ItemCallback<T>() {
             override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
                 if (oldItem is IDiffer) {
@@ -89,8 +89,8 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
-    override fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, notifyAll: Boolean) {
-        super.setDataAndNotify(newDataList, notifyAll)
+    override fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean) {
+        super.setDataAndNotify(newDataList, byNotifyDataSetChanged)
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
@@ -104,7 +104,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
-    override fun appendDataAndNotify(appendDataList: MutableList<Any>, notifyAll: Boolean) {
+    override fun appendDataAndNotify(appendDataList: MutableList<Any>, byNotifyDataSetChanged: Boolean) {
         this.appendData(appendDataList)
     }
 }

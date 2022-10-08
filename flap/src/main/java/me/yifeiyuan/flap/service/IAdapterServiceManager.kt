@@ -9,7 +9,7 @@ package me.yifeiyuan.flap.service
  *
  * @since 3.0.3
  */
-interface IAdapterServiceManager {
+internal interface IAdapterServiceManager {
 
     val adapterServices: MutableMap<Class<*>, AdapterService>
 

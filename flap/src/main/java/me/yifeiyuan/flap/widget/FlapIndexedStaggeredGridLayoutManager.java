@@ -29,14 +29,14 @@ import static androidx.annotation.RestrictTo.Scope.LIBRARY;
 
 /**
  * FlapIndexedStaggeredGridLayoutManager 会按照 Adapter.data 中的 index 来布局 Component，而不是完全混乱的。
- *
+ * <p>
  * 例如：
  * 0 1 2
  * 3 4 5
  * 6 7 8
- *
+ * <p>
  * 代码基于 rv 1.2.1 的 StaggeredGridLayoutManager 代码修改
- *
+ * <p>
  * Created by 程序亦非猿 on 2022/9/22.
  *
  * @see IndexedAdapterHelper
@@ -245,6 +245,13 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
         createOrientationHelpers();
     }
 
+    public FlapIndexedStaggeredGridLayoutManager(int spanCount) {
+        mOrientation = RecyclerView.VERTICAL;
+        setSpanCount(spanCount);
+        mLayoutState = new IndexedLayoutState();
+        createOrientationHelpers();
+    }
+
     @Override
     public boolean isAutoMeasureEnabled() {
         return mGapStrategy != GAP_HANDLING_NONE;
@@ -323,7 +330,7 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
         this.reLayoutOnScrollToTop = reLayoutOnScrollToTop;
     }
 
-    private void handleAutoReLayoutWhenScrollToTop(){
+    private void handleAutoReLayoutWhenScrollToTop() {
         int[] firstVisibleItems = new int[mSpanCount];
         findFirstCompletelyVisibleItemPositions(firstVisibleItems);
         Log.d(TAG, "onScrollStateChanged: firstVisibleItems=" + firstVisibleItems[0] + "-" + firstVisibleItems[1]);

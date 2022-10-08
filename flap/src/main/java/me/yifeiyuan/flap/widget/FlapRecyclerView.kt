@@ -35,6 +35,7 @@ open class FlapRecyclerView
         const val LAYOUT_TYPE_LINEAR = 0
         const val LAYOUT_TYPE_GRID = 1
         const val LAYOUT_TYPE_STAGGERED = 2
+        const val LAYOUT_TYPE_INDEXED_STAGGERED = 3
 
         const val DEFAULT_LAYOUT_TYPE = LAYOUT_TYPE_LINEAR
     }
@@ -59,6 +60,9 @@ open class FlapRecyclerView
                 is StaggeredGridLayoutManager -> {
                     (layoutManager as StaggeredGridLayoutManager).orientation = value
                 }
+                is FlapIndexedStaggeredGridLayoutManager->{
+                    (layoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = value
+                }
             }
             tryInvalidateItemDecorations()
         }
@@ -72,6 +76,8 @@ open class FlapRecyclerView
     private var recycleChildrenOnDetach = true
 
     private var supportsChangeAnimations = false
+
+    private var disableAnimation = true
 
     init {
 
@@ -88,6 +94,8 @@ open class FlapRecyclerView
         recycleChildrenOnDetach = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapRecycleChildrenOnDetach, true)
 
         supportsChangeAnimations = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapSupportsChangeAnimations, false)
+
+        disableAnimation = flapTypedArray.getBoolean(R.styleable.FlapRecyclerView_flapDisableAnimation, true)
 
         flapTypedArray.recycle()
 
@@ -107,11 +115,16 @@ open class FlapRecyclerView
             layoutManager = when (layoutType) {
                 LAYOUT_TYPE_GRID -> FlapGridLayoutManager(context, attrs, defStyleAttr, 0)
                 LAYOUT_TYPE_STAGGERED -> FlapStaggeredGridLayoutManager(context, attrs, defStyleAttr, 0)
+                LAYOUT_TYPE_INDEXED_STAGGERED -> FlapIndexedStaggeredGridLayoutManager(context, attrs, defStyleAttr, 0)
                 else -> FlapLinearLayoutManager(context, attrs, defStyleAttr, 0)
             }
         }
 
         //默认禁用 change 动画，以解决闪屏问题
+        if (disableAnimation) {
+            disableAnimation()
+        }
+
         if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = supportsChangeAnimations
         }
@@ -133,6 +146,10 @@ open class FlapRecyclerView
         } else {
             FlapDebug.e(TAG, "setAdapter: 设置了非 FlapAdapter 的实例，可能影响部分功能")
         }
+    }
+
+    fun disableAnimation() {
+        itemAnimator = null
     }
 
     /**
@@ -199,6 +216,9 @@ open class FlapRecyclerView
         }
         is StaggeredGridLayoutManager -> {
             (layoutManager as StaggeredGridLayoutManager).scrollToPositionWithOffset(position, offset)
+        }
+        is FlapIndexedStaggeredGridLayoutManager -> {
+            (layoutManager as FlapIndexedStaggeredGridLayoutManager).scrollToPositionWithOffset(position, offset)
         }
         else -> {
             layoutManager?.scrollToPosition(position)

@@ -8,10 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
 import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.SpaceItemDecorationT
 import me.yifeiyuan.flapdev.toPixel
 import kotlin.random.Random
 
@@ -26,8 +26,7 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         setHasOptionsMenu(true)
 
         currentItemDecoration = gridItemDecoration
-//        recyclerView.addItemDecoration(currentItemDecoration)
-        recyclerView.addItemDecoration(SpaceItemDecorationT(requireActivity().toPixel(6)))
+        recyclerView.addItemDecoration(currentItemDecoration)
 
         currentLayoutManager = staggeredGridLayoutManager
         recyclerView.layoutManager = staggeredGridLayoutManager
@@ -87,6 +86,9 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
             }
             R.id.staggered -> {
                 switchLayoutManager(2)
+            }
+            R.id.indexed_staggered->{
+                switchLayoutManager(3)
             }
 
             R.id.horizontal -> {

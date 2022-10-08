@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.ext.BooleanBlock
+import me.yifeiyuan.flap.ext.UnitBlock
 
 
 /**
@@ -84,16 +86,16 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
      */
     private var onBind: ((model: T) -> Unit)? = null
 
-    private var onViewAttachedToWindow: (() -> Unit)? = null
-    private var onViewDetachedFromWindow: (() -> Unit)? = null
+    private var onViewAttachedToWindow: UnitBlock? = null
+    private var onViewDetachedFromWindow: UnitBlock? = null
 
-    private var onResume: (() -> Unit)? = null
-    private var onPause: (() -> Unit)? = null
-    private var onStop: (() -> Unit)? = null
-    private var onDestroy: (() -> Unit)? = null
+    private var onResume: UnitBlock? = null
+    private var onPause: UnitBlock? = null
+    private var onStop: UnitBlock? = null
+    private var onDestroy: UnitBlock? = null
 
-    private var onViewRecycled: (() -> Unit)? = null
-    private var onFailedToRecycleView: (() -> Boolean)? = null
+    private var onViewRecycled: UnitBlock? = null
+    private var onFailedToRecycleView: BooleanBlock? = null
 
     /**
      * 单击事件
@@ -221,15 +223,15 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         onLongClickListener = onLongClick
     }
 
-    fun onViewAttachedToWindow(onAttach: (() -> Unit)) {
+    fun onViewAttachedToWindow(onAttach: UnitBlock) {
         onViewAttachedToWindow = onAttach
     }
 
-    fun onViewDetachedFromWindow(onDetach: (() -> Unit)) {
+    fun onViewDetachedFromWindow(onDetach: UnitBlock) {
         onViewDetachedFromWindow = onDetach
     }
 
-    fun onViewRecycled(block: (() -> Unit)) {
+    fun onViewRecycled(block: UnitBlock) {
         onViewRecycled = block
     }
 
@@ -237,19 +239,19 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         onFailedToRecycleView = block
     }
 
-    fun onResume(block: (() -> Unit)) {
+    fun onResume(block: UnitBlock) {
         onResume = block
     }
 
-    fun onPause(block: (() -> Unit)) {
+    fun onPause(block: UnitBlock) {
         onPause = block
     }
 
-    fun onStop(block: (() -> Unit)) {
+    fun onStop(block: UnitBlock) {
         onStop = block
     }
 
-    fun onDestroy(block: (() -> Unit)) {
+    fun onDestroy(block: UnitBlock) {
         onDestroy = block
     }
 }

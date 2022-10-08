@@ -45,7 +45,7 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
         with(flapRecyclerView.flapAdapter) {
 
-            this.setEmptyView(emptyView)
+            this.withEmptyView(emptyView)
 
             doOnPreload {
                 toast("onPreload 预加载")
@@ -69,6 +69,8 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
         linearSpaceItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
         recyclerView.addItemDecoration(linearSpaceItemDecoration)
+
+        flapRecyclerView.disableAnimation()
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

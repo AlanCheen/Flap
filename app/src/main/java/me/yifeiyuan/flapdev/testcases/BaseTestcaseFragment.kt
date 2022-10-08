@@ -19,10 +19,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.decoration.SpaceItemDecoration
-import me.yifeiyuan.flap.widget.FlapGridLayoutManager
-import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
-import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
-import me.yifeiyuan.flap.widget.FlapRecyclerView
+import me.yifeiyuan.flap.widget.*
 import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
 import java.util.*
@@ -52,7 +49,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
     lateinit var linearLayoutManager: FlapLinearLayoutManager
     lateinit var gridLayoutManager: FlapGridLayoutManager
-    lateinit var staggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
+    lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
+    lateinit var indexedStaggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
     override fun onAttach(context: Context) {
@@ -82,30 +80,26 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         emptyView = view.findViewById(R.id.emptyView)
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
-        adapter.setLifecycleOwner(viewLifecycleOwner)
-
-        adapter.setEmptyView(emptyView)
-
-        adapter.observeEvent<String>("showToast") {
-            toast(it.arg ?: "Default Message")
-            Log.d("observeEvent", "showToast event ")
-        }
-
-        adapter.observeEvent<Int>("intEvent") {
-            Log.d("observeEvent", "intEvent called")
-        }
-
-        adapter.observerEvents {
-            when (it.eventName) {
-                "showToast" -> {
-                    Log.d("observerEvents", "showToast ~~ ${it.arg}")
-                    it.setEventResult(isSuccess = true)
+                .withLifecycleOwner(viewLifecycleOwner)
+                .withEmptyView(emptyView)
+                .observeEvent<String>("showToast") {
+                    toast(it.arg ?: "Default Message")
+                    Log.d("observeEvent", "showToast event ")
                 }
-                "intEvent" -> {
-                    Log.d("observerEvents", "intEvent ~~ ${it.arg}")
+                .observeEvent<Int>("intEvent") {
+                    Log.d("observeEvent", "intEvent called")
                 }
-            }
-        }
+                .observerEvents {
+                    when (it.eventName) {
+                        "showToast" -> {
+                            Log.d("observerEvents", "showToast ~~ ${it.arg}")
+                            it.setEventResult(isSuccess = true)
+                        }
+                        "intEvent" -> {
+                            Log.d("observerEvents", "intEvent ~~ ${it.arg}")
+                        }
+                    }
+                }
 
         adapter.setParamProvider {
             when (it) {
@@ -148,8 +142,6 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
 
         swipeRefreshLayout.isRefreshing = true
 
-//        FlapItemTouchHelper(adapter).attachToRecyclerView(recyclerView)
-
         Handler().postDelayed({
             adapter.setDataAndNotify(createRefreshData())
             swipeRefreshLayout.isRefreshing = false
@@ -164,15 +156,17 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     var spanSize = 1
-                    //                            spanSize = if (position % 2 == 0) 2 else 1
+                    //spanSize = if (position % 2 == 0) 2 else 1
                     return spanSize
                 }
             }
         }
 
-        staggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
+        indexedStaggeredGridLayoutManager = FlapIndexedStaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
             gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
+
+        staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(2)
     }
 
     open fun initItemDecorations() {
@@ -248,6 +242,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 is StaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
+                is FlapIndexedStaggeredGridLayoutManager->{
+                    layoutManager.scrollToPositionWithOffset(0, 0)
+                }
                 else -> {
                     layoutManager?.scrollToPosition(0)
                 }
@@ -259,6 +256,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
      * 0 Linear
      * 1 Grid
      * 2 Staggered
+     * 3 IndexedStaggered
      */
     fun switchLayoutManager(type: Int) {
         when (type) {
@@ -290,6 +288,15 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 currentLayoutManager = staggeredGridLayoutManager
                 recyclerView.layoutManager = currentLayoutManager
             }
+            3 -> {
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = gridItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+
+                currentLayoutManager = indexedStaggeredGridLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
         }
     }
 
@@ -316,6 +323,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
             is StaggeredGridLayoutManager -> {
                 (currentLayoutManager as StaggeredGridLayoutManager).orientation = orientation
+            }
+            is FlapIndexedStaggeredGridLayoutManager -> {
+                (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = orientation
             }
         }
 

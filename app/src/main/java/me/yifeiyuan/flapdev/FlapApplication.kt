@@ -14,9 +14,8 @@ import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
  */
 class FlapApplication : MultiDexApplication() {
 
-    companion object{
-
-        var application :Application?=null
+    companion object {
+        var application: Application? = null
     }
 
     override fun onCreate() {
@@ -50,7 +49,8 @@ class FlapApplication : MultiDexApplication() {
             )
 
             //也是全局
-            registerAdapterHooks(LoggingHook(),
+            registerAdapterHooks(
+                    LoggingHook(),
 //                    ApmHook()
             )
 

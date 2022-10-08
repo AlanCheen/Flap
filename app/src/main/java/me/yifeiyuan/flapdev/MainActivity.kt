@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_preload -> {
                     title = "预加载"
-                    subtitle = "在滑动到底部之前预先加载"
+                    subtitle = "在滑动到底部或顶部之前预先加载"
                     replace(PreloadTestcase::class.java)
                 }
                 R.id.nav_component_pool -> {

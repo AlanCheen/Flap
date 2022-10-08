@@ -2,6 +2,7 @@ package me.yifeiyuan.flap
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
@@ -13,11 +14,13 @@ import me.yifeiyuan.flap.service.AdapterServiceManager
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 
 /**
+ * 负责代理部分 Adapter API 实现
+ *
  * Created by 程序亦非猿 on 2022/9/27.
  *
  * @since 3.1.5
  */
-
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
 
     companion object {
@@ -44,7 +47,6 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
     var fallbackDelegate: AdapterDelegate<*, *>? = null
-
 
     init {
         adapterHooks.addAll(Flap.adapterHooks)
@@ -215,6 +217,11 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     internal fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
+
+        dispatchOnViewAttachedToWindow(adapter, delegate, component)
+    }
+
+    private fun dispatchOnViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onViewAttachedToWindow(adapter, delegate, component)
@@ -227,6 +234,11 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     internal fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
+
+        dispatchOnViewDetachedFromWindow(adapter, delegate, component)
+    }
+
+    private fun dispatchOnViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onViewDetachedFromWindow(adapter, delegate, component)
@@ -242,6 +254,10 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
             lifecycleOwner = recyclerView.context as LifecycleOwner
         }
+        dispatchOnAttachedToRecyclerView(adapter, recyclerView)
+    }
+
+    private fun dispatchOnAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onAttachedToRecyclerView(adapter, recyclerView)
@@ -252,6 +268,10 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     }
 
     internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+        dispatchOnDetachedFromRecyclerView(adapter, recyclerView)
+    }
+
+    private fun dispatchOnDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onDetachedFromRecyclerView(adapter, recyclerView)

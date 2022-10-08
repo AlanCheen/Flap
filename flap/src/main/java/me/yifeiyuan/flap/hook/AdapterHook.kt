@@ -114,9 +114,15 @@ interface AdapterHook {
     ) {
     }
 
-    fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView){}
+    /**
+     * @see FlapAdapter.onAttachedToRecyclerView
+     * @since 3.1.5
+     */
+    fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
 
-    fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView){
-
-    }
+    /**
+     * @see FlapAdapter.onDetachedFromRecyclerView
+     * @since 3.1.5
+     */
+    fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
 }

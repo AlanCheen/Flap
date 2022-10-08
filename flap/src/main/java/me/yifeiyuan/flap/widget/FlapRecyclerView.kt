@@ -60,7 +60,7 @@ open class FlapRecyclerView
                 is StaggeredGridLayoutManager -> {
                     (layoutManager as StaggeredGridLayoutManager).orientation = value
                 }
-                is FlapIndexedStaggeredGridLayoutManager->{
+                is FlapIndexedStaggeredGridLayoutManager -> {
                     (layoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = value
                 }
             }
@@ -225,4 +225,8 @@ open class FlapRecyclerView
         }
     }
 
+    fun canScrollUp(): Boolean = canScrollVertically(-1)
+    fun canScrollDown(): Boolean = canScrollVertically(1)
+    fun canScrollLeft(): Boolean = canScrollHorizontally(-1)
+    fun canScrollRight(): Boolean = canScrollHorizontally(1)
 }

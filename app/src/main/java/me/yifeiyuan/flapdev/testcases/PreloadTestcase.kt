@@ -10,7 +10,7 @@ import android.view.View
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by 程序亦非猿 on 2021/10/19.
@@ -28,14 +28,17 @@ class PreloadTestcase : BaseTestcaseFragment() {
         setHasOptionsMenu(true)
         useAdapter()
 
+        recyclerView.layoutManager = linearLayoutManager
         recyclerView.addItemDecoration(linearItemDecoration)
     }
 
     private fun useAdapter() {
+        //滑动到底部
         adapter.doOnPreload(offset = 0, minItemCount = 2, direction = PreloadHook.SCROLL_DOWN) {
             requestMoreData()
         }
 
+        //滑动到顶部
         adapter.doOnPreload(offset = 2, minItemCount = 2, direction = PreloadHook.SCROLL_UP) {
 
             toast("顶部，开始预加载")
@@ -79,10 +82,5 @@ class PreloadTestcase : BaseTestcaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume: ${recyclerView.canScrollVertically(-1)}")
     }
 }

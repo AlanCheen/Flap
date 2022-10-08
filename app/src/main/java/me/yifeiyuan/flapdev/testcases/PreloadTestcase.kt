@@ -1,12 +1,16 @@
 package me.yifeiyuan.flapdev.testcases
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.components.SimpleTextModel
+import java.util.ArrayList
 
 /**
  * Created by 程序亦非猿 on 2021/10/19.
@@ -28,8 +32,22 @@ class PreloadTestcase : BaseTestcaseFragment() {
     }
 
     private fun useAdapter() {
-        adapter.doOnPreload(offset = 0, minItemCount = 2) {
+        adapter.doOnPreload(offset = 0, minItemCount = 2, direction = PreloadHook.SCROLL_DOWN) {
             requestMoreData()
+        }
+
+        adapter.doOnPreload(offset = 2, minItemCount = 2, direction = PreloadHook.SCROLL_UP) {
+
+            toast("顶部，开始预加载")
+
+            Handler().postDelayed({
+                val list = ArrayList<Any>()
+                val size = 5
+                repeat(size) {
+                    list.add(SimpleTextModel("头部加载更多数据 $it of $size"))
+                }
+                adapter.addDataAndNotify(list)
+            }, 300)
         }
     }
 
@@ -40,7 +58,7 @@ class PreloadTestcase : BaseTestcaseFragment() {
             adapter.setPreloadComplete() // 当出错时，需要手动调用，不然不会再进行检查
         } else {
             Log.d(TAG, "onViewCreated: 开始预加载")
-            toast("开始预加载")
+            toast("底部，开始预加载")
             loadMoreData()
         }
     }
@@ -61,5 +79,10 @@ class PreloadTestcase : BaseTestcaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ${recyclerView.canScrollVertically(-1)}")
     }
 }

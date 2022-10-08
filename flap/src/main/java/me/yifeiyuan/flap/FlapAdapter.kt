@@ -46,7 +46,9 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     /**
      * RecyclerView 滑动到底部触发预加载
      */
-    private var preloadHook: PreloadHook? = null
+    private var scrollUpPreloadHook: PreloadHook? = null
+
+    private var scrollDownPreloadHook: PreloadHook? = null
 
     /**
      * 所有事件的监听
@@ -85,16 +87,35 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
 
+    // 暂时不需要
+//    private fun getData(): List<Any> {
+//        return Collections.unmodifiableList(data)
+//    }
+
+    /**
+     * 在顶部添加数据
+     */
+    open fun addData(index: Int = 0, dataList: List<Any>) {
+        data.addAll(index, dataList)
+    }
+
+    open fun addDataAndNotify(dataList: List<Any>, index: Int = 0, byNotifyDataSetChanged: Boolean = false) {
+        data.addAll(0, dataList)
+        if (byNotifyDataSetChanged) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRangeInserted(0, dataList.size)
+        }
+    }
+
     open fun setData(newDataList: MutableList<Any>) {
         data.clear()
         data.addAll(newDataList)
     }
 
     open fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean = false) {
-        val preItemCount = itemCount
         data.clear()
         data.addAll(newDataList)
-
         if (byNotifyDataSetChanged) {
             notifyDataSetChanged()
         } else {
@@ -265,12 +286,24 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
      *
      * @see PreloadHook
      */
-    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, onPreload: () -> Unit) = apply {
-        preloadHook?.let {
-            unregisterAdapterHook(it)
-        }
-        preloadHook = PreloadHook(offset, minItemCount, onPreload).also {
-            registerAdapterHook(it)
+    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, direction: Int = PreloadHook.SCROLL_DOWN, onPreload: () -> Unit) = apply {
+        when (direction) {
+            PreloadHook.SCROLL_UP -> {
+                scrollUpPreloadHook?.let {
+                    unregisterAdapterHook(it)
+                }
+                scrollUpPreloadHook = PreloadHook(offset, minItemCount, direction, onPreload = onPreload).also {
+                    registerAdapterHook(it)
+                }
+            }
+            PreloadHook.SCROLL_DOWN -> {
+                scrollDownPreloadHook?.let {
+                    unregisterAdapterHook(it)
+                }
+                scrollDownPreloadHook = PreloadHook(offset, minItemCount, direction, onPreload = onPreload).also {
+                    registerAdapterHook(it)
+                }
+            }
         }
     }
 
@@ -278,12 +311,26 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
      * 设置是否启用预加载
      * 需要先调用 doOnPreload 开启才有效。
      */
-    fun setPreloadEnable(enable: Boolean) = apply {
-        preloadHook?.preloadEnable = enable
+    fun setPreloadEnable(enable: Boolean, direction: Int = PreloadHook.SCROLL_DOWN) = apply {
+        when (direction) {
+            PreloadHook.SCROLL_UP -> {
+                scrollUpPreloadHook?.preloadEnable = enable
+            }
+            PreloadHook.SCROLL_DOWN -> {
+                scrollDownPreloadHook?.preloadEnable = enable
+            }
+        }
     }
 
-    fun setPreloadComplete() {
-        preloadHook?.setPreloadComplete()
+    fun setPreloadComplete(direction: Int = PreloadHook.SCROLL_DOWN) {
+        when (direction) {
+            PreloadHook.SCROLL_UP -> {
+                scrollUpPreloadHook?.setPreloadComplete()
+            }
+            PreloadHook.SCROLL_DOWN -> {
+                scrollDownPreloadHook?.setPreloadComplete()
+            }
+        }
     }
 
     /**

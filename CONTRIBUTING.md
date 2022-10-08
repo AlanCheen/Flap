@@ -17,9 +17,7 @@
     - 📝 `:memo:` when writing docs
     - 🐛 `:bug:` when fixing a bug
     - 🔥 `:fire:` when removing code or files
-    - 💚 `:green_heart:` when fixing the CI build
     - ✅ `:white_check_mark:` when adding tests
-    - 🔒 `:lock:` when dealing with security
     - ⬆️ `:arrow_up:` when upgrading dependencies
     - ⬇️ `:arrow_down:` when downgrading dependencies
     - 👕 `:shirt:` when removing linter warnings

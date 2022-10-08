@@ -44,10 +44,13 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     private var useComponentPool = true
 
     /**
-     * RecyclerView 滑动到底部触发预加载
+     * RecyclerView 滑动到顶部触发预加载
      */
     private var scrollUpPreloadHook: PreloadHook? = null
 
+    /**
+     * RecyclerView 滑动到底部触发预加载
+     */
     private var scrollDownPreloadHook: PreloadHook? = null
 
     /**
@@ -78,12 +81,6 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     lateinit var bindingContext: Context
 
     init {
-        delegation.adapterHooks.addAll(Flap.adapterHooks)
-        delegation.adapterDelegates.addAll(Flap.adapterDelegates)
-        delegation.adapterServices.putAll(Flap.adapterServices)
-
-        delegation.fallbackDelegate = Flap.globalFallbackAdapterDelegate
-
         inflateWithApplicationContext = Flap.inflateWithApplicationContext
     }
 

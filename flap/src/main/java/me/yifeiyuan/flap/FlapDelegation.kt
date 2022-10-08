@@ -45,6 +45,15 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     var fallbackDelegate: AdapterDelegate<*, *>? = null
 
+
+    init {
+        adapterHooks.addAll(Flap.adapterHooks)
+        adapterDelegates.addAll(Flap.adapterDelegates)
+        adapterServices.putAll(Flap.adapterServices)
+
+        fallbackDelegate = Flap.globalFallbackAdapterDelegate
+    }
+
     internal fun onCreateViewHolder(adapter: FlapAdapter, parent: ViewGroup, viewType: Int, layoutInflater: LayoutInflater): Component<*> {
         val delegate = getDelegateByViewType(viewType)
         dispatchOnCreateViewHolderStart(adapter, delegate, viewType)

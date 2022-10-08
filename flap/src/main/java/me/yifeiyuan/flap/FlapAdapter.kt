@@ -93,12 +93,11 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     open fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean = false) {
         val preItemCount = itemCount
         data.clear()
+        data.addAll(newDataList)
+
         if (byNotifyDataSetChanged) {
-            data.addAll(newDataList)
             notifyDataSetChanged()
         } else {
-            notifyItemRangeRemoved(0, preItemCount)
-            data.addAll(newDataList)
             notifyItemRangeChanged(0, newDataList.size)
         }
     }

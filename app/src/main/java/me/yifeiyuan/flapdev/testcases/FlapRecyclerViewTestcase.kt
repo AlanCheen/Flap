@@ -69,6 +69,8 @@ class FlapRecyclerViewTestcase : BaseTestcaseFragment() {
 
         linearSpaceItemDecoration = LinearSpaceItemDecoration(requireActivity().toPixel(6))
         recyclerView.addItemDecoration(linearSpaceItemDecoration)
+
+        flapRecyclerView.disableAnimation()
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

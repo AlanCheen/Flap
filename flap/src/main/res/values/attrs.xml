@@ -8,9 +8,11 @@
             <enum name="linear" value="0" />
             <enum name="grid" value="1" />
             <enum name="staggered" value="2" />
+            <enum name="indexed_staggered" value="3" />
         </attr>
         <attr name="flapRecycleChildrenOnDetach" format="boolean"/>
         <attr name="flapSupportsChangeAnimations" format="boolean"/>
+        <attr name="flapDisableAnimation" format="boolean"/>
 
     </declare-styleable>
 

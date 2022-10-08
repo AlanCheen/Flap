@@ -28,10 +28,20 @@ import java.util.concurrent.atomic.AtomicBoolean
  *  @since 2021/9/28
  *  @since 3.0.0
  */
-class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val onPreload: () -> Unit) : AdapterHook {
+class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2, private val direction: Int = SCROLL_DOWN, private val onPreload: () -> Unit) : AdapterHook {
 
     companion object {
         private const val TAG = "PreloadHook"
+
+        /**
+         * 向底部滚动，手指往上滑动
+         */
+        const val SCROLL_DOWN = 0
+
+        /**
+         * 向顶部滚动，手指往下滑动
+         */
+        const val SCROLL_UP = 1
     }
 
     init {
@@ -66,17 +76,26 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
         }
     }
 
+    private var prePosition = -1
     override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         val itemCount = adapter.itemCount
-
-        if (preloadEnable && itemCount >= minItemCount && position + offset >= itemCount - 1) {
-            if (loading.get()) {
-                return
+        if (preloadEnable && !loading.get()) {
+            if (direction == SCROLL_DOWN && prePosition < position) {
+                if (itemCount >= minItemCount && position + offset >= itemCount - 1) {
+                    loading.set(true)
+                    onPreload()
+                    FlapDebug.d(TAG, "滑动到「底部」触发预加载，当前 position = $position，itemCount = $itemCount")
+                }
+            } else if (direction == SCROLL_UP && prePosition > position) {
+                if (itemCount >= minItemCount && position - offset <= 0) {
+                    loading.set(true)
+                    onPreload()
+                    FlapDebug.d(TAG, "滑动到「顶部」触发预加载，当前 position = $position，itemCount = $itemCount")
+                }
             }
-            loading.set(true)
-            onPreload()
-            FlapDebug.d(TAG, "触发预加载，当前 position = $position，itemCount = $itemCount")
         }
+
+        prePosition = position
     }
 
     fun setPreloadComplete() {

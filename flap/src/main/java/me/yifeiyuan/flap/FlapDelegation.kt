@@ -210,7 +210,11 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
             lifecycleOwner = recyclerView.context as LifecycleOwner
         }
         adapterHooks.forEach {
-            it.onAttachedToRecyclerView(adapter, recyclerView)
+            try {
+                it.onAttachedToRecyclerView(adapter, recyclerView)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

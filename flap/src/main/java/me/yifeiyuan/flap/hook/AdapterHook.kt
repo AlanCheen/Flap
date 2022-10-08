@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap.hook
 
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
@@ -111,5 +112,11 @@ interface AdapterHook {
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
     ) {
+    }
+
+    fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView){}
+
+    fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView){
+
     }
 }

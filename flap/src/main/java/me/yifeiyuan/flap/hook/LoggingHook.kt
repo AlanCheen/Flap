@@ -1,11 +1,10 @@
 package me.yifeiyuan.flap.hook
 
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-
-private const val TAG = "LoggingHook"
 
 /**
  *
@@ -20,6 +19,10 @@ private const val TAG = "LoggingHook"
  * @since 3.0.0
  */
 class LoggingHook(private val enableLog: Boolean = true) : AdapterHook {
+
+    companion object {
+        private const val TAG = "LoggingHook"
+    }
 
     override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (enableLog) {
@@ -58,6 +61,18 @@ class LoggingHook(private val enableLog: Boolean = true) : AdapterHook {
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onViewDetachedFromWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
+        }
+    }
+
+    override fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+        if (enableLog) {
+            FlapDebug.d(TAG, "onAttachedToRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
+        }
+    }
+
+    override fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+        if (enableLog) {
+            FlapDebug.d(TAG, "onDetachedFromRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
         }
     }
 }

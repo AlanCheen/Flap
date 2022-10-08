@@ -76,9 +76,9 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     lateinit var bindingContext: Context
 
     init {
-        adapterHooks.addAll(Flap.adapterHooks)
-        adapterDelegates.addAll(Flap.adapterDelegates)
-        adapterServices.putAll(Flap.adapterServices)
+        delegation.adapterHooks.addAll(Flap.adapterHooks)
+        delegation.adapterDelegates.addAll(Flap.adapterDelegates)
+        delegation.adapterServices.putAll(Flap.adapterServices)
 
         delegation.fallbackDelegate = Flap.globalFallbackAdapterDelegate
 

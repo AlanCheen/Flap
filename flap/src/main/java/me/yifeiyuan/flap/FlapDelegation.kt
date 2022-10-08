@@ -14,6 +14,8 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
 
 /**
  * Created by 程序亦非猿 on 2022/9/27.
+ *
+ * @since 3.1.5
  */
 
 class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
@@ -202,15 +204,19 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     }
 
     internal fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
-        FlapDebug.d(TAG, "onAttachedToRecyclerView: ")
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
             FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
             lifecycleOwner = recyclerView.context as LifecycleOwner
         }
+        adapterHooks.forEach {
+            it.onAttachedToRecyclerView(adapter, recyclerView)
+        }
     }
 
     internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
-        FlapDebug.d(TAG, "onDetachedFromRecyclerView: ")
+        adapterHooks.forEach {
+            it.onDetachedFromRecyclerView(adapter, recyclerView)
+        }
     }
 }

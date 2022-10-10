@@ -92,11 +92,11 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     /**
      * 在顶部添加数据
      */
-    open fun addData(index: Int = 0, dataList: List<Any>) {
-        data.addAll(index, dataList)
+    open fun addData(dataList: List<Any>) {
+        data.addAll(dataList)
     }
 
-    open fun addDataAndNotify(dataList: List<Any>, index: Int = 0, byNotifyDataSetChanged: Boolean = false) {
+    open fun addDataAndNotify(dataList: List<Any>, byNotifyDataSetChanged: Boolean = false) {
         data.addAll(0, dataList)
         if (byNotifyDataSetChanged) {
             notifyDataSetChanged()

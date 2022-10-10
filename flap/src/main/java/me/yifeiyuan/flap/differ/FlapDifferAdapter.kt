@@ -62,9 +62,11 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
     }
 
     @JvmOverloads
-    fun submitList(newList: List<T>, callback: Runnable? = null) {
+    fun submitList(newList: MutableList<T>, callback: Runnable? = null) {
         if (differ.currentList === newList) {
-            val data: ArrayList<T> = ArrayList<T>(newList)
+            val data: MutableList<T> = mutableListOf<T>().apply {
+                addAll(newList)
+            }
             differ.submitList(data, callback)
         } else {
             differ.submitList(newList, callback)
@@ -81,7 +83,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun setData(newDataList: MutableList<Any>) {
-        val data = ArrayList<T>()
+        val data = mutableListOf<T>()
         for (o in newDataList) {
             data.add(o as T)
         }
@@ -90,7 +92,7 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(newDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun <T : Any> setDataAndNotify(newDataList: MutableList<T>, byNotifyDataSetChanged: Boolean) {
-        throw UnsupportedOperationException()
+        super.setDataAndNotify(newDataList, byNotifyDataSetChanged)
     }
 
     @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
@@ -103,17 +105,22 @@ class FlapDifferAdapter<T : Any> : FlapAdapter {
         submitList(data)
     }
 
-    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    @Deprecated(message = "请使用 appendData", replaceWith = ReplaceWith("appendData(appendDataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
     override fun appendDataAndNotify(appendDataList: MutableList<Any>, byNotifyDataSetChanged: Boolean) {
         this.appendData(appendDataList)
     }
 
-    override fun addData(index: Int, dataList: List<Any>) {
-        throw UnsupportedOperationException()
+    override fun addData(dataList: List<Any>) {
+        val data = ArrayList<T>()
+        dataList.forEach {
+            data.add(it as T)
+        }
+        data.addAll(differ.currentList)
+        submitList(data)
     }
 
-    @Deprecated(message = "请使用 submitList", replaceWith = ReplaceWith("submitList(dataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
-    override fun addDataAndNotify(dataList: List<Any>, index: Int, byNotifyDataSetChanged: Boolean) {
-        throw UnsupportedOperationException()
+    @Deprecated(message = "请使用 addData", replaceWith = ReplaceWith("addData(dataList)", "me.yifeiyuan.flap.differ.FlapDifferAdapter"))
+    override fun addDataAndNotify(dataList: List<Any>, byNotifyDataSetChanged: Boolean) {
+        this.addData(dataList)
     }
 }

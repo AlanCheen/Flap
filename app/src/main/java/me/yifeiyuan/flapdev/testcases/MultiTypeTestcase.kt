@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flap.skeleton.Skeleton
 import me.yifeiyuan.flap.widget.FlapGridLayoutManager
+import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flap.widget.FlapStaggeredGridLayoutManager
 import me.yifeiyuan.flapdev.R
@@ -98,7 +99,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 adapter.setDataAndNotify(mockMultiTypeModels())
             }
             R.id.linear -> {
-                recyclerView.layoutManager = FlapLinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+                recyclerView.layoutManager = linearLayoutManager
                 recyclerView.invalidateItemDecorations()
             }
             R.id.grid -> {
@@ -116,7 +117,13 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 recyclerView.invalidateItemDecorations()
             }
             R.id.staggered -> {
-                recyclerView.layoutManager = FlapStaggeredGridLayoutManager(3)
+                recyclerView.layoutManager = staggeredGridLayoutManager
+                staggeredGridLayoutManager.spanCount = 3
+                recyclerView.invalidateItemDecorations()
+            }
+            R.id.indexed_staggered -> {
+                recyclerView.layoutManager = indexedStaggeredGridLayoutManager
+                indexedStaggeredGridLayoutManager.spanCount = 3
                 recyclerView.invalidateItemDecorations()
             }
             R.id.testZeroHeight -> {

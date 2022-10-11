@@ -1,11 +1,10 @@
 package me.yifeiyuan.flapdev
 
 import android.content.Context
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import me.yifeiyuan.flapdev.databinding.DebugMenuBinding
 
 /**
@@ -50,6 +49,38 @@ class ConfigMenuView : FrameLayout {
                 }
             }
         }
+
+        binding.clearAll.setOnClickListener {
+            callback?.onClearAllData()
+        }
+        binding.addTopData.setOnClickListener {
+            callback?.onAddDataToTop()
+        }
+        binding.resetData.setOnClickListener {
+            callback?.onResetData()
+        }
+        binding.appendData.setOnClickListener {
+            callback?.onAppendData()
+        }
+        binding.addZeroHeightData.setOnClickListener {
+            callback?.onAddZeroHeightData()
+        }
+
+        binding.spanCount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                callback?.onSpanCountChanged(seekBar.progress)
+            }
+        })
+
+        binding.toggleSkeleton.setOnCheckedChangeListener { buttonView, isChecked ->
+            callback?.onSkeletonVisibilityChanged(isChecked)
+        }
     }
 
     var callback: Callback? = null
@@ -58,5 +89,12 @@ class ConfigMenuView : FrameLayout {
         fun onOrientationChanged(orientation: Int)
         fun onLayoutManagerChanged(type: Int)
         fun onPreloadChanged(direction: Int, enable: Boolean)
+        fun onClearAllData()
+        fun onAddDataToTop()
+        fun onResetData()
+        fun onAppendData()
+        fun onSpanCountChanged(spanCount: Int)
+        fun onSkeletonVisibilityChanged(show: Boolean)
+        fun onAddZeroHeightData()
     }
 }

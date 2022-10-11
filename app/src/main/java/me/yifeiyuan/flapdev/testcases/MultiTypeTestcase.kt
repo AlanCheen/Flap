@@ -24,8 +24,6 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
  */
 class MultiTypeTestcase : BaseTestcaseFragment() {
 
-    //测试第一个组件高度为 0 的 case,会导致不能下拉刷新
-    var testZeroHeight = false
     lateinit var skeletonHelper: Skeleton
 
     override fun onInit(view: View) {
@@ -77,11 +75,16 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
         recyclerView.addItemDecoration(linearItemDecoration)
     }
 
+    override fun updateSkeletonVisibility(show: Boolean) {
+        if (show) {
+            skeletonHelper.show()
+        }else{
+            skeletonHelper.hide()
+        }
+    }
+
     override fun createRefreshData(size: Int): MutableList<Any> {
         val list = mockMultiTypeModels()
-        if (testZeroHeight) {
-            list.add(0, ZeroHeightModel())
-        }
         return list
     }
 
@@ -91,52 +94,6 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.emptyData -> {
-                skeletonHelper.hide()
-                adapter.setDataAndNotify(mutableListOf())
-            }
-            R.id.resetData -> {
-                adapter.setDataAndNotify(mockMultiTypeModels())
-            }
-            R.id.linear -> {
-                recyclerView.layoutManager = linearLayoutManager
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.grid -> {
-                val spanCount = 3
-                recyclerView.layoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
-
-                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-                            var spanSize = 1
-                            spanSize = if (position % 2 == 0) 2 else 1
-                            return spanSize
-                        }
-                    }
-                }
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.staggered -> {
-                recyclerView.layoutManager = staggeredGridLayoutManager
-                staggeredGridLayoutManager.spanCount = 3
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.indexed_staggered -> {
-                recyclerView.layoutManager = indexedStaggeredGridLayoutManager
-                indexedStaggeredGridLayoutManager.spanCount = 3
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.testZeroHeight -> {
-                testZeroHeight = !testZeroHeight
-                onRefresh()
-            }
-            R.id.toggleSkeleton -> {
-                if (skeletonHelper.isShowing) {
-                    skeletonHelper.hide()
-                } else {
-                    skeletonHelper.show()
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -24,6 +24,7 @@ import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.widget.*
 import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
+import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import java.util.*
 
 private const val TAG = "BaseCaseFragment"
@@ -354,11 +355,59 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
 
                 override fun onPreloadChanged(direction: Int, enable: Boolean) {
                 }
+
+                override fun onClearAllData() {
+                    adapter.setDataAndNotify(mutableListOf())
+                }
+
+                override fun onAddDataToTop() {
+                    //TODO
+                }
+
+                override fun onSkeletonVisibilityChanged(show: Boolean) {
+                    updateSkeletonVisibility(show)
+                }
+
+                override fun onAddZeroHeightData() {
+                    adapter.addDataAndNotify(mutableListOf(ZeroHeightModel()))
+                }
+
+                override fun onResetData() {
+                    adapter.setDataAndNotify(mockMultiTypeModels())
+                }
+
+                override fun onAppendData() {
+                    loadMoreData()
+                }
+
+                override fun onSpanCountChanged(spanCount: Int) {
+                    updateSpanCount(spanCount)
+                }
             }
             menuDialog = BottomSheetDialog(requireActivity()).apply {
                 setContentView(configMenuView!!)
             }
         }
         menuDialog?.show()
+    }
+
+    open fun updateSkeletonVisibility(show: Boolean) {
+    }
+
+    private fun updateSpanCount(spanCount: Int) {
+
+        when (currentLayoutManager) {
+            is GridLayoutManager -> {
+                (currentLayoutManager as GridLayoutManager).spanCount = spanCount
+            }
+            is StaggeredGridLayoutManager -> {
+                (currentLayoutManager as StaggeredGridLayoutManager).spanCount = spanCount
+            }
+            is FlapIndexedStaggeredGridLayoutManager -> {
+                (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).spanCount = spanCount
+            }
+        }
+
+        recyclerView.invalidateItemDecorations()
     }
 }

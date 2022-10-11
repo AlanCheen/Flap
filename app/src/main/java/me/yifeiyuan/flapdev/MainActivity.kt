@@ -119,15 +119,18 @@ class MainActivity : AppCompatActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag("testcase")
-//            if (fragment is Scrollable) {
-//                fragment.scrollToTop()
-//            }
-
             fragment.ifIs<IMenuView> {
                 showMenu()
             }
         }
 
+        fab.setOnLongClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag("testcase")
+            if (fragment is Scrollable) {
+                fragment.scrollToTop()
+            }
+            true
+        }
     }
 
     private fun <T : Fragment> replace(fragmentClass: Class<T>, args: Bundle? = null) {

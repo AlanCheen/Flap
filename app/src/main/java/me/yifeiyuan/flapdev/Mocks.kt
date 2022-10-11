@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
-import me.yifeiyuan.flap.ktmodule.ViewBindingModel
+import me.yifeiyuan.flapdev.components.ViewBindingModel
 import java.util.*
 
 /**

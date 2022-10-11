@@ -1,6 +1,7 @@
 package me.yifeiyuan.flapdev
 
 import android.app.Application
+import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
@@ -15,6 +16,16 @@ class FlapApplication : MultiDexApplication() {
 
     companion object {
         var application: Application? = null
+            set(value) {
+                field = value
+                toast = Toast.makeText(value, "", Toast.LENGTH_SHORT)
+            }
+        lateinit var toast: Toast
+        fun toast(title: String) {
+            toast.setText(title)
+            toast.duration = Toast.LENGTH_SHORT
+            toast.show()
+        }
     }
 
     override fun onCreate() {
@@ -35,7 +46,7 @@ class FlapApplication : MultiDexApplication() {
                     createSimpleImageDelegate(),
                     SimpleTextComponentDelegate(),
                     createCustomViewTypeComponentDelegate(),
-                    ViewBindingComponentAdapterDelegate(),
+                    createViewBindingDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
                     createTestBinderComponentDelegate(),

@@ -34,6 +34,13 @@ internal interface IAdapterDelegateManager {
     }
 
     /**
+     * 注册多个 AdapterDelegate
+     */
+    fun registerAdapterDelegates(index: Int,vararg adapterDelegates: AdapterDelegate<*, *>) {
+        this.adapterDelegates.addAll(index, adapterDelegates.toList())
+    }
+
+    /**
      * 注销单个 AdapterDelegate
      */
     fun unregisterAdapterDelegate(adapterDelegate: AdapterDelegate<*, *>) {

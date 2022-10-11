@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     implementation project(':flap')
+    implementation project(':flap-dsl-viewbinding')
     implementation project(':flap-annotations')
     kapt project(':flap-compiler')
 }

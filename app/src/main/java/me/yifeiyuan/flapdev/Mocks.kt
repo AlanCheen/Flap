@@ -4,9 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
-import me.yifeiyuan.flapdev.components.generictest.GenericModel
-import me.yifeiyuan.ktx.foundation.othermodule.JavaModuleModel
-import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
+import me.yifeiyuan.flap.ktmodule.ViewBindingModel
 import java.util.*
 
 /**
@@ -34,12 +32,9 @@ fun mockMultiTypeModels(): MutableList<Any> {
     models.add(SimpleImageModel())
     models.add(TestAllModel())
     models.add(CustomViewTypeModel())
-    models.add(GenericModel())
     models.add(SimpleDataBindingModel())
-    models.add(JavaModuleModel())
     models.add(KtComponentModel())
     models.add(ViewBindingModel())
-    models.add(KtComponentModel())
     models.add(TestBinderModel())
     models.add(UnknownModel())
     models.addAll(mockFullFeatureModels())

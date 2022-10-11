@@ -29,6 +29,11 @@ android {
             arg("packageName", "me.yifeiyuan.flap.ktmodule")
         }
     }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
 }
 
 dependencies {

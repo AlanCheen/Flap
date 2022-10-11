@@ -86,5 +86,7 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
                 return if (headerFooterAdapter.isHeaderOrFooter(position)) gridLayoutManager.spanCount else 1
             }
         }
+
+        switchLayoutManager(0)
     }
 }

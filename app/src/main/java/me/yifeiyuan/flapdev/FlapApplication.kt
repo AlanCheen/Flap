@@ -6,7 +6,6 @@ import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
-import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
  * Flap
@@ -33,13 +32,11 @@ class FlapApplication : MultiDexApplication() {
             registerAdapterDelegates(
                     fullConfigAdapterDelegate(),
                     bannerAdapterDelegate(),
+                    createSimpleImageDelegate(),
                     ZeroHeightComponentAdapterDelegate(),
                     SimpleTextComponentDelegate(),
-                    SimpleImageComponentAdapterDelegate(),
                     CustomViewTypeComponentDelegate(),
-                    GenericFlapComponentDelegate(),
                     ViewBindingComponentAdapterDelegate(),
-                    JavaModuleComponentAdapterDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
                     TestBinderComponentAdapterDelegate(),

@@ -16,8 +16,8 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
 import me.yifeiyuan.flapdev.components.TestAllModel
 import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
 import me.yifeiyuan.flapdev.mockMultiTypeModels
-import me.yifeiyuan.ktx.foundation.othermodule.databinding.FlapItemVbBinding
-import me.yifeiyuan.ktx.foundation.othermodule.vb.ViewBindingModel
+import me.yifeiyuan.flap.ktmodule.ViewBindingModel
+import me.yifeiyuan.flap.ktmodule.databinding.FlapItemVbBinding
 
 private const val TAG = "DSLTestcase"
 
@@ -153,14 +153,25 @@ class DSLTestcase : BaseTestcaseFragment() {
 //            }
 //        }
         val hook = adapterHook {
+            onCreateViewHolderStart { adapter, delegate, viewType ->
+
+            }
+            onCreateViewHolderEnd { adapter, delegate, viewType, component ->
+
+            }
+            onBindViewHolderStart { adapter, delegate, component, data, position, payloads ->
+
+            }
             onBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
                 Log.d(TAG, "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
             }
-        }
+            onViewAttachedToWindow { adapter, delegate, component ->
+            }
 
-//        val layoutDelegate = LayoutAdapterDelegate(TestBinderModel::class.java, R.layout.flap_item_binder) {
-//            model: TestBinderModel, position: Int, payloads: List<Any>, adapter: FlapAdapter ->
-//        }
+            onViewDetachedFromWindow { adapter, delegate, component ->
+
+            }
+        }
 
         val viewBindingDelegate = adapterDelegateViewBinding<ViewBindingModel, FlapItemVbBinding>(
                 { layoutInflater, parent -> FlapItemVbBinding.inflate(layoutInflater, parent, false) }

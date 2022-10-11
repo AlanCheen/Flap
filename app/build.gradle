@@ -94,7 +94,6 @@ dependencies {
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    implementation project(':othermodule')
     implementation project(':ktmodule')
 
     implementation project(':flap')

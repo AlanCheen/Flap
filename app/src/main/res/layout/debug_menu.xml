@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="8dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutManagerMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/layoutManagerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:text="LayoutManager"
+            android:textColor="#111111"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/layoutManagerGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/linear"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutManagerText">
+
+            <RadioButton
+                android:id="@+id/linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Linear" />
+
+            <RadioButton
+                android:id="@+id/grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="Grid" />
+
+            <RadioButton
+                android:id="@+id/staggered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="Staggered" />
+
+            <RadioButton
+                android:id="@+id/indexedStaggered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="Indexed" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/orientationMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/orientation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:text="Orientation"
+            android:textColor="#111111"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/orientationGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/vertical"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orientation">
+
+            <RadioButton
+                android:id="@+id/vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vertical" />
+
+            <RadioButton
+                android:id="@+id/horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="Horizontal" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/preloadMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/preloadText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:text="Preload"
+            android:textColor="#111111"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/scrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="滑动到顶部"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preloadText" />
+
+        <CheckBox
+            android:id="@+id/scrollDown"
+            app:layout_constraintTop_toBottomOf="@id/preloadText"
+            app:layout_constraintLeft_toRightOf="@id/scrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="滑动到底部" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

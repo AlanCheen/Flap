@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
@@ -29,7 +31,7 @@ private const val TAG = "BaseCaseFragment"
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseTestcaseFragment : Fragment(), Scrollable {
+open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
 
     lateinit var recyclerView: RecyclerView
 
@@ -167,6 +169,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(2)
+
+        currentLayoutManager = linearLayoutManager
     }
 
     open fun initItemDecorations() {
@@ -183,6 +187,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         gridItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
 
         spaceItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
+
+        currentItemDecoration = linearItemDecoration
     }
 
     open fun isClickEnable() = true
@@ -242,7 +248,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 is StaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
-                is FlapIndexedStaggeredGridLayoutManager->{
+                is FlapIndexedStaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
                 else -> {
@@ -330,5 +336,29 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         recyclerView.invalidateItemDecorations()
+    }
+
+    var configMenuView: ConfigMenuView? = null
+    var menuDialog: BottomSheetDialog? = null
+    override fun showMenu() {
+        if (menuDialog == null) {
+            configMenuView = ConfigMenuView(requireActivity())
+            configMenuView?.callback = object : ConfigMenuView.Callback {
+                override fun onOrientationChanged(orientation: Int) {
+                    updateOrientation(orientation)
+                }
+
+                override fun onLayoutManagerChanged(type: Int) {
+                    switchLayoutManager(type)
+                }
+
+                override fun onPreloadChanged(direction: Int, enable: Boolean) {
+                }
+            }
+            menuDialog = BottomSheetDialog(requireActivity()).apply {
+                setContentView(configMenuView!!)
+            }
+        }
+        menuDialog?.show()
     }
 }

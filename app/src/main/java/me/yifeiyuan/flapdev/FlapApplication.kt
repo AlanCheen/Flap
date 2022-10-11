@@ -52,7 +52,7 @@ class FlapApplication : MultiDexApplication() {
             registerAdapterHooks(
                     LoggingHook(
                             enableLog = true,
-                            printTrace = true
+//                            printTrace = true
                     ),
 //                    ApmHook()
             )

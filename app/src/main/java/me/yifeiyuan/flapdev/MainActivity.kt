@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import me.yifeiyuan.flap.ext.ifIs
 import me.yifeiyuan.flapdev.testcases.*
 import me.yifeiyuan.flapdev.testcases.ViewPager2Testcase
 
@@ -113,15 +114,19 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val fragment = supportFragmentManager.fragments.get(0)
-            if (fragment is Scrollable) {
-                fragment.scrollToTop()
+            val fragment = supportFragmentManager.findFragmentByTag("testcase")
+//            if (fragment is Scrollable) {
+//                fragment.scrollToTop()
+//            }
+
+            fragment.ifIs<IMenuView> {
+                showMenu()
             }
         }
 
     }
 
     private fun <T : Fragment> replace(fragmentClass: Class<T>, args: Bundle? = null) {
-        supportFragmentManager.beginTransaction().replace(R.id.container, fragmentClass, args).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragmentClass, args,"testcase").commitAllowingStateLoss()
     }
 }

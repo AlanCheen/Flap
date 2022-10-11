@@ -20,7 +20,7 @@ class BannerImageModel {
     var resId: Int = 0
 }
 
-fun bannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.component_banner) {
+fun createBannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.component_banner) {
 
     swipeEnable = false
     dragEnable = false

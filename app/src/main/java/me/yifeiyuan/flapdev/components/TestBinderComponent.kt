@@ -1,13 +1,9 @@
 package me.yifeiyuan.flapdev.components
 
 import android.graphics.Color
-import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import me.yifeiyuan.flap.delegate.AdapterDelegate
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flap.ext.bindView
@@ -22,10 +18,8 @@ import me.yifeiyuan.flapdev.R
 
 class TestBinderModel(val text: String = "ComponentBinder Sample")
 
-@Delegate(layoutId = R.layout.flap_item_binder)
-class TestBinderComponent(itemView: View) : Component<TestBinderModel>(itemView) {
-
-    override fun onBind(model: TestBinderModel) {
+fun createTestBinderComponentDelegate() = adapterDelegate<TestBinderModel>(R.layout.flap_item_binder){
+    onBind { model  ->
         bindTextView(R.id.binderText) {
             text = model.text
             setTextColor(Color.parseColor("#00ffff"))

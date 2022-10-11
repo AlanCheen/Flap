@@ -7,6 +7,7 @@ import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.annotations.Delegate
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flapdev.TestService
@@ -19,15 +20,14 @@ import kotlin.text.StringBuilder
 
 private const val TAG = "TestAllComponent"
 
-class TestAllModel
+class TestAdapterApiModel
 
-@Delegate(layoutId = R.layout.component_test_all_feature)
-class TestAllComponent(view: View) : Component<TestAllModel>(view) {
+fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiModel>(R.layout.component_test_all_feature){
 
-    override fun onBind(model: TestAllModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+    //展示信息
+    val messageTextView = findViewById<TextView>(R.id.message)
 
-        //展示信息
-        val messageTextView = findViewById<TextView>(R.id.message)
+    onBind { model, position, payloads, adapter ->
 
         bindButton(R.id.testFireEvent) {
             // fireEvent 发送事件
@@ -69,8 +69,5 @@ class TestAllComponent(view: View) : Component<TestAllModel>(view) {
                 messageTextView.text = logService?.testResult()
             }
         }
-    }
-
-    override fun onBind(model: TestAllModel) {
     }
 }

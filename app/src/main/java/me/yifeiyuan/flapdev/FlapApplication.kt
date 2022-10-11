@@ -30,17 +30,17 @@ class FlapApplication : MultiDexApplication() {
             //Flap 这里注册的都是是全局的，只是为了测试方便
             //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
             registerAdapterDelegates(
-                    fullConfigAdapterDelegate(),
-                    bannerAdapterDelegate(),
+                    createFullConfigAdapterDelegate(),
+                    createBannerAdapterDelegate(),
                     createSimpleImageDelegate(),
-                    ZeroHeightComponentAdapterDelegate(),
                     SimpleTextComponentDelegate(),
-                    CustomViewTypeComponentDelegate(),
+                    createCustomViewTypeComponentDelegate(),
                     ViewBindingComponentAdapterDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
-                    TestBinderComponentAdapterDelegate(),
-                    TestAllComponentAdapterDelegate(),
+                    createTestBinderComponentDelegate(),
+                    createZeroHeightComponentDelegate(),
+                    createTestAdapterApiComponentDelegate(),
                     DataBindingComponentAdapterDelegate(),
                     DiffComponentAdapterDelegate(),
             )

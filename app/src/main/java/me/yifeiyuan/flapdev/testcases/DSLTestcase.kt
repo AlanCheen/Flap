@@ -13,7 +13,7 @@ import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.SimpleImageModel
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import me.yifeiyuan.flapdev.components.TestAllModel
+import me.yifeiyuan.flapdev.components.TestAdapterApiModel
 import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 import me.yifeiyuan.flap.ktmodule.ViewBindingModel
@@ -89,7 +89,7 @@ class DSLTestcase : BaseTestcaseFragment() {
             }
         }
 
-        val testAllDelegate = adapterDelegate<TestAllModel>(R.layout.component_test_all_feature) {
+        val testAllDelegate = adapterDelegate<TestAdapterApiModel>(R.layout.component_test_all_feature) {
 
             onBind { model, position, payloads, adapter ->
                 bindButton(R.id.testFireEvent) {

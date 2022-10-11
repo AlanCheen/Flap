@@ -30,7 +30,7 @@ fun mockMultiTypeModels(): MutableList<Any> {
     models.add(SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"))
     models.add(SimpleTextModel("—— by 程序亦非猿"))
     models.add(SimpleImageModel())
-    models.add(TestAllModel())
+    models.add(TestAdapterApiModel())
     models.add(CustomViewTypeModel())
     models.add(SimpleDataBindingModel())
     models.add(KtComponentModel())

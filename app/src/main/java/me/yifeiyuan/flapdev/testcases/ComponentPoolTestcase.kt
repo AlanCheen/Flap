@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.pool.RecyclerViewDumpHelper
 import me.yifeiyuan.flap.widget.FlapLinearLayoutManager
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.components.CustomViewTypeComponent
+import me.yifeiyuan.flapdev.components.CUSTOM_ITEM_VIEW_TYPE
 import me.yifeiyuan.flapdev.components.CustomViewTypeModel
 import java.util.ArrayList
 
@@ -46,7 +46,7 @@ class ComponentPoolTestcase : BaseTestcaseFragment() {
 
         recyclerView.layoutManager = llm
 
-        recyclerView.recycledViewPool.setMaxRecycledViews(CustomViewTypeComponent.CUSTOM_ITEM_VIEW_TYPE, 10)
+        recyclerView.recycledViewPool.setMaxRecycledViews(CUSTOM_ITEM_VIEW_TYPE, 10)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

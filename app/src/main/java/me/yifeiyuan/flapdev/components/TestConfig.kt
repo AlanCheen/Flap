@@ -1,11 +1,8 @@
 package me.yifeiyuan.flapdev.components
 
-import android.util.Log
-import android.widget.ImageView
 import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
-import me.yifeiyuan.flap.ext.bindView
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -40,7 +37,7 @@ class TestConfigModel : IDiffer {
     }
 }
 
-fun fullConfigAdapterDelegate() = adapterDelegate<TestConfigModel>(R.layout.component_full_feature) {
+fun createFullConfigAdapterDelegate() = adapterDelegate<TestConfigModel>(R.layout.component_full_feature) {
 
     onBind { model, position, payloads, adapter ->
 

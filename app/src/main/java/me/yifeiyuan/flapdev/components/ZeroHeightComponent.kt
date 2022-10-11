@@ -1,8 +1,6 @@
 package me.yifeiyuan.flapdev.components
 
-import android.view.View
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -13,8 +11,8 @@ import me.yifeiyuan.flapdev.R
 
 class ZeroHeightModel
 
-@Delegate(layoutId = R.layout.component_zero_height)
-class ZeroHeightComponent(view: View) : Component<ZeroHeightModel>(view) {
-    override fun onBind(model: ZeroHeightModel) {
+fun createZeroHeightComponentDelegate() = adapterDelegate<ZeroHeightModel>(R.layout.component_zero_height) {
+    onBind { model ->
+
     }
 }

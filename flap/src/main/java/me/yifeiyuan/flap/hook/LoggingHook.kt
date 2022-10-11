@@ -18,15 +18,20 @@ import me.yifeiyuan.flap.delegate.AdapterDelegate
  * @since 2021/12/27
  * @since 3.0.0
  */
-class LoggingHook(private val enableLog: Boolean = true) : AdapterHook {
+class LoggingHook(private val enableLog: Boolean = true, private val printTrace: Boolean = false) : AdapterHook {
 
     companion object {
         private const val TAG = "LoggingHook"
+
+        class TraceException : RuntimeException("|只用于 LoggingHook 打印日志，不是真实异常|")
     }
 
     override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (enableLog) {
             FlapDebug.d(TAG, "onCreateViewHolderStart() called with: adapter = $adapter, delegate = $delegate, viewType = $viewType")
+            if (printTrace) {
+                FlapDebug.e(TAG, "onCreateViewHolderStart: ", TraceException())
+            }
         }
     }
 
@@ -39,6 +44,10 @@ class LoggingHook(private val enableLog: Boolean = true) : AdapterHook {
     override fun onBindViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onBindViewHolderStart() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
+
+            if (printTrace) {
+                FlapDebug.e(TAG, "onBindViewHolderStart: ", TraceException())
+            }
         }
     }
 
@@ -55,12 +64,18 @@ class LoggingHook(private val enableLog: Boolean = true) : AdapterHook {
     override fun onViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onViewAttachedToWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
+            if (printTrace) {
+                FlapDebug.e(TAG, "onViewAttachedToWindow: ", TraceException())
+            }
         }
     }
 
     override fun onViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onViewDetachedFromWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
+            if (printTrace) {
+                FlapDebug.e(TAG, "onViewDetachedFromWindow: ", TraceException())
+            }
         }
     }
 

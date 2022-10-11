@@ -50,7 +50,10 @@ class FlapApplication : MultiDexApplication() {
 
             //也是全局
             registerAdapterHooks(
-                    LoggingHook(),
+                    LoggingHook(
+                            enableLog = true,
+                            printTrace = true
+                    ),
 //                    ApmHook()
             )
 

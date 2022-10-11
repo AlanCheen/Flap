@@ -56,6 +56,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
     lateinit var indexedStaggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
+    open var useFlapRecyclerView = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         toast = Toast.makeText(context.applicationContext, "", Toast.LENGTH_SHORT)
@@ -65,7 +67,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
         return inflater.inflate(getLayoutId(), container, false)
     }
 
-    open fun getLayoutId(): Int = R.layout.fragment_base_case
+    open fun getLayoutId(): Int = if (useFlapRecyclerView) R.layout.fragment_base_case_flap_rv else R.layout.fragment_base_case
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -18,12 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <me.yifeiyuan.flap.widget.FlapRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layoutManager="me.yifeiyuan.flap.widget.FlapLinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView

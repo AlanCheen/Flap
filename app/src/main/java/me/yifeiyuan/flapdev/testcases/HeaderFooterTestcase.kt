@@ -5,7 +5,9 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flapdev.R
@@ -77,5 +79,12 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
                     toast("滑动结束 position=$adapterPosition")
                 }
                 .attachToRecyclerView(recyclerView)
+
+        // 需要处理 SpanSize
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (headerFooterAdapter.isHeaderOrFooter(position)) gridLayoutManager.spanCount else 1
+            }
+        }
     }
 }

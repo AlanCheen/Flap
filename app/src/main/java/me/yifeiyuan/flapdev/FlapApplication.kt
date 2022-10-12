@@ -49,7 +49,6 @@ class FlapApplication : MultiDexApplication() {
                     createViewBindingDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
-                    createTestBinderComponentDelegate(),
                     createZeroHeightComponentDelegate(),
                     createTestAdapterApiComponentDelegate(),
                     DataBindingComponentAdapterDelegate(),

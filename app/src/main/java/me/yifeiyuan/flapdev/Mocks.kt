@@ -1,6 +1,9 @@
 package me.yifeiyuan.flapdev
 
 import androidx.recyclerview.widget.ItemTouchHelper
+import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_ALL_DIRECTIONS
+import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_HORIZONTAL
+import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_VERTICAL
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
@@ -28,18 +31,30 @@ fun mockMultiTypeModels(): MutableList<Any> {
     models.add(SimpleTextModel("Flap（灵动），一个基于 RecyclerView 的页面组件化框架。 by 程序亦非猿"))
     models.add(bannerModel)
     models.add(TestAdapterApiModel())
+    models.addAll(mockFullFeatureModels())
     models.add(CustomViewTypeModel())
     models.add(SimpleDataBindingModel())
     models.add(KtComponentModel())
     models.add(ViewBindingModel())
-    models.add(TestBinderModel())
     models.add(UnknownModel())
-    models.addAll(mockFullFeatureModels())
     return models
 }
 
 fun mockFullFeatureModels(): MutableList<Any> {
     val models: MutableList<Any> = ArrayList()
+
+    val enabledModel = TestConfigModel().apply {
+        clickEnable = true
+        longClickEnable = true
+        dragEnable = true
+        swipeEnable = true
+        swipeFlags = FLAGS_HORIZONTAL
+        dragFlags = FLAGS_ALL_DIRECTIONS
+        title = "测试功能"
+        content = "都可以"
+    }
+
+    models.add(enabledModel)
 
     val clickModel = TestConfigModel().apply {
         clickEnable = true
@@ -81,6 +96,63 @@ fun mockFullFeatureModels(): MutableList<Any> {
     }
     models.add(swipeModel)
     models.add(swipeModel2)
+
+
+    val dragModel0 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = ItemTouchHelper.DOWN
+        title = "测试拖动功能"
+        content = "只可以向下拖动"
+    }
+    models.add(dragModel0)
+
+    val dragModel1 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = ItemTouchHelper.UP
+        title = "测试拖动功能"
+        content = "只可以向上拖动"
+    }
+    models.add(dragModel1)
+
+    val dragModel2 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = ItemTouchHelper.LEFT
+        title = "测试拖动功能"
+        content = "只可以向左拖动"
+    }
+    models.add(dragModel2)
+
+    val dragModel3 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = ItemTouchHelper.RIGHT
+        title = "测试拖动功能"
+        content = "只可以向右拖动"
+    }
+    models.add(dragModel3)
+
+    val dragModel4 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = FLAGS_VERTICAL
+        title = "测试拖动功能"
+        content = "可以在【垂直方向】拖动"
+    }
+    models.add(dragModel4)
+
+    val dragModel5 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = FLAGS_HORIZONTAL
+        title = "测试拖动功能"
+        content = "可以在【水平方向】拖动"
+    }
+    models.add(dragModel5)
+
+    val dragModel6 = TestConfigModel().apply {
+        dragEnable = true
+        dragFlags = FLAGS_ALL_DIRECTIONS
+        title = "测试拖动功能"
+        content = "可以在【全方向】拖动"
+    }
+    models.add(dragModel6)
 
     return models
 }

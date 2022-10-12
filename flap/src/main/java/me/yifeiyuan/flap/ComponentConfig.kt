@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap
 
+import androidx.recyclerview.widget.ItemTouchHelper
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 
 /**
@@ -13,6 +14,12 @@ import me.yifeiyuan.flap.ext.SwipeDragHelper
  * @since 3.0.8
  */
 interface ComponentConfig {
+
+    companion object{
+        const val FLAGS_HORIZONTAL = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        const val FLAGS_VERTICAL = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        const val FLAGS_ALL_DIRECTIONS = FLAGS_HORIZONTAL or FLAGS_VERTICAL
+    }
 
     /**
      * 支持滑动的方向

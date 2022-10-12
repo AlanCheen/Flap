@@ -33,7 +33,7 @@ class TestConfigModel : IDiffer {
     var height: Int = -1
 
     init {
-        height = Random.nextInt(application!!.toPixel(50), application!!.toPixel(120))
+        height = Random.nextInt(application!!.toPixel(60), application!!.toPixel(120))
     }
 
     override fun areItemsTheSame(newItem: Any): Boolean {

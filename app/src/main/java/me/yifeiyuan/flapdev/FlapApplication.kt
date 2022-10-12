@@ -1,10 +1,12 @@
 package me.yifeiyuan.flapdev
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
+import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
 
@@ -36,6 +38,28 @@ class FlapApplication : MultiDexApplication() {
 
     private fun initFlap() {
 
+        val dslAdapterHook = adapterHook {
+            onCreateViewHolderStart { adapter, delegate, viewType ->
+
+            }
+            onCreateViewHolderEnd { adapter, delegate, viewType, component ->
+
+            }
+            onBindViewHolderStart { adapter, delegate, component, data, position, payloads ->
+
+            }
+            onBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
+                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
+            }
+            onViewAttachedToWindow { adapter, delegate, component ->
+
+            }
+
+            onViewDetachedFromWindow { adapter, delegate, component ->
+
+            }
+        }
+
         Flap.apply {
 
             //Flap 这里注册的都是是全局的，只是为了测试方便
@@ -61,7 +85,8 @@ class FlapApplication : MultiDexApplication() {
                             enableLog = true,
 //                            printTrace = true
                     ),
-//                    ApmHook()
+//                    ApmHook(),
+                    dslAdapterHook,
             )
 
             registerAdapterService(TestService::class.java)

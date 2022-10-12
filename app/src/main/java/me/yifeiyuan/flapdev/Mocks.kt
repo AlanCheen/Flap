@@ -1,9 +1,9 @@
 package me.yifeiyuan.flapdev
 
 import androidx.recyclerview.widget.ItemTouchHelper
-import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_ALL_DIRECTIONS
-import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_HORIZONTAL
-import me.yifeiyuan.flap.ComponentConfig.Companion.FLAGS_VERTICAL
+import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_ALL_DIRECTIONS
+import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_LEFT_AND_RIGHT
+import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_UP_AND_DOWN
 import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
@@ -48,8 +48,8 @@ fun mockFullFeatureModels(): MutableList<Any> {
         longClickEnable = true
         dragEnable = true
         swipeEnable = true
-        swipeFlags = FLAGS_HORIZONTAL
-        dragFlags = FLAGS_ALL_DIRECTIONS
+        swipeFlags = FLAG_LEFT_AND_RIGHT
+        dragFlags = FLAG_ALL_DIRECTIONS
         title = "测试功能"
         content = "都可以"
     }
@@ -132,7 +132,7 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val dragModel4 = TestConfigModel().apply {
         dragEnable = true
-        dragFlags = FLAGS_VERTICAL
+        dragFlags = FLAG_UP_AND_DOWN
         title = "测试拖动功能"
         content = "可以在【垂直方向】拖动"
     }
@@ -140,7 +140,7 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val dragModel5 = TestConfigModel().apply {
         dragEnable = true
-        dragFlags = FLAGS_HORIZONTAL
+        dragFlags = FLAG_LEFT_AND_RIGHT
         title = "测试拖动功能"
         content = "可以在【水平方向】拖动"
     }
@@ -148,7 +148,7 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val dragModel6 = TestConfigModel().apply {
         dragEnable = true
-        dragFlags = FLAGS_ALL_DIRECTIONS
+        dragFlags = FLAG_ALL_DIRECTIONS
         title = "测试拖动功能"
         content = "可以在【全方向】拖动"
     }

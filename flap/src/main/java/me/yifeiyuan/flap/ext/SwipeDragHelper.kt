@@ -20,6 +20,10 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     companion object {
         const val FLAG_DISABLE = 0
         const val FLAG_UN_SET = -1
+
+        const val FLAG_LEFT_AND_RIGHT = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        const val FLAG_UP_AND_DOWN = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        const val FLAG_ALL_DIRECTIONS = FLAG_LEFT_AND_RIGHT or FLAG_UP_AND_DOWN
     }
 
     /**

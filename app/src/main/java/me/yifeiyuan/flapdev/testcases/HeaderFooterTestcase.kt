@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.mockMultiTypeModels
 
 private const val TAG = "HeaderFooterTestcase"
 
@@ -88,5 +89,10 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
         }
 
         switchLayoutManager(0)
+    }
+
+    override fun createRefreshData(size: Int): MutableList<Any> {
+        val list = mockMultiTypeModels()
+        return list
     }
 }

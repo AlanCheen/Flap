@@ -1,7 +1,9 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,6 +25,10 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
  * 多类型测试
  */
 class MultiTypeTestcase : BaseTestcaseFragment() {
+
+    companion object {
+        private const val TAG = "MultiTypeTestcase"
+    }
 
     lateinit var skeletonHelper: Skeleton
 
@@ -60,17 +66,47 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
         SwipeDragHelper(adapter)
                 .withDragEnable(true)
                 .withSwipeEnable(true)
+//                .forVerticalList()
+//                .forHorizontalList()
+//                .forGrid()
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
-//                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
-                .withSwipeBackgroundColor(Color.parseColor("#ff0000"))
+                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
                 .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }
                 .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
                 }
+                .onDragStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "开始拖动 position=$adapterPosition")
+                    toast("开始拖动 position=$adapterPosition")
+
+                    //做个放大动画
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f, 1.5f)
+                    scaleY.start()
+                }
+                .onDragReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "拖动结束 position=$adapterPosition")
+                    toast("拖动结束 position=$adapterPosition")
+
+                    //恢复原状
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f)
+                    scaleY.start()
+                }
+                .onSwipeStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动开始 position=$adapterPosition")
+                    toast("滑动开始 position=$adapterPosition")
+                }
+                .onSwipeReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动结束 position=$adapterPosition")
+                    toast("滑动结束 position=$adapterPosition")
+                }
+                .onClearView { viewHolder, adapterPosition ->
+                    Log.d(TAG, "onClearView called position=$adapterPosition")
+                }
                 .attachToRecyclerView(recyclerView)
+
 
         recyclerView.addItemDecoration(linearItemDecoration)
     }
@@ -78,7 +114,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
     override fun updateSkeletonVisibility(show: Boolean) {
         if (show) {
             skeletonHelper.show()
-        }else{
+        } else {
             skeletonHelper.hide()
         }
     }

@@ -75,21 +75,9 @@ class MainActivity : AppCompatActivity() {
                     subtitle = "修改数据后，下拉刷新观察"
                     replace(FlapDifferAdapterTestcase::class.java)
                 }
-                R.id.nav_clicks -> {
-                    subtitle = "点击、长按事件功能测试"
-                    replace(ItemClicksTestcase::class.java)
-                }
                 R.id.nav_header_footer -> {
                     subtitle = "Header、Footer"
                     replace(HeaderFooterTestcase::class.java)
-                }
-                R.id.nav_flap_dsl -> {
-                    subtitle = "DSL"
-                    replace(DSLTestcase::class.java)
-                }
-                R.id.nav_dismiss -> {
-                    subtitle = "滑动删除&拖放"
-                    replace(SwipeAndDragTestcase::class.java)
                 }
                 R.id.nav_animation -> {
                     subtitle = "动画"

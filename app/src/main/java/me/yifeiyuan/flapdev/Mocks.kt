@@ -24,12 +24,9 @@ fun mockMultiTypeModels(): MutableList<Any> {
         add(BannerImageModel().apply { resId = R.drawable.flap_ic_baozi })
         add(BannerImageModel().apply { resId = R.drawable.flap_ic_jd })
     }
-
-    models.add(bannerModel)
-    models.add(SimpleTextModel("Flap（灵动）"))
-    models.add(SimpleTextModel("一个基于 RecyclerView 的页面组件化框架"))
-    models.add(SimpleTextModel("—— by 程序亦非猿"))
     models.add(SimpleImageModel())
+    models.add(SimpleTextModel("Flap（灵动），一个基于 RecyclerView 的页面组件化框架。 by 程序亦非猿"))
+    models.add(bannerModel)
     models.add(TestAdapterApiModel())
     models.add(CustomViewTypeModel())
     models.add(SimpleDataBindingModel())
@@ -46,12 +43,12 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val clickModel = TestConfigModel().apply {
         clickEnable = true
-        title = "测试点击"
-        content = "可单击"
+        title = "测试点击功能"
+        content = "可以点击"
     }
     val clickModel2 = TestConfigModel().apply {
         clickEnable = false
-        title = "测试点击"
+        title = "测试点击功能"
         content = "不可点击"
     }
     models.add(clickModel)
@@ -59,12 +56,12 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val longClickModel = TestConfigModel().apply {
         longClickEnable = true
-        title = "测试长按"
-        content = "可长按"
+        title = "测试长按功能"
+        content = "可以长按"
     }
     val longClickModel2 = TestConfigModel().apply {
         longClickEnable = false
-        title = "测试长按"
+        title = "测试长按功能"
         content = "不可长按"
     }
     models.add(longClickModel)
@@ -72,14 +69,14 @@ fun mockFullFeatureModels(): MutableList<Any> {
 
     val swipeModel = TestConfigModel().apply {
         swipeEnable = true
-        title = "测试滑动删除"
-        content = "可从右往左滑动删除"
+        title = "测试滑动删除功能"
+        content = "可 从右往左 滑动删除"
         swipeFlags = ItemTouchHelper.LEFT
     }
     val swipeModel2 = TestConfigModel().apply {
         swipeEnable = true
-        title = "测试滑动删除"
-        content = "可从左往右滑动删除"
+        title = "测试滑动删除功能"
+        content = "可 从左往右 滑动删除"
         swipeFlags = ItemTouchHelper.RIGHT
     }
     models.add(swipeModel)

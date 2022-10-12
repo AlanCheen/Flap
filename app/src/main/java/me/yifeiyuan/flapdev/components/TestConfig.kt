@@ -3,9 +3,15 @@ package me.yifeiyuan.flapdev.components
 import me.yifeiyuan.flap.differ.IDiffer
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
+import me.yifeiyuan.flapdev.FlapApplication.Companion.application
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.toPixel
+import kotlin.random.Random
 
 /**
+ *
+ * 由 Model 属性决定 Component 的功能开关
+ *
  * Created by 程序亦非猿 on 2022/9/13.
  */
 
@@ -23,6 +29,12 @@ class TestConfigModel : IDiffer {
 
     var clickEnable: Boolean = false
     var longClickEnable: Boolean = false
+
+    var height: Int = -1
+
+    init {
+        height = Random.nextInt(application!!.toPixel(50), application!!.toPixel(120))
+    }
 
     override fun areItemsTheSame(newItem: Any): Boolean {
         return false
@@ -55,5 +67,12 @@ fun createFullConfigAdapterDelegate() = adapterDelegate<TestConfigModel>(R.layou
         dragFlags = model.dragFlags
         clickable = model.clickEnable
         longClickable = model.longClickEnable
+
+        if (model.height > 0) {
+            val lp = itemView.layoutParams.apply {
+                height = model.height
+            }
+            itemView.layoutParams = lp
+        }
     }
 }

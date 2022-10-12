@@ -2,16 +2,12 @@ package me.yifeiyuan.flapdev.testcases
 
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.dsl.adapterHook
-import me.yifeiyuan.flap.dsl.databinding.adapterDelegateDataBinding
-import me.yifeiyuan.flap.dsl.viewbinding.adapterDelegateViewBinding
-import me.yifeiyuan.flap.ext.*
+import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.components.*
-import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
+import me.yifeiyuan.flapdev.components.TestAdapterApiModel
+import me.yifeiyuan.flapdev.components.createDataBindingDelegate
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 
 private const val TAG = "DSLTestcase"

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#0ff0ff"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingVertical="12dp"
+    >
 
     <TextView
         android:id="@+id/tv_content"

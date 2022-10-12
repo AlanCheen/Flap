@@ -74,6 +74,16 @@ fun Component<*>.bindRatingBar(viewId: Int, binder: RatingBar.() -> Unit) {
     view.binder()
 }
 
+fun Component<*>.bindRadioButton(viewId: Int, binder: RadioButton.() -> Unit) {
+    val view = itemView.findViewById<RadioButton>(viewId)
+    view.binder()
+}
+
+fun Component<*>.bindRadioGroup(viewId: Int, binder: RadioGroup.() -> Unit) {
+    val view = itemView.findViewById<RadioGroup>(viewId)
+    view.binder()
+}
+
 fun Component<*>.bindRecyclerView(viewId: Int, binder: RecyclerView.() -> Unit) {
     val view = itemView.findViewById<RecyclerView>(viewId)
     view.binder()

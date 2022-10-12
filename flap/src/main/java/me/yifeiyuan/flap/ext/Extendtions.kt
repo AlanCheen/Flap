@@ -84,7 +84,7 @@ fun FlapAdapter.doOnViewAttachedFromWindow(block: (adapter: FlapAdapter, delegat
     })
 }
 
-inline fun <reified T> Any.ifIs(block: T.() -> Unit) {
+inline fun <reified T> Any?.ifIs(block: T.() -> Unit) {
     if (this is T) {
         block.invoke(this)
     }

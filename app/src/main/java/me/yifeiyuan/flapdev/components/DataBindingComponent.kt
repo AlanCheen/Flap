@@ -2,6 +2,8 @@ package me.yifeiyuan.flapdev.components
 
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.dsl.databinding.adapterDelegateDataBinding
+import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
 
 /**
@@ -12,15 +14,23 @@ import me.yifeiyuan.flapdev.databinding.FlapItemSimpleDatabindingBinding
  */
 
 class SimpleDataBindingModel {
-    var text = "该 Component 使用了 DataBinding"
+    var text = "使用 DataBinding 的 Component"
 }
 
 @Delegate(layoutName = "flap_item_simple_databinding", useDataBinding = true)
-class DataBindingComponent(private var binding: FlapItemSimpleDatabindingBinding) : Component<SimpleDataBindingModel?>(binding.getRoot()) {
+class DataBindingComponent(private var binding: FlapItemSimpleDatabindingBinding) : Component<SimpleDataBindingModel>(binding.root) {
 
-    override fun onBind(model: SimpleDataBindingModel?) {
+    override fun onBind(model: SimpleDataBindingModel) {
         binding.model = model
         binding.executePendingBindings()
     }
 
+}
+
+//DSL 的方式
+fun createDataBindingDelegate() = adapterDelegateDataBinding<SimpleDataBindingModel, FlapItemSimpleDatabindingBinding>(R.layout.flap_item_simple_databinding) {
+    onBind { model ->
+        binding.model = model
+        binding.executePendingBindings()
+    }
 }

@@ -19,6 +19,8 @@ import me.yifeiyuan.flapdev.components.SimpleTextModel
  */
 class AnimationTestcase : BaseTestcaseFragment() {
 
+    override var useFlapRecyclerView: Boolean = true
+
     private val alphaInAdapterAnimation = AlphaInAdapterAnimation()
     private val scaleInAdapterAnimation = ScaleInAdapterAnimation()
     private val slideInRightAdapterAnimation = SlideInRightAdapterAnimation()

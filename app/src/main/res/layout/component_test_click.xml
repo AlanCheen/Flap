@@ -9,6 +9,6 @@
         android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="测试 setOnItemClick 和 setOnItemLongClick"
+        android:text="测试 OnItemClick 和 OnItemLongClick"
         />
 </FrameLayout>

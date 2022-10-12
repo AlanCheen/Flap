@@ -1,7 +1,6 @@
 include ':flap-dsl-databinding'
 include ':flap-dsl-viewbinding'
 include ':ktmodule'
-include ':othermodule'
 include ':flap-gradle-plugin'
 include ':app'
 include ':flap'

@@ -1,10 +1,6 @@
 package me.yifeiyuan.flapdev.components
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
@@ -16,30 +12,12 @@ import me.yifeiyuan.flapdev.R
 
 class CustomViewTypeModel(var content: String = "自定义 itemViewType 的 Component")
 
-class CustomViewTypeComponent(itemView: View) : Component<CustomViewTypeModel>(itemView) {
+const val CUSTOM_ITEM_VIEW_TYPE = 466
 
-    companion object {
-        const val CUSTOM_ITEM_VIEW_TYPE = 466
-    }
-
-    override fun onBind(model: CustomViewTypeModel) {
+fun createCustomViewTypeComponentDelegate() = adapterDelegate<CustomViewTypeModel>(R.layout.flap_item_custom_type, itemViewType = CUSTOM_ITEM_VIEW_TYPE) {
+    onBind { model, position, payloads, adapter ->
         bindTextView(R.id.tv_content) {
             text = model.content
         }
-    }
-}
-
-class CustomViewTypeComponentDelegate : AdapterDelegate<CustomViewTypeModel, CustomViewTypeComponent> {
-
-    override fun delegate(model: Any): Boolean {
-        return CustomViewTypeModel::class.java == model.javaClass
-    }
-
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): CustomViewTypeComponent {
-        return CustomViewTypeComponent(inflater.inflate(R.layout.flap_item_custom_type, parent, false))
-    }
-
-    override fun getItemViewType(model: Any): Int {
-        return CustomViewTypeComponent.CUSTOM_ITEM_VIEW_TYPE
     }
 }

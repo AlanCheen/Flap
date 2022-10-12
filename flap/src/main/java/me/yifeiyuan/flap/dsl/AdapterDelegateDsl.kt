@@ -26,9 +26,10 @@ import me.yifeiyuan.flap.ext.UnitBlock
 inline fun <reified T> adapterDelegate(
         @LayoutRes layoutId: Int,
         noinline isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == T::class.java },
+        itemViewType: Int = layoutId,
         itemId: Long = RecyclerView.NO_ID,
         noinline componentInitializer: DslComponent<T>.() -> Unit): DslAdapterDelegate<T> {
-    return DslAdapterDelegate(T::class.java, layoutId, itemId, isDelegateFor = isDelegateFor, block = componentInitializer)
+    return DslAdapterDelegate(T::class.java, layoutId, itemViewType, itemId, isDelegateFor = isDelegateFor, block = componentInitializer)
 }
 
 /**
@@ -40,6 +41,7 @@ inline fun <reified T> adapterDelegate(
 class DslAdapterDelegate<T>(
         private var modelClass: Class<T>,
         @LayoutRes private var layoutId: Int,
+        private var itemViewType: Int = layoutId,
         private var itemId: Long = RecyclerView.NO_ID,
         private var isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == modelClass },
         private var block: DslComponent<T>.() -> Unit,
@@ -50,7 +52,7 @@ class DslAdapterDelegate<T>(
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DslComponent<T> {
-        val view = inflater.inflate(viewType, parent, false)
+        val view = inflater.inflate(layoutId, parent, false)
         val component = DslComponent<T>(view)
         block.invoke(component)
         return component
@@ -61,7 +63,7 @@ class DslAdapterDelegate<T>(
     }
 
     override fun getItemViewType(model: Any): Int {
-        return layoutId
+        return itemViewType
     }
 
     override fun getItemId(model: Any, position: Int): Long {

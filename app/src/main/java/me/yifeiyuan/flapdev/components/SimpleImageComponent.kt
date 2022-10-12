@@ -1,10 +1,8 @@
 package me.yifeiyuan.flapdev.components
 
-import android.view.View
-import android.widget.ImageView
 import com.bumptech.glide.Glide
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
+import me.yifeiyuan.flap.ext.bindImageView
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -17,17 +15,14 @@ class SimpleImageModel {
     var resId: Int = 0
 }
 
-@Delegate(layoutId = R.layout.component_simple_image)
-//@Delegate(layoutName = "flap_item_simple_image")
-class SimpleImageComponent(itemView: View) : Component<SimpleImageModel>(itemView) {
-
-    private val imageView = findViewById<ImageView>(R.id.logo)
-
-    override fun onBind(model: SimpleImageModel) {
-        if (model.url?.isNotEmpty() == true) {
-            Glide.with(context).load(model.url).into(imageView)
-        } else if (model.resId > 0) {
-            Glide.with(context).load(model.resId).into(imageView)
+fun createSimpleImageDelegate() = adapterDelegate<SimpleImageModel>(R.layout.component_simple_image) {
+    onBind { model, position, payloads, adapter ->
+        bindImageView(R.id.logo) {
+            if (model.url?.isNotEmpty() == true) {
+                Glide.with(context).load(model.url).into(this)
+            } else if (model.resId > 0) {
+                Glide.with(context).load(model.resId).into(this)
+            }
         }
     }
 }

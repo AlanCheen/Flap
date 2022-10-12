@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
@@ -22,6 +24,7 @@ import me.yifeiyuan.flap.decoration.SpaceItemDecoration
 import me.yifeiyuan.flap.widget.*
 import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
+import me.yifeiyuan.flapdev.components.ZeroHeightModel
 import java.util.*
 
 private const val TAG = "BaseCaseFragment"
@@ -29,7 +32,7 @@ private const val TAG = "BaseCaseFragment"
 /**
  * Created by 程序亦非猿 on 2021/10/19.
  */
-open class BaseTestcaseFragment : Fragment(), Scrollable {
+open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
 
     lateinit var recyclerView: RecyclerView
 
@@ -53,6 +56,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
     lateinit var indexedStaggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
 
+    open var useFlapRecyclerView = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         toast = Toast.makeText(context.applicationContext, "", Toast.LENGTH_SHORT)
@@ -62,7 +67,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         return inflater.inflate(getLayoutId(), container, false)
     }
 
-    open fun getLayoutId(): Int = R.layout.fragment_base_case
+    open fun getLayoutId(): Int = if (useFlapRecyclerView) R.layout.fragment_base_case_flap_rv else R.layout.fragment_base_case
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -167,6 +172,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         }
 
         staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(2)
+
+        currentLayoutManager = linearLayoutManager
     }
 
     open fun initItemDecorations() {
@@ -183,6 +190,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
         gridItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
 
         spaceItemDecoration = SpaceItemDecoration(requireActivity().toPixel(6))
+
+        currentItemDecoration = linearItemDecoration
     }
 
     open fun isClickEnable() = true
@@ -242,7 +251,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
                 is StaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
-                is FlapIndexedStaggeredGridLayoutManager->{
+                is FlapIndexedStaggeredGridLayoutManager -> {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
                 else -> {
@@ -326,6 +335,78 @@ open class BaseTestcaseFragment : Fragment(), Scrollable {
             }
             is FlapIndexedStaggeredGridLayoutManager -> {
                 (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = orientation
+            }
+        }
+
+        recyclerView.invalidateItemDecorations()
+    }
+
+    var configMenuView: ConfigMenuView? = null
+    var menuDialog: BottomSheetDialog? = null
+    override fun showMenu() {
+        if (menuDialog == null) {
+            configMenuView = ConfigMenuView(requireActivity())
+            configMenuView?.callback = object : ConfigMenuView.Callback {
+                override fun onOrientationChanged(orientation: Int) {
+                    updateOrientation(orientation)
+                }
+
+                override fun onLayoutManagerChanged(type: Int) {
+                    switchLayoutManager(type)
+                }
+
+                override fun onPreloadChanged(direction: Int, enable: Boolean) {
+                }
+
+                override fun onClearAllData() {
+                    adapter.setDataAndNotify(mutableListOf())
+                }
+
+                override fun onAddDataToTop() {
+                    //TODO
+                }
+
+                override fun onSkeletonVisibilityChanged(show: Boolean) {
+                    updateSkeletonVisibility(show)
+                }
+
+                override fun onAddZeroHeightData() {
+                    adapter.addDataAndNotify(mutableListOf(ZeroHeightModel()))
+                }
+
+                override fun onResetData() {
+                    adapter.setDataAndNotify(mockMultiTypeModels())
+                }
+
+                override fun onAppendData() {
+                    loadMoreData()
+                }
+
+                override fun onSpanCountChanged(spanCount: Int) {
+                    updateSpanCount(spanCount)
+                }
+            }
+            menuDialog = BottomSheetDialog(requireActivity()).apply {
+                setContentView(configMenuView!!)
+            }
+        }
+        menuDialog?.show()
+    }
+
+    open fun updateSkeletonVisibility(show: Boolean) {
+    }
+
+    private fun updateSpanCount(spanCount: Int) {
+
+        when (currentLayoutManager) {
+            is GridLayoutManager -> {
+                (currentLayoutManager as GridLayoutManager).spanCount = spanCount
+            }
+            is StaggeredGridLayoutManager -> {
+                (currentLayoutManager as StaggeredGridLayoutManager).spanCount = spanCount
+            }
+            is FlapIndexedStaggeredGridLayoutManager -> {
+                (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).spanCount = spanCount
             }
         }
 

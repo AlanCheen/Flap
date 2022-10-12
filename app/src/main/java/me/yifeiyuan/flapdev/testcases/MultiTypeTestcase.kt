@@ -1,7 +1,9 @@
 package me.yifeiyuan.flapdev.testcases
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -24,8 +26,10 @@ import me.yifeiyuan.flapdev.mockMultiTypeModels
  */
 class MultiTypeTestcase : BaseTestcaseFragment() {
 
-    //测试第一个组件高度为 0 的 case,会导致不能下拉刷新
-    var testZeroHeight = false
+    companion object {
+        private const val TAG = "MultiTypeTestcase"
+    }
+
     lateinit var skeletonHelper: Skeleton
 
     override fun onInit(view: View) {
@@ -62,26 +66,61 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
         SwipeDragHelper(adapter)
                 .withDragEnable(true)
                 .withSwipeEnable(true)
+//                .forVerticalList()
+//                .forHorizontalList()
+//                .forGrid()
                 .withDragFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
                 .withSwipeFlags(ItemTouchHelper.START or ItemTouchHelper.END)
-//                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
-                .withSwipeBackgroundColor(Color.parseColor("#ff0000"))
+                .withSwipeBackground(ColorDrawable(Color.parseColor("#ff0000")))
                 .onItemSwiped {
                     toast("滑动删除了一个 item , position=$it")
                 }
                 .onItemMoved { fromPosition, toPosition ->
                     toast("移动交换了 $fromPosition to $toPosition")
                 }
+                .onDragStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "开始拖动 position=$adapterPosition")
+                    toast("开始拖动 position=$adapterPosition")
+
+                    //做个放大动画
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f, 1.5f)
+                    scaleY.start()
+                }
+                .onDragReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "拖动结束 position=$adapterPosition")
+                    toast("拖动结束 position=$adapterPosition")
+
+                    //恢复原状
+                    val scaleY = ObjectAnimator.ofFloat(viewHolder.itemView, "scaleY", 1f)
+                    scaleY.start()
+                }
+                .onSwipeStarted { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动开始 position=$adapterPosition")
+                    toast("滑动开始 position=$adapterPosition")
+                }
+                .onSwipeReleased { viewHolder, adapterPosition ->
+                    Log.d(TAG, "滑动结束 position=$adapterPosition")
+                    toast("滑动结束 position=$adapterPosition")
+                }
+                .onClearView { viewHolder, adapterPosition ->
+                    Log.d(TAG, "onClearView called position=$adapterPosition")
+                }
                 .attachToRecyclerView(recyclerView)
+
 
         recyclerView.addItemDecoration(linearItemDecoration)
     }
 
+    override fun updateSkeletonVisibility(show: Boolean) {
+        if (show) {
+            skeletonHelper.show()
+        } else {
+            skeletonHelper.hide()
+        }
+    }
+
     override fun createRefreshData(size: Int): MutableList<Any> {
         val list = mockMultiTypeModels()
-        if (testZeroHeight) {
-            list.add(0, ZeroHeightModel())
-        }
         return list
     }
 
@@ -91,52 +130,6 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.emptyData -> {
-                skeletonHelper.hide()
-                adapter.setDataAndNotify(mutableListOf())
-            }
-            R.id.resetData -> {
-                adapter.setDataAndNotify(mockMultiTypeModels())
-            }
-            R.id.linear -> {
-                recyclerView.layoutManager = linearLayoutManager
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.grid -> {
-                val spanCount = 3
-                recyclerView.layoutManager = FlapGridLayoutManager(requireActivity(), spanCount, RecyclerView.VERTICAL, false).apply {
-
-                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-                            var spanSize = 1
-                            spanSize = if (position % 2 == 0) 2 else 1
-                            return spanSize
-                        }
-                    }
-                }
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.staggered -> {
-                recyclerView.layoutManager = staggeredGridLayoutManager
-                staggeredGridLayoutManager.spanCount = 3
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.indexed_staggered -> {
-                recyclerView.layoutManager = indexedStaggeredGridLayoutManager
-                indexedStaggeredGridLayoutManager.spanCount = 3
-                recyclerView.invalidateItemDecorations()
-            }
-            R.id.testZeroHeight -> {
-                testZeroHeight = !testZeroHeight
-                onRefresh()
-            }
-            R.id.toggleSkeleton -> {
-                if (skeletonHelper.isShowing) {
-                    skeletonHelper.hide()
-                } else {
-                    skeletonHelper.show()
-                }
-            }
         }
         return super.onOptionsItemSelected(item)
     }

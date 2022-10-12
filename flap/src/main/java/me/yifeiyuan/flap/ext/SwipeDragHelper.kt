@@ -7,41 +7,6 @@ import androidx.recyclerview.widget.*
 import me.yifeiyuan.flap.ComponentConfig
 
 
-typealias  OnItemMoveListener = (fromPosition: Int, toPosition: Int) -> Unit
-/**
- * item 被删除
- */
-typealias  OnItemSwipedListener = (position: Int) -> Unit
-
-/**
- * 滑动开始
- */
-typealias  OnSwipeStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
-
-/**
- * 一次滑动手势释放，不管是否被删除，都会回调，所以不代表被删除
- * adapterPosition 等同于 OnSwipeStartedListener.adapterPosition
- */
-typealias  OnSwipeReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
-
-/**
- * @param fromPosition 最开始被拖动的 ViewHolder 的 position
- */
-typealias  OnDragStartedListener = (viewHolder: RecyclerView.ViewHolder, fromPosition: Int) -> Unit
-
-/**
- * @param toPosition 最终被拖动到的位置
- */
-typealias  OnDragReleasedListener = (viewHolder: RecyclerView.ViewHolder, toPosition: Int) -> Unit
-
-
-/**
- * 一次手势结束后回调，包括拖放和滑动两种手势
- *
- * 在 OnSwipeReleasedListener 和 OnDragReleasedListener 回调之后回调
- */
-typealias  OnClearViewListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
-
 /**
  *
  * 封装处理 滑动删除 和 长按拖放排序 功能
@@ -55,6 +20,10 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     companion object {
         const val FLAG_DISABLE = 0
         const val FLAG_UN_SET = -1
+
+        const val FLAG_LEFT_AND_RIGHT = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        const val FLAG_UP_AND_DOWN = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        const val FLAG_ALL_DIRECTIONS = FLAG_LEFT_AND_RIGHT or FLAG_UP_AND_DOWN
     }
 
     /**
@@ -249,7 +218,7 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
         callback.onClearView(recyclerView, viewHolder)
-        onClearView?.invoke(viewHolder,viewHolder.adapterPosition)
+        onClearView?.invoke(viewHolder, viewHolder.adapterPosition)
     }
 
     fun onClearView(listener: OnClearViewListener) = apply {
@@ -368,3 +337,37 @@ class SwipeDragHelper(private val callback: Callback) : ItemTouchHelper.Callback
         fun onClearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {}
     }
 }
+
+typealias  OnItemMoveListener = (fromPosition: Int, toPosition: Int) -> Unit
+/**
+ * item 被删除
+ */
+typealias  OnItemSwipedListener = (position: Int) -> Unit
+
+/**
+ * 滑动开始
+ */
+typealias  OnSwipeStartedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+
+/**
+ * 一次滑动手势释放，不管是否被删除，都会回调，所以不代表被删除
+ * adapterPosition 等同于 OnSwipeStartedListener.adapterPosition
+ */
+typealias  OnSwipeReleasedListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit
+
+/**
+ * @param fromPosition 最开始被拖动的 ViewHolder 的 position
+ */
+typealias  OnDragStartedListener = (viewHolder: RecyclerView.ViewHolder, fromPosition: Int) -> Unit
+
+/**
+ * @param toPosition 最终被拖动到的位置
+ */
+typealias  OnDragReleasedListener = (viewHolder: RecyclerView.ViewHolder, toPosition: Int) -> Unit
+
+/**
+ * 一次手势结束后回调，包括拖放和滑动两种手势
+ *
+ * 在 OnSwipeReleasedListener 和 OnDragReleasedListener 回调之后回调
+ */
+typealias  OnClearViewListener = (viewHolder: RecyclerView.ViewHolder, adapterPosition: Int) -> Unit

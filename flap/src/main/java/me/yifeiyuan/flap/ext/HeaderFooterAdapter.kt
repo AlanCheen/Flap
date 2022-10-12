@@ -2,53 +2,17 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ComponentConfig
 import me.yifeiyuan.flap.FlapAdapter
 
-const val ITEM_VIEW_TYPE_HEADER = 2123321000
-const val ITEM_VIEW_TYPE_FOOTER = 2123321001
-
-class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
-    override fun isSwipeEnabled(): Boolean {
-        return false
-    }
-
-    override fun isDragEnabled(): Boolean {
-        return false
-    }
-
-    override fun isClickable(): Boolean {
-        return false
-    }
-
-    override fun isLongClickable(): Boolean {
-        return false
-    }
-}
-
-class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
-
-    override fun isSwipeEnabled(): Boolean {
-        return false
-    }
-
-    override fun isDragEnabled(): Boolean {
-        return false
-    }
-
-    override fun isClickable(): Boolean {
-        return false
-    }
-
-    override fun isLongClickable(): Boolean {
-        return false
-    }
-}
-
 /**
  * 一个支持设置 header 和 footer 的包装类 Adapter
+ *
+ * @see HeaderViewHolder
+ * @see FooterViewHolder
  *
  * Created by 程序亦非猿 on 2022/7/31.
  * @since 3.0.0
@@ -107,6 +71,12 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
             // ignore
+            when (attachingRecyclerView.layoutManager) {
+                is GridLayoutManager -> {
+                }
+                else -> {
+                }
+            }
         } else {
             adapter.onBindViewHolder(holder as Component<*>, position - getHeaderCount(), payloads)
         }
@@ -141,8 +111,10 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         return if (footerView == null) 0 else 1
     }
 
+    lateinit var attachingRecyclerView: RecyclerView
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
+        attachingRecyclerView = recyclerView
         adapter.onAttachedToRecyclerView(recyclerView)
     }
 
@@ -201,9 +173,21 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         return HeaderViewHolder::class.java == component.javaClass
     }
 
+    fun isHeader(position: Int): Boolean {
+        return getHeaderCount() > 0 &&position < getHeaderCount()
+    }
+
+    fun isFooter(position: Int): Boolean {
+        return getFooterCount() > 0 && itemCount == position + 1
+    }
+
     fun isFooter(component: RecyclerView.ViewHolder): Boolean {
         return FooterViewHolder::class.java == component.javaClass
     }
+
+    fun isHeaderOrFooter(component: RecyclerView.ViewHolder): Boolean = isHeader(component) or isFooter(component)
+
+    fun isHeaderOrFooter(position: Int): Boolean = isHeader(position) or isFooter(position)
 
     override fun onSwiped(position: Int) {
         adapter.removeDataAt(position - getHeaderCount())
@@ -211,5 +195,45 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
 
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         adapter.swapData(fromPosition - getHeaderCount(), toPosition - getHeaderCount())
+    }
+}
+
+const val ITEM_VIEW_TYPE_HEADER = 2123321000
+const val ITEM_VIEW_TYPE_FOOTER = 2123321001
+
+class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
+    override fun isSwipeEnabled(): Boolean {
+        return false
+    }
+
+    override fun isDragEnabled(): Boolean {
+        return false
+    }
+
+    override fun isClickable(): Boolean {
+        return false
+    }
+
+    override fun isLongClickable(): Boolean {
+        return false
+    }
+}
+
+class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentConfig {
+
+    override fun isSwipeEnabled(): Boolean {
+        return false
+    }
+
+    override fun isDragEnabled(): Boolean {
+        return false
+    }
+
+    override fun isClickable(): Boolean {
+        return false
+    }
+
+    override fun isLongClickable(): Boolean {
+        return false
     }
 }

@@ -1,9 +1,6 @@
 package me.yifeiyuan.flap.ktmodule
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.annotations.Delegate
 

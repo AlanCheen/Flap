@@ -26,11 +26,6 @@
             android:id="@+id/nav_viewpager2"
             android:icon="@drawable/flap_ic_lm"
             android:title="ViewPager2" />
-
-        <item
-            android:id="@+id/nav_clicks"
-            android:icon="@drawable/flap_ic_orange"
-            android:title="点击/长按事件" />
         <item
             android:id="@+id/nav_header_footer"
             android:icon="@drawable/flap_ic_lx"
@@ -39,14 +34,6 @@
             android:id="@+id/nav_diff"
             android:icon="@drawable/flap_ic_qj"
             android:title="FlapDifferAdapter" />
-        <item
-            android:id="@+id/nav_flap_dsl"
-            android:icon="@drawable/flap_ic_taozi"
-            android:title="DSL" />
-        <item
-            android:id="@+id/nav_dismiss"
-            android:icon="@drawable/flap_ic_hlg"
-            android:title="Swipe And Drag" />
         <item
             android:id="@+id/nav_animation"
             android:icon="@drawable/flap_ic_pg"

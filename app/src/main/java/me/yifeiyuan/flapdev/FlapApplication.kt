@@ -1,12 +1,14 @@
 package me.yifeiyuan.flapdev
 
 import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.multidex.MultiDexApplication
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
+import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
-import me.yifeiyuan.flapdev.components.generictest.GenericFlapComponentDelegate
 
 /**
  * Flap
@@ -16,6 +18,16 @@ class FlapApplication : MultiDexApplication() {
 
     companion object {
         var application: Application? = null
+            set(value) {
+                field = value
+                toast = Toast.makeText(value, "", Toast.LENGTH_SHORT)
+            }
+        lateinit var toast: Toast
+        fun toast(title: String) {
+            toast.setText(title)
+            toast.duration = Toast.LENGTH_SHORT
+            toast.show()
+        }
     }
 
     override fun onCreate() {
@@ -26,24 +38,43 @@ class FlapApplication : MultiDexApplication() {
 
     private fun initFlap() {
 
+        val dslAdapterHook = adapterHook {
+            onCreateViewHolderStart { adapter, delegate, viewType ->
+
+            }
+            onCreateViewHolderEnd { adapter, delegate, viewType, component ->
+
+            }
+            onBindViewHolderStart { adapter, delegate, component, data, position, payloads ->
+
+            }
+            onBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
+                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
+            }
+            onViewAttachedToWindow { adapter, delegate, component ->
+
+            }
+
+            onViewDetachedFromWindow { adapter, delegate, component ->
+
+            }
+        }
+
         Flap.apply {
 
             //Flap 这里注册的都是是全局的，只是为了测试方便
             //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
             registerAdapterDelegates(
-                    fullConfigAdapterDelegate(),
-                    bannerAdapterDelegate(),
-                    ZeroHeightComponentAdapterDelegate(),
+                    createFullConfigAdapterDelegate(),
+                    createBannerAdapterDelegate(),
+                    createSimpleImageDelegate(),
                     SimpleTextComponentDelegate(),
-                    SimpleImageComponentAdapterDelegate(),
-                    CustomViewTypeComponentDelegate(),
-                    GenericFlapComponentDelegate(),
-                    ViewBindingComponentAdapterDelegate(),
-                    JavaModuleComponentAdapterDelegate(),
+                    createCustomViewTypeComponentDelegate(),
+                    createViewBindingDelegate(),
                     KtModuleComponentAdapterDelegate(),
                     TestClickComponentAdapterDelegate(),
-                    TestBinderComponentAdapterDelegate(),
-                    TestAllComponentAdapterDelegate(),
+                    createZeroHeightComponentDelegate(),
+                    createTestAdapterApiComponentDelegate(),
                     DataBindingComponentAdapterDelegate(),
                     DiffComponentAdapterDelegate(),
             )
@@ -52,9 +83,10 @@ class FlapApplication : MultiDexApplication() {
             registerAdapterHooks(
                     LoggingHook(
                             enableLog = true,
-                            printTrace = true
+//                            printTrace = true
                     ),
-//                    ApmHook()
+//                    ApmHook(),
+                    dslAdapterHook,
             )
 
             registerAdapterService(TestService::class.java)

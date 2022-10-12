@@ -46,7 +46,6 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
         }
 
         adapter.doOnPreload {
-//            staggeredGridLayoutManager.invalidateSpanAssignments()
             loadMoreData(20)
         }
 
@@ -78,25 +77,6 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.linear -> {
-                switchLayoutManager(0)
-            }
-            R.id.grid -> {
-                switchLayoutManager(1)
-            }
-            R.id.staggered -> {
-                switchLayoutManager(2)
-            }
-            R.id.indexed_staggered->{
-                switchLayoutManager(3)
-            }
-
-            R.id.horizontal -> {
-                updateOrientation(RecyclerView.HORIZONTAL)
-            }
-            R.id.vertical -> {
-                updateOrientation(RecyclerView.VERTICAL)
-            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -14,7 +14,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-import java.lang.IllegalArgumentException
 
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
@@ -179,4 +178,48 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
         return ContextCompat.getColorStateList(context, id)
     }
 
+    fun updateLayoutParams(block: RecyclerView.LayoutParams.() -> Unit) {
+        //第一次 bind 的时候 还没有 attach 到 RV，没有 LP,默认设置一个先
+        val currentLayoutParams: RecyclerView.LayoutParams = (if (itemView.layoutParams == null) (RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)) else itemView.layoutParams) as RecyclerView.LayoutParams
+        block.invoke(currentLayoutParams)
+        itemView.layoutParams = currentLayoutParams
+    }
+
+    fun hide() {
+        updateComponentVisibility(false)
+    }
+
+    fun show() {
+        updateComponentVisibility(true)
+    }
+
+    /**
+     *
+     *  Note: 直接设置 itemView 的可见性会有高度 Bug
+     */
+    private fun updateComponentVisibility(isVisible: Boolean) {
+        val param: RecyclerView.LayoutParams = (if (itemView.layoutParams == null) (RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)) else itemView.layoutParams) as RecyclerView.LayoutParams
+
+        if (isVisible) {
+            if (itemView.getTag(R.id.flap_component_height) is Int) {
+                param.height = (itemView.getTag(R.id.flap_component_height) as Int)
+            } else if (param.height <= 0) {
+                param.height = RecyclerView.LayoutParams.WRAP_CONTENT
+            }
+            if (param.width <= 0) {
+                param.width = RecyclerView.LayoutParams.MATCH_PARENT
+            }
+            itemView.visibility = View.VISIBLE
+        } else {
+            if (itemView.height > 0) {
+                itemView.setTag(R.id.flap_component_height, itemView.height)
+            } else if (param.height > 0) {
+                itemView.setTag(R.id.flap_component_height, param.height)
+            }
+            param.height = 0
+            param.width = 0
+            itemView.visibility = View.GONE
+        }
+        itemView.layoutParams = param
+    }
 }

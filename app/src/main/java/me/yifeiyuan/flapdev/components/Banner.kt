@@ -1,10 +1,12 @@
 package me.yifeiyuan.flapdev.components
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.dsl.adapterDelegate
+import me.yifeiyuan.flapdev.FlapApplication.Companion.toast
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -36,6 +38,10 @@ fun createBannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.compon
         model.images?.let {
             bannerAdapter.setDataAndNotify(it)
         }
+    }
+
+    bannerAdapter.doOnItemClick { recyclerView, childView, position ->
+        toast("点击 banner position=$position")
     }
 }
 

@@ -47,6 +47,9 @@ class ConfigMenuView : FrameLayout {
                 R.id.indexedStaggered -> {
                     callback?.onLayoutManagerChanged(3)
                 }
+                R.id.stickyHeader->{
+                    callback?.onLayoutManagerChanged(4)
+                }
             }
         }
 

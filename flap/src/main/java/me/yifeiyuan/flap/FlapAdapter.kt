@@ -401,4 +401,20 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         swapData(fromPosition, toPosition)
     }
+
+//    fun setupStickyHeaderView(stickyHeader: View) {
+//    }
+//
+//    fun teardownStickyHeaderView(stickyHeader: View) {
+//    }
+
+    var stickyHeaderHandler: ((position: Int, itemData: Any) -> Boolean)? = null
+    fun setupStickyHeaderHandler(block: (position: Int, itemData: Any) -> Boolean) {
+        stickyHeaderHandler = block
+    }
+
+    //        delegation.isStickyHeader(position, getItemData(position))
+    fun isStickyHeader(position: Int): Boolean {
+        return stickyHeaderHandler?.invoke(position, getItemData(position)) ?: false
+    }
 }

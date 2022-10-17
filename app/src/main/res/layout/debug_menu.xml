@@ -124,6 +124,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:text="Indexed" />
+            <RadioButton
+                android:id="@+id/stickyHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="StickyHeader" />
         </RadioGroup>
 
         <TextView

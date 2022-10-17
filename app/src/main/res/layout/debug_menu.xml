@@ -31,13 +31,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="clearAll,resetData,addTopData,appendData,addZeroHeightData"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalStyle="packed"
                 app:flow_wrapMode="chain"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:flow_horizontalBias="0"
-                app:flow_horizontalStyle="packed"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/clearAll"
@@ -89,7 +88,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutManagerGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,58 +97,77 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutManagerText">
 
-            <RadioButton
+            <androidx.constraintlayout.helper.widget.Flow
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="linear,grid,staggered,indexedStaggered,stickyHeader"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalStyle="packed"
+                app:flow_wrapMode="chain"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
                 android:id="@+id/linear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Linear" />
+                android:text="Linear"
+                android:textAllCaps="false" />
 
-            <RadioButton
+            <Button
                 android:id="@+id/grid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="Grid" />
+                android:text="Grid"
+                android:textAllCaps="false" />
 
-            <RadioButton
+            <Button
                 android:id="@+id/staggered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="Staggered" />
+                android:text="Staggered"
 
-            <RadioButton
+                android:textAllCaps="false" />
+
+            <Button
                 android:id="@+id/indexedStaggered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="Indexed" />
-            <RadioButton
+                android:text="IndexedStaggered"
+                android:textAllCaps="false" />
+
+            <Button
                 android:id="@+id/stickyHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="StickyHeader" />
-        </RadioGroup>
+                android:text="StickyHeader"
+                android:textAllCaps="false" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutManagerGroup"
+            android:id="@+id/spanCountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spanCountText"
+            android:layout_marginVertical="4dp"
             android:text="SpanCount(1-5)"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutManagerGroup" />
+
         <SeekBar
-            app:layout_constraintLeft_toRightOf="@+id/spanCountText"
-            app:layout_constraintTop_toBottomOf="@+id/layoutManagerGroup"
             android:id="@+id/spanCount"
             android:layout_width="0dp"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_height="wrap_content"
-            android:min="1"
+            android:layout_marginVertical="4dp"
             android:max="5"
-            />
+            android:min="1"
+            app:layout_constraintLeft_toRightOf="@+id/spanCountText"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutManagerGroup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -198,8 +216,7 @@
         android:id="@+id/toggleSkeleton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开关骨架屏"
-        />
+        android:text="开关骨架屏" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/preloadMenu"

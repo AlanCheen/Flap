@@ -24,7 +24,8 @@ class FlapStickyHeaderLinearLayoutManager @JvmOverloads constructor(
         reverseLayout: Boolean = false
 ) : LinearLayoutManager(context, orientation, reverseLayout) {
 
-    private var adapter: FlapAdapter? = null
+    private var adapter: RecyclerView.Adapter<*>? = null
+    private var stickyHeaders: FlapStickyHeaders? = null
 
     // Translation for header
     private var translationX: Float = 0f
@@ -55,11 +56,13 @@ class FlapStickyHeaderLinearLayoutManager @JvmOverloads constructor(
     @Suppress("UNCHECKED_CAST")
     private fun setAdapter(newAdapter: RecyclerView.Adapter<*>?) {
         adapter?.unregisterAdapterDataObserver(headerPositionsObserver)
-        if (newAdapter is FlapAdapter) {
+        if (newAdapter is FlapStickyHeaders) {
+            stickyHeaders = newAdapter
             adapter = newAdapter
             adapter?.registerAdapterDataObserver(headerPositionsObserver)
             headerPositionsObserver.onChanged()
         } else {
+            stickyHeaders =null
             adapter = null
             headerPositions.clear()
         }
@@ -519,7 +522,8 @@ class FlapStickyHeaderLinearLayoutManager @JvmOverloads constructor(
             headerPositions.clear()
             val itemCount = adapter?.itemCount ?: 0
             for (i in 0 until itemCount) {
-                val isSticky = adapter?.isStickyHeader(i) ?: false
+//                val isSticky = adapter?.isStickyHeader(i) ?: false
+                val isSticky = stickyHeaders?.isStickyHeader(i) ?: false
                 if (isSticky) {
                     headerPositions.add(i)
                 }
@@ -544,7 +548,8 @@ class FlapStickyHeaderLinearLayoutManager @JvmOverloads constructor(
 
             // Add new headers.
             for (i in positionStart until positionStart + itemCount) {
-                val isSticky = adapter?.isStickyHeader(i) ?: false
+//                val isSticky = adapter?.isStickyHeader(i) ?: false
+                val isSticky = stickyHeaders?.isStickyHeader(i) ?: false
                 if (isSticky) {
                     val headerIndex = findHeaderIndexOrNext(i)
                     if (headerIndex != -1) {

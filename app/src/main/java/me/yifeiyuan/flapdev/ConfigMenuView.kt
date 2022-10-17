@@ -2,6 +2,7 @@ package me.yifeiyuan.flapdev
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
@@ -33,8 +34,8 @@ class ConfigMenuView : FrameLayout {
         //1 Grid
         //2 Staggered
         //3 IndexedStaggered
-        binding.layoutManagerGroup.setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
+        val layoutManagerClickListener = OnClickListener { v ->
+            when (v.id) {
                 R.id.linear -> {
                     callback?.onLayoutManagerChanged(0)
                 }
@@ -52,6 +53,11 @@ class ConfigMenuView : FrameLayout {
                 }
             }
         }
+        binding.linear.setOnClickListener(layoutManagerClickListener)
+        binding.grid.setOnClickListener(layoutManagerClickListener)
+        binding.staggered.setOnClickListener(layoutManagerClickListener)
+        binding.indexedStaggered.setOnClickListener(layoutManagerClickListener)
+        binding.stickyHeader.setOnClickListener(layoutManagerClickListener)
 
         binding.clearAll.setOnClickListener {
             callback?.onClearAllData()

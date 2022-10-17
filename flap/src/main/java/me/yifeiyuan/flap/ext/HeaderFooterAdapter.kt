@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ComponentConfig
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.widget.FlapStickyHeaders
 
 /**
  * 一个支持设置 header 和 footer 的包装类 Adapter
@@ -17,7 +18,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * Created by 程序亦非猿 on 2022/7/31.
  * @since 3.0.0
  */
-class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback {
+class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback, FlapStickyHeaders {
 
     private var headerView: View? = null
     private var footerView: View? = null
@@ -174,7 +175,7 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
     }
 
     fun isHeader(position: Int): Boolean {
-        return getHeaderCount() > 0 &&position < getHeaderCount()
+        return getHeaderCount() > 0 && position < getHeaderCount()
     }
 
     fun isFooter(position: Int): Boolean {
@@ -195,6 +196,13 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
 
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         adapter.swapData(fromPosition - getHeaderCount(), toPosition - getHeaderCount())
+    }
+
+    override fun isStickyHeader(position: Int): Boolean {
+        if (isHeaderOrFooter(position)) {
+            return false
+        }
+        return adapter.isStickyHeader(position - getHeaderCount())
     }
 }
 

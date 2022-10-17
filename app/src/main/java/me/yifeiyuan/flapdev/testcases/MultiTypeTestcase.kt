@@ -60,6 +60,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                     }
                 }
                 .onlyOnce(false)
+                .suppressLayout(true)
                 .withEmptyViewHelper(adapter.emptyViewHelper)
                 .show()
 

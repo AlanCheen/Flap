@@ -4,9 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ComponentConfig
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
 
 /**
@@ -137,6 +139,20 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         super.onViewAttachedToWindow(holder)
         if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
             //ignore
+            when (holder.itemView.layoutParams) {
+                is GridLayoutManager.LayoutParams -> {
+                }
+                is StaggeredGridLayoutManager.LayoutParams -> {
+                    val lp = (holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams)
+                    lp.isFullSpan = true
+                    holder.itemView.layoutParams = lp
+                }
+                is FlapIndexedStaggeredGridLayoutManager.LayoutParams -> {
+                    val lp = (holder.itemView.layoutParams as FlapIndexedStaggeredGridLayoutManager.LayoutParams)
+                    lp.isFullSpan = true
+                    holder.itemView.layoutParams = lp
+                }
+            }
         } else {
             adapter.onViewAttachedToWindow(holder as Component<*>)
         }

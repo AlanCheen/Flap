@@ -4,9 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ComponentConfig
 import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
+import me.yifeiyuan.flap.widget.FlapStickyHeaders
 
 /**
  * 一个支持设置 header 和 footer 的包装类 Adapter
@@ -17,7 +20,7 @@ import me.yifeiyuan.flap.FlapAdapter
  * Created by 程序亦非猿 on 2022/7/31.
  * @since 3.0.0
  */
-class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback {
+class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), SwipeDragHelper.Callback, FlapStickyHeaders {
 
     private var headerView: View? = null
     private var footerView: View? = null
@@ -116,6 +119,23 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         super.onAttachedToRecyclerView(recyclerView)
         attachingRecyclerView = recyclerView
         adapter.onAttachedToRecyclerView(recyclerView)
+
+        when (recyclerView.layoutManager) {
+            is GridLayoutManager -> {
+                (recyclerView.layoutManager as GridLayoutManager).apply {
+                    val preSpanSizeLookup = spanSizeLookup
+                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            if (this@HeaderFooterAdapter.isHeaderOrFooter(position)) {
+                                return spanCount
+                            } else {
+                                return preSpanSizeLookup?.getSpanSize(position) ?: 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -136,6 +156,20 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         super.onViewAttachedToWindow(holder)
         if (holder.itemViewType == ITEM_VIEW_TYPE_HEADER || holder.itemViewType == ITEM_VIEW_TYPE_FOOTER) {
             //ignore
+            when (holder.itemView.layoutParams) {
+                is GridLayoutManager.LayoutParams -> {
+                }
+                is StaggeredGridLayoutManager.LayoutParams -> {
+                    val lp = (holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams)
+                    lp.isFullSpan = true
+                    holder.itemView.layoutParams = lp
+                }
+                is FlapIndexedStaggeredGridLayoutManager.LayoutParams -> {
+                    val lp = (holder.itemView.layoutParams as FlapIndexedStaggeredGridLayoutManager.LayoutParams)
+                    lp.isFullSpan = true
+                    holder.itemView.layoutParams = lp
+                }
+            }
         } else {
             adapter.onViewAttachedToWindow(holder as Component<*>)
         }
@@ -174,7 +208,7 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
     }
 
     fun isHeader(position: Int): Boolean {
-        return getHeaderCount() > 0 &&position < getHeaderCount()
+        return getHeaderCount() > 0 && position < getHeaderCount()
     }
 
     fun isFooter(position: Int): Boolean {
@@ -196,6 +230,17 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         adapter.swapData(fromPosition - getHeaderCount(), toPosition - getHeaderCount())
     }
+
+    override fun isStickyHeader(position: Int): Boolean {
+        if (isHeaderOrFooter(position)) {
+            return false
+        }
+        return adapter.isStickyHeader(position - getHeaderCount())
+    }
+
+    fun getFixedPosition(position: Int): Int {
+        return if (position == 0) position else position - getHeaderCount()
+    }
 }
 
 const val ITEM_VIEW_TYPE_HEADER = 2123321000
@@ -211,11 +256,11 @@ class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentCon
     }
 
     override fun isClickable(): Boolean {
-        return false
+        return true
     }
 
     override fun isLongClickable(): Boolean {
-        return false
+        return true
     }
 }
 
@@ -230,10 +275,10 @@ class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentCon
     }
 
     override fun isClickable(): Boolean {
-        return false
+        return true
     }
 
     override fun isLongClickable(): Boolean {
-        return false
+        return true
     }
 }

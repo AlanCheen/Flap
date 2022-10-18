@@ -18,6 +18,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
 import java.util.*
 import me.yifeiyuan.flap.service.IAdapterServiceManager
+import me.yifeiyuan.flap.widget.FlapStickyHeaders
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -30,7 +31,7 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by delegation, IAdapterDelegateManager by delegation, IAdapterServiceManager by delegation, SwipeDragHelper.Callback {
+open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by delegation, IAdapterDelegateManager by delegation, IAdapterServiceManager by delegation, SwipeDragHelper.Callback, FlapStickyHeaders {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -400,5 +401,20 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
 
     override fun onMoved(fromPosition: Int, toPosition: Int) {
         swapData(fromPosition, toPosition)
+    }
+
+//    fun setupStickyHeaderView(stickyHeader: View) {
+//    }
+//
+//    fun teardownStickyHeaderView(stickyHeader: View) {
+//    }
+
+    var stickyHeaderHandler: ((position: Int, itemData: Any) -> Boolean)? = null
+    fun setupStickyHeaderHandler(block: (position: Int, itemData: Any) -> Boolean) {
+        stickyHeaderHandler = block
+    }
+
+    override fun isStickyHeader(position: Int): Boolean {
+        return stickyHeaderHandler?.invoke(position, getItemData(position)) ?: false
     }
 }

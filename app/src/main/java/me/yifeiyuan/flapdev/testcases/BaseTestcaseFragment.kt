@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
@@ -55,6 +54,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
     lateinit var staggeredGridLayoutManager: FlapStaggeredGridLayoutManager
     lateinit var indexedStaggeredGridLayoutManager: FlapIndexedStaggeredGridLayoutManager
     lateinit var currentLayoutManager: RecyclerView.LayoutManager
+
+    lateinit var stickyHeaderLinearLayoutManager: FlapStickyHeaderLinearLayoutManager
 
     open var useFlapRecyclerView = false
 
@@ -139,6 +140,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
 
         adapter.registerAdapterService(TestService::class.java)
 
+        adapter.setupStickyHeaderHandler { position, itemData -> position % 2 == 0 }
+
         initLayoutManagers()
         initItemDecorations()
 
@@ -172,6 +175,8 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
         }
 
         staggeredGridLayoutManager = FlapStaggeredGridLayoutManager(2)
+
+        stickyHeaderLinearLayoutManager = FlapStickyHeaderLinearLayoutManager(requireActivity())
 
         currentLayoutManager = linearLayoutManager
     }
@@ -306,6 +311,14 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
                 currentLayoutManager = indexedStaggeredGridLayoutManager
                 recyclerView.layoutManager = currentLayoutManager
             }
+            4 -> {
+                recyclerView.removeItemDecoration(currentItemDecoration)
+                currentItemDecoration = linearItemDecoration
+                recyclerView.addItemDecoration(currentItemDecoration)
+                recyclerView.invalidateItemDecorations()
+                currentLayoutManager = stickyHeaderLinearLayoutManager
+                recyclerView.layoutManager = currentLayoutManager
+            }
         }
     }
 
@@ -335,6 +348,9 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
             }
             is FlapIndexedStaggeredGridLayoutManager -> {
                 (currentLayoutManager as FlapIndexedStaggeredGridLayoutManager).orientation = orientation
+            }
+            is FlapStickyHeaderLinearLayoutManager -> {
+                (currentLayoutManager as FlapStickyHeaderLinearLayoutManager).orientation = orientation
             }
         }
 

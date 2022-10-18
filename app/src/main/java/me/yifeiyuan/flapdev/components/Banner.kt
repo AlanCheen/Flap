@@ -4,10 +4,12 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_base_case.view.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flapdev.FlapApplication.Companion.toast
 import me.yifeiyuan.flapdev.R
+import me.yifeiyuan.flapdev.enforceSingleScrollDirection
 
 /**
  * Created by 程序亦非猿 on 2022/9/11.
@@ -28,6 +30,7 @@ fun createBannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.compon
     dragEnable = false
 
     val viewPager2 = findViewById<ViewPager2>(R.id.banner)
+
     val bannerAdapter = FlapAdapter().apply {
         registerAdapterDelegate(bannerImageDelegate())
     }

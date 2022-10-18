@@ -3,7 +3,10 @@ package me.yifeiyuan.flapdev
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.multidex.MultiDexApplication
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.dsl.adapterHook
@@ -17,6 +20,12 @@ import me.yifeiyuan.flapdev.components.*
 class FlapApplication : MultiDexApplication() {
 
     companion object {
+
+        val ViewPager2.recyclerView: RecyclerView
+            get() {
+                return this[0] as RecyclerView
+            }
+
         var application: Application? = null
             set(value) {
                 field = value

@@ -119,6 +119,23 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
         super.onAttachedToRecyclerView(recyclerView)
         attachingRecyclerView = recyclerView
         adapter.onAttachedToRecyclerView(recyclerView)
+
+        when (recyclerView.layoutManager) {
+            is GridLayoutManager -> {
+                (recyclerView.layoutManager as GridLayoutManager).apply {
+                    val preSpanSizeLookup = spanSizeLookup
+                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            if (this@HeaderFooterAdapter.isHeaderOrFooter(position)){
+                                return spanCount
+                            }else {
+                                return preSpanSizeLookup?.getSpanSize(position) ?: 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
@@ -235,11 +252,11 @@ class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentCon
     }
 
     override fun isClickable(): Boolean {
-        return false
+        return true
     }
 
     override fun isLongClickable(): Boolean {
-        return false
+        return true
     }
 }
 
@@ -254,10 +271,10 @@ class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), ComponentCon
     }
 
     override fun isClickable(): Boolean {
-        return false
+        return true
     }
 
     override fun isLongClickable(): Boolean {
-        return false
+        return true
     }
 }

@@ -30,8 +30,16 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
         val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
         headerFooterAdapter.setupHeaderView(headerView)
 
+        headerView.setOnClickListener {
+            Log.d(TAG, "onInit: HeaderView clicked")
+        }
+
         val footerView = LayoutInflater.from(activity).inflate(R.layout.footer_layout, null, false)
         headerFooterAdapter.setupFooterView(footerView)
+
+        footerView.setOnClickListener {
+            Log.d(TAG, "onInit: FooterView clicked")
+        }
 
         //需要处理偏移量
         adapter.doOnItemClick { recyclerView, childView, position ->
@@ -48,6 +56,8 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
             val realPosition = if (position == 0) position else position - headerFooterAdapter.getHeaderCount()
             toast("点击了 position = $position，model=${adapter.getItemData(realPosition)}")
         }
+
+        switchLayoutManager(1)
 
         recyclerView.adapter = headerFooterAdapter
 
@@ -81,14 +91,13 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
                 }
                 .attachToRecyclerView(recyclerView)
 
-        // 需要处理 SpanSize
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (headerFooterAdapter.isHeaderOrFooter(position)) gridLayoutManager.spanCount else 1
-            }
-        }
+        // 如果默认不是 GridLayoutManager，则需要处理 SpanSize
+//        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//                return if (headerFooterAdapter.isHeaderOrFooter(position)) gridLayoutManager.spanCount else 1
+//            }
+//        }
 
-        switchLayoutManager(0)
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

@@ -53,7 +53,8 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
                 toast("点击了 position = $position，是 Footer!")
                 return@doOnItemClick
             }
-            val realPosition = if (position == 0) position else position - headerFooterAdapter.getHeaderCount()
+            val realPosition = headerFooterAdapter.getFixedPosition(position)
+//            val realPosition = if (position == 0) position else position - headerFooterAdapter.getHeaderCount()
             toast("点击了 position = $position，model=${adapter.getItemData(realPosition)}")
         }
 

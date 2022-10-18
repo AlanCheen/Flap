@@ -126,9 +126,9 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
                     val preSpanSizeLookup = spanSizeLookup
                     spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
-                            if (this@HeaderFooterAdapter.isHeaderOrFooter(position)){
+                            if (this@HeaderFooterAdapter.isHeaderOrFooter(position)) {
                                 return spanCount
-                            }else {
+                            } else {
                                 return preSpanSizeLookup?.getSpanSize(position) ?: 1
                             }
                         }
@@ -236,6 +236,10 @@ class HeaderFooterAdapter(var adapter: FlapAdapter) : RecyclerView.Adapter<Recyc
             return false
         }
         return adapter.isStickyHeader(position - getHeaderCount())
+    }
+
+    fun getFixedPosition(position: Int): Int {
+        return if (position == 0) position else position - getHeaderCount()
     }
 }
 

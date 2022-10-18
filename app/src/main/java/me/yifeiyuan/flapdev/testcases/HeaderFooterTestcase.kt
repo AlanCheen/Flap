@@ -2,14 +2,17 @@ package me.yifeiyuan.flapdev.testcases
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
+import android.view.animation.TranslateAnimation
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
+import me.yifeiyuan.flap.widget.enableParallaxHeader
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.mockMultiTypeModels
 
@@ -27,7 +30,7 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
 
         val headerFooterAdapter = HeaderFooterAdapter(adapter)
 
-        val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout, null, false)
+        val headerView = LayoutInflater.from(activity).inflate(R.layout.header_layout_image, null, false)
         headerFooterAdapter.setupHeaderView(headerView)
 
         headerView.setOnClickListener {
@@ -99,6 +102,7 @@ class HeaderFooterTestcase : BaseTestcaseFragment() {
 //            }
 //        }
 
+        recyclerView.enableParallaxHeader()
     }
 
     override fun createRefreshData(size: Int): MutableList<Any> {

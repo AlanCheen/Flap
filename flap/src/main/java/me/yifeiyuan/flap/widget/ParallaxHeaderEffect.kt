@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * 开启视差 Header 效果
+ *
+ * @param factor 视差因子，默认 0.5f ，当 1.0f 效果类似固定的 Header
  * @since 3.1.9
  */
 fun RecyclerView.enableParallaxHeader(factor: Float = 0.5f) {

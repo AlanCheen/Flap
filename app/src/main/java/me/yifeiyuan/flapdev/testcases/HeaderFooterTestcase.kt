@@ -2,14 +2,10 @@ package me.yifeiyuan.flapdev.testcases
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.animation.TranslateAnimation
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.debug_menu.*
 import me.yifeiyuan.flap.ext.HeaderFooterAdapter
 import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flap.widget.enableParallaxHeader

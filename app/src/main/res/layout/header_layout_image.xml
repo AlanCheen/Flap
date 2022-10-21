@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#E6DB7C">
+
+    <ImageView
+        android:src="@drawable/flap_xcz"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:text="Header"
+        android:gravity="center"
+        android:scaleType="centerCrop"
+        android:textColor="#FFFFFF"
+        />
+</FrameLayout>

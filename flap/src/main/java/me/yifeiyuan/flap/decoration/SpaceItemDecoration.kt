@@ -15,6 +15,8 @@ import me.yifeiyuan.flap.widget.FlapIndexedStaggeredGridLayoutManager
  * - LinearLayoutManager
  * - GridLayoutManager
  * - StaggeredGridLayoutManager
+ * - FlapIndexedStaggeredGridLayoutManager
+ * - FlapStickyHeaderLinearLayoutManager
  *
  * @param space : 间隔的大小，单位像素
  * @param isIncludeFirstRowTopEdge : 第一行 item 的顶部与 RecyclerView 之间是否需要加间隔
@@ -44,6 +46,7 @@ class SpaceItemDecoration(
         when (val layoutManager = parent.layoutManager) {
             is FlapIndexedStaggeredGridLayoutManager -> {
                 val layoutParams = view.layoutParams as FlapIndexedStaggeredGridLayoutManager.LayoutParams
+                val isFullSpan = layoutParams.isFullSpan
                 val isAxisEndSpan = (layoutParams.spanIndex + 1) % layoutManager.spanCount == 0
                 val isCrossAxisEndSpan = adapterPos >= (adapterSize - layoutManager.spanCount)
                 val dividedSpace = spacePx / 2
@@ -51,7 +54,7 @@ class SpaceItemDecoration(
                 when (layoutManager.orientation) {
                     FlapIndexedStaggeredGridLayoutManager.VERTICAL -> {
                         outRect.left = if (layoutParams.spanIndex == 0) 0 else dividedSpace
-                        outRect.right = if (isAxisEndSpan) 0 else dividedSpace
+                        outRect.right = if (isAxisEndSpan || isFullSpan) 0 else dividedSpace
                         outRect.top = if (adapterPos < layoutManager.spanCount && !isIncludeFirstRowTopEdge) 0 else dividedSpace
                         outRect.bottom = if (isCrossAxisEndSpan && !isIncludeLastRowBottomEdge) 0 else dividedSpace
                     }
@@ -65,7 +68,7 @@ class SpaceItemDecoration(
             }
             is StaggeredGridLayoutManager -> {
                 val layoutParams = view.layoutParams as StaggeredGridLayoutManager.LayoutParams
-
+                val isFullSpan = layoutParams.isFullSpan
                 val isAxisEndSpan = (layoutParams.spanIndex + 1) % layoutManager.spanCount == 0
                 val isCrossAxisEndSpan = adapterPos >= (adapterSize - layoutManager.spanCount)
                 val dividedSpace = spacePx / 2
@@ -73,7 +76,7 @@ class SpaceItemDecoration(
                 when (layoutManager.orientation) {
                     StaggeredGridLayoutManager.VERTICAL -> {
                         outRect.left = if (layoutParams.spanIndex == 0) 0 else dividedSpace
-                        outRect.right = if (isAxisEndSpan) 0 else dividedSpace
+                        outRect.right = if (isAxisEndSpan || isFullSpan) 0 else dividedSpace
                         outRect.top = if (adapterPos < layoutManager.spanCount && !isIncludeFirstRowTopEdge) 0 else dividedSpace
                         outRect.bottom = if (isCrossAxisEndSpan && !isIncludeLastRowBottomEdge) 0 else dividedSpace
                     }
@@ -87,6 +90,7 @@ class SpaceItemDecoration(
             }
             is GridLayoutManager -> {
                 val layoutParams = view.layoutParams as GridLayoutManager.LayoutParams
+                val isFullSpan = layoutParams.spanSize == layoutManager.spanCount
 
                 val isAxisEndSpan = (layoutParams.spanIndex + 1) % layoutManager.spanCount == 0
                 val isCrossAxisEndSpan = adapterPos >= (adapterSize - layoutManager.spanCount)
@@ -95,7 +99,7 @@ class SpaceItemDecoration(
                 when (layoutManager.orientation) {
                     GridLayoutManager.VERTICAL -> {
                         outRect.left = if (layoutParams.spanIndex == 0) 0 else dividedSpace
-                        outRect.right = if (isAxisEndSpan) 0 else dividedSpace
+                        outRect.right = if (isAxisEndSpan || isFullSpan) 0 else dividedSpace
                         outRect.top = if (adapterPos < layoutManager.spanCount && !isIncludeFirstRowTopEdge) 0 else dividedSpace
                         outRect.bottom = if (isCrossAxisEndSpan && !isIncludeLastRowBottomEdge) 0 else dividedSpace
                     }

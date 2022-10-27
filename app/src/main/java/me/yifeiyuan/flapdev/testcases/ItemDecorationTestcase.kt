@@ -73,6 +73,19 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
     override fun refreshData(size: Int) {
         super.refreshData(size)
         staggeredGridLayoutManager.invalidateSpanAssignments()
+
+        indexedStaggeredGridLayoutManager.invalidateSpanAssignments()
+
+        recyclerView.invalidateItemDecorations()
+    }
+
+    override fun onLoadMoreDataComplete() {
+        super.onLoadMoreDataComplete()
+        staggeredGridLayoutManager.invalidateSpanAssignments()
+
+        indexedStaggeredGridLayoutManager.invalidateSpanAssignments()
+
+        recyclerView.invalidateItemDecorations()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

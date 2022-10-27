@@ -233,7 +233,13 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
                 list.add(SimpleTextModel("加载更多数据 $it of $size"))
             }
             adapter.appendDataAndNotify(list)
+            onLoadMoreDataComplete()
         }, 500)
+    }
+
+    open fun onLoadMoreDataComplete() {
+
+
     }
 
     fun toast(title: String) {

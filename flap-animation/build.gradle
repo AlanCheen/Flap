@@ -44,6 +44,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     compileOnly 'androidx.recyclerview:recyclerview:1.2.1'
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly project(':flap')
 }

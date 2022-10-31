@@ -1,27 +1,31 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 //apply plugin: 'me.yifeiyuan.flap.plugin'
 
-buildscript {
-    repositories {
-
-        maven {
-            url = "$rootProject.projectDir/repos"
-        }
-
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        //添加插件
-//        classpath files("../flap-gradle-plugin/build/generated/libs/flap-gradle-plugin.jar")
-//        classpath "me.yifeiyuan.flap:plugin:1.1.0-test"
-    }
-}
+//buildscript {
+//    repositories {
+//
+//        maven {
+//            url = "$rootProject.projectDir/repos"
+//        }
+//
+//        google()
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        //添加插件
+////        classpath files("../flap-gradle-plugin/build/generated/libs/flap-gradle-plugin.jar")
+////        classpath "me.yifeiyuan.flap:plugin:1.1.0-test"
+//    }
+//}
 
 android {
     compileSdkVersion 29

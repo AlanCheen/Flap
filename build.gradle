@@ -7,9 +7,9 @@ buildscript {
         google()
         jcenter()
 
-        maven {
-            url = "$rootProject.projectDir/repos"
-        }
+//        maven {
+//            url = "$rootProject.projectDir/repos"
+//        }
     }
 
     dependencies {

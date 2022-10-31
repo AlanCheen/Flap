@@ -1,3 +1,4 @@
+include ':flap-animation'
 include ':flap-dsl-databinding'
 include ':flap-dsl-viewbinding'
 include ':ktmodule'

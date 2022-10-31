@@ -97,6 +97,7 @@ dependencies {
     implementation project(':ktmodule')
 
     implementation project(':flap')
+    implementation project(':flap-animation')
     implementation project(':flap-dsl-viewbinding')
     implementation project(':flap-dsl-databinding')
     implementation project(':flap-annotations')

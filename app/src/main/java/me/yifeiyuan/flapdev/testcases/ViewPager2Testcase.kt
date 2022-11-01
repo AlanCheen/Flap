@@ -3,17 +3,13 @@ package me.yifeiyuan.flapdev.testcases
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import kotlinx.android.synthetic.main.fragment_base_case.view.*
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
-import me.yifeiyuan.flapdev.enforceSingleScrollDirection
 import java.util.*
 
 /**

@@ -2544,6 +2544,14 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
         }
 
         void calculateCachedStart() {
+            // Fatal Exception: java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
+            // https://stackoverflow.com/questions/44571895/staggeredgridlayoutmanager-calculatecachedstart-indexoutofboundsexception
+            // 解法: 设置 mGapStrategy == GAP_HANDLING_NONE
+            // 这里主动规避一下 IndexOutOfBoundsException
+            if (mViews.size() == 0) {
+                return;
+            }
+
             final View startView = mViews.get(0);
             final FlapIndexedStaggeredGridLayoutManager.LayoutParams lp = getLayoutParams(startView);
             mCachedStart = mPrimaryOrientation.getDecoratedStart(startView);

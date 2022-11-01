@@ -42,4 +42,13 @@ open class FlapStaggeredGridLayoutManager
             FlapDebug.e(TAG, "onLayoutChildren: ", e)
         }
     }
+
+    override fun onScrollStateChanged(state: Int) {
+        try {
+            super.onScrollStateChanged(state)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            FlapDebug.e(TAG, "onScrollStateChanged: ", e)
+        }
+    }
 }

@@ -28,7 +28,6 @@ interface AdapterHook {
      * 在创建组件前调用
      *
      * @param adapter 正在创建组件的 adapter
-     * @param delegate 创建组件的代理
      * @param viewType viewType
      */
     fun onCreateViewHolderStart(
@@ -41,7 +40,6 @@ interface AdapterHook {
      * 在组件创建完毕后调用
      *
      * @param adapter  正在创建组件的 adapter
-     * @param delegate 创建组件的代理
      * @param viewType viewType
      * @param component 被创建出来的组件
      */
@@ -56,7 +54,6 @@ interface AdapterHook {
      * 在绑定组件之前调用
      *
      * @param adapter
-     * @param delegate 绑定组件的代理
      * @param component
      * @param position
      * @param data
@@ -75,7 +72,6 @@ interface AdapterHook {
      * 在组件绑定完毕后回调
      *
      * @param adapter
-     * @param delegate 绑定组件的代理
      * @param component
      * @param position
      * @param data

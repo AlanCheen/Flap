@@ -57,8 +57,9 @@ class FlapApplication : MultiDexApplication() {
 
             }
             onBindViewHolderEnd { adapter, component, data, position, payloads ->
-                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $ component = $component, data = $data, position = $position, payloads = $payloads")
+                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, component = $component, data = $data, position = $position, payloads = $payloads")
             }
+
             onViewAttachedToWindow { adapter, component ->
 
             }

@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
@@ -23,7 +24,7 @@ abstract class BaseAdapterAnimation : AdapterHook {
     var interpolator: Interpolator = LinearInterpolator()
     private var lastPosition = -1
 
-    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
         val adapterPosition = component.adapterPosition
         if (!isFirstOnly || adapterPosition > lastPosition) {

@@ -1,9 +1,9 @@
 package me.yifeiyuan.flap.hook
 
 import android.os.SystemClock
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 
 /**
@@ -36,12 +36,12 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
         createStartTime = SystemClock.uptimeMillis()
     }
 
     override fun onCreateViewHolderEnd(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
@@ -61,7 +61,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
      * 当创建耗时太长时警告
      */
     open fun onCreateAlarm(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>, cost: Long) {
@@ -69,7 +69,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     }
 
     override fun onBindViewHolderStart(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -80,7 +80,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     }
 
     override fun onBindViewHolderEnd(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -102,7 +102,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
      * 当绑定耗时太长时警告
      */
     open fun onBindAlarm(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,

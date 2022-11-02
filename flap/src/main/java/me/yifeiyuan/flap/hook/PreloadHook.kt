@@ -1,7 +1,7 @@
 package me.yifeiyuan.flap.hook
 
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.OnAdapterDataChangedObserver
@@ -69,7 +69,7 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
         }
     }
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (!registered) {
             registered = true
             adapter.registerAdapterDataObserver(observer)
@@ -77,7 +77,8 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
     }
 
     private var prePosition = -1
-    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+
+    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         val itemCount = adapter.itemCount
         if (preloadEnable && !loading.get()) {
             if (direction == SCROLL_DOWN && prePosition < position) {

@@ -32,7 +32,7 @@ interface AdapterHook {
      * @param viewType viewType
      */
     fun onCreateViewHolderStart(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             viewType: Int
     ) {
@@ -47,7 +47,7 @@ interface AdapterHook {
      * @param component 被创建出来的组件
      */
     fun onCreateViewHolderEnd(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
@@ -65,7 +65,7 @@ interface AdapterHook {
      * @param payloads
      */
     fun onBindViewHolderStart(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -85,7 +85,7 @@ interface AdapterHook {
      * @param payloads
      */
     fun onBindViewHolderEnd(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
@@ -98,7 +98,7 @@ interface AdapterHook {
      * @see FlapAdapter.onViewAttachedToWindow
      */
     fun onViewAttachedToWindow(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
     ) {
@@ -108,7 +108,7 @@ interface AdapterHook {
      * @see FlapAdapter.onViewDetachedFromWindow
      */
     fun onViewDetachedFromWindow(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             delegate: AdapterDelegate<*, *>,
             component: Component<*>,
     ) {
@@ -118,11 +118,11 @@ interface AdapterHook {
      * @see FlapAdapter.onAttachedToRecyclerView
      * @since 3.1.5
      */
-    fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
+    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 
     /**
      * @see FlapAdapter.onDetachedFromRecyclerView
      * @since 3.1.5
      */
-    fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
+    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 }

@@ -2,8 +2,8 @@
 
 package me.yifeiyuan.flap.dsl
 
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
 
@@ -25,60 +25,60 @@ fun adapterHook(block: DslAdapterHook.() -> Unit): AdapterHook {
  */
 class DslAdapterHook : AdapterHook {
 
-    private var onCreateViewHolderStart: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) -> Unit)? = null
-    private var onCreateViewHolderEnd: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) -> Unit)? = null
+    private var onCreateViewHolderStart: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) -> Unit)? = null
+    private var onCreateViewHolderEnd: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) -> Unit)? = null
 
-    private var onViewAttachedToWindow: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit)? = null
-    private var onViewDetachedFromWindow: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit)? = null
+    private var onViewAttachedToWindow: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit)? = null
+    private var onViewDetachedFromWindow: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit)? = null
 
-    private var onBindViewHolderStart: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
-    private var onBindViewHolderEnd: ((adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
+    private var onBindViewHolderStart: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
+    private var onBindViewHolderEnd: ((adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
 
-    fun onCreateViewHolderStart(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) -> Unit) {
+    fun onCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) -> Unit) {
         onCreateViewHolderStart = block
     }
 
-    fun onCreateViewHolderEnd(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) -> Unit) {
+    fun onCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) -> Unit) {
         onCreateViewHolderEnd = block
     }
 
-    fun onViewAttachedToWindow(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
+    fun onViewAttachedToWindow(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
         onViewAttachedToWindow = block
     }
 
-    fun onViewDetachedFromWindow(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
+    fun onViewDetachedFromWindow(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
         onViewDetachedFromWindow = block
     }
 
-    fun onBindViewHolderStart(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+    fun onBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
         onBindViewHolderStart = block
     }
 
-    fun onBindViewHolderEnd(block: (adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+    fun onBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
         onBindViewHolderEnd = block
     }
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
         onCreateViewHolderStart?.invoke(adapter, delegate, viewType)
     }
 
-    override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
+    override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
         onCreateViewHolderEnd?.invoke(adapter, delegate, viewType, component)
     }
 
-    override fun onBindViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         onBindViewHolderStart?.invoke(adapter, delegate, component, data, position, payloads)
     }
 
-    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         onBindViewHolderEnd?.invoke(adapter, delegate, component, data, position, payloads)
     }
 
-    override fun onViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         onViewAttachedToWindow?.invoke(adapter, delegate, component)
     }
 
-    override fun onViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         onViewDetachedFromWindow?.invoke(adapter, delegate, component)
     }
 }

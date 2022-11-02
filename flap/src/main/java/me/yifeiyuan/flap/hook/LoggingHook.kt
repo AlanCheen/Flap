@@ -2,7 +2,6 @@ package me.yifeiyuan.flap.hook
 
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 
@@ -26,7 +25,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         class TraceException : RuntimeException("|只用于 LoggingHook 打印日志，不是真实异常|")
     }
 
-    override fun onCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
         if (enableLog) {
             FlapDebug.d(TAG, "onCreateViewHolderStart() called with: adapter = $adapter, delegate = $delegate, viewType = $viewType")
             if (printTrace) {
@@ -35,13 +34,13 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onCreateViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
+    override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onCreateViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, viewType = $viewType, component = $component")
         }
     }
 
-    override fun onBindViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onBindViewHolderStart() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
 
@@ -51,7 +50,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onBindViewHolderEnd(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
             if (payloads.isNotEmpty()) {
@@ -61,7 +60,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onViewAttachedToWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
             if (printTrace) {
@@ -70,7 +69,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onViewDetachedFromWindow() called with: adapter = $adapter, delegate = $delegate, component = $component")
             if (printTrace) {
@@ -79,13 +78,13 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (enableLog) {
             FlapDebug.d(TAG, "onAttachedToRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
         }
     }
 
-    override fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (enableLog) {
             FlapDebug.d(TAG, "onDetachedFromRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
         }

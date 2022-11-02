@@ -154,9 +154,11 @@ public class FlapIndexedStaggeredGridLayoutManager extends RecyclerView.LayoutMa
     FlapIndexedStaggeredGridLayoutManager.LazySpanLookup mLazySpanLookup = new FlapIndexedStaggeredGridLayoutManager.LazySpanLookup();
 
     /**
+     * 修改：默认改为 GAP_HANDLING_NONE
      * how we handle gaps in UI.
      */
-    private int mGapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS;
+//    private int mGapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS;
+    private int mGapStrategy = GAP_HANDLING_NONE;
 
     /**
      * Saved state needs this information to properly layout on restore.

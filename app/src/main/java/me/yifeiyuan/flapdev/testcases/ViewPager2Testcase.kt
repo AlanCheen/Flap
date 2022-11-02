@@ -47,7 +47,7 @@ class ViewPager2Testcase : Fragment(), Scrollable {
              * java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent)
              * at androidx.viewpager2.widget.ViewPager2$4.onChildViewAttachedToWindow(ViewPager2.java:270)
              */
-            doOnCreateViewHolderEnd { adapter, delegate, viewType, component ->
+            doOnCreateViewHolderEnd { adapter, viewType, component ->
                 component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             }
 

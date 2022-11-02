@@ -58,16 +58,16 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     internal fun onCreateViewHolder(adapter: FlapAdapter, parent: ViewGroup, viewType: Int, layoutInflater: LayoutInflater): Component<*> {
         val delegate = getDelegateByViewType(viewType)
-        dispatchOnCreateViewHolderStart(adapter, delegate, viewType)
+        dispatchOnCreateViewHolderStart(adapter, viewType)
         val component = delegate.onCreateViewHolder(layoutInflater, parent, viewType)
-        dispatchOnCreateViewHolderEnd(adapter, delegate, viewType, component)
+        dispatchOnCreateViewHolderEnd(adapter, viewType, component)
         return component
     }
 
-    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, viewType: Int) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderStart(adapter, delegate, viewType)
+                it.onCreateViewHolderStart(adapter, viewType)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -76,13 +76,12 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     private fun dispatchOnCreateViewHolderEnd(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderEnd(adapter, delegate, viewType, component)
+                it.onCreateViewHolderEnd(adapter,  viewType, component)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -103,7 +102,7 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     ) {
         try {
             val delegate = getDelegateByViewType(component.itemViewType)
-            dispatchOnBindViewHolderStart(adapter, delegate, component, itemData, position, payloads)
+            dispatchOnBindViewHolderStart(adapter, component, itemData, position, payloads)
             delegate.onBindViewHolder(
                     component,
                     itemData,
@@ -111,7 +110,7 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
                     payloads,
                     adapter
             )
-            dispatchOnBindViewHolderEnd(adapter, delegate, component, itemData, position, payloads)
+            dispatchOnBindViewHolderEnd(adapter, component, itemData, position, payloads)
             tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -127,7 +126,7 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     private fun tryAttachLifecycleOwner(component: Component<*>) {
         if (lifecycleEnable) {
             if (lifecycleOwner == null) {
-                throw NullPointerException("lifecycleOwner == null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
+                throw NullPointerException("lifecycleOwner==null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
             }
             lifecycleOwner!!.lifecycle.addObserver(component)
         }
@@ -135,7 +134,6 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     private fun dispatchOnBindViewHolderStart(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             itemData: Any,
             position: Int,
@@ -143,7 +141,7 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     ) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderStart(adapter, delegate, component, itemData, position, payloads)
+                it.onBindViewHolderStart(adapter,  component, itemData, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -152,7 +150,6 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
 
     private fun dispatchOnBindViewHolderEnd(
             adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -160,7 +157,7 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     ) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderEnd(adapter, delegate, component, data, position, payloads)
+                it.onBindViewHolderEnd(adapter,  component, data, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -218,13 +215,13 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
 
-        dispatchOnViewAttachedToWindow(adapter, delegate, component)
+        dispatchOnViewAttachedToWindow(adapter, component)
     }
 
-    private fun dispatchOnViewAttachedToWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    private fun dispatchOnViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         try {
             adapterHooks.forEach {
-                it.onViewAttachedToWindow(adapter, delegate, component)
+                it.onViewAttachedToWindow(adapter,  component)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -235,13 +232,13 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
 
-        dispatchOnViewDetachedFromWindow(adapter, delegate, component)
+        dispatchOnViewDetachedFromWindow(adapter, component)
     }
 
-    private fun dispatchOnViewDetachedFromWindow(adapter: FlapAdapter, delegate: AdapterDelegate<*, *>, component: Component<*>) {
+    private fun dispatchOnViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         try {
             adapterHooks.forEach {
-                it.onViewDetachedFromWindow(adapter, delegate, component)
+                it.onViewDetachedFromWindow(adapter, component)
             }
         } catch (e: Exception) {
             e.printStackTrace()

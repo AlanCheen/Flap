@@ -33,7 +33,6 @@ interface AdapterHook {
      */
     fun onCreateViewHolderStart(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             viewType: Int
     ) {
     }
@@ -48,7 +47,6 @@ interface AdapterHook {
      */
     fun onCreateViewHolderEnd(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {
@@ -66,7 +64,6 @@ interface AdapterHook {
      */
     fun onBindViewHolderStart(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -86,7 +83,6 @@ interface AdapterHook {
      */
     fun onBindViewHolderEnd(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -99,7 +95,6 @@ interface AdapterHook {
      */
     fun onViewAttachedToWindow(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
     ) {
     }
@@ -109,9 +104,7 @@ interface AdapterHook {
      */
     fun onViewDetachedFromWindow(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
-            component: Component<*>,
-    ) {
+            component: Component<*>, ) {
     }
 
     /**

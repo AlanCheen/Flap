@@ -33,12 +33,12 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
 
         recyclerView.setBackgroundColor(Color.parseColor("#16000000"))
 
-        adapter.doOnCreateViewHolderEnd { adapter, delegate, viewType, component ->
+        adapter.doOnCreateViewHolderEnd { adapter,  viewType, component ->
             val preLP = component.itemView.layoutParams
             preLP.height = Random.nextInt(requireActivity().toPixel(50), requireActivity().toPixel(150))
         }
 
-        adapter.doOnBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
+        adapter.doOnBindViewHolderEnd { adapter,  component, data, position, payloads ->
             if (recyclerView.layoutManager is StaggeredGridLayoutManager) {
                 val index = (component.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).spanIndex
                 Log.d("StaggeredGridL", "onInit() called with: position = $position, spanIndex = $index")

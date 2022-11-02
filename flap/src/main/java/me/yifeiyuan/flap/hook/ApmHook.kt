@@ -36,13 +36,12 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
-    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
+    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         createStartTime = SystemClock.uptimeMillis()
     }
 
     override fun onCreateViewHolderEnd(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             viewType: Int,
             component: Component<*>
     ) {
@@ -50,10 +49,10 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         val cost = endTime - createStartTime
         FlapDebug.d(
                 TAG,
-                "${delegate.javaClass.simpleName} 【创建】组件完成，耗时 $cost (毫秒)，组件为：$component"
+                "【创建】组件完成，耗时 $cost (毫秒)，组件为：$component"
         )
         if (cost > createTimeCostThreshold) {
-            onCreateAlarm(adapter, delegate, viewType, component, cost)
+            onCreateAlarm(adapter, viewType, component, cost)
         }
     }
 
@@ -62,7 +61,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
      */
     open fun onCreateAlarm(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>?,
             viewType: Int,
             component: Component<*>, cost: Long) {
         FlapDebug.e(TAG, "组件创建耗时过长，请优化！")
@@ -70,7 +68,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
 
     override fun onBindViewHolderStart(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -81,7 +78,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
 
     override fun onBindViewHolderEnd(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -91,10 +87,10 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         val cost = endTime - bindStartTime
         FlapDebug.d(
                 TAG,
-                "${delegate.javaClass.simpleName} 【绑定】组件完成，耗时 $cost (毫秒)，组件为：$component"
+                "【绑定】组件完成，耗时 $cost (毫秒)，组件为：$component"
         )
         if (cost > bindStartTime) {
-            onBindAlarm(adapter, delegate, component, data, position, payloads, cost)
+            onBindAlarm(adapter, component, data, position, payloads, cost)
         }
     }
 
@@ -103,7 +99,6 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
      */
     open fun onBindAlarm(
             adapter: RecyclerView.Adapter<*>,
-            delegate: AdapterDelegate<*, *>,
             component: Component<*>,
             data: Any,
             position: Int,

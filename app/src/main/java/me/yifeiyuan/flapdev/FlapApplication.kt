@@ -47,23 +47,23 @@ class FlapApplication : MultiDexApplication() {
     private fun initFlap() {
 
         val dslAdapterHook = adapterHook {
-            onCreateViewHolderStart { adapter, delegate, viewType ->
+            onCreateViewHolderStart { adapter, viewType ->
 
             }
-            onCreateViewHolderEnd { adapter, delegate, viewType, component ->
+            onCreateViewHolderEnd { adapter, viewType, component ->
 
             }
-            onBindViewHolderStart { adapter, delegate, component, data, position, payloads ->
+            onBindViewHolderStart { adapter, component, data, position, payloads ->
 
             }
-            onBindViewHolderEnd { adapter, delegate, component, data, position, payloads ->
-                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $delegate, component = $component, data = $data, position = $position, payloads = $payloads")
+            onBindViewHolderEnd { adapter, component, data, position, payloads ->
+                Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, delegate = $ component = $component, data = $data, position = $position, payloads = $payloads")
             }
-            onViewAttachedToWindow { adapter, delegate, component ->
+            onViewAttachedToWindow { adapter, component ->
 
             }
 
-            onViewDetachedFromWindow { adapter, delegate, component ->
+            onViewDetachedFromWindow { adapter, component ->
 
             }
         }

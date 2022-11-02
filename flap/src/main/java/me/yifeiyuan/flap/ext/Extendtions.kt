@@ -5,7 +5,6 @@ package me.yifeiyuan.flap.ext
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
 
 /**
@@ -19,10 +18,10 @@ import me.yifeiyuan.flap.hook.AdapterHook
  * 在 onCreateViewHolder 之前回调
  * @see doOnCreateViewHolderEnd
  */
-fun FlapAdapter.doOnCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) -> Unit) {
+fun FlapAdapter.doOnCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int) {
-            block.invoke(adapter, delegate, viewType)
+        override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+            block.invoke(adapter, viewType)
         }
     })
 }
@@ -31,10 +30,10 @@ fun FlapAdapter.doOnCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<
  * 在 onCreateViewHolder 之后回调
  * @see doOnCreateViewHolderStart
  */
-fun FlapAdapter.doOnCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) -> Unit) {
+fun FlapAdapter.doOnCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, viewType: Int, component: Component<*>) {
-            block.invoke(adapter, delegate, viewType, component)
+        override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
+            block.invoke(adapter, viewType, component)
         }
     })
 }
@@ -43,10 +42,10 @@ fun FlapAdapter.doOnCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>
  * 在 onBindViewHolder 之前回调
  * @see doOnBindViewHolderEnd
  */
-fun FlapAdapter.doOnBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+fun FlapAdapter.doOnBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-            block.invoke(adapter, delegate, component, data, position, payloads)
+        override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+            block.invoke(adapter, component, data, position, payloads)
         }
     })
 }
@@ -55,10 +54,10 @@ fun FlapAdapter.doOnBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>
  * 在 onBindViewHolder 之后回调
  * @see doOnBindViewHolderStart
  */
-fun FlapAdapter.doOnBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+fun FlapAdapter.doOnBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-            block.invoke(adapter, delegate, component, data, position, payloads)
+        override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+            block.invoke(adapter, component, data, position, payloads)
         }
     })
 }
@@ -66,10 +65,10 @@ fun FlapAdapter.doOnBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, 
 /**
  * @see doOnViewAttachedFromWindow
  */
-fun FlapAdapter.doOnViewDetachedFromWindow(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
+fun FlapAdapter.doOnViewDetachedFromWindow(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
-            block.invoke(adapter, delegate, component)
+        override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+            block.invoke(adapter, component)
         }
     })
 }
@@ -77,10 +76,10 @@ fun FlapAdapter.doOnViewDetachedFromWindow(block: (adapter: RecyclerView.Adapter
 /**
  * @see doOnViewDetachedFromWindow
  */
-fun FlapAdapter.doOnViewAttachedFromWindow(block: (adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) -> Unit) {
+fun FlapAdapter.doOnViewAttachedFromWindow(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, delegate: AdapterDelegate<*, *>, component: Component<*>) {
-            block.invoke(adapter, delegate, component)
+        override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+            block.invoke(adapter, component)
         }
     })
 }

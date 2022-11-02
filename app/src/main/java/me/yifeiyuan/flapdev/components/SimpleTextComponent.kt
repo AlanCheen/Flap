@@ -3,13 +3,11 @@ package me.yifeiyuan.flapdev.components
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.TextView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ViewTypeGenerator
-import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flapdev.Logger
 import me.yifeiyuan.flapdev.R
 
@@ -26,7 +24,7 @@ data class SimpleTextModel(val content: String){
 }
 
 //@Delegate(layoutName = "flap_item_simple_text")
-@Delegate(layoutId = R.layout.flap_item_simple_text)
+//@Delegate(layoutId = R.layout.flap_item_simple_text)
 class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
 
     private val tvContent: TextView = findViewById(R.id.tv_content)

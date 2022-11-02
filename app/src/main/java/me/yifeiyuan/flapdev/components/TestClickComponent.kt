@@ -1,8 +1,6 @@
 package me.yifeiyuan.flapdev.components
 
-import android.view.View
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.annotations.Delegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
@@ -13,9 +11,8 @@ import me.yifeiyuan.flapdev.R
 
 class TestClickModel(var content: String)
 
-@Delegate(layoutId = R.layout.component_test_click)
-class TestClickComponent(itemView: View) : Component<TestClickModel>(itemView) {
-    override fun onBind(model: TestClickModel) {
+fun createTestClickDelegate() = adapterDelegate<TestClickModel>(R.layout.component_test_click) {
+    onBind { model, position, payloads, adapter ->
         bindTextView(R.id.clicks){
             text = model.content
         }

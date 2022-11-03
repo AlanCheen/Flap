@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.delegate.AdapterDelegateManager
+import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.hook.AdapterHookManager
 import me.yifeiyuan.flap.hook.IAdapterHookManager
@@ -21,7 +22,7 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 3.1.5
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
+class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
 
     companion object {
         private const val TAG = "FlapDelegation"
@@ -46,14 +47,14 @@ class FlapDelegation : IAdapterHookManager by AdapterHookManager(), IAdapterDele
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
-    var fallbackDelegate: AdapterDelegate<*, *>? = null
+    var fallbackDelegate: FallbackAdapterDelegate? = null
 
     init {
-        adapterHooks.addAll(Flap.adapterHooks)
-        adapterDelegates.addAll(Flap.adapterDelegates)
-        adapterServices.putAll(Flap.adapterServices)
+        adapterHooks.addAll(FlapInitializer.adapterHooks)
+        adapterDelegates.addAll(FlapInitializer.adapterDelegates)
+        adapterServices.putAll(FlapInitializer.adapterServices)
 
-        fallbackDelegate = Flap.globalFallbackAdapterDelegate
+        fallbackDelegate = FlapInitializer.globalFallbackAdapterDelegate
     }
 
     internal fun onCreateViewHolder(adapter: FlapAdapter, parent: ViewGroup, viewType: Int, layoutInflater: LayoutInflater): Component<*> {

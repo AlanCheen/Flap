@@ -31,7 +31,7 @@ import me.yifeiyuan.flap.widget.FlapStickyHeaders
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by delegation, IAdapterDelegateManager by delegation, IAdapterServiceManager by delegation, SwipeDragHelper.Callback, FlapStickyHeaders {
+open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders {
 
     companion object {
         private const val TAG = "FlapAdapter"
@@ -82,7 +82,7 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     lateinit var bindingContext: Context
 
     init {
-        inflateWithApplicationContext = Flap.inflateWithApplicationContext
+        inflateWithApplicationContext = FlapInitializer.inflateWithApplicationContext
     }
 
     // 暂时不需要
@@ -141,7 +141,7 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
         val context = if (inflateWithApplicationContext) parent.context.applicationContext else parent.context
         val layoutInflater = LayoutInflater.from(context)
-        return delegation.onCreateViewHolder(this, parent, viewType, layoutInflater)
+        return flap.onCreateViewHolder(this, parent, viewType, layoutInflater)
     }
 
     override fun onBindViewHolder(component: Component<*>, position: Int) {
@@ -153,8 +153,7 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
             position: Int,
             payloads: MutableList<Any>
     ) {
-        val data = getItemData(position)
-        delegation.onBindViewHolder(this, data, component, position, payloads)
+        flap.onBindViewHolder(this, getItemData(position), component, position, payloads)
     }
 
     open fun getItemData(position: Int): Any {
@@ -162,19 +161,17 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
     }
 
     override fun getItemViewType(position: Int): Int {
-        val itemData = getItemData(position)
-        return delegation.getItemViewType(position, itemData)
+        return flap.getItemViewType(position, getItemData(position))
     }
 
     override fun getItemId(position: Int): Long {
-        val itemData = getItemData(position)
-        return delegation.getItemId(position, itemData)
+        return flap.getItemId(position, getItemData(position))
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         handleOnAttachedToRecyclerView(recyclerView)
-        delegation.onAttachedToRecyclerView(this, recyclerView)
+        flap.onAttachedToRecyclerView(this, recyclerView)
     }
 
     private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -203,26 +200,26 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
         if (this::componentPool.isInitialized) {
             bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
         }
-        delegation.onDetachedFromRecyclerView(this, recyclerView)
+        flap.onDetachedFromRecyclerView(this, recyclerView)
     }
 
     /**
      * 会优先于 FlapComponentPool.putRecycledView 被调用
      */
     override fun onViewRecycled(component: Component<*>) {
-        delegation.onViewRecycled(this, component)
+        flap.onViewRecycled(this, component)
     }
 
     override fun onFailedToRecycleView(component: Component<*>): Boolean {
-        return delegation.onFailedToRecycleView(this, component)
+        return flap.onFailedToRecycleView(this, component)
     }
 
     override fun onViewAttachedToWindow(component: Component<*>) {
-        delegation.onViewAttachedToWindow(this, component)
+        flap.onViewAttachedToWindow(this, component)
     }
 
     override fun onViewDetachedFromWindow(component: Component<*>) {
-        delegation.onViewDetachedFromWindow(this, component)
+        flap.onViewDetachedFromWindow(this, component)
     }
 
     /**
@@ -230,14 +227,14 @@ open class FlapAdapter(private val delegation: FlapDelegation = FlapDelegation()
      * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
      */
     fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
-        delegation.lifecycleOwner = lifecycleOwner
+        flap.lifecycleOwner = lifecycleOwner
     }
 
     /**
      * 设置 Component 是否监听生命周期，默认开启
      */
     fun withLifecycleEnable(enable: Boolean) = apply {
-        delegation.lifecycleEnable = enable
+        flap.lifecycleEnable = enable
     }
 
     /**

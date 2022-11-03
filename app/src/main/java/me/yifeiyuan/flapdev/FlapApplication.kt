@@ -7,7 +7,7 @@ import androidx.core.view.get
 import androidx.multidex.MultiDexApplication
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import me.yifeiyuan.flap.Flap
+import me.yifeiyuan.flap.FlapInitializer
 import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
@@ -69,7 +69,7 @@ class FlapApplication : MultiDexApplication() {
             }
         }
 
-        Flap.apply {
+        FlapInitializer.apply {
 
             //Flap 这里注册的都是是全局的，只是为了测试方便
             //实际开发使用的话 哪个 Adapter 需要才注册更加合适。
@@ -101,6 +101,9 @@ class FlapApplication : MultiDexApplication() {
 
             //可选
             withContext(this@FlapApplication)
+
+            //可选
+//            withFallbackAdapterDelegate(YourFallbackAdapterDelegate())
 
             //打开日志
             setDebug(true)

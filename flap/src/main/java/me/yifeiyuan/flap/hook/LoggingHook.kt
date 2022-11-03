@@ -1,5 +1,6 @@
 package me.yifeiyuan.flap.hook
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapDebug
@@ -79,12 +80,18 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
     override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (enableLog) {
             FlapDebug.d(TAG, "onAttachedToRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
+            if (printTrace) {
+                FlapDebug.e(TAG, "onAttachedToRecyclerView: ", TraceException())
+            }
         }
     }
 
     override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (enableLog) {
             FlapDebug.d(TAG, "onDetachedFromRecyclerView() called with: adapter = $adapter, recyclerView = $recyclerView")
+            if (printTrace) {
+                FlapDebug.e(TAG, "onDetachedFromRecyclerView: ", TraceException())
+            }
         }
     }
 }

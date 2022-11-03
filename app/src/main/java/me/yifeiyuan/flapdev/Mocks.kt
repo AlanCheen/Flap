@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_ALL_DIRECTIONS
 import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_LEFT_AND_RIGHT
 import me.yifeiyuan.flap.ext.SwipeDragHelper.Companion.FLAG_UP_AND_DOWN
-import me.yifeiyuan.flap.ktmodule.KtComponentModel
 import me.yifeiyuan.flapdev.components.*
 import me.yifeiyuan.flapdev.components.SimpleDataBindingModel
 import me.yifeiyuan.flapdev.components.ViewBindingModel
@@ -34,7 +33,6 @@ fun mockMultiTypeModels(): MutableList<Any> {
     models.addAll(mockFullFeatureModels())
     models.add(CustomViewTypeModel())
     models.add(SimpleDataBindingModel())
-    models.add(KtComponentModel())
     models.add(ViewBindingModel())
     models.add(UnknownModel())
     return models

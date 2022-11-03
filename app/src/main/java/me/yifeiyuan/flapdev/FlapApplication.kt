@@ -8,7 +8,6 @@ import androidx.multidex.MultiDexApplication
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.Flap
-import me.yifeiyuan.flap.apt.delegates.*
 import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
@@ -80,12 +79,11 @@ class FlapApplication : MultiDexApplication() {
                     SimpleTextComponentDelegate(),
                     createCustomViewTypeComponentDelegate(),
                     createViewBindingDelegate(),
-                    KtModuleComponentAdapterDelegate(),
-                    TestClickComponentAdapterDelegate(),
+                    createTestClickDelegate(),
                     createZeroHeightComponentDelegate(),
                     createTestAdapterApiComponentDelegate(),
-                    DataBindingComponentAdapterDelegate(),
-                    DiffComponentAdapterDelegate(),
+                    createDataBindingDelegate(),
+                    createDiffDelegate(),
             )
 
             //也是全局

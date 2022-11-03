@@ -1,13 +1,8 @@
 package me.yifeiyuan.flapdev.components
 
 import android.os.SystemClock
-import android.view.View
-import android.widget.Button
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.differ.IDiffer
+import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
@@ -43,13 +38,8 @@ class TestDiffModel(var content: String, var id: Int, var desc: String) : IDiffe
     }
 }
 
-@Delegate(layoutId = R.layout.component_diff)
-class DiffComponent(view: View) : Component<TestDiffModel>(view) {
-
-    override fun onBind(model: TestDiffModel) {
-    }
-
-    override fun onBind(model: TestDiffModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+fun createDiffDelegate() = adapterDelegate<TestDiffModel>(R.layout.component_diff) {
+    onBind { model, position, payloads, adapter ->
 
         //当 payloads 更新时，事件点击需要重新设置
         bindButton(R.id.modifyContent) {

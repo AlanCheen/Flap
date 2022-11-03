@@ -1,18 +1,12 @@
 package me.yifeiyuan.flapdev.components
 
 import android.util.Log
-import android.view.View
 import android.widget.TextView
-import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.annotations.Delegate
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.ext.bindButton
-import me.yifeiyuan.flapdev.TestService
 import me.yifeiyuan.flapdev.R
-import kotlin.text.StringBuilder
+import me.yifeiyuan.flapdev.TestService
 
 /**
  * Created by 程序亦非猿 on 2022/7/29.

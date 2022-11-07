@@ -20,6 +20,8 @@ import me.yifeiyuan.flap.Component
  * @see bindImageButton
  * @see bindProgressBar
  * @see bindRatingBar
+ * @see bindRadioButton
+ * @see bindRadioGroup
  *
  * Created by 程序亦非猿 on 2021/9/29.
  * @since 3.0.0

@@ -1,6 +1,5 @@
 package me.yifeiyuan.flap.hook
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapDebug

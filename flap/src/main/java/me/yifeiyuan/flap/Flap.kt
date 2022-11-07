@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RestrictTo
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
@@ -15,8 +14,6 @@ import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.event.EventObserver
 import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
-import me.yifeiyuan.flap.ext.ExtraParamsProviderWrapper
-import me.yifeiyuan.flap.ext.ItemClicksHelper
 import me.yifeiyuan.flap.hook.AdapterHookManager
 import me.yifeiyuan.flap.hook.IAdapterHookManager
 import me.yifeiyuan.flap.hook.PreloadHook
@@ -31,11 +28,10 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  *
  * @since 3.1.5
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager(), FlapApi {
 
     companion object {
-        private const val TAG = "FlapDelegation"
+        private const val TAG = "Flap"
 
         /**
          * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
@@ -47,12 +43,12 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      * Components 监听的生命周期对象，一般是 Activity
      * 默认取的是 RecyclerView.Context
      */
-    internal var lifecycleOwner: LifecycleOwner? = null
+    private var lifecycleOwner: LifecycleOwner? = null
 
     /**
      * Components 是否监听生命周期事件
      */
-    internal var lifecycleEnable = true
+    private var lifecycleEnable = true
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
@@ -98,11 +94,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    private fun dispatchOnCreateViewHolderEnd(
-            adapter: FlapAdapter,
-            viewType: Int,
-            component: Component<*>
-    ) {
+    private fun dispatchOnCreateViewHolderEnd(adapter: FlapAdapter, viewType: Int, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onCreateViewHolderEnd(adapter, viewType, component)
@@ -122,8 +114,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
             itemData: Any,
             component: Component<*>,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
         try {
             val delegate = getDelegateByViewType(component.itemViewType)
             dispatchOnBindViewHolderStart(adapter, component, itemData, position, payloads)
@@ -161,8 +152,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
             component: Component<*>,
             itemData: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
                 it.onBindViewHolderStart(adapter, component, itemData, position, payloads)
@@ -177,8 +167,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
             component: Component<*>,
             data: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
                 it.onBindViewHolderEnd(adapter, component, data, position, payloads)
@@ -238,7 +227,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     internal fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
-
         dispatchOnViewAttachedToWindow(adapter, component)
     }
 
@@ -255,7 +243,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     internal fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
-
         dispatchOnViewDetachedFromWindow(adapter, component)
     }
 
@@ -269,7 +256,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    val emptyViewHelperImpl = EmptyViewHelper()
+    private val emptyViewHelperImpl = EmptyViewHelper()
 
     /**
      * 是否使用 ComponentPool
@@ -433,14 +420,13 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      * @return key 对应的参数，如果类型不匹配，则会为 null
      */
     @Suppress("UNCHECKED_CAST")
-    override open fun <P> getParam(key: String): P? {
+    override fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
     }
 
     override fun setParamProvider(block: (key: String) -> Any?) = apply {
         paramProvider = ExtraParamsProviderWrapper(block)
     }
-
 
     /**
      * 设置 Component 绑定的 LifecycleOwner
@@ -507,7 +493,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     }
 
     /**
-     * @see FlapAdapter.inflateWithApplicationContext
+     * @see inflateWithApplicationContext
      * @return activity context
      */
     override fun getActivityContext(): Context {

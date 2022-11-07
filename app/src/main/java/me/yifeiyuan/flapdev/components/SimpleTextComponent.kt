@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ViewTypeGenerator
 import me.yifeiyuan.flap.delegate.AdapterDelegate
@@ -17,7 +19,7 @@ import me.yifeiyuan.flapdev.R
  * 作为文档 Demo
  */
 
-data class SimpleTextModel(val content: String){
+data class SimpleTextModel(val content: String) {
     override fun toString(): String {
         return "content=$content,SimpleTextModel"
     }
@@ -29,18 +31,13 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
 
     private val tvContent: TextView = findViewById(R.id.tv_content)
 
-    override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
-        Logger.d(TAG, "onBind() called with: model = $model, position = $position, payloads = $payloads, adapter = $adapter")
+    override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>) {
         tvContent.text = model.content
     }
 
     override fun onBind(model: SimpleTextModel) {
-        Logger.d(TAG, "onBind() called with: model = $model")
     }
 
-    companion object {
-        private const val TAG = "SimpleTextComponent"
-    }
 }
 
 //自定义 AdapterDelegate 实现

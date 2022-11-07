@@ -21,7 +21,7 @@ fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiMode
     //展示信息
     val messageTextView = findViewById<TextView>(R.id.message)
 
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
 
         bindButton(R.id.testFireEvent) {
             // fireEvent 发送事件
@@ -31,19 +31,19 @@ fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiMode
 
                     messageTextView.text = "showToast event 收到回调：success"
                 }
-                adapter.fireEvent(showToastEvent)
+                fireEvent(showToastEvent)
 
                 val intE = Event("intEvent", 233333)
-                adapter.fireEvent(intE)
+                fireEvent(intE)
             }
         }
 
         bindButton(R.id.testGetParam){
 
             setOnClickListener {
-                val stringValue = adapter.getParam<String>("stringValue")
-                val intValue = adapter.getParam<Int>("intValue")
-                val booleanValue = adapter.getParam<Boolean>("booleanValue")
+                val stringValue = getParam<String>("stringValue")
+                val intValue = getParam<Int>("intValue")
+                val booleanValue = getParam<Boolean>("booleanValue")
 
                 val results :String = StringBuilder().
                 append("stringValue=$stringValue ;;")
@@ -58,9 +58,14 @@ fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiMode
         bindButton(R.id.testGetAdapterService) {
             setOnClickListener {
 
-                val logService = adapter.getAdapterService(TestService::class.java)
-                logService?.log("LogService Message")
-                messageTextView.text = logService?.testResult()
+                callService<TestService> {
+                    log("LogService Message")
+                    messageTextView.text = testResult()
+                }
+
+//                val logService = adapter.getAdapterService(TestService::class.java)
+//                logService?.log("LogService Message")
+//                messageTextView.text = logService?.testResult()
             }
         }
     }

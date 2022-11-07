@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
+import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.FlapAdapter
 import java.lang.reflect.ParameterizedType
 
@@ -79,9 +80,10 @@ interface AdapterDelegate<M, VH : Component<M>> {
             data: Any,
             position: Int,
             payloads: List<Any>,
-            adapter: FlapAdapter
+            adapter: RecyclerView.Adapter<*>,
+            flap: Flap
     ) {
-        component.bindData(data, position, payloads, adapter, this)
+        component.bindData(data, position, payloads, adapter, flap)
     }
 
     /**

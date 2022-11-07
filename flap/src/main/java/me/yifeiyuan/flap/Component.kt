@@ -13,7 +13,9 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.event.Event
+import me.yifeiyuan.flap.ext.ifIs
+import me.yifeiyuan.flap.service.AdapterService
 
 /**
  * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
@@ -49,6 +51,24 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      */
     protected var isVisible = false
 
+    internal var _bindingAdapter: RecyclerView.Adapter<*>? = null
+
+    val adapter: RecyclerView.Adapter<*>
+        get() = if (_bindingAdapter == null) {
+            throw java.lang.IllegalArgumentException("onBind 还未调用，还不可以使用")
+        } else {
+            _bindingAdapter as RecyclerView.Adapter<*>
+        }
+
+    internal var _flap: Flap? = null
+
+    val flap: Flap
+        get() = if (_flap == null) {
+            throw java.lang.IllegalArgumentException("onBind 还未调用，还不可以使用")
+        } else {
+            _flap as Flap
+        }
+
     internal var _bindingData: Any? = null
 
     /**
@@ -56,16 +76,18 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      */
     val data: T
         get() = if (_bindingData == null) {
-            throw IllegalArgumentException("onBind 还未调用，不可以使用 bindingData")
+            throw IllegalArgumentException("onBind 还未调用，还不可以使用")
         } else {
             @Suppress("UNCHECKED_CAST")
             _bindingData as T
         }
 
     @Suppress("UNCHECKED_CAST")
-    fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+    fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: RecyclerView.Adapter<*>, flap: Flap) {
         _bindingData = model
-        onBind(model as T, position, payloads, adapter, delegate)
+        _flap = flap
+        _bindingAdapter = adapter
+        onBind(model as T, position, payloads)
     }
 
     /**
@@ -79,9 +101,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     protected open fun onBind(
             model: T,
             position: Int,
-            payloads: List<Any>,
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>
+            payloads: List<Any>
     ) {
         onBind(model)
     }
@@ -102,16 +122,16 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * @see FlapAdapter.onViewAttachedToWindow
      */
     @CallSuper
-    open fun onViewAttachedToWindow(flapAdapter: FlapAdapter) {
-        onVisibilityChanged(true, flapAdapter)
+    open fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>) {
+        onVisibilityChanged(true, adapter)
     }
 
     /**
      * @see FlapAdapter.onViewDetachedFromWindow
      */
     @CallSuper
-    open fun onViewDetachedFromWindow(flapAdapter: FlapAdapter) {
-        onVisibilityChanged(false, flapAdapter)
+    open fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>) {
+        onVisibilityChanged(false, adapter)
     }
 
     /**
@@ -122,20 +142,20 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * @see onViewDetachedFromWindow
      */
     @CallSuper
-    open fun onVisibilityChanged(visible: Boolean, flapAdapter: FlapAdapter) {
+    open fun onVisibilityChanged(visible: Boolean, adapter: RecyclerView.Adapter<*>) {
         isVisible = visible
     }
 
     /**
      * @see FlapAdapter.onViewRecycled
      */
-    open fun onViewRecycled(flapAdapter: FlapAdapter) {}
+    open fun onViewRecycled(adapter: RecyclerView.Adapter<*>) {}
 
     /**
      * @return true if the View should be recycled, false otherwise.
      * @see FlapAdapter.onFailedToRecycleView
      */
-    open fun onFailedToRecycleView(flapAdapter: FlapAdapter): Boolean {
+    open fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>): Boolean {
         return false
     }
 
@@ -155,6 +175,9 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onDestroy(owner: LifecycleOwner) {
         owner.lifecycle.removeObserver(this)
+        _bindingAdapter = null
+        _flap = null
+        _bindingData = null
     }
 
     fun getString(@StringRes resId: Int): String {
@@ -222,4 +245,20 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
         }
         itemView.layoutParams = param
     }
+
+    inline fun <reified T : AdapterService> callService(noinline block: T.() -> Unit) {
+        flap.getAdapterService(T::class.java)?.let {
+            it.apply { block() }
+        }
+    }
+
+    fun <P> getParam(key: String): P? {
+        return flap.getParam(key) as? P
+    }
+
+    fun <T> fireEvent(event: Event<T>) {
+        flap.fireEvent(event)
+    }
+
+
 }

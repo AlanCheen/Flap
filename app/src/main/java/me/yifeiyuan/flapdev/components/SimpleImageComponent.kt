@@ -16,7 +16,7 @@ class SimpleImageModel {
 }
 
 fun createSimpleImageDelegate() = adapterDelegate<SimpleImageModel>(R.layout.component_simple_image) {
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
         bindImageView(R.id.logo) {
             if (model.url?.isNotEmpty() == true) {
                 Glide.with(context).load(model.url).into(this)

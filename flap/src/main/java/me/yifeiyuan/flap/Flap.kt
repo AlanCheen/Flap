@@ -72,7 +72,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         inflateWithApplicationContext = FlapInitializer.inflateWithApplicationContext
     }
 
-    internal fun onCreateViewHolder(adapter: FlapAdapter, parent: ViewGroup, viewType: Int): Component<*> {
+    fun onCreateViewHolder(adapter: RecyclerView.Adapter<*>, parent: ViewGroup, viewType: Int): Component<*> {
         val delegate = getDelegateByViewType(viewType)
         dispatchOnCreateViewHolderStart(adapter, viewType)
 
@@ -84,7 +84,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         return component
     }
 
-    private fun dispatchOnCreateViewHolderStart(adapter: FlapAdapter, viewType: Int) {
+    private fun dispatchOnCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         try {
             adapterHooks.forEach {
                 it.onCreateViewHolderStart(adapter, viewType)
@@ -94,7 +94,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    private fun dispatchOnCreateViewHolderEnd(adapter: FlapAdapter, viewType: Int, component: Component<*>) {
+    private fun dispatchOnCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onCreateViewHolderEnd(adapter, viewType, component)
@@ -109,8 +109,8 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         ?: throw AdapterDelegateNotFoundException("找不到 viewType = $viewType 对应的 Delegate，请先注册，或设置默认的 Delegate")
     }
 
-    internal fun onBindViewHolder(
-            adapter: FlapAdapter,
+    fun onBindViewHolder(
+            adapter: RecyclerView.Adapter<*>,
             itemData: Any,
             component: Component<*>,
             position: Int,
@@ -123,7 +123,8 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
                     itemData,
                     position,
                     payloads,
-                    adapter
+                    adapter,
+                    this
             )
             dispatchOnBindViewHolderEnd(adapter, component, itemData, position, payloads)
             tryAttachLifecycleOwner(component)
@@ -148,7 +149,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     }
 
     private fun dispatchOnBindViewHolderStart(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             itemData: Any,
             position: Int,
@@ -163,7 +164,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     }
 
     private fun dispatchOnBindViewHolderEnd(
-            adapter: FlapAdapter,
+            adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
             position: Int,
@@ -177,7 +178,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    internal fun getItemViewType(position: Int, itemData: Any): Int {
+    fun getItemViewType(position: Int, itemData: Any): Int {
 
         var itemViewType: Int
 
@@ -209,7 +210,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         return viewType
     }
 
-    internal fun getItemId(position: Int, itemData: Any): Long {
+    fun getItemId(position: Int, itemData: Any): Long {
         val delegate = getDelegateByViewType(getItemViewType(position, itemData))
         return delegate.getItemId(itemData, position)
     }
@@ -263,7 +264,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      */
     private var useComponentPool = true
 
-    internal fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         handleOnAttachedToRecyclerView(recyclerView)
         dispatchOnAttachedToRecyclerView(adapter, recyclerView)
     }
@@ -293,7 +294,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         emptyViewHelperImpl.attachRecyclerView(recyclerView, true)
     }
 
-    private fun dispatchOnAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    private fun dispatchOnAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onAttachedToRecyclerView(adapter, recyclerView)
@@ -308,7 +309,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     lateinit var bindingRecyclerView: RecyclerView
     lateinit var bindingContext: Context
 
-    internal fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
 
         itemClicksHelper.detachRecyclerView(recyclerView)
         emptyViewHelperImpl.detachRecyclerView()
@@ -319,7 +320,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         dispatchOnDetachedFromRecyclerView(adapter, recyclerView)
     }
 
-    private fun dispatchOnDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {
+    private fun dispatchOnDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onDetachedFromRecyclerView(adapter, recyclerView)

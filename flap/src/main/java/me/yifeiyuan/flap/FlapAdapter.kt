@@ -22,7 +22,7 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders,FlapApi by flap {
+open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
 
     companion object {
         private const val TAG = "FlapAdapter"

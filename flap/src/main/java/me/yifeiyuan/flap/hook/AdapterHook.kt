@@ -1,7 +1,6 @@
 package me.yifeiyuan.flap.hook
 
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 

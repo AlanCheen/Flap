@@ -34,7 +34,7 @@ fun createBannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.compon
 
     viewPager2.adapter = bannerAdapter
 
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
         model.images?.let {
             bannerAdapter.setDataAndNotify(it)
         }

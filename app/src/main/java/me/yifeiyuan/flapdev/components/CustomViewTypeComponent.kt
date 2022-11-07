@@ -15,7 +15,7 @@ class CustomViewTypeModel(var content: String = "自定义 itemViewType 的 Comp
 const val CUSTOM_ITEM_VIEW_TYPE = 466
 
 fun createCustomViewTypeComponentDelegate() = adapterDelegate<CustomViewTypeModel>(R.layout.flap_item_custom_type, itemViewType = CUSTOM_ITEM_VIEW_TYPE) {
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
         bindTextView(R.id.tv_content) {
             text = model.content
         }

@@ -16,14 +16,13 @@ class ViewBindingModel
 
 private const val TAG = "ViewBindingComponent"
 
-fun createViewBindingDelegate() = adapterDelegateViewBinding<ViewBindingModel, FlapItemVbBinding>({ layoutInflater, parent -> FlapItemVbBinding.inflate(layoutInflater, parent, false) }
-) {
+fun createViewBindingDelegate() = adapterDelegateViewBinding<ViewBindingModel, FlapItemVbBinding>({ layoutInflater, parent -> FlapItemVbBinding.inflate(layoutInflater, parent, false) }) {
 
     onBind { model ->
         binding.tvContent.text = "adapterDelegateViewBinding DSL 支持 ViewBinding"
     }
 
-    onClick { model, position, adapter ->
+    onClick { model, position ->
         toast("viewBindingDelegate onClick() called with: component = $this, model = $model, position = $position")
     }
 

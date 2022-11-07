@@ -86,7 +86,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
         emptyView = view.findViewById(R.id.emptyView)
         recyclerView = view.findViewById(R.id.recyclerView)
         adapter = createAdapter()
-                .withLifecycleOwner(viewLifecycleOwner)
+        adapter.withLifecycleOwner(viewLifecycleOwner)
                 .withEmptyView(emptyView)
                 .observeEvent<String>("showToast") {
                     toast(it.arg ?: "Default Message")

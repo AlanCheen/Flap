@@ -2,23 +2,14 @@
 
 package me.yifeiyuan.flap
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
-import me.yifeiyuan.flap.event.Event
-import me.yifeiyuan.flap.event.EventObserver
-import me.yifeiyuan.flap.event.EventObserverWrapper
-import me.yifeiyuan.flap.ext.*
+import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flap.hook.IAdapterHookManager
-import me.yifeiyuan.flap.hook.PreloadHook
-import me.yifeiyuan.flap.pool.ComponentPool
-import java.util.*
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
+import java.util.*
 
 /**
  * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
@@ -31,59 +22,13 @@ import me.yifeiyuan.flap.widget.FlapStickyHeaders
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders {
+open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders,FlapApi by flap {
 
     companion object {
         private const val TAG = "FlapAdapter"
     }
 
     private var data: MutableList<Any> = mutableListOf()
-
-    /**
-     * 是否使用 ComponentPool
-     */
-    private var useComponentPool = true
-
-    /**
-     * RecyclerView 滑动到顶部触发预加载
-     */
-    private var scrollUpPreloadHook: PreloadHook? = null
-
-    /**
-     * RecyclerView 滑动到底部触发预加载
-     */
-    private var scrollDownPreloadHook: PreloadHook? = null
-
-    /**
-     * 所有事件的监听
-     */
-    var allEventsObserver: EventObserver? = null
-
-    /**
-     * 根据 Event.eventName 存放的
-     */
-    private val eventObservers: MutableMap<String, EventObserver> = mutableMapOf()
-
-    /**
-     * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
-     *
-     * 当开启后 Component.context 将变成 Application Context
-     */
-    var inflateWithApplicationContext = false
-
-    private var paramProvider: ExtraParamsProvider? = null
-
-    private var itemClicksHelper = ItemClicksHelper()
-    val emptyViewHelper = EmptyViewHelper()
-
-    lateinit var componentPool: ComponentPool
-
-    lateinit var bindingRecyclerView: RecyclerView
-    lateinit var bindingContext: Context
-
-    init {
-        inflateWithApplicationContext = FlapInitializer.inflateWithApplicationContext
-    }
 
     // 暂时不需要
 //    private fun getData(): List<Any> {
@@ -139,9 +84,7 @@ open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Component<*> {
-        val context = if (inflateWithApplicationContext) parent.context.applicationContext else parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        return flap.onCreateViewHolder(this, parent, viewType, layoutInflater)
+        return flap.onCreateViewHolder(this, parent, viewType)
     }
 
     override fun onBindViewHolder(component: Component<*>, position: Int) {
@@ -170,36 +113,11 @@ open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<C
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        handleOnAttachedToRecyclerView(recyclerView)
         flap.onAttachedToRecyclerView(this, recyclerView)
-    }
-
-    private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
-        bindingRecyclerView = recyclerView
-        bindingContext = recyclerView.context
-
-        if (useComponentPool) {
-            if (!this::componentPool.isInitialized) {
-                componentPool = ComponentPool()
-            }
-
-            if (recyclerView.recycledViewPool != componentPool) {
-                recyclerView.setRecycledViewPool(componentPool)
-            }
-            bindingContext.applicationContext.registerComponentCallbacks(componentPool)
-        }
-
-        itemClicksHelper.attachRecyclerView(recyclerView)
-        emptyViewHelper.attachRecyclerView(recyclerView, true)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        itemClicksHelper.detachRecyclerView(recyclerView)
-        emptyViewHelper.detachRecyclerView()
-        if (this::componentPool.isInitialized) {
-            bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
-        }
         flap.onDetachedFromRecyclerView(this, recyclerView)
     }
 
@@ -220,155 +138,6 @@ open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<C
 
     override fun onViewDetachedFromWindow(component: Component<*>) {
         flap.onViewDetachedFromWindow(this, component)
-    }
-
-    /**
-     * 设置 Component 绑定的 LifecycleOwner
-     * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
-     */
-    fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
-        flap.lifecycleOwner = lifecycleOwner
-    }
-
-    /**
-     * 设置 Component 是否监听生命周期，默认开启
-     */
-    fun withLifecycleEnable(enable: Boolean) = apply {
-        flap.lifecycleEnable = enable
-    }
-
-    /**
-     * 设置是否使用 ComponentPool 作为缓存池
-     */
-    fun withComponentPoolEnable(enable: Boolean) = apply {
-        useComponentPool = enable
-    }
-
-    /**
-     * 通过 Adapter 发送事件
-     *
-     * @see observeEvent
-     * @see observerEvents
-     */
-    fun <T> fireEvent(event: Event<T>) {
-        val observer = eventObservers[event.eventName]
-        observer?.onEvent(event)
-
-        allEventsObserver?.onEvent(event)
-    }
-
-    /**
-     * 观察指定 eventName 的事件
-     * @see fireEvent
-     */
-    fun <T> observeEvent(eventName: String, block: (Event<T>) -> Unit) = apply {
-        eventObservers[eventName] = EventObserverWrapper(block)
-    }
-
-    /**
-     * 观察所有的事件
-     */
-    fun observerEvents(block: (Event<*>) -> Unit) = apply {
-        allEventsObserver = object : EventObserver {
-            override fun onEvent(event: Event<*>) {
-                block.invoke(event)
-            }
-        }
-    }
-
-    /**
-     * 预加载
-     *
-     * @see PreloadHook
-     */
-    fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, direction: Int = PreloadHook.SCROLL_DOWN, onPreload: () -> Unit) = apply {
-        when (direction) {
-            PreloadHook.SCROLL_UP -> {
-                scrollUpPreloadHook?.let {
-                    unregisterAdapterHook(it)
-                }
-                scrollUpPreloadHook = PreloadHook(offset, minItemCount, direction, onPreload = onPreload).also {
-                    registerAdapterHook(it)
-                }
-            }
-            PreloadHook.SCROLL_DOWN -> {
-                scrollDownPreloadHook?.let {
-                    unregisterAdapterHook(it)
-                }
-                scrollDownPreloadHook = PreloadHook(offset, minItemCount, direction, onPreload = onPreload).also {
-                    registerAdapterHook(it)
-                }
-            }
-        }
-    }
-
-    /**
-     * 设置是否启用预加载
-     * 需要先调用 doOnPreload 开启才有效。
-     */
-    fun setPreloadEnable(enable: Boolean, direction: Int = PreloadHook.SCROLL_DOWN) = apply {
-        when (direction) {
-            PreloadHook.SCROLL_UP -> {
-                scrollUpPreloadHook?.preloadEnable = enable
-            }
-            PreloadHook.SCROLL_DOWN -> {
-                scrollDownPreloadHook?.preloadEnable = enable
-            }
-        }
-    }
-
-    fun setPreloadComplete(direction: Int = PreloadHook.SCROLL_DOWN) {
-        when (direction) {
-            PreloadHook.SCROLL_UP -> {
-                scrollUpPreloadHook?.setPreloadComplete()
-            }
-            PreloadHook.SCROLL_DOWN -> {
-                scrollDownPreloadHook?.setPreloadComplete()
-            }
-        }
-    }
-
-    /**
-     * 提供 Component 从 Adapter 获取参数的方法
-     *
-     * @return key 对应的参数，如果类型不匹配，则会为 null
-     */
-    @Suppress("UNCHECKED_CAST")
-    open fun <P> getParam(key: String): P? {
-        return paramProvider?.getParam(key) as? P?
-    }
-
-    fun setParamProvider(block: (key: String) -> Any?) = apply {
-        paramProvider = ExtraParamsProviderWrapper(block)
-    }
-
-    /**
-     *
-     * @see FlapAdapter.inflateWithApplicationContext
-     * @return activity context
-     */
-    fun getActivityContext(): Context {
-        return bindingContext
-    }
-
-    /**
-     * 设置点击事件监听
-     * @see doOnItemLongClick
-     */
-    fun doOnItemClick(onItemClick: OnItemClickListener?) = apply {
-        itemClicksHelper.onItemClickListener = onItemClick
-    }
-
-    /**
-     * 设置长按事件监听
-     * @see doOnItemClick
-     */
-    fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) = apply {
-        itemClicksHelper.onItemLongClickListener = onItemLongClick
-    }
-
-    fun withEmptyView(emptyView: View?) = apply {
-        emptyViewHelper.emptyView = emptyView
     }
 
     fun insertDataAt(index: Int, element: Any, notify: Boolean = true) {

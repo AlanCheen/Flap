@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
+ * todo 改造，不默认放入Flap，在使用时绑定
  *
  * 当 FlapRecyclerView 内容为空时，帮助展示 EmptyView
  *

@@ -40,11 +40,6 @@ interface FlapApi {
     fun withLifecycleOwner(lifecycleOwner: LifecycleOwner): FlapApi
 
     /**
-     * 设置 Component 是否监听生命周期，默认开启
-     */
-    fun withLifecycleEnable(enable: Boolean): FlapApi
-
-    /**
      * 设置是否使用 ComponentPool 作为缓存池
      */
     fun withComponentPoolEnable(enable: Boolean): FlapApi

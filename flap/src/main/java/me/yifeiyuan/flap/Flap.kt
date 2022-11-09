@@ -45,11 +45,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      */
     private var lifecycleOwner: LifecycleOwner? = null
 
-    /**
-     * Components 是否监听生命周期事件
-     */
-    private var lifecycleEnable = true
-
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
@@ -140,12 +135,10 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      * @param component The component we are going to bind.
      */
     private fun tryAttachLifecycleOwner(component: Component<*>) {
-        if (lifecycleEnable) {
-            if (lifecycleOwner == null) {
-                throw NullPointerException("lifecycleOwner==null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
-            }
-            lifecycleOwner!!.lifecycle.addObserver(component)
+        if (lifecycleOwner == null) {
+            throw NullPointerException("lifecycleOwner==null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
         }
+        lifecycleOwner!!.lifecycle.addObserver(component)
     }
 
     private fun dispatchOnBindViewHolderStart(
@@ -435,13 +428,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      */
     override fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
         this.lifecycleOwner = lifecycleOwner
-    }
-
-    /**
-     * 设置 Component 是否监听生命周期，默认开启
-     */
-    override fun withLifecycleEnable(enable: Boolean) = apply {
-        lifecycleEnable = enable
     }
 
     /**

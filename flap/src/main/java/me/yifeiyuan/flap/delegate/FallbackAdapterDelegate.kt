@@ -17,9 +17,9 @@ import me.yifeiyuan.flap.FlapDebug
  *
  * 开发者也可以自己定义自己的 FallbackAdapterDelegate。
  *
- * @see me.yifeiyuan.flap.Flap.globalFallbackAdapterDelegate
- * @see me.yifeiyuan.flap.FlapAdapter.defaultAdapterDelegate
- * @see FallbackComponent
+ * @see me.yifeiyuan.flap.FlapInitializer.globalFallbackAdapterDelegate
+ * @see me.yifeiyuan.flap.Flap.fallbackDelegate
+ * @see DefaultFallbackComponent
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -28,19 +28,19 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 2020/9/22
  * @since 3.0.0
  */
-internal class FallbackAdapterDelegate : AdapterDelegate<Any, FallbackComponent> {
-
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): FallbackComponent {
-        return FallbackComponent(TextView(parent.context))
-    }
-
+abstract class FallbackAdapterDelegate  : AdapterDelegate<Any,Component<Any>>{
     override fun delegate(model: Any): Boolean {
         return true
     }
-
 }
 
-internal class FallbackComponent(v: View) : Component<Any>(v) {
+internal class DefaultFallbackAdapterDelegate : FallbackAdapterDelegate() {
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DefaultFallbackComponent {
+        return DefaultFallbackComponent(TextView(parent.context))
+    }
+}
+
+internal class DefaultFallbackComponent(v: View) : Component<Any>(v) {
     override fun onBind(model: Any) {
         if (FlapDebug.isDebug) {
             (itemView as TextView).run {

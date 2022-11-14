@@ -39,12 +39,13 @@ class TestDiffModel(var content: String, var id: Int, var desc: String) : IDiffe
 }
 
 fun createDiffDelegate() = adapterDelegate<TestDiffModel>(R.layout.component_diff) {
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
 
         //当 payloads 更新时，事件点击需要重新设置
         bindButton(R.id.modifyContent) {
             setOnClickListener {
                 model.content = "修改后 Content:" + (SystemClock.uptimeMillis() % 10000).toInt().toString()
+
                 adapter.notifyItemChanged(position, model.content)//不会闪
 //                adapter.notifyItemChanged(position)//会闪
             }

@@ -1,13 +1,12 @@
 package me.yifeiyuan.flap.hook
 
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
 
 /**
  *
- * AdapterHook 是基于 Adapter 做的 hooks ,可以通过 hooks 监听一些流程，例如组件的创建流程。
+ * AdapterHook 是基于 Adapter 做的 hooks ,可以通过这些 hooks 监听一些流程，例如组件的创建流程。
  * 并方便以 AOP & 解耦的方式实现某些功能。
  *
  * 内置的一些 AdapterHook 实现：
@@ -28,101 +27,76 @@ interface AdapterHook {
      * 在创建组件前调用
      *
      * @param adapter 正在创建组件的 adapter
-     * @param delegate 创建组件的代理
      * @param viewType viewType
      */
-    fun onCreateViewHolderStart(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
-            viewType: Int
-    ) {
-    }
+    fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {}
 
     /**
      * 在组件创建完毕后调用
      *
      * @param adapter  正在创建组件的 adapter
-     * @param delegate 创建组件的代理
      * @param viewType viewType
      * @param component 被创建出来的组件
      */
     fun onCreateViewHolderEnd(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
+            adapter: RecyclerView.Adapter<*>,
             viewType: Int,
-            component: Component<*>
-    ) {
+            component: Component<*>) {
     }
 
     /**
      * 在绑定组件之前调用
      *
      * @param adapter
-     * @param delegate 绑定组件的代理
      * @param component
      * @param position
      * @param data
      * @param payloads
      */
     fun onBindViewHolderStart(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
+            adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
     }
 
     /**
      * 在组件绑定完毕后回调
      *
      * @param adapter
-     * @param delegate 绑定组件的代理
      * @param component
      * @param position
      * @param data
      * @param payloads
      */
     fun onBindViewHolderEnd(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
+            adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
     }
 
     /**
      * @see FlapAdapter.onViewAttachedToWindow
      */
-    fun onViewAttachedToWindow(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
-            component: Component<*>,
-    ) {
-    }
+    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {}
 
     /**
      * @see FlapAdapter.onViewDetachedFromWindow
      */
-    fun onViewDetachedFromWindow(
-            adapter: FlapAdapter,
-            delegate: AdapterDelegate<*, *>,
-            component: Component<*>,
-    ) {
-    }
+    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {}
 
     /**
      * @see FlapAdapter.onAttachedToRecyclerView
      * @since 3.1.5
      */
-    fun onAttachedToRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
+    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 
     /**
      * @see FlapAdapter.onDetachedFromRecyclerView
      * @since 3.1.5
      */
-    fun onDetachedFromRecyclerView(adapter: FlapAdapter, recyclerView: RecyclerView) {}
+    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 }

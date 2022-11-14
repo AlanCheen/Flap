@@ -51,7 +51,7 @@ class TestConfigModel : IDiffer {
 
 fun createFullConfigAdapterDelegate() = adapterDelegate<TestConfigModel>(R.layout.component_full_feature) {
 
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
 
         bindTextView(R.id.title) {
             text = model.title

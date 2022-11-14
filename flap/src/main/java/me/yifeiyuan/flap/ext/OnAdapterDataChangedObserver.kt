@@ -3,7 +3,7 @@ package me.yifeiyuan.flap.ext
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * 只关心数据有变化，不关心变化的细节
+ * 只关心数据有变化，不关心变化的细节。
  *
  * Created by 程序亦非猿 on 2022/8/12.
  *
@@ -41,6 +41,5 @@ abstract class OnAdapterDataChangedObserver : RecyclerView.AdapterDataObserver()
         onAdapterDataChanged()
     }
 
-    override fun onStateRestorationPolicyChanged() {
-    }
+    override fun onStateRestorationPolicyChanged() {}
 }

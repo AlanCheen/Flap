@@ -61,7 +61,7 @@ class MultiTypeTestcase : BaseTestcaseFragment() {
                 }
                 .onlyOnce(false)
                 .suppressLayout(true)
-                .withEmptyViewHelper(adapter.emptyViewHelper)
+                .withEmptyViewHelper(adapter.getEmptyViewHelper())
                 .show()
 
         SwipeDragHelper(adapter)

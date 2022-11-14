@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.ext.BooleanBlock
 import me.yifeiyuan.flap.ext.UnitBlock
@@ -58,8 +58,8 @@ class DslAdapterDelegate<T>(
         return component
     }
 
-    override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: FlapAdapter) {
-        super.onBindViewHolder(component, data, position, payloads, adapter)
+    override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: RecyclerView.Adapter<*>, flap: Flap) {
+        super.onBindViewHolder(component, data, position, payloads, adapter, flap)
     }
 
     override fun getItemViewType(model: Any): Int {
@@ -81,7 +81,7 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
     /**
      * 更多参数的 onBind
      */
-    private var onBind2: ((model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)? = null
+    private var onBind2: ((model: T, position: Int, payloads: List<Any>) -> Unit)? = null
 
     /**
      * 简单参数的 onBind
@@ -102,17 +102,17 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
     /**
      * 单击事件
      */
-    private var onClickListener: ((model: T, position: Int, adapter: FlapAdapter) -> Unit)? = null
+    private var onClickListener: ((model: T, position: Int) -> Unit)? = null
 
     /**
      * 长按事件
      */
-    private var onLongClickListener: ((model: T, position: Int, adapter: FlapAdapter) -> Boolean)? = null
+    private var onLongClickListener: ((model: T, position: Int) -> Boolean)? = null
 
-    override fun onBind(model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter, delegate: AdapterDelegate<*, *>) {
+    override fun onBind(model: T, position: Int, payloads: List<Any>) {
 
         if (onBind2 != null) {
-            onBind2?.invoke(model, position, payloads, adapter)
+            onBind2?.invoke(model, position, payloads)
         } else if (onBind != null) {
             onBind?.invoke(model)
         }
@@ -120,7 +120,7 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         if (onClickListener != null) {
             itemView.setOnClickListener {
                 if (isClickable()) {
-                    onClickListener?.invoke(model, position, adapter)
+                    onClickListener?.invoke(model, position)
                 }
             }
         } else {
@@ -130,7 +130,7 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         if (onLongClickListener != null) {
             itemView.setOnLongClickListener {
                 if (isLongClickable()) {
-                    onLongClickListener!!.invoke(model, position, adapter)
+                    onLongClickListener!!.invoke(model, position)
                 } else {
                     false
                 }
@@ -140,18 +140,18 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         }
     }
 
-    override fun onViewAttachedToWindow(flapAdapter: FlapAdapter) {
-        super.onViewAttachedToWindow(flapAdapter)
+    override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>) {
+        super.onViewAttachedToWindow(adapter)
         onViewAttachedToWindow?.invoke()
     }
 
-    override fun onViewDetachedFromWindow(flapAdapter: FlapAdapter) {
-        super.onViewDetachedFromWindow(flapAdapter)
+    override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>) {
+        super.onViewDetachedFromWindow(adapter)
         onViewDetachedFromWindow?.invoke()
     }
 
-    override fun onViewRecycled(flapAdapter: FlapAdapter) {
-        super.onViewRecycled(flapAdapter)
+    override fun onViewRecycled(adapter: RecyclerView.Adapter<*>) {
+        super.onViewRecycled(adapter)
         onViewRecycled?.invoke()
     }
 
@@ -175,8 +175,8 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         onDestroy?.invoke()
     }
 
-    override fun onFailedToRecycleView(flapAdapter: FlapAdapter): Boolean {
-        return onFailedToRecycleView?.invoke() ?: super.onFailedToRecycleView(flapAdapter)
+    override fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>): Boolean {
+        return onFailedToRecycleView?.invoke() ?: super.onFailedToRecycleView(adapter)
     }
 
     var swipeFlags: Int? = null
@@ -213,15 +213,15 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         this.onBind = onBind
     }
 
-    fun onBind(onBind: ((model: T, position: Int, payloads: List<Any>, adapter: FlapAdapter) -> Unit)) {
+    fun onBind(onBind: ((model: T, position: Int, payloads: List<Any>) -> Unit)) {
         onBind2 = onBind
     }
 
-    fun onClick(onclick: ((model: T, position: Int, adapter: FlapAdapter) -> Unit)) {
+    fun onClick(onclick: ((model: T, position: Int) -> Unit)) {
         onClickListener = onclick
     }
 
-    fun onLongClick(onLongClick: ((model: T, position: Int, adapter: FlapAdapter) -> Boolean)) {
+    fun onLongClick(onLongClick: ((model: T, position: Int) -> Boolean)) {
         onLongClickListener = onLongClick
     }
 

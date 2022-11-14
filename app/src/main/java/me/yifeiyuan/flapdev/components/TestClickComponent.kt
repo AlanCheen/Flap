@@ -12,7 +12,7 @@ import me.yifeiyuan.flapdev.R
 class TestClickModel(var content: String)
 
 fun createTestClickDelegate() = adapterDelegate<TestClickModel>(R.layout.component_test_click) {
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
         bindTextView(R.id.clicks){
             text = model.content
         }

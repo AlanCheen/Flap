@@ -28,13 +28,13 @@ fun createBannerAdapterDelegate() = adapterDelegate<BannerModel>(R.layout.compon
 
     val viewPager2 = findViewById<ViewPager2>(R.id.banner)
 
-    val bannerAdapter = FlapAdapter().apply {
+    val bannerAdapter = FlapAdapter {
         registerAdapterDelegate(bannerImageDelegate())
     }
 
     viewPager2.adapter = bannerAdapter
 
-    onBind { model, position, payloads, adapter ->
+    onBind { model, position, payloads ->
         model.images?.let {
             bannerAdapter.setDataAndNotify(it)
         }

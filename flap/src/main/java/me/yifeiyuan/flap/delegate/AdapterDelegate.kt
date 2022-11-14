@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.FlapAdapter
+import me.yifeiyuan.flap.Flap
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -79,36 +79,37 @@ interface AdapterDelegate<M, VH : Component<M>> {
             data: Any,
             position: Int,
             payloads: List<Any>,
-            adapter: FlapAdapter
+            adapter: RecyclerView.Adapter<*>,
+            flap: Flap
     ) {
-        component.bindData(data, position, payloads, adapter, this)
+        component.bindData(data, position, payloads, adapter, flap)
     }
 
     /**
-     * @see FlapAdapter.onViewAttachedToWindow
+     * @see RecyclerView.Adapter.onViewAttachedToWindow
      */
-    fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
+    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         component.onViewAttachedToWindow(adapter)
     }
 
     /**
-     * @see FlapAdapter.onViewDetachedFromWindow
+     * @see RecyclerView.Adapter.onViewDetachedFromWindow
      */
-    fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
+    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         component.onViewDetachedFromWindow(adapter)
     }
 
     /**
-     * @see FlapAdapter.onFailedToRecycleView
+     * @see RecyclerView.Adapter.onFailedToRecycleView
      */
-    fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+    fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         return component.onFailedToRecycleView(adapter)
     }
 
     /**
-     * @see FlapAdapter.onViewRecycled
+     * @see RecyclerView.Adapter.onViewRecycled
      */
-    fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+    fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         component.onViewRecycled(adapter)
     }
 }

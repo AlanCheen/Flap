@@ -14,7 +14,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.event.Event
-import me.yifeiyuan.flap.ext.ifIs
 import me.yifeiyuan.flap.service.AdapterService
 
 /**
@@ -22,10 +21,10 @@ import me.yifeiyuan.flap.service.AdapterService
  *
  * Component 基于 ViewHolder， 封装了更多日常开发所需的功能。
  *
- * @see FlapAdapter.getParam 从 Adapter 获取额外的参数
- * @see FlapAdapter.fireEvent 发送事件给 Adapter
- * @see FlapAdapter.getActivityContext 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
- * @see FlapAdapter.inflateWithApplicationContext
+ * @see Flap.getParam 从 Adapter 获取额外的参数
+ * @see Flap.fireEvent 发送事件给 Adapter
+ * @see Flap.getActivityContext 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
+ * @see Flap.inflateWithApplicationContext
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *
@@ -83,7 +82,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
         }
 
     @Suppress("UNCHECKED_CAST")
-    fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: RecyclerView.Adapter<*>, flap: Flap) {
+    internal fun bindData(model: Any, position: Int, payloads: List<Any>, adapter: RecyclerView.Adapter<*>, flap: Flap) {
         _bindingData = model
         _flap = flap
         _bindingAdapter = adapter
@@ -101,8 +100,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     protected open fun onBind(
             model: T,
             position: Int,
-            payloads: List<Any>
-    ) {
+            payloads: List<Any>) {
         onBind(model)
     }
 

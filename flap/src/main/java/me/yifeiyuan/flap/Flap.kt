@@ -24,6 +24,8 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
 /**
  * 负责代理部分 Adapter API 实现
  *
+ * 本着组合由于继承的理念，Flap SDK 核心功能在这里实现，方便适配多种系统 Adapter。
+ *
  * Created by 程序亦非猿 on 2022/9/27.
  *
  * @since 3.1.5
@@ -214,23 +216,23 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         return delegate.getItemId(itemData, position)
     }
 
-    internal fun onViewRecycled(adapter: FlapAdapter, component: Component<*>) {
+    internal fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewRecycled(adapter, component)
     }
 
-    internal fun onFailedToRecycleView(adapter: FlapAdapter, component: Component<*>): Boolean {
+    internal fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         val delegate = getDelegateByViewType(component.itemViewType)
         return delegate.onFailedToRecycleView(adapter, component)
     }
 
-    internal fun onViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
+    internal fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
         dispatchOnViewAttachedToWindow(adapter, component)
     }
 
-    private fun dispatchOnViewAttachedToWindow(adapter: FlapAdapter, component: Component<*>) {
+    private fun dispatchOnViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onViewAttachedToWindow(adapter, component)
@@ -240,13 +242,13 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    internal fun onViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
+    internal fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
         dispatchOnViewDetachedFromWindow(adapter, component)
     }
 
-    private fun dispatchOnViewDetachedFromWindow(adapter: FlapAdapter, component: Component<*>) {
+    private fun dispatchOnViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         try {
             adapterHooks.forEach {
                 it.onViewDetachedFromWindow(adapter, component)

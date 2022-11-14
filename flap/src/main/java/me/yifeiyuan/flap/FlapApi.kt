@@ -12,7 +12,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
 /**
  * Created by 程序亦非猿 on 2022/11/3.
  *
- * 定义 Flap 类额外的方法 API，用于管理与解耦
+ * 抽象 Flap 类的 API。
  */
 interface FlapApi {
 

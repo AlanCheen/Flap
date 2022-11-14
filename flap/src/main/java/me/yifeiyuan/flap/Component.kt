@@ -40,8 +40,8 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * 如果设置了 FlapAdapter.inflateWithApplicationContext==true ，则会变成 Application Context，
      * 此时如果要获取 Activity Context 则需要通过 FlapAdapter#getActivityContext() 获取
      *
-     * @see FlapAdapter.inflateWithApplicationContext
-     * @see FlapAdapter.getActivityContext
+     * @see Flap.inflateWithApplicationContext
+     * @see Flap.getActivityContext
      */
     val context: Context = itemView.context
 
@@ -117,7 +117,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     }
 
     /**
-     * @see FlapAdapter.onViewAttachedToWindow
+     * @see RecyclerView.Adapter.onViewAttachedToWindow
      */
     @CallSuper
     open fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>) {
@@ -125,7 +125,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     }
 
     /**
-     * @see FlapAdapter.onViewDetachedFromWindow
+     * @see RecyclerView.Adapter.onViewDetachedFromWindow
      */
     @CallSuper
     open fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>) {
@@ -134,7 +134,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
 
     /**
      * @param visible     if component is visible
-     * @param flapAdapter
+     * @param adapter
      *
      * @see onViewAttachedToWindow
      * @see onViewDetachedFromWindow
@@ -145,13 +145,13 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
     }
 
     /**
-     * @see FlapAdapter.onViewRecycled
+     * @see RecyclerView.Adapter.onViewRecycled
      */
     open fun onViewRecycled(adapter: RecyclerView.Adapter<*>) {}
 
     /**
      * @return true if the View should be recycled, false otherwise.
-     * @see FlapAdapter.onFailedToRecycleView
+     * @see RecyclerView.Adapter.onFailedToRecycleView
      */
     open fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>): Boolean {
         return false

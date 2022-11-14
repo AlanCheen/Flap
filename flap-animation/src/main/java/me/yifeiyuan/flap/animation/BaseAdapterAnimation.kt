@@ -7,7 +7,6 @@ import android.view.animation.LinearInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.delegate.AdapterDelegate
 import me.yifeiyuan.flap.hook.AdapterHook
 
 /**

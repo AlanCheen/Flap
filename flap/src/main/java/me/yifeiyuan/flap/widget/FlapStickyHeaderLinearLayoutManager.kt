@@ -10,7 +10,6 @@ import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.parcel.Parcelize
-import me.yifeiyuan.flap.FlapAdapter
 
 /**
  * Created by 程序亦非猿 on 2022/10/17.

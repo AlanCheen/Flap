@@ -4,13 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.Flap
-import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.ViewTypeGenerator
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-import me.yifeiyuan.flapdev.Logger
 import me.yifeiyuan.flapdev.R
 
 /**

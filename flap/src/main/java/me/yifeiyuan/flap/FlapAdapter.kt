@@ -12,9 +12,6 @@ import me.yifeiyuan.flap.widget.FlapStickyHeaders
 import java.util.*
 
 /**
- * FlapAdapter is a flexible and powerful Adapter that makes you enjoy developing with RecyclerView.
- *
- *
  * Created by 程序亦非猿 on 2021/9/22.
  *
  * Flap Github: <a>https://github.com/AlanCheen/Flap</a>
@@ -22,10 +19,16 @@ import java.util.*
  * @since 2020/9/22
  * @since 3.0.0
  */
-open class FlapAdapter(private val flap: Flap = Flap()) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
+open class FlapAdapter(private val flap: Flap = Flap(), private val flapInitBlock: (Flap.() -> Unit)? = null) : RecyclerView.Adapter<Component<*>>(), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
 
     companion object {
         private const val TAG = "FlapAdapter"
+    }
+
+    init {
+        apply {
+            flapInitBlock?.invoke(flap)
+        }
     }
 
     private var data: MutableList<Any> = mutableListOf()

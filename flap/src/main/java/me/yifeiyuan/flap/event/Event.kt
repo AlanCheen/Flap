@@ -3,8 +3,8 @@ package me.yifeiyuan.flap.event
 /**
  * 在 FlapAdapter 与 Component 之间发送的事件
  *
- * @see me.yifeiyuan.flap.FlapAdapter.fireEvent
- * @see me.yifeiyuan.flap.FlapAdapter.observeEvent
+ * @see me.yifeiyuan.flap.Flap.fireEvent
+ * @see me.yifeiyuan.flap.Flap.observeEvent
  * @see EventObserver
  *
  * Created by 程序亦非猿 on 2021/9/30.

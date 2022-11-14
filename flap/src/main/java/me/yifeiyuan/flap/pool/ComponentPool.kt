@@ -9,7 +9,7 @@ import me.yifeiyuan.flap.FlapDebug
 /**
  * 自定义的 RecycledViewPool，实现了 ComponentCallbacks2 ，可以在内存不足的时候清理缓存
  *
- * @see me.yifeiyuan.flap.FlapAdapter.withComponentPoolEnable 设置开关
+ * @see me.yifeiyuan.flap.Flap.withComponentPoolEnable 设置开关
  *
  * Created by 程序亦非猿 on 2021/9/22.
  *

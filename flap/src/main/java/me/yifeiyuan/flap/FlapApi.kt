@@ -10,9 +10,10 @@ import me.yifeiyuan.flap.ext.OnItemLongClickListener
 import me.yifeiyuan.flap.hook.PreloadHook
 
 /**
- * Created by 程序亦非猿 on 2022/11/3.
- *
  * 抽象 Flap 类的 API。
+ *
+ * Created by 程序亦非猿 on 2022/11/3.
+ * @since 3.3.0
  */
 interface FlapApi {
 

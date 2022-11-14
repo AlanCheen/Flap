@@ -2,6 +2,9 @@ package me.yifeiyuan.flap.ext
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import me.yifeiyuan.flap.FlapApi
+import me.yifeiyuan.flap.hook.AdapterHook
+import me.yifeiyuan.flap.hook.IAdapterHookManager
 
 /**
  * todo 改造，不默认放入Flap，在使用时绑定
@@ -13,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by 程序亦非猿 on 2022/6/16.
  * @since 3.0.0
  */
-class EmptyViewHelper : OnAdapterDataChangedObserver() {
+class EmptyViewHelper : OnAdapterDataChangedObserver() ,AdapterHook{
 
     /**
      * 设置空状态下需要展示的 View
@@ -28,21 +31,20 @@ class EmptyViewHelper : OnAdapterDataChangedObserver() {
      */
     var contentView: RecyclerView? = null
 
-    fun attachRecyclerView(targetRecyclerView: RecyclerView, checkRightNow: Boolean = false) {
+    private fun attachRecyclerView(targetRecyclerView: RecyclerView, checkRightNow: Boolean = false) {
         contentView = targetRecyclerView
         contentView?.adapter?.let {
             attachAdapter(it,checkRightNow)
         }
     }
 
-    fun detachRecyclerView() {
+    private fun detachRecyclerView() {
         contentView?.adapter?.let {
             detachAdapter(it)
         }
     }
 
     /**
-     *
      * @param adapter RecyclerView.adapter
      * @param checkRightNow 是否立即检查是否展示 empty view
      */
@@ -68,6 +70,19 @@ class EmptyViewHelper : OnAdapterDataChangedObserver() {
 
     override fun onAdapterDataChanged() {
         maybeShowEmptyView()
+    }
+
+    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+        attachRecyclerView(recyclerView,true)
+    }
+
+    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+        try {
+            adapter.unregisterAdapterDataObserver(this)
+        } catch (e: Exception) {
+            //ignore
+        }
+        detachRecyclerView()
     }
 
     private fun maybeShowEmptyView() {

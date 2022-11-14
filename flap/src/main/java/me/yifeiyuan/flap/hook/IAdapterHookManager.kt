@@ -12,11 +12,15 @@ interface IAdapterHookManager {
     val adapterHooks: MutableList<AdapterHook>
 
     fun registerAdapterHook(adapterHook: AdapterHook) {
-        adapterHooks.add(adapterHook)
+        if (!adapterHooks.contains(adapterHook)) {
+            adapterHooks.add(adapterHook)
+        }
     }
 
     fun registerAdapterHook(index: Int, adapterHook: AdapterHook) {
-        adapterHooks.add(index, adapterHook)
+        if (!adapterHooks.contains(adapterHook)) {
+            adapterHooks.add(index, adapterHook)
+        }
     }
 
     fun registerAdapterHooks(vararg adapterHooks: AdapterHook) {

@@ -42,6 +42,8 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     /**
      * Components 监听的生命周期对象，一般是 Activity
      * 默认取的是 RecyclerView.Context
+     *
+     * 如果使用 Fragment 那么需要自行设置
      */
     private var lifecycleOwner: LifecycleOwner? = null
 
@@ -56,6 +58,10 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
      * 当开启后 Component.context 将变成 Application Context
      */
     var inflateWithApplicationContext = false
+
+    private val emptyViewHelperImpl = EmptyViewHelper().also {
+        registerAdapterHook(it)
+    }
 
     init {
         adapterHooks.addAll(FlapInitializer.adapterHooks)
@@ -250,8 +256,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    private val emptyViewHelperImpl = EmptyViewHelper()
-
     /**
      * 是否使用 ComponentPool
      */
@@ -282,9 +286,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
             }
             bindingContext.applicationContext.registerComponentCallbacks(componentPool)
         }
-
-        itemClicksHelper.attachRecyclerView(recyclerView)
-        emptyViewHelperImpl.attachRecyclerView(recyclerView, true)
     }
 
     private fun dispatchOnAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
@@ -303,10 +304,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     lateinit var bindingContext: Context
 
     fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
-
-        itemClicksHelper.detachRecyclerView(recyclerView)
-        emptyViewHelperImpl.detachRecyclerView()
-
         if (this::componentPool.isInitialized) {
             bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
         }
@@ -380,7 +377,9 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    private var itemClicksHelper = ItemClicksHelper()
+    private var itemClicksHelper = ItemClicksHelper().also {
+        registerAdapterHook(it)
+    }
 
     /**
      * 设置点击事件监听

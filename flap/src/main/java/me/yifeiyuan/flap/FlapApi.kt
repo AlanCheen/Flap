@@ -11,6 +11,8 @@ import me.yifeiyuan.flap.hook.PreloadHook
 
 /**
  * Created by 程序亦非猿 on 2022/11/3.
+ *
+ * 定义 Flap 类额外的方法 API，用于管理与解耦
  */
 interface FlapApi {
 
@@ -73,7 +75,7 @@ interface FlapApi {
 
     fun withEmptyView(emptyView: View?): FlapApi
 
-    fun getEmptyViewHelper():EmptyViewHelper
+    fun getEmptyViewHelper(): EmptyViewHelper
 
     fun setParamProvider(block: (key: String) -> Any?): FlapApi
 

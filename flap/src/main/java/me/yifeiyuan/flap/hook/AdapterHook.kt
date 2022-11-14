@@ -6,7 +6,7 @@ import me.yifeiyuan.flap.FlapAdapter
 
 /**
  *
- * AdapterHook 是基于 Adapter 做的 hooks ,可以通过 hooks 监听一些流程，例如组件的创建流程。
+ * AdapterHook 是基于 Adapter 做的 hooks ,可以通过这些 hooks 监听一些流程，例如组件的创建流程。
  * 并方便以 AOP & 解耦的方式实现某些功能。
  *
  * 内置的一些 AdapterHook 实现：
@@ -29,11 +29,7 @@ interface AdapterHook {
      * @param adapter 正在创建组件的 adapter
      * @param viewType viewType
      */
-    fun onCreateViewHolderStart(
-            adapter: RecyclerView.Adapter<*>,
-            viewType: Int
-    ) {
-    }
+    fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {}
 
     /**
      * 在组件创建完毕后调用
@@ -45,8 +41,7 @@ interface AdapterHook {
     fun onCreateViewHolderEnd(
             adapter: RecyclerView.Adapter<*>,
             viewType: Int,
-            component: Component<*>
-    ) {
+            component: Component<*>) {
     }
 
     /**
@@ -63,8 +58,7 @@ interface AdapterHook {
             component: Component<*>,
             data: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
     }
 
     /**
@@ -81,26 +75,18 @@ interface AdapterHook {
             component: Component<*>,
             data: Any,
             position: Int,
-            payloads: MutableList<Any>
-    ) {
+            payloads: MutableList<Any>) {
     }
 
     /**
      * @see FlapAdapter.onViewAttachedToWindow
      */
-    fun onViewAttachedToWindow(
-            adapter: RecyclerView.Adapter<*>,
-            component: Component<*>,
-    ) {
-    }
+    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {}
 
     /**
      * @see FlapAdapter.onViewDetachedFromWindow
      */
-    fun onViewDetachedFromWindow(
-            adapter: RecyclerView.Adapter<*>,
-            component: Component<*>, ) {
-    }
+    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {}
 
     /**
      * @see FlapAdapter.onAttachedToRecyclerView

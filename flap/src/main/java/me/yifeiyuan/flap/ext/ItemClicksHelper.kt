@@ -3,6 +3,7 @@ package me.yifeiyuan.flap.ext
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.ComponentConfig
+import me.yifeiyuan.flap.hook.AdapterHook
 
 
 typealias OnItemClickListener = ((recyclerView: RecyclerView, childView: View, position: Int) -> Unit)
@@ -24,7 +25,7 @@ typealias OnItemLongClickListener = ((recyclerView: RecyclerView, childView: Vie
  *
  * @since 3.0.0
  */
-internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener {
+internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener, AdapterHook {
 
     lateinit var recyclerView: RecyclerView
 
@@ -62,13 +63,12 @@ internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener 
         //do nothing
     }
 
-    fun attachRecyclerView(recyclerView: RecyclerView) {
+    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
         this.recyclerView.addOnChildAttachStateChangeListener(this)
     }
 
-    fun detachRecyclerView(recyclerView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         recyclerView.removeOnChildAttachStateChangeListener(this)
     }
-
 }

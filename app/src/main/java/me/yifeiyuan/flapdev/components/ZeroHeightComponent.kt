@@ -11,8 +11,4 @@ import me.yifeiyuan.flapdev.R
 
 class ZeroHeightModel
 
-fun createZeroHeightComponentDelegate() = adapterDelegate<ZeroHeightModel>(R.layout.component_zero_height) {
-    onBind { model ->
-
-    }
-}
+fun createZeroHeightComponentDelegate() = adapterDelegate<ZeroHeightModel>(R.layout.component_zero_height) {}

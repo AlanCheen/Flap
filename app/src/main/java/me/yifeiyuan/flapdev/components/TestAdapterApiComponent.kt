@@ -62,10 +62,6 @@ fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiMode
                     log("LogService Message")
                     messageTextView.text = testResult()
                 }
-
-//                val logService = adapter.getAdapterService(TestService::class.java)
-//                logService?.log("LogService Message")
-//                messageTextView.text = logService?.testResult()
             }
         }
     }

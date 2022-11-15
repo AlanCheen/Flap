@@ -77,7 +77,7 @@ class FlapApplication : MultiDexApplication() {
                     createFullConfigAdapterDelegate(),
                     createBannerAdapterDelegate(),
                     createSimpleImageDelegate(),
-                    SimpleTextComponentDelegate(),
+                    createSimpleTextDelegate(),
                     createCustomViewTypeComponentDelegate(),
                     createViewBindingDelegate(),
                     createTestClickDelegate(),

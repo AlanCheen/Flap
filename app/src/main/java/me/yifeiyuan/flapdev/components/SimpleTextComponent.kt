@@ -7,6 +7,8 @@ import android.widget.TextView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.ViewTypeGenerator
 import me.yifeiyuan.flap.delegate.AdapterDelegate
+import me.yifeiyuan.flap.dsl.adapterDelegate
+import me.yifeiyuan.flap.ext.bindTextView
 import me.yifeiyuan.flapdev.R
 
 /**
@@ -21,8 +23,14 @@ data class SimpleTextModel(val content: String) {
     }
 }
 
-//@Delegate(layoutName = "flap_item_simple_text")
-//@Delegate(layoutId = R.layout.flap_item_simple_text)
+fun createSimpleTextDelegate() = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+    onBind { model ->
+        bindTextView(R.id.tv_content) {
+            text = model.content
+        }
+    }
+}
+
 class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView) {
 
     private val tvContent: TextView = findViewById(R.id.tv_content)
@@ -30,10 +38,6 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
     override fun onBind(model: SimpleTextModel, position: Int, payloads: List<Any>) {
         tvContent.text = model.content
     }
-
-    override fun onBind(model: SimpleTextModel) {
-    }
-
 }
 
 //自定义 AdapterDelegate 实现

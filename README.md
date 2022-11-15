@@ -75,7 +75,7 @@ dataList.add(SimpleTextModel("Java"))
 dataList.add(SimpleTextModel("Kotlin"))
 
 //设置你的 data
-adapter.setData(dataList);
+adapter.setDataAndNotify(dataList);
 
 recyclerView.adapter = adapter
 ```

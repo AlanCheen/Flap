@@ -39,15 +39,7 @@ interface AdapterDelegate<M, VH : Component<M>> {
      * @param model 数据
      * @return true 表示代理该 model
      */
-    fun delegate(model: Any): Boolean {
-        try {
-            val type = (this.javaClass.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0]
-            return type == model.javaClass
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return false
-    }
+    fun delegate(model: Any): Boolean
 
     /**
      * 根据代理的 Model 创建与之对应的 Component

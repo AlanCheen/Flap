@@ -2,15 +2,37 @@ package me.yifeiyuan.flapdev
 
 import android.app.Application
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.get
 import androidx.multidex.MultiDexApplication
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.FlapInitializer
+import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
+import me.yifeiyuan.flap.delegate.FallbackComponent
 import me.yifeiyuan.flap.dsl.adapterHook
 import me.yifeiyuan.flap.hook.LoggingHook
 import me.yifeiyuan.flapdev.components.*
+
+
+internal class DebugFallbackAdapterDelegate : FallbackAdapterDelegate() {
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DebugFallbackComponent {
+        return DebugFallbackComponent(TextView(parent.context))
+    }
+}
+
+internal class DebugFallbackComponent(v: View) : FallbackComponent(v) {
+    override fun onBind(model: Any) {
+        (itemView as TextView).run {
+            text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = $position，该信息用于测试。"
+        }
+    }
+}
 
 /**
  * Flap
@@ -91,7 +113,7 @@ class FlapApplication : MultiDexApplication() {
             registerAdapterHooks(
                     LoggingHook(
                             enableLog = true,
-//                            printTrace = true
+                            printTrace = false
                     ),
 //                    ApmHook(),
                     dslAdapterHook,
@@ -103,7 +125,7 @@ class FlapApplication : MultiDexApplication() {
             withContext(this@FlapApplication)
 
             //可选
-//            withFallbackAdapterDelegate(YourFallbackAdapterDelegate())
+            withFallbackAdapterDelegate(DebugFallbackAdapterDelegate())
 
             //打开日志
             setDebug(true)

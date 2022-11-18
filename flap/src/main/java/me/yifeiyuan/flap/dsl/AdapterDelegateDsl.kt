@@ -28,7 +28,8 @@ inline fun <reified T> adapterDelegate(
         noinline isDelegateFor: ((model: Any) -> Boolean) = { m -> m.javaClass == T::class.java },
         itemViewType: Int = layoutId,
         itemId: Long = RecyclerView.NO_ID,
-        noinline componentInitializer: DslComponent<T>.() -> Unit): DslAdapterDelegate<T> {
+        noinline componentInitializer: DslComponent<T>.() -> Unit
+): DslAdapterDelegate<T> {
     return DslAdapterDelegate(T::class.java, layoutId, itemViewType, itemId, isDelegateFor = isDelegateFor, block = componentInitializer)
 }
 
@@ -56,10 +57,6 @@ class DslAdapterDelegate<T>(
         val component = DslComponent<T>(view)
         block.invoke(component)
         return component
-    }
-
-    override fun onBindViewHolder(component: Component<*>, data: Any, position: Int, payloads: List<Any>, adapter: RecyclerView.Adapter<*>, flap: Flap) {
-        super.onBindViewHolder(component, data, position, payloads, adapter, flap)
     }
 
     override fun getItemViewType(model: Any): Int {

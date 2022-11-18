@@ -28,26 +28,13 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 2020/9/22
  * @since 3.0.0
  */
-abstract class FallbackAdapterDelegate  : AdapterDelegate<Any,Component<Any>>{
+abstract class FallbackAdapterDelegate : AdapterDelegate<Any, Component<Any>> {
     override fun delegate(model: Any): Boolean {
         return true
     }
 }
 
-internal class DefaultFallbackAdapterDelegate : FallbackAdapterDelegate() {
-    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DefaultFallbackComponent {
-        return DefaultFallbackComponent(TextView(parent.context))
-    }
-}
-
-internal class DefaultFallbackComponent(v: View) : Component<Any>(v) {
-    override fun onBind(model: Any) {
-        if (FlapDebug.isDebug) {
-            (itemView as TextView).run {
-                text = "model : $model 没有对应的 AdapterDelegate ，请注册，position = $position，该信息只有开启 Debug 模式才会展示。"
-            }
-        }
-    }
+abstract class FallbackComponent(v: View) : Component<Any>(v) {
 
     override fun isClickable(): Boolean {
         return false
@@ -64,4 +51,14 @@ internal class DefaultFallbackComponent(v: View) : Component<Any>(v) {
     override fun isSwipeEnabled(): Boolean {
         return false
     }
+}
+
+internal class DefaultFallbackAdapterDelegate : FallbackAdapterDelegate() {
+    override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DefaultFallbackComponent {
+        return DefaultFallbackComponent(TextView(parent.context))
+    }
+}
+
+internal class DefaultFallbackComponent(v: View) : FallbackComponent(v) {
+    override fun onBind(model: Any) {}
 }

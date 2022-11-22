@@ -13,7 +13,19 @@ import java.util.*
  * @since 3.0.2
  */
 
-private const val TAG = "RecyclerViewDumpHelper"
+fun Class<*>.getDeclaredAccessibleField(name: String): Field {
+    val field = getDeclaredField(name)
+    field.isAccessible = true
+    return field
+}
+
+inline fun <reified T>Class<T>.getNestedClass(vararg names:String): Class<*> {
+    var nestedClassName = T::class.java.name
+    for (name in names) {
+        nestedClassName += "$$name"
+    }
+    return Class.forName(nestedClassName)
+}
 
 class RecyclerViewDumpHelper(val recyclerView: RecyclerView) {
 
@@ -85,39 +97,30 @@ class RecyclerMediator(val recyclerView: RecyclerView) {
     val poolMediator: RecycledViewPoolMediator
 
     init {
-        val mRecyclerField = RecyclerView::class.java.getDeclaredField("mRecycler").also {
-            it.isAccessible = true
-        }
+        val mRecyclerField = RecyclerView::class.java.getDeclaredAccessibleField("mRecycler")
 
         recycler = mRecyclerField.get(recyclerView) as RecyclerView.Recycler
 
-        val recyclerClass = Class.forName(RecyclerView::class.java.name + "$" + "Recycler")
+        val recyclerClass = RecyclerView::class.java.getNestedClass("Recycler")
+//                Class.forName(RecyclerView::class.java.name + "$" + "Recycler")
 
         recyclerClass.run {
-            mRecyclerPoolField = recyclerClass.getDeclaredField("mRecyclerPool").also {
-                it.isAccessible = true
-            }
-            mAttachedScrapField = getDeclaredField("mAttachedScrap").also {
-                it.isAccessible = true
-            }
-            mChangedScrapField = getDeclaredField("mChangedScrap").also {
-                it.isAccessible = true
-            }
-            mCachedViewsField = getDeclaredField("mCachedViews").also {
-                it.isAccessible = true
-            }
-            mUnmodifiableAttachedScrapField = getDeclaredField("mUnmodifiableAttachedScrap").also {
-                it.isAccessible = true
-            } // recycler.scrapList
-            mViewCacheExtensionField = getDeclaredField("mViewCacheExtension").also {
-                it.isAccessible = true
-            }
-            mRequestedCacheMaxField = getDeclaredField("mRequestedCacheMax").also {
-                it.isAccessible = true
-            }
-            mViewCacheMaxField = getDeclaredField("mViewCacheMax").also {
-                it.isAccessible = true
-            }
+            mRecyclerPoolField = getDeclaredAccessibleField("mRecyclerPool")
+
+            mAttachedScrapField = getDeclaredAccessibleField("mAttachedScrap")
+
+            mChangedScrapField = getDeclaredAccessibleField("mChangedScrap")
+
+            mCachedViewsField = getDeclaredAccessibleField("mCachedViews")
+
+            mUnmodifiableAttachedScrapField = getDeclaredAccessibleField("mUnmodifiableAttachedScrap")
+
+            // recycler.scrapList
+            mViewCacheExtensionField = getDeclaredAccessibleField("mViewCacheExtension")
+
+            mRequestedCacheMaxField = getDeclaredAccessibleField("mRequestedCacheMax")
+
+            mViewCacheMaxField = getDeclaredAccessibleField("mViewCacheMax")
         }
 
         poolMediator = RecycledViewPoolMediator(mRecyclerPool!!)
@@ -201,13 +204,9 @@ class RecycledViewPoolMediator(private val pool: RecyclerView.RecycledViewPool) 
     private val mAttachCountField: Field
 
     init {
-        mScrapField = RecyclerView.RecycledViewPool::class.java.getDeclaredField("mScrap").also {
-            it.isAccessible = true
-        }
+        mScrapField = RecyclerView.RecycledViewPool::class.java.getDeclaredAccessibleField("mScrap")
 
-        mAttachCountField = RecyclerView.RecycledViewPool::class.java.getDeclaredField("mAttachCount").also {
-            it.isAccessible = true
-        }
+        mAttachCountField = RecyclerView.RecycledViewPool::class.java.getDeclaredAccessibleField("mAttachCount")
     }
 
     override fun toString(): String {
@@ -278,31 +277,25 @@ class ScrapDataMediator(private val scrapData: Any) {
     private val mBindRunningAverageNsField: Field
 
     init {
-        val scrapDataClassName = RecyclerView::class.java.name + "$" + "RecycledViewPool" + "$" + "ScrapData"
-        val scrapDataClass = Class.forName(scrapDataClassName)
+//        val scrapDataClassName =
+//                RecyclerView::class.java.name + "$" + "RecycledViewPool" + "$" + "ScrapData"
+//        val scrapDataClass = Class.forName(scrapDataClassName)
+
+        val scrapDataClass = RecyclerView::class.java.getNestedClass("RecycledViewPool","ScrapData")
 
         scrapDataClass.run {
 
-            mScrapHeapField = getDeclaredField("mScrapHeap").also {
-                it.isAccessible = true
-            }
+            mScrapHeapField = getDeclaredAccessibleField("mScrapHeap")
 
-            mMaxScrapField = getDeclaredField("mMaxScrap").also {
-                it.isAccessible = true
-            }
+            mMaxScrapField = getDeclaredAccessibleField("mMaxScrap")
 
-            mCreateRunningAverageNsField = getDeclaredField("mCreateRunningAverageNs").also {
-                it.isAccessible = true
-            }
+            mCreateRunningAverageNsField = getDeclaredAccessibleField("mCreateRunningAverageNs")
 
-            mBindRunningAverageNsField = getDeclaredField("mBindRunningAverageNs").also {
-                it.isAccessible = true
-            }
+            mBindRunningAverageNsField = getDeclaredAccessibleField("mBindRunningAverageNs")
         }
     }
 
     override fun toString(): String {
         return "ScrapData(mMaxScrap=$mMaxScrap,mScrapHeap=$mScrapHeap)"
     }
-
 }

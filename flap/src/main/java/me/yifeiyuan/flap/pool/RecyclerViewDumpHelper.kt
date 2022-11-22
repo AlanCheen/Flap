@@ -277,10 +277,6 @@ class ScrapDataMediator(private val scrapData: Any) {
     private val mBindRunningAverageNsField: Field
 
     init {
-//        val scrapDataClassName =
-//                RecyclerView::class.java.name + "$" + "RecycledViewPool" + "$" + "ScrapData"
-//        val scrapDataClass = Class.forName(scrapDataClassName)
-
         val scrapDataClass = RecyclerView::class.java.getNestedClass("RecycledViewPool","ScrapData")
 
         scrapDataClass.run {

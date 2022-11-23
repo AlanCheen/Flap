@@ -20,7 +20,7 @@ import me.yifeiyuan.flap.widget.FlapStickyHeaders
  *
  * @since 3.3.0
  */
-class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (Flap.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
+class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (FlapApi.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
 
     init {
         apply {

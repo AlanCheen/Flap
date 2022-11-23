@@ -15,7 +15,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
  * Created by 程序亦非猿 on 2022/11/3.
  * @since 3.3.0
  */
-interface FlapApi {
+interface FlapApi : Registry {
 
     /**
      * 通过 Adapter 发送事件

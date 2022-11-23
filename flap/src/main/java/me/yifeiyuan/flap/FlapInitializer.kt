@@ -5,8 +5,10 @@ import me.yifeiyuan.flap.delegate.*
 import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.DefaultFallbackAdapterDelegate
 import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
+import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.AdapterHookManager
 import me.yifeiyuan.flap.hook.IAdapterHookManager
+import me.yifeiyuan.flap.service.AdapterService
 import me.yifeiyuan.flap.service.AdapterServiceManager
 import me.yifeiyuan.flap.service.IAdapterServiceManager
 
@@ -24,7 +26,11 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-object FlapInitializer : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager() {
+object FlapInitializer : Registry {
+
+    override val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
+    override val adapterHooks: MutableList<AdapterHook> = mutableListOf()
+    override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
 
     /**
      * 是否使用 application context 来创建 Component

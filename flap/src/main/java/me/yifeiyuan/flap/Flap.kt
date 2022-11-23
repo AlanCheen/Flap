@@ -7,19 +7,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.event.EventObserver
 import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
-import me.yifeiyuan.flap.hook.AdapterHookManager
-import me.yifeiyuan.flap.hook.IAdapterHookManager
+import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
-import me.yifeiyuan.flap.service.AdapterServiceManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
+import me.yifeiyuan.flap.service.AdapterService
 
 /**
  * 负责代理部分 Adapter API 实现
@@ -30,7 +26,11 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  *
  * @since 3.1.5
  */
-class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager(), FlapApi {
+class Flap : FlapApi {
+
+    override val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
+    override val adapterHooks: MutableList<AdapterHook> = mutableListOf()
+    override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
 
     companion object {
         private const val TAG = "Flap"

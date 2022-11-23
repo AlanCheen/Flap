@@ -115,18 +115,13 @@ open class FlapAdapter(private val flap: Flap = Flap(), private val flapInitBloc
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
         flap.onAttachedToRecyclerView(this, recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
         flap.onDetachedFromRecyclerView(this, recyclerView)
     }
 
-    /**
-     * 会优先于 FlapComponentPool.putRecycledView 被调用
-     */
     override fun onViewRecycled(component: Component<*>) {
         flap.onViewRecycled(this, component)
     }

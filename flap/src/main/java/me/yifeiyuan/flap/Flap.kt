@@ -216,17 +216,20 @@ class Flap : FlapApi {
         return delegate.getItemId(itemData, position)
     }
 
-    internal fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    /**
+     * 会优先于 FlapComponentPool.putRecycledView 被调用
+     */
+    fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewRecycled(adapter, component)
     }
 
-    internal fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
+    fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         val delegate = getDelegateByViewType(component.itemViewType)
         return delegate.onFailedToRecycleView(adapter, component)
     }
 
-    internal fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
         dispatchOnViewAttachedToWindow(adapter, component)
@@ -242,7 +245,7 @@ class Flap : FlapApi {
         }
     }
 
-    internal fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
         dispatchOnViewDetachedFromWindow(adapter, component)

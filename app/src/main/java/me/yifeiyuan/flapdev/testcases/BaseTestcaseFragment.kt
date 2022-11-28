@@ -107,7 +107,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
                     }
                 }
 
-        adapter.setParamProvider {
+        adapter.withParamProvider {
             when (it) {
                 "intValue" -> {
                     233

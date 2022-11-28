@@ -15,7 +15,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
  * Created by 程序亦非猿 on 2022/11/3.
  * @since 3.3.0
  */
-interface FlapApi {
+interface FlapApi : FlapRegistry {
 
     /**
      * 通过 Adapter 发送事件
@@ -45,7 +45,7 @@ interface FlapApi {
     /**
      * 设置是否使用 ComponentPool 作为缓存池
      */
-    fun withComponentPoolEnable(enable: Boolean): FlapApi
+    fun setComponentPoolEnable(enable: Boolean): FlapApi
 
     /**
      * 预加载
@@ -78,7 +78,7 @@ interface FlapApi {
 
     fun getEmptyViewHelper(): EmptyViewHelper
 
-    fun setParamProvider(block: (key: String) -> Any?): FlapApi
+    fun withParamProvider(block: (key: String) -> Any?): FlapApi
 
     /**
      * 提供 Component 从 Adapter 获取参数的方法

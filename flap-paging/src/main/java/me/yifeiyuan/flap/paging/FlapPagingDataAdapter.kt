@@ -7,10 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.FlapApi
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
-import me.yifeiyuan.flap.ext.SwipeDragHelper
-import me.yifeiyuan.flap.hook.IAdapterHookManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
 
 /**
@@ -18,9 +14,11 @@ import me.yifeiyuan.flap.widget.FlapStickyHeaders
  * 支持 Paging
  * Created by 程序亦非猿 on 2022/11/7.
  *
+ * 不支持拖动排序、滑动删除 todo 能支持吗？
+ *
  * @since 3.3.0
  */
-class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (Flap.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), IAdapterHookManager by flap, IAdapterDelegateManager by flap, IAdapterServiceManager by flap, SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
+class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (FlapApi.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), FlapStickyHeaders, FlapApi by flap {
 
     init {
         apply {
@@ -45,17 +43,33 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
             position: Int,
             payloads: MutableList<Any>
     ) {
+        getItem(position)
         flap.onBindViewHolder(this, getItemData(position) as Any, component, position, payloads)
     }
 
+    override fun onViewRecycled(component: Component<T>) {
+        flap.onViewRecycled(this, component)
+    }
+
+    override fun onFailedToRecycleView(component: Component<T>): Boolean {
+        return flap.onFailedToRecycleView(this,component)
+    }
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
         flap.onAttachedToRecyclerView(this, recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
         flap.onDetachedFromRecyclerView(this, recyclerView)
+    }
+
+    override fun onViewAttachedToWindow(component: Component<T>) {
+        flap.onViewAttachedToWindow(this, component)
+    }
+
+    override fun onViewDetachedFromWindow(component: Component<T>) {
+        flap.onViewDetachedFromWindow(this, component)
+
     }
 
     var stickyHeaderHandler: ((position: Int, itemData: T?) -> Boolean)? = null
@@ -69,6 +83,6 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
     }
 
     fun getItemData(position: Int): T? {
-        return peek(position)
+        return getItem(position)
     }
 }

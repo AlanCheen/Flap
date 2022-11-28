@@ -29,7 +29,7 @@ import me.yifeiyuan.flap.FlapDebug
  * @since 3.0.0
  */
 abstract class FallbackAdapterDelegate : AdapterDelegate<Any, Component<Any>> {
-    override fun delegate(model: Any): Boolean {
+    override fun isDelegateFor(model: Any): Boolean {
         return true
     }
 }

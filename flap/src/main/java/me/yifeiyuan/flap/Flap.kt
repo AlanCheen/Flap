@@ -7,19 +7,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.event.EventObserver
 import me.yifeiyuan.flap.event.EventObserverWrapper
 import me.yifeiyuan.flap.ext.*
-import me.yifeiyuan.flap.hook.AdapterHookManager
-import me.yifeiyuan.flap.hook.IAdapterHookManager
+import me.yifeiyuan.flap.hook.AdapterHook
 import me.yifeiyuan.flap.hook.PreloadHook
 import me.yifeiyuan.flap.pool.ComponentPool
-import me.yifeiyuan.flap.service.AdapterServiceManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
+import me.yifeiyuan.flap.service.AdapterService
 
 /**
  * 负责代理部分 Adapter API 实现
@@ -30,29 +26,25 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  *
  * @since 3.1.5
  */
-class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManager by AdapterDelegateManager(), IAdapterServiceManager by AdapterServiceManager(), FlapApi {
+class Flap : FlapApi {
+
+    override val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
+    override val adapterHooks: MutableList<AdapterHook> = mutableListOf()
+    override val adapterServices: MutableMap<Class<*>, AdapterService> = mutableMapOf()
 
     companion object {
         private const val TAG = "Flap"
-
-        /**
-         * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
-         */
-        internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
     }
 
     /**
-     * Components 监听的生命周期对象，一般是 Activity
-     * 默认取的是 RecyclerView.Context
-     *
-     * 如果使用 Fragment 那么需要自行设置
+     * 默认使用 RecyclerView.Context，如果在 Fragment 里使用，则需要设置为 Fragment.viewLifecycleOwner
      */
     private var lifecycleOwner: LifecycleOwner? = null
 
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
-    var fallbackDelegate: FallbackAdapterDelegate? = null
+    var fallbackDelegate: FallbackAdapterDelegate
 
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
@@ -109,7 +101,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
 
     private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
         return viewTypeDelegateCache[viewType] ?: fallbackDelegate
-        ?: throw AdapterDelegateNotFoundException("找不到 viewType = $viewType 对应的 Delegate，请先注册，或设置默认的 Delegate")
     }
 
     fun onBindViewHolder(
@@ -132,7 +123,6 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
             dispatchOnBindViewHolderEnd(adapter, component, itemData, position, payloads)
             tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
-            e.printStackTrace()
             FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)
         }
     }
@@ -183,16 +173,15 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
 
         var itemViewType: Int
 
-        val delegate: AdapterDelegate<*, *>? = adapterDelegates.firstOrNull {
-            it.delegate(itemData)
+        val delegate: AdapterDelegate<*, *> = adapterDelegates.firstOrNull {
+            it.isDelegateFor(itemData)
         } ?: fallbackDelegate
 
         if (delegateViewTypeCache.containsKey(delegate)) {
             return delegateViewTypeCache[delegate]!!
         }
 
-        itemViewType = delegate?.getItemViewType(itemData)
-                ?: throw AdapterDelegateNotFoundException("找不到对应的 AdapterDelegate，请先注册或设置默认 AdapterDelegate ，position=$position , itemData=$itemData")
+        itemViewType = delegate.getItemViewType(itemData)
 
         if (itemViewType == 0) {
             itemViewType = generateItemViewType()
@@ -216,17 +205,20 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         return delegate.getItemId(itemData, position)
     }
 
-    internal fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    /**
+     * 会优先于 FlapComponentPool.putRecycledView 被调用
+     */
+    fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewRecycled(adapter, component)
     }
 
-    internal fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
+    fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         val delegate = getDelegateByViewType(component.itemViewType)
         return delegate.onFailedToRecycleView(adapter, component)
     }
 
-    internal fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
         dispatchOnViewAttachedToWindow(adapter, component)
@@ -242,7 +234,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         }
     }
 
-    internal fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
         dispatchOnViewDetachedFromWindow(adapter, component)
@@ -419,7 +411,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
         return paramProvider?.getParam(key) as? P?
     }
 
-    override fun setParamProvider(block: (key: String) -> Any?) = apply {
+    override fun withParamProvider(block: (key: String) -> Any?) = apply {
         paramProvider = ExtraParamsProviderWrapper(block)
     }
 
@@ -434,7 +426,7 @@ class Flap : IAdapterHookManager by AdapterHookManager(), IAdapterDelegateManage
     /**
      * 设置是否使用 ComponentPool 作为缓存池
      */
-    override fun withComponentPoolEnable(enable: Boolean) = apply {
+    override fun setComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }
 

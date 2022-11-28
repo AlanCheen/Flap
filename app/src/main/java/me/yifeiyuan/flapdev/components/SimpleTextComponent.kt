@@ -43,7 +43,7 @@ class SimpleTextComponent(itemView: View) : Component<SimpleTextModel>(itemView)
 //自定义 AdapterDelegate 实现
 class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextComponent> {
 
-    override fun delegate(model: Any): Boolean {
+    override fun isDelegateFor(model: Any): Boolean {
         return SimpleTextModel::class.java == model::class.java
     }
 

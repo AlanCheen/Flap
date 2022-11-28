@@ -37,7 +37,7 @@ class DataBindingDslAdapterDelegate<T, D : ViewDataBinding>(
         private var block: DataBindingDslComponent<T, D>.() -> Unit,
 ) : AdapterDelegate<T, DataBindingDslComponent<T, D>> {
 
-    override fun delegate(model: Any): Boolean {
+    override fun isDelegateFor(model: Any): Boolean {
         return isDelegateFor.invoke(model)
     }
 

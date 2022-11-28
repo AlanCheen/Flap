@@ -48,7 +48,7 @@ class DslAdapterDelegate<T>(
         private var block: DslComponent<T>.() -> Unit,
 ) : AdapterDelegate<T, DslComponent<T>> {
 
-    override fun delegate(model: Any): Boolean {
+    override fun isDelegateFor(model: Any): Boolean {
         return isDelegateFor.invoke(model)
     }
 

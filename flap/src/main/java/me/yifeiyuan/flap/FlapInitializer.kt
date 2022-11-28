@@ -2,18 +2,12 @@ package me.yifeiyuan.flap
 
 import android.content.Context
 import me.yifeiyuan.flap.delegate.*
-import me.yifeiyuan.flap.delegate.AdapterDelegateManager
 import me.yifeiyuan.flap.delegate.DefaultFallbackAdapterDelegate
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.hook.AdapterHook
-import me.yifeiyuan.flap.hook.AdapterHookManager
-import me.yifeiyuan.flap.hook.IAdapterHookManager
 import me.yifeiyuan.flap.service.AdapterService
-import me.yifeiyuan.flap.service.AdapterServiceManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
 
 /**
- * FlapInitializer 是 Flap 的初始化器，存放全局的配置，会应用于所有的 FlapAdapter 实例。
+ * FlapInitializer ，初始化器，存放全局的配置，会应用于所有的 Flap 实例。
  *
  * - AdapterDelegate
  * - AdapterHook
@@ -26,7 +20,7 @@ import me.yifeiyuan.flap.service.IAdapterServiceManager
  * @since 2020/9/22
  * @since 3.0.0
  */
-object FlapInitializer : Registry {
+object FlapInitializer : FlapRegistry {
 
     override val adapterDelegates: MutableList<AdapterDelegate<*, *>> = mutableListOf()
     override val adapterHooks: MutableList<AdapterHook> = mutableListOf()

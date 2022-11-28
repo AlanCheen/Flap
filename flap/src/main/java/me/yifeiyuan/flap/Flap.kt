@@ -34,18 +34,10 @@ class Flap : FlapApi {
 
     companion object {
         private const val TAG = "Flap"
-
-        /**
-         * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate 时抛出
-         */
-        internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
     }
 
     /**
-     * Components 监听的生命周期对象，一般是 Activity
-     * 默认取的是 RecyclerView.Context
-     *
-     * 如果使用 Fragment 那么需要自行设置
+     * 默认使用 RecyclerView.Context，如果在 Fragment 里使用，则需要设置为 Fragment.viewLifecycleOwner
      */
     private var lifecycleOwner: LifecycleOwner? = null
 
@@ -109,7 +101,6 @@ class Flap : FlapApi {
 
     private fun getDelegateByViewType(viewType: Int): AdapterDelegate<*, *> {
         return viewTypeDelegateCache[viewType] ?: fallbackDelegate
-        ?: throw AdapterDelegateNotFoundException("找不到 viewType = $viewType 对应的 Delegate，请先注册，或设置默认的 Delegate")
     }
 
     fun onBindViewHolder(
@@ -132,7 +123,6 @@ class Flap : FlapApi {
             dispatchOnBindViewHolderEnd(adapter, component, itemData, position, payloads)
             tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
-            e.printStackTrace()
             FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)
         }
     }
@@ -183,7 +173,7 @@ class Flap : FlapApi {
 
         var itemViewType: Int
 
-        val delegate: AdapterDelegate<*, *>? = adapterDelegates.firstOrNull {
+        val delegate: AdapterDelegate<*, *> = adapterDelegates.firstOrNull {
             it.isDelegateFor(itemData)
         } ?: fallbackDelegate
 
@@ -191,8 +181,7 @@ class Flap : FlapApi {
             return delegateViewTypeCache[delegate]!!
         }
 
-        itemViewType = delegate?.getItemViewType(itemData)
-                ?: throw AdapterDelegateNotFoundException("找不到对应的 AdapterDelegate，请先注册或设置默认 AdapterDelegate ，position=$position , itemData=$itemData")
+        itemViewType = delegate.getItemViewType(itemData)
 
         if (itemViewType == 0) {
             itemViewType = generateItemViewType()
@@ -422,7 +411,7 @@ class Flap : FlapApi {
         return paramProvider?.getParam(key) as? P?
     }
 
-    override fun setParamProvider(block: (key: String) -> Any?) = apply {
+    override fun withParamProvider(block: (key: String) -> Any?) = apply {
         paramProvider = ExtraParamsProviderWrapper(block)
     }
 
@@ -437,7 +426,7 @@ class Flap : FlapApi {
     /**
      * 设置是否使用 ComponentPool 作为缓存池
      */
-    override fun withComponentPoolEnable(enable: Boolean) = apply {
+    override fun setComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }
 

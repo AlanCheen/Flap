@@ -23,7 +23,7 @@ data class SimpleTextModel(val content: String) {
     }
 }
 
-fun createSimpleTextDelegate() = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+fun createSimpleTextDelegate() = adapterDelegate<SimpleTextModel>(R.layout.flap_component_simple_text) {
     onBind { model ->
         bindTextView(R.id.tv_content) {
             text = model.content
@@ -48,7 +48,7 @@ class SimpleTextComponentDelegate : AdapterDelegate<SimpleTextModel, SimpleTextC
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SimpleTextComponent {
-        return SimpleTextComponent(inflater.inflate(R.layout.flap_item_simple_text, parent, false))
+        return SimpleTextComponent(inflater.inflate(R.layout.flap_component_simple_text, parent, false))
     }
 
     override fun getItemViewType(model: Any): Int {

@@ -7,21 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.FlapApi
-import me.yifeiyuan.flap.ext.SwipeDragHelper
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
-import java.security.MessageDigest
-import java.util.*
 
 /**
  *
  * 支持 Paging
  * Created by 程序亦非猿 on 2022/11/7.
  *
- * 不支持拖动排序、滑动删除
+ * 不支持拖动排序、滑动删除 todo 能支持吗？
  *
  * @since 3.3.0
  */
-class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (FlapApi.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), SwipeDragHelper.Callback, FlapStickyHeaders, FlapApi by flap {
+class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallback: DiffUtil.ItemCallback<T>, private val flapInitBlock: (FlapApi.() -> Unit)? = null) : PagingDataAdapter<T, Component<T>>(diffCallback), FlapStickyHeaders, FlapApi by flap {
 
     init {
         apply {
@@ -46,6 +43,7 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
             position: Int,
             payloads: MutableList<Any>
     ) {
+        getItem(position)
         flap.onBindViewHolder(this, getItemData(position) as Any, component, position, payloads)
     }
 
@@ -71,27 +69,8 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
 
     override fun onViewDetachedFromWindow(component: Component<T>) {
         flap.onViewDetachedFromWindow(this, component)
+
     }
-
-//    fun swapData(fromPosition: Int, toPosition: Int, notify: Boolean = true) {
-//        Collections.swap(data, fromPosition, toPosition)
-//        if (notify) {
-//            notifyItemMoved(fromPosition, toPosition)
-//        }
-//    }
-
-//    override fun onSwiped(position: Int) {
-//        val snapshotItems = snapshot().items
-//        val newList = mutableListOf<T>().apply {
-//            addAll(snapshotItems)
-//        }
-//        newList.removeAt(position)
-//        submitData()
-//    }
-
-//    override fun onMoved(fromPosition: Int, toPosition: Int) {
-//        swapData(fromPosition, toPosition)
-//    }
 
     var stickyHeaderHandler: ((position: Int, itemData: T?) -> Boolean)? = null
 

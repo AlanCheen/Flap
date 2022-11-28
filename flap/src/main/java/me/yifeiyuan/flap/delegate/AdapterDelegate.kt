@@ -5,13 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.Flap
-import java.lang.reflect.ParameterizedType
 
 /**
  *
  * AdapterDelegate 是一个代理类，负责代理 Adapter 的部分方法。
  *
- * 每个 model 都应该有一个对应的 AdapterDelegate，当一个 AdapterDelegate.delegate(model) 返回 true 表示它负责代理这个 model。
+ * 每个 model 都应该有一个对应的 AdapterDelegate，当一个 AdapterDelegate.isDelegateFor(model) 返回 true 表示它负责代理这个 model。
  * 一般一个 AdapterDelegate 代理一个类型的 Model，是一对一的关系，这样更加解耦。
  * 这样可以解耦 Adapter 对不同类型的 Model 的处理。
  *
@@ -39,7 +38,7 @@ interface AdapterDelegate<M, VH : Component<M>> {
      * @param model 数据
      * @return true 表示代理该 model
      */
-    fun delegate(model: Any): Boolean
+    fun isDelegateFor(model: Any): Boolean
 
     /**
      * 根据代理的 Model 创建与之对应的 Component

@@ -36,7 +36,7 @@ class Flap : FlapApi {
         private const val TAG = "Flap"
 
         /**
-         * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate.delegate()==true 时抛出
+         * 当 Adapter.data 中存在一个 Model 没有对应的 AdapterDelegate 时抛出
          */
         internal class AdapterDelegateNotFoundException(errorMessage: String) : Exception(errorMessage)
     }
@@ -52,7 +52,7 @@ class Flap : FlapApi {
     private val viewTypeDelegateCache: MutableMap<Int, AdapterDelegate<*, *>?> = mutableMapOf()
     private val delegateViewTypeCache: MutableMap<AdapterDelegate<*, *>, Int> = mutableMapOf()
 
-    var fallbackDelegate: FallbackAdapterDelegate? = null
+    var fallbackDelegate: FallbackAdapterDelegate
 
     /**
      * 是否使用 ApplicationContext 来创建 LayoutInflater 来创建 View
@@ -184,7 +184,7 @@ class Flap : FlapApi {
         var itemViewType: Int
 
         val delegate: AdapterDelegate<*, *>? = adapterDelegates.firstOrNull {
-            it.delegate(itemData)
+            it.isDelegateFor(itemData)
         } ?: fallbackDelegate
 
         if (delegateViewTypeCache.containsKey(delegate)) {

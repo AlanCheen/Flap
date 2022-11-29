@@ -19,7 +19,7 @@ class GitHubDemoFragment : BaseTestcaseFragment() {
 
         recyclerView.addItemDecoration(LinearSpaceItemDecoration(requireActivity().toPixel(6)))
 
-        val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
+        val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_component_simple_text) {
             onBind { model ->
                 bindTextView(R.id.tv_content) {
                     text = model.content

@@ -11,7 +11,7 @@
 3. Step3 : create a AdapterDelegate and register it.
 
 
-1）Create a Model, lets say SimpleTextModel ：
+1）Create a Model, lets say `SimpleTextModel` ：
 ```kotlin
 data class SimpleTextModel(val content: String)
 ```
@@ -38,7 +38,7 @@ data class SimpleTextModel(val content: String)
 </FrameLayout>
 ```
 
-3）Create a AdapterDelegate by `adapterDelegate` DSL ,and <br />override `onBind` method：
+3）Create a `AdapterDelegate` by `adapterDelegate` DSL ,and <br />override `onBind` method：
 
 ```kotlin
 val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_simple_text) {
@@ -50,7 +50,7 @@ val simpleTextDelegate = adapterDelegate<SimpleTextModel>(R.layout.flap_item_sim
 }
 ```
 
-Use a FlapAdapter instead of Adapter and register AdapterDelegate to a FlapAdapter： :
+Use a `FlapAdapter` instead of `Adapter` and register AdapterDelegate to a FlapAdapter： :
 
 ```kotlin
 //create FlapAdapter

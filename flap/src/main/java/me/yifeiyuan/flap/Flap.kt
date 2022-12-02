@@ -57,6 +57,11 @@ class Flap : FlapApi {
         registerAdapterHook(it)
     }
 
+    lateinit var componentPool: ComponentPool
+
+    lateinit var bindingRecyclerView: RecyclerView
+    lateinit var bindingContext: Context
+
     init {
         adapterHooks.addAll(FlapInitializer.adapterHooks)
         adapterDelegates.addAll(FlapInitializer.adapterDelegates)
@@ -82,7 +87,7 @@ class Flap : FlapApi {
     private fun dispatchOnCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderStart(adapter, viewType)
+                it.onPreCreateViewHolder(adapter, viewType)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -92,7 +97,7 @@ class Flap : FlapApi {
     private fun dispatchOnCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderEnd(adapter, viewType, component)
+                it.onPostCreateViewHolder(adapter, viewType, component)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -147,7 +152,7 @@ class Flap : FlapApi {
             payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderStart(adapter, component, itemData, position, payloads)
+                it.onPreBindViewHolder(adapter, component, itemData, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -162,7 +167,7 @@ class Flap : FlapApi {
             payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderEnd(adapter, component, data, position, payloads)
+                it.onPostBindViewHolder(adapter, component, data, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -207,17 +212,24 @@ class Flap : FlapApi {
 
     /**
      * 会优先于 FlapComponentPool.putRecycledView 被调用
+     * @see RecyclerView.Adapter.onViewRecycled
      */
     fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewRecycled(adapter, component)
     }
 
+    /**
+     * @see RecyclerView.Adapter.onFailedToRecycleView
+     */
     fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         val delegate = getDelegateByViewType(component.itemViewType)
         return delegate.onFailedToRecycleView(adapter, component)
     }
 
+    /**
+     * @see RecyclerView.Adapter.onViewAttachedToWindow
+     */
     fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
@@ -234,6 +246,9 @@ class Flap : FlapApi {
         }
     }
 
+    /**
+     * @see RecyclerView.Adapter.onViewDetachedFromWindow
+     */
     fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
@@ -255,12 +270,15 @@ class Flap : FlapApi {
      */
     private var useComponentPool = true
 
-    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
-        handleOnAttachedToRecyclerView(recyclerView)
-        dispatchOnAttachedToRecyclerView(adapter, recyclerView)
+    /**
+     * @see RecyclerView.Adapter.onAttachedToRecyclerView
+     */
+    fun onAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+        handleOnAdapterAttachedToRecyclerView(recyclerView)
+        dispatchOnAdapterAttachedToRecyclerView(adapter, recyclerView)
     }
 
-    private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+    private fun handleOnAdapterAttachedToRecyclerView(recyclerView: RecyclerView) {
         bindingRecyclerView = recyclerView
         bindingContext = recyclerView.context
 
@@ -282,7 +300,7 @@ class Flap : FlapApi {
         }
     }
 
-    private fun dispatchOnAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    private fun dispatchOnAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onAttachedToRecyclerView(adapter, recyclerView)
@@ -292,12 +310,7 @@ class Flap : FlapApi {
         }
     }
 
-    lateinit var componentPool: ComponentPool
-
-    lateinit var bindingRecyclerView: RecyclerView
-    lateinit var bindingContext: Context
-
-    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    fun onAdapterDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (this::componentPool.isInitialized) {
             bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
         }
@@ -345,10 +358,6 @@ class Flap : FlapApi {
         }
     }
 
-    /**
-     * 设置是否启用预加载
-     * 需要先调用 doOnPreload 开启才有效。
-     */
     override fun setPreloadEnable(enable: Boolean, direction: Int) = apply {
         when (direction) {
             PreloadHook.SCROLL_UP -> {
@@ -375,18 +384,10 @@ class Flap : FlapApi {
         registerAdapterHook(it)
     }
 
-    /**
-     * 设置点击事件监听
-     * @see doOnItemLongClick
-     */
     override fun doOnItemClick(onItemClick: OnItemClickListener?) = apply {
         itemClicksHelper.onItemClickListener = onItemClick
     }
 
-    /**
-     * 设置长按事件监听
-     * @see doOnItemClick
-     */
     override fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) = apply {
         itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
@@ -401,31 +402,19 @@ class Flap : FlapApi {
 
     private var paramProvider: ExtraParamsProvider? = null
 
-    /**
-     * 提供 Component 从 Adapter 获取参数的方法
-     *
-     * @return key 对应的参数，如果类型不匹配，则会为 null
-     */
     @Suppress("UNCHECKED_CAST")
     override fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
     }
 
-    override fun withParamProvider(block: (key: String) -> Any?) = apply {
-        paramProvider = ExtraParamsProviderWrapper(block)
+    override fun withParamProvider(provider: (key: String) -> Any?) = apply {
+        paramProvider = ExtraParamsProviderWrapper(provider)
     }
 
-    /**
-     * 设置 Component 绑定的 LifecycleOwner
-     * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
-     */
     override fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
         this.lifecycleOwner = lifecycleOwner
     }
 
-    /**
-     * 设置是否使用 ComponentPool 作为缓存池
-     */
     override fun setComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }
@@ -461,9 +450,6 @@ class Flap : FlapApi {
         eventObservers[eventName] = EventObserverWrapper(block)
     }
 
-    /**
-     * 观察所有的事件
-     */
     override fun observerEvents(block: (Event<*>) -> Unit) = apply {
         allEventsObserver = object : EventObserver {
             override fun onEvent(event: Event<*>) {

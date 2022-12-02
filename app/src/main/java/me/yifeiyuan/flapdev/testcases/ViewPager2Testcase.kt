@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import me.yifeiyuan.flap.FlapAdapter
-import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
+import me.yifeiyuan.flap.ext.doOnPostCreate
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.Scrollable
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -47,7 +47,7 @@ class ViewPager2Testcase : Fragment(), Scrollable {
              * java.lang.IllegalStateException: Pages must fill the whole ViewPager2 (use match_parent)
              * at androidx.viewpager2.widget.ViewPager2$4.onChildViewAttachedToWindow(ViewPager2.java:270)
              */
-            doOnCreateViewHolderEnd { adapter, viewType, component ->
+            doOnPostCreate { adapter, viewType, component ->
                 component.itemView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             }
 

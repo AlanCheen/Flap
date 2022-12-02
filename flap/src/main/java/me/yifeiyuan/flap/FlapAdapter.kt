@@ -4,10 +4,7 @@ package me.yifeiyuan.flap
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.ext.SwipeDragHelper
-import me.yifeiyuan.flap.hook.IAdapterHookManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
 import java.util.*
 
@@ -115,11 +112,11 @@ open class FlapAdapter(private val flap: Flap = Flap(), private val flapInitBloc
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        flap.onAttachedToRecyclerView(this, recyclerView)
+        flap.onAdapterAttachedToRecyclerView(this, recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        flap.onDetachedFromRecyclerView(this, recyclerView)
+        flap.onAdapterDetachedFromRecyclerView(this, recyclerView)
     }
 
     override fun onViewRecycled(component: Component<*>) {

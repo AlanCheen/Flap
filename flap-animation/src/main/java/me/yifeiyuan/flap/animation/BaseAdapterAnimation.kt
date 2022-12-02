@@ -23,8 +23,8 @@ abstract class BaseAdapterAnimation : AdapterHook {
     var interpolator: Interpolator = LinearInterpolator()
     private var lastPosition = -1
 
-    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-        super.onBindViewHolderEnd(adapter, component, data, position, payloads)
+    override fun onPostBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+        super.onPostBindViewHolder(adapter, component, data, position, payloads)
         val adapterPosition = component.adapterPosition
         if (!isFirstOnly || adapterPosition > lastPosition) {
             val animator = createAnimator(component.itemView, component, data, position)

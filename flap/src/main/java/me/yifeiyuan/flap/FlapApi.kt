@@ -18,6 +18,8 @@ import me.yifeiyuan.flap.hook.PreloadHook
 interface FlapApi : FlapRegistry {
 
     /**
+     * Fire an event
+     *
      * 通过 Adapter 发送事件
      *
      * @see observeEvent
@@ -32,6 +34,7 @@ interface FlapApi : FlapRegistry {
     fun <T> observeEvent(eventName: String, block: (Event<T>) -> Unit): FlapApi
 
     /**
+     * Observe all the events.
      * 观察所有的事件
      */
     fun observerEvents(block: (Event<*>) -> Unit): FlapApi
@@ -43,13 +46,17 @@ interface FlapApi : FlapRegistry {
     fun withLifecycleOwner(lifecycleOwner: LifecycleOwner): FlapApi
 
     /**
+     * Set use ComponentPool as the RecyclerViewPool or not.
+     *
      * 设置是否使用 ComponentPool 作为缓存池
      */
     fun setComponentPoolEnable(enable: Boolean): FlapApi
 
     /**
+     *
      * 预加载
      *
+     * @see setPreloadEnable
      * @see PreloadHook
      */
     fun doOnPreload(offset: Int = 0, minItemCount: Int = 2, direction: Int = PreloadHook.SCROLL_DOWN, onPreload: () -> Unit): FlapApi
@@ -60,25 +67,41 @@ interface FlapApi : FlapRegistry {
      */
     fun setPreloadEnable(enable: Boolean, direction: Int = PreloadHook.SCROLL_DOWN): FlapApi
 
+    /**
+     *
+     * Set preload action is complete.
+     *
+     * 设置一次预加载行为完成。
+     */
     fun setPreloadComplete(direction: Int = PreloadHook.SCROLL_DOWN)
 
     /**
+     * OnItemClick
+     *
      * 设置点击事件监听
      * @see doOnItemLongClick
      */
     fun doOnItemClick(onItemClick: OnItemClickListener?): FlapApi
 
     /**
+     * OnItemLongClick
+     *
      * 设置长按事件监听
      * @see doOnItemClick
      */
     fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?): FlapApi
 
+    /**
+     * Setup a view that display when data is empty.
+     */
     fun withEmptyView(emptyView: View?): FlapApi
 
     fun getEmptyViewHelper(): EmptyViewHelper
 
-    fun withParamProvider(block: (key: String) -> Any?): FlapApi
+    /**
+     *
+     */
+    fun withParamProvider(provider: (key: String) -> Any?): FlapApi
 
     /**
      * 提供 Component 从 Adapter 获取参数的方法
@@ -88,7 +111,7 @@ interface FlapApi : FlapRegistry {
     fun <P> getParam(key: String): P?
 
     /**
-     * @see FlapAdapter.inflateWithApplicationContext
+     * @see Flap.inflateWithApplicationContext
      * @return activity context
      */
     fun getActivityContext(): Context

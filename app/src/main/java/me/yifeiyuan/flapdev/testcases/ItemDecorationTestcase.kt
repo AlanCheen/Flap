@@ -6,11 +6,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import me.yifeiyuan.flap.decoration.SpaceItemDecoration
-import me.yifeiyuan.flap.ext.doOnBindViewHolderEnd
-import me.yifeiyuan.flap.ext.doOnCreateViewHolderEnd
+import me.yifeiyuan.flap.ext.doOnPostBind
+import me.yifeiyuan.flap.ext.doOnPostCreate
 import me.yifeiyuan.flapdev.R
 import me.yifeiyuan.flapdev.toPixel
 import kotlin.random.Random
@@ -33,12 +31,12 @@ class ItemDecorationTestcase : BaseTestcaseFragment() {
 
         recyclerView.setBackgroundColor(Color.parseColor("#16000000"))
 
-        adapter.doOnCreateViewHolderEnd { adapter,  viewType, component ->
+        adapter.doOnPostCreate { adapter, viewType, component ->
             val preLP = component.itemView.layoutParams
             preLP.height = Random.nextInt(requireActivity().toPixel(50), requireActivity().toPixel(150))
         }
 
-        adapter.doOnBindViewHolderEnd { adapter,  component, data, position, payloads ->
+        adapter.doOnPostBind { adapter, component, data, position, payloads ->
             if (recyclerView.layoutManager is StaggeredGridLayoutManager) {
                 val index = (component.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).spanIndex
                 Log.d("StaggeredGridL", "onInit() called with: position = $position, spanIndex = $index")

@@ -29,7 +29,7 @@ interface AdapterHook {
      * @param adapter 正在创建组件的 adapter
      * @param viewType viewType
      */
-    fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {}
+    fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {}
 
     /**
      * 在组件创建完毕后调用
@@ -38,7 +38,7 @@ interface AdapterHook {
      * @param viewType viewType
      * @param component 被创建出来的组件
      */
-    fun onCreateViewHolderEnd(
+    fun onPostCreateViewHolder(
             adapter: RecyclerView.Adapter<*>,
             viewType: Int,
             component: Component<*>) {
@@ -53,7 +53,7 @@ interface AdapterHook {
      * @param data
      * @param payloads
      */
-    fun onBindViewHolderStart(
+    fun onPreBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
@@ -70,7 +70,7 @@ interface AdapterHook {
      * @param data
      * @param payloads
      */
-    fun onBindViewHolderEnd(
+    fun onPostBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,

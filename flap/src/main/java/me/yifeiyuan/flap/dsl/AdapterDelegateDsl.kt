@@ -7,10 +7,9 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
-import me.yifeiyuan.flap.Flap
 import me.yifeiyuan.flap.delegate.AdapterDelegate
-import me.yifeiyuan.flap.ext.BooleanBlock
-import me.yifeiyuan.flap.ext.UnitBlock
+import me.yifeiyuan.flap.ext.BooleanFunc
+import me.yifeiyuan.flap.ext.UnitFunc
 
 
 /**
@@ -85,16 +84,16 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
      */
     private var onBind: ((model: T) -> Unit)? = null
 
-    private var onViewAttachedToWindow: UnitBlock? = null
-    private var onViewDetachedFromWindow: UnitBlock? = null
+    private var onViewAttachedToWindow: UnitFunc? = null
+    private var onViewDetachedFromWindow: UnitFunc? = null
 
-    private var onResume: UnitBlock? = null
-    private var onPause: UnitBlock? = null
-    private var onStop: UnitBlock? = null
-    private var onDestroy: UnitBlock? = null
+    private var onResume: UnitFunc? = null
+    private var onPause: UnitFunc? = null
+    private var onStop: UnitFunc? = null
+    private var onDestroy: UnitFunc? = null
 
-    private var onViewRecycled: UnitBlock? = null
-    private var onFailedToRecycleView: BooleanBlock? = null
+    private var onViewRecycled: UnitFunc? = null
+    private var onFailedToRecycleView: BooleanFunc? = null
 
     /**
      * 单击事件
@@ -222,15 +221,15 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         onLongClickListener = onLongClick
     }
 
-    fun onViewAttachedToWindow(onAttach: UnitBlock) {
+    fun onViewAttachedToWindow(onAttach: UnitFunc) {
         onViewAttachedToWindow = onAttach
     }
 
-    fun onViewDetachedFromWindow(onDetach: UnitBlock) {
+    fun onViewDetachedFromWindow(onDetach: UnitFunc) {
         onViewDetachedFromWindow = onDetach
     }
 
-    fun onViewRecycled(block: UnitBlock) {
+    fun onViewRecycled(block: UnitFunc) {
         onViewRecycled = block
     }
 
@@ -238,19 +237,19 @@ open class DslComponent<T>(view: View) : Component<T>(view) {
         onFailedToRecycleView = block
     }
 
-    fun onResume(block: UnitBlock) {
+    fun onResume(block: UnitFunc) {
         onResume = block
     }
 
-    fun onPause(block: UnitBlock) {
+    fun onPause(block: UnitFunc) {
         onPause = block
     }
 
-    fun onStop(block: UnitBlock) {
+    fun onStop(block: UnitFunc) {
         onStop = block
     }
 
-    fun onDestroy(block: UnitBlock) {
+    fun onDestroy(block: UnitFunc) {
         onDestroy = block
     }
 }

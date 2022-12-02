@@ -11,7 +11,6 @@ import androidx.core.view.get
 import androidx.multidex.MultiDexApplication
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import me.yifeiyuan.flap.FlapDebug
 import me.yifeiyuan.flap.FlapInitializer
 import me.yifeiyuan.flap.delegate.FallbackAdapterDelegate
 import me.yifeiyuan.flap.delegate.FallbackComponent
@@ -69,16 +68,16 @@ class FlapApplication : MultiDexApplication() {
     private fun initFlap() {
 
         val dslAdapterHook = adapterHook {
-            onCreateViewHolderStart { adapter, viewType ->
+            onPreCreateViewHolder { adapter, viewType ->
 
             }
-            onCreateViewHolderEnd { adapter, viewType, component ->
+            onPostCreateViewHolder { adapter, viewType, component ->
 
             }
-            onBindViewHolderStart { adapter, component, data, position, payloads ->
+            onPreBindViewHolder { adapter, component, data, position, payloads ->
 
             }
-            onBindViewHolderEnd { adapter, component, data, position, payloads ->
+            onPostBindViewHolder { adapter, component, data, position, payloads ->
                 Log.d("dslAdapterHook", "onBindViewHolderEnd() called with: adapter = $adapter, component = $component, data = $data, position = $position, payloads = $payloads")
             }
 

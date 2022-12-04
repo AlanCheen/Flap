@@ -1,16 +1,25 @@
 package me.yifeiyuan.flap.service
 
+import androidx.annotation.RestrictTo
+
 /**
  * Manage all the AdapterServices.
+ *
+ * You can register your custom AdapterService in Application or Activity
+ *
+ * And get it when bind your Component by {#getAdapterService} or just call {callService}
+ *
+ * @see me.yifeiyuan.flap.FlapRegistry
+ * @see AdapterServiceManager
  *
  * AdapterService 管理，可以注册或获取 AdapterService
  *
  * 可以在 Activity 中注册 AdapterService，在 Component 中使用。
  *
  * Created by 程序亦非猿 on 2022/8/18.
- *
  * @since 3.0.3
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 interface IAdapterServiceManager {
 
     val adapterServices: MutableMap<Class<*>, AdapterService>

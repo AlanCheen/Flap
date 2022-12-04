@@ -1,12 +1,15 @@
 package me.yifeiyuan.flap
 
 import android.view.ViewGroup
+import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.RecyclerView
 
 /**
  * All the methods that Flap must be called by the Adapter.
+ *
  * Created by 程序亦非猿 on 2022/12/4.
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 interface FlapAdapterDelegation {
 
     fun onCreateViewHolder(adapter: RecyclerView.Adapter<*>, parent: ViewGroup, viewType: Int): Component<*>

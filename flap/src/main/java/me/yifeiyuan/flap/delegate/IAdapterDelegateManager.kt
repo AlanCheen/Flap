@@ -1,15 +1,19 @@
 package me.yifeiyuan.flap.delegate
 
+import androidx.annotation.RestrictTo
+
 /**
  * Manage all the AdapterDelegates.
  *
  * AdapterDelegate 管理者的抽象
  *
+ * @see me.yifeiyuan.flap.FlapRegistry
  * @see AdapterDelegateManager
  *
  * Created by 程序亦非猿 on 2022/9/5.
  * @since 3.1.0
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 interface IAdapterDelegateManager {
 
     val adapterDelegates: MutableList<AdapterDelegate<*, *>>

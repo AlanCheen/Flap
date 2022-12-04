@@ -69,7 +69,6 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
 
     override fun onViewDetachedFromWindow(component: Component<T>) {
         flap.onViewDetachedFromWindow(this, component)
-
     }
 
     var stickyHeaderHandler: ((position: Int, itemData: T?) -> Boolean)? = null

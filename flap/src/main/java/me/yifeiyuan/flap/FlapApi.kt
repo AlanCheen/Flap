@@ -1,6 +1,7 @@
 package me.yifeiyuan.flap
 
-import android.content.Context
+import android.app.Activity
+import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import me.yifeiyuan.flap.event.Event
@@ -15,7 +16,7 @@ import me.yifeiyuan.flap.hook.PreloadHook
  * Created by 程序亦非猿 on 2022/11/3.
  * @since 3.3.0
  */
-interface FlapApi : FlapRegistry {
+interface FlapApi : FlapRegistry, FlapAdapterDelegation {
 
     /**
      * Fire an event
@@ -92,18 +93,23 @@ interface FlapApi : FlapRegistry {
     fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?): FlapApi
 
     /**
-     * Setup a view that display when data is empty.
+     * Setup a view that will display when data set is empty.
      */
     fun withEmptyView(emptyView: View?): FlapApi
 
     fun getEmptyViewHelper(): EmptyViewHelper
 
     /**
-     *
+     * Set a ParamProvider that provide extra param.
      */
     fun withParamProvider(provider: (key: String) -> Any?): FlapApi
 
     /**
+     *
+     * Get extra param from ParamProvider
+     *
+     * @see withParamProvider
+     *
      * 提供 Component 从 Adapter 获取参数的方法
      *
      * @return key 对应的参数，如果类型不匹配，则会为 null
@@ -111,8 +117,29 @@ interface FlapApi : FlapRegistry {
     fun <P> getParam(key: String): P?
 
     /**
+     * Set activity context.
+     *
+     * @see getActivityContext
+     * @see Flap.inflateWithApplicationContext
+     */
+    fun withActivityContext(activity: Activity): FlapApi
+
+    /**
+     * Set a custom layoutInflater that will be used to inflate itemView.
+     */
+    fun withLayoutInflater(layoutInflater: LayoutInflater): FlapApi
+
+    /**
+     * @see withActivityContext
      * @see Flap.inflateWithApplicationContext
      * @return activity context
      */
-    fun getActivityContext(): Context
+    fun <T : Activity> getActivityContext(): T
+
+    /**
+     * Set a custom FlapRuntime
+     */
+    fun withRuntime(runtime: FlapRuntime): FlapApi
+
+    fun <T : FlapRuntime> getRuntime(): T
 }

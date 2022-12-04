@@ -1,6 +1,8 @@
 package me.yifeiyuan.flap.hook
 
 /**
+ * Manage all the AdapterHooks
+ *
  * AdapterHook 管理者的抽象
  * @see AdapterHookManager
  *

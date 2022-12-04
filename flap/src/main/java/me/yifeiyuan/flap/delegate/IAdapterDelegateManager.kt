@@ -1,6 +1,8 @@
 package me.yifeiyuan.flap.delegate
 
 /**
+ * Manage all the AdapterDelegates.
+ *
  * AdapterDelegate 管理者的抽象
  *
  * @see AdapterDelegateManager

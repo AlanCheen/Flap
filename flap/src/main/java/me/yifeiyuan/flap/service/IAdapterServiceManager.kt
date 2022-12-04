@@ -1,6 +1,8 @@
 package me.yifeiyuan.flap.service
 
 /**
+ * Manage all the AdapterServices.
+ *
  * AdapterService 管理，可以注册或获取 AdapterService
  *
  * 可以在 Activity 中注册 AdapterService，在 Component 中使用。

@@ -56,11 +56,11 @@ class FlapPagingDataAdapter<T : Any>(private val flap: Flap = Flap(), diffCallba
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        flap.onAdapterAttachedToRecyclerView(this, recyclerView)
+        flap.onAttachedToRecyclerView(this, recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        flap.onAdapterDetachedFromRecyclerView(this, recyclerView)
+        flap.onDetachedFromRecyclerView(this, recyclerView)
     }
 
     override fun onViewAttachedToWindow(component: Component<T>) {

@@ -112,11 +112,11 @@ open class FlapAdapter(private val flap: Flap = Flap(), private val flapInitBloc
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        flap.onAdapterAttachedToRecyclerView(this, recyclerView)
+        flap.onAttachedToRecyclerView(this, recyclerView)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        flap.onAdapterDetachedFromRecyclerView(this, recyclerView)
+        flap.onDetachedFromRecyclerView(this, recyclerView)
     }
 
     override fun onViewRecycled(component: Component<*>) {

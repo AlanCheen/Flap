@@ -5,7 +5,7 @@ import androidx.annotation.RestrictTo
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * All the methods that Flap must be called by the Adapter.
+ * All the methods that Flap have must be called by the Adapter.
  *
  * Created by 程序亦非猿 on 2022/12/4.
  */
@@ -20,7 +20,6 @@ interface FlapAdapterDelegation {
             component: Component<*>,
             position: Int,
             payloads: MutableList<Any>)
-
 
     fun getItemViewType(position: Int, itemData: Any): Int
 

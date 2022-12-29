@@ -17,7 +17,7 @@ import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.service.AdapterService
 
 /**
- * Component is used by Flap as the base ViewHolder , which provides some useful and convenient abilities as well.
+ * Component is the base ViewHolder , which provides some useful and convenient abilities as well.
  *
  * Component 基于 ViewHolder， 封装了更多日常开发所需的功能。
  *
@@ -54,18 +54,30 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
 
     val adapter: RecyclerView.Adapter<*>
         get() = if (_bindingAdapter == null) {
-            throw java.lang.IllegalArgumentException("onBind 还未调用，还不可以使用")
+            throw java.lang.IllegalArgumentException("onBind has not been called,it is not yet available to use.")
         } else {
             _bindingAdapter as RecyclerView.Adapter<*>
         }
 
     internal var _flap: Flap? = null
-
+    /**
+     * @since 3.3.0
+     */
     val flap: Flap
         get() = if (_flap == null) {
-            throw java.lang.IllegalArgumentException("onBind 还未调用，还不可以使用")
+            throw java.lang.IllegalArgumentException("onBind has not been called,it is not yet available to use.")
         } else {
             _flap as Flap
+        }
+
+    /**
+     * @since 3.4.0
+     */
+    val runtime: FlapRuntime
+        get() = if (_flap == null) {
+            throw java.lang.IllegalArgumentException("onBind has not been called,it is not yet available to use.")
+        } else {
+            flap.flapRuntime!!
         }
 
     internal var _bindingData: Any? = null
@@ -75,7 +87,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      */
     val data: T
         get() = if (_bindingData == null) {
-            throw IllegalArgumentException("onBind 还未调用，还不可以使用")
+            throw IllegalArgumentException("onBind has not been called,it is not yet available to use.")
         } else {
             @Suppress("UNCHECKED_CAST")
             _bindingData as T
@@ -206,10 +218,16 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
         itemView.layoutParams = currentLayoutParams
     }
 
+    /**
+     * Hide component.
+     */
     fun hide() {
         updateComponentVisibility(false)
     }
 
+    /**
+     * Show component.
+     */
     fun show() {
         updateComponentVisibility(true)
     }
@@ -244,19 +262,27 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
         itemView.layoutParams = param
     }
 
+    /**
+     * Try to find an AdapterService and call its method.
+     */
     inline fun <reified T : AdapterService> callService(noinline block: T.() -> Unit) {
         flap.getAdapterService(T::class.java)?.let {
             it.apply { block() }
         }
     }
 
+    /**
+     * Get extra params.
+     */
     fun <P> getParam(key: String): P? {
         return flap.getParam(key) as? P
     }
 
+    /**
+     * Fire en event.
+     */
     fun <T> fireEvent(event: Event<T>) {
         flap.fireEvent(event)
     }
-
 
 }

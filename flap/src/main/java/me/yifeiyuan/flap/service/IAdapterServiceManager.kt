@@ -3,11 +3,11 @@ package me.yifeiyuan.flap.service
 import androidx.annotation.RestrictTo
 
 /**
- * Manage all the AdapterServices.
+ * IAdapterServiceManager is for managing all the AdapterServices.
  *
- * You can register your custom AdapterService in Application or Activity
+ * You can register an AdapterService  in Application or Activity or Fragment.
  *
- * And get it when bind your Component by {#getAdapterService} or just call {callService}
+ * And get the AdapterService when binding Component by calling {getAdapterService} or {Component#callService}
  *
  * @see me.yifeiyuan.flap.FlapRegistry
  * @see AdapterServiceManager
@@ -51,6 +51,7 @@ interface IAdapterServiceManager {
     }
 
     /**
+     *
      * 注册 AdapterService 实例
      */
     fun <T : AdapterService> registerAdapterService(serviceClass: Class<T>, service: T) {
@@ -58,6 +59,9 @@ interface IAdapterServiceManager {
     }
 
     /**
+     * Return an AdapterService instance of the Given service class.
+     * If no AdapterService is found it returns null.
+     *
      * 获取 AdapterService
      */
     @Suppress("UNCHECKED_CAST")

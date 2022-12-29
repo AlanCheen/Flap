@@ -68,7 +68,7 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
         }
     }
 
-    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+    override fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         if (!registered) {
             registered = true
             adapter.registerAdapterDataObserver(observer)
@@ -77,7 +77,7 @@ class PreloadHook(private val offset: Int = 0, private val minItemCount: Int = 2
 
     private var prePosition = -1
 
-    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onPostBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         val itemCount = adapter.itemCount
         if (preloadEnable && !loading.get()) {
             if (direction == SCROLL_DOWN && prePosition < position) {

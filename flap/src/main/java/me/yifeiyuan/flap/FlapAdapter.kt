@@ -4,10 +4,7 @@ package me.yifeiyuan.flap
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.yifeiyuan.flap.delegate.IAdapterDelegateManager
 import me.yifeiyuan.flap.ext.SwipeDragHelper
-import me.yifeiyuan.flap.hook.IAdapterHookManager
-import me.yifeiyuan.flap.service.IAdapterServiceManager
 import me.yifeiyuan.flap.widget.FlapStickyHeaders
 import java.util.*
 

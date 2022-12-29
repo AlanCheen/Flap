@@ -24,7 +24,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         class TraceException : RuntimeException("|只用于 LoggingHook 打印日志，不是真实异常|")
     }
 
-    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+    override fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         if (enableLog) {
             FlapDebug.d(TAG, "onCreateViewHolderStart() called with: adapter = $adapter, viewType = $viewType")
             if (printTrace) {
@@ -33,13 +33,13 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
+    override fun onPostCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onCreateViewHolderEnd() called with: adapter = $adapter, viewType = $viewType, component = $component")
         }
     }
 
-    override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onPreBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onBindViewHolderStart() called with: adapter = $adapter, component = $component, data = $data, position = $position, payloads = $payloads")
             if (printTrace) {
@@ -48,7 +48,7 @@ class LoggingHook(private val enableLog: Boolean = true, private val printTrace:
         }
     }
 
-    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+    override fun onPostBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
         if (enableLog) {
             FlapDebug.d(TAG, "onBindViewHolderEnd() called with: adapter = $adapter, component = $component, data = $data, position = $position, payloads = $payloads")
             if (payloads.isNotEmpty()) {

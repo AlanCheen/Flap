@@ -1,5 +1,8 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package me.yifeiyuan.flap
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +60,15 @@ class Flap : FlapApi {
         registerAdapterHook(it)
     }
 
+    lateinit var componentPool: ComponentPool
+
+    lateinit var bindingRecyclerView: RecyclerView
+    lateinit var bindingContext: Context
+
+    var flapRuntime: FlapRuntime? = null
+
+    var activity: Activity? = null
+
     init {
         adapterHooks.addAll(FlapInitializer.adapterHooks)
         adapterDelegates.addAll(FlapInitializer.adapterDelegates)
@@ -67,32 +79,32 @@ class Flap : FlapApi {
         inflateWithApplicationContext = FlapInitializer.inflateWithApplicationContext
     }
 
-    fun onCreateViewHolder(adapter: RecyclerView.Adapter<*>, parent: ViewGroup, viewType: Int): Component<*> {
+    override fun onCreateViewHolder(adapter: RecyclerView.Adapter<*>, parent: ViewGroup, viewType: Int): Component<*> {
         val delegate = getDelegateByViewType(viewType)
-        dispatchOnCreateViewHolderStart(adapter, viewType)
+        dispatchOnPreCreateViewHolder(adapter, viewType)
 
-        val context = if (inflateWithApplicationContext) parent.context.applicationContext else parent.context
-        val layoutInflater = LayoutInflater.from(context)
+        val inflater = userLayoutInflater
+                ?: LayoutInflater.from(if (inflateWithApplicationContext) parent.context.applicationContext else parent.context)
 
-        val component = delegate.onCreateViewHolder(layoutInflater, parent, viewType)
-        dispatchOnCreateViewHolderEnd(adapter, viewType, component)
+        val component = delegate.onCreateViewHolder(inflater, parent, viewType)
+        dispatchOnPostCreateViewHolder(adapter, viewType, component)
         return component
     }
 
-    private fun dispatchOnCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+    private fun dispatchOnPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderStart(adapter, viewType)
+                it.onPreCreateViewHolder(adapter, viewType)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun dispatchOnCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
+    private fun dispatchOnPostCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
         try {
             adapterHooks.forEach {
-                it.onCreateViewHolderEnd(adapter, viewType, component)
+                it.onPostCreateViewHolder(adapter, viewType, component)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -103,7 +115,7 @@ class Flap : FlapApi {
         return viewTypeDelegateCache[viewType] ?: fallbackDelegate
     }
 
-    fun onBindViewHolder(
+    override fun onBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             itemData: Any,
             component: Component<*>,
@@ -111,7 +123,7 @@ class Flap : FlapApi {
             payloads: MutableList<Any>) {
         try {
             val delegate = getDelegateByViewType(component.itemViewType)
-            dispatchOnBindViewHolderStart(adapter, component, itemData, position, payloads)
+            dispatchOnPreBindViewHolder(adapter, component, itemData, position, payloads)
             delegate.onBindViewHolder(
                     component,
                     itemData,
@@ -120,7 +132,7 @@ class Flap : FlapApi {
                     adapter,
                     this
             )
-            dispatchOnBindViewHolderEnd(adapter, component, itemData, position, payloads)
+            dispatchOnPostBindViewHolder(adapter, component, itemData, position, payloads)
             tryAttachLifecycleOwner(component)
         } catch (e: Exception) {
             FlapDebug.e(TAG, "onBindViewHolder: Error = ", e)
@@ -134,12 +146,12 @@ class Flap : FlapApi {
      */
     private fun tryAttachLifecycleOwner(component: Component<*>) {
         if (lifecycleOwner == null) {
-            throw NullPointerException("lifecycleOwner==null,无法监听生命周期,请先调用 FlapAdapter#setLifecycleOwner()")
+            throw NullPointerException("lifecycleOwner can not be null, please call FlapAdapter#setLifecycleOwner() first")
         }
         lifecycleOwner!!.lifecycle.addObserver(component)
     }
 
-    private fun dispatchOnBindViewHolderStart(
+    private fun dispatchOnPreBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             itemData: Any,
@@ -147,14 +159,14 @@ class Flap : FlapApi {
             payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderStart(adapter, component, itemData, position, payloads)
+                it.onPreBindViewHolder(adapter, component, itemData, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun dispatchOnBindViewHolderEnd(
+    private fun dispatchOnPostBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
@@ -162,14 +174,14 @@ class Flap : FlapApi {
             payloads: MutableList<Any>) {
         try {
             adapterHooks.forEach {
-                it.onBindViewHolderEnd(adapter, component, data, position, payloads)
+                it.onPostBindViewHolder(adapter, component, data, position, payloads)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun getItemViewType(position: Int, itemData: Any): Int {
+    override fun getItemViewType(position: Int, itemData: Any): Int {
 
         var itemViewType: Int
 
@@ -200,25 +212,32 @@ class Flap : FlapApi {
         return viewType
     }
 
-    fun getItemId(position: Int, itemData: Any): Long {
+    override fun getItemId(position: Int, itemData: Any): Long {
         val delegate = getDelegateByViewType(getItemViewType(position, itemData))
         return delegate.getItemId(itemData, position)
     }
 
     /**
      * 会优先于 FlapComponentPool.putRecycledView 被调用
+     * @see RecyclerView.Adapter.onViewRecycled
      */
-    fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    override fun onViewRecycled(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewRecycled(adapter, component)
     }
 
-    fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
+    /**
+     * @see RecyclerView.Adapter.onFailedToRecycleView
+     */
+    override fun onFailedToRecycleView(adapter: RecyclerView.Adapter<*>, component: Component<*>): Boolean {
         val delegate = getDelegateByViewType(component.itemViewType)
         return delegate.onFailedToRecycleView(adapter, component)
     }
 
-    fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    /**
+     * @see RecyclerView.Adapter.onViewAttachedToWindow
+     */
+    override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewAttachedToWindow(adapter, component)
         dispatchOnViewAttachedToWindow(adapter, component)
@@ -234,7 +253,10 @@ class Flap : FlapApi {
         }
     }
 
-    fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
+    /**
+     * @see RecyclerView.Adapter.onViewDetachedFromWindow
+     */
+    override fun onViewDetachedFromWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {
         val delegate = getDelegateByViewType(component.itemViewType)
         delegate.onViewDetachedFromWindow(adapter, component)
         dispatchOnViewDetachedFromWindow(adapter, component)
@@ -255,12 +277,15 @@ class Flap : FlapApi {
      */
     private var useComponentPool = true
 
-    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
-        handleOnAttachedToRecyclerView(recyclerView)
-        dispatchOnAttachedToRecyclerView(adapter, recyclerView)
+    /**
+     * @see RecyclerView.Adapter.onAttachedToRecyclerView
+     */
+    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+        handleOnAdapterAttachedToRecyclerView(recyclerView)
+        dispatchOnAdapterAttachedToRecyclerView(adapter, recyclerView)
     }
 
-    private fun handleOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+    private fun handleOnAdapterAttachedToRecyclerView(recyclerView: RecyclerView) {
         bindingRecyclerView = recyclerView
         bindingContext = recyclerView.context
 
@@ -282,7 +307,7 @@ class Flap : FlapApi {
         }
     }
 
-    private fun dispatchOnAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    private fun dispatchOnAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
                 it.onAttachedToRecyclerView(adapter, recyclerView)
@@ -292,12 +317,7 @@ class Flap : FlapApi {
         }
     }
 
-    lateinit var componentPool: ComponentPool
-
-    lateinit var bindingRecyclerView: RecyclerView
-    lateinit var bindingContext: Context
-
-    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         if (this::componentPool.isInitialized) {
             bindingContext.applicationContext.unregisterComponentCallbacks(componentPool)
         }
@@ -345,10 +365,6 @@ class Flap : FlapApi {
         }
     }
 
-    /**
-     * 设置是否启用预加载
-     * 需要先调用 doOnPreload 开启才有效。
-     */
     override fun setPreloadEnable(enable: Boolean, direction: Int) = apply {
         when (direction) {
             PreloadHook.SCROLL_UP -> {
@@ -375,18 +391,10 @@ class Flap : FlapApi {
         registerAdapterHook(it)
     }
 
-    /**
-     * 设置点击事件监听
-     * @see doOnItemLongClick
-     */
     override fun doOnItemClick(onItemClick: OnItemClickListener?) = apply {
         itemClicksHelper.onItemClickListener = onItemClick
     }
 
-    /**
-     * 设置长按事件监听
-     * @see doOnItemClick
-     */
     override fun doOnItemLongClick(onItemLongClick: OnItemLongClickListener?) = apply {
         itemClicksHelper.onItemLongClickListener = onItemLongClick
     }
@@ -401,31 +409,19 @@ class Flap : FlapApi {
 
     private var paramProvider: ExtraParamsProvider? = null
 
-    /**
-     * 提供 Component 从 Adapter 获取参数的方法
-     *
-     * @return key 对应的参数，如果类型不匹配，则会为 null
-     */
     @Suppress("UNCHECKED_CAST")
     override fun <P> getParam(key: String): P? {
         return paramProvider?.getParam(key) as? P?
     }
 
-    override fun withParamProvider(block: (key: String) -> Any?) = apply {
-        paramProvider = ExtraParamsProviderWrapper(block)
+    override fun withParamProvider(provider: (key: String) -> Any?) = apply {
+        paramProvider = ExtraParamsProviderWrapper(provider)
     }
 
-    /**
-     * 设置 Component 绑定的 LifecycleOwner
-     * 会尝试去获取 recyclerView.context 作为 LifecycleOwner
-     */
     override fun withLifecycleOwner(lifecycleOwner: LifecycleOwner) = apply {
         this.lifecycleOwner = lifecycleOwner
     }
 
-    /**
-     * 设置是否使用 ComponentPool 作为缓存池
-     */
     override fun setComponentPoolEnable(enable: Boolean) = apply {
         useComponentPool = enable
     }
@@ -461,9 +457,6 @@ class Flap : FlapApi {
         eventObservers[eventName] = EventObserverWrapper(block)
     }
 
-    /**
-     * 观察所有的事件
-     */
     override fun observerEvents(block: (Event<*>) -> Unit) = apply {
         allEventsObserver = object : EventObserver {
             override fun onEvent(event: Event<*>) {
@@ -472,11 +465,27 @@ class Flap : FlapApi {
         }
     }
 
-    /**
-     * @see inflateWithApplicationContext
-     * @return activity context
-     */
-    override fun getActivityContext(): Context {
-        return bindingContext
+    override fun withActivity(activity: Activity) = apply {
+        this.activity = activity
+        if (activity is LifecycleOwner) {
+            lifecycleOwner = activity
+        }
+    }
+
+    override fun <T : Activity> getActivity(): T {
+        return activity as T
+    }
+
+    override fun withRuntime(runtime: FlapRuntime) = apply {
+        flapRuntime = runtime
+    }
+
+    override fun <T : FlapRuntime> getRuntime(): T {
+        return flapRuntime as T
+    }
+
+    var userLayoutInflater: LayoutInflater? = null
+    override fun withLayoutInflater(layoutInflater: LayoutInflater) = apply {
+        userLayoutInflater = layoutInflater
     }
 }

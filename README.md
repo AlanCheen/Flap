@@ -95,8 +95,15 @@ recyclerView.adapter = adapter
 - 发现有需要的功能 `Flap` 不具有？ 提 [issue](https://github.com/AlanCheen/Flap/issues) 告诉我！
 - 任何意见和建议都可以提喔~
 <a name="2c795971"></a>
+
 ## 贡献者列表
+
 感谢以下人员对 `Flap` 提供的帮助：
+
+
+<a href="https://github.com/AlanCheen/Flap/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AlanCheen/Flap" />
+</a>
 
 - [dreamkong](https://github.com/dreamkong)
 - [Fitz](https://github.com/finalrose7)
@@ -105,6 +112,12 @@ recyclerView.adapter = adapter
 - [大脑好饿](http://www.imliujun.com/)
 - [zhousysu](https://github.com/zhousysu)
 - [阿呆](http://blogyudan.online/)
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/AlanCheen/Flap.svg)](https://starchart.cc/AlanCheen/Flap)
+
 
 <a name="License"></a>
 ## License

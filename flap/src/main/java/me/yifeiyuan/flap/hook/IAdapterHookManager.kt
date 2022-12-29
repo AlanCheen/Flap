@@ -1,12 +1,18 @@
 package me.yifeiyuan.flap.hook
 
+import androidx.annotation.RestrictTo
+
 /**
+ * Manage all the AdapterHooks
+ *
  * AdapterHook 管理者的抽象
+ * @see me.yifeiyuan.flap.FlapRegistry
  * @see AdapterHookManager
  *
  * Created by 程序亦非猿 on 2022/9/5.
  * @since 3.1.0
  */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 interface IAdapterHookManager {
 
     val adapterHooks: MutableList<AdapterHook>

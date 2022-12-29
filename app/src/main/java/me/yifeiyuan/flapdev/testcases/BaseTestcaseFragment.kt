@@ -20,6 +20,7 @@ import me.yifeiyuan.flap.FlapAdapter
 import me.yifeiyuan.flap.decoration.LinearItemDecoration
 import me.yifeiyuan.flap.decoration.LinearSpaceItemDecoration
 import me.yifeiyuan.flap.decoration.SpaceItemDecoration
+import me.yifeiyuan.flap.ext.attachToRecyclerView
 import me.yifeiyuan.flap.widget.*
 import me.yifeiyuan.flapdev.*
 import me.yifeiyuan.flapdev.components.SimpleTextModel
@@ -105,22 +106,20 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
                             Log.d("observerEvents", "intEvent ~~ ${it.arg}")
                         }
                     }
+                }.withParamProvider {
+                    when (it) {
+                        "intValue" -> {
+                            233
+                        }
+                        "stringValue" -> {
+                            "这是一个 stringValue"
+                        }
+                        "booleanValue" -> {
+                            true
+                        }
+                        else -> "Unknown Key"
+                    }
                 }
-
-        adapter.withParamProvider {
-            when (it) {
-                "intValue" -> {
-                    233
-                }
-                "stringValue" -> {
-                    "这是一个 stringValue"
-                }
-                "booleanValue" -> {
-                    true
-                }
-                else -> "Unknown Key"
-            }
-        }
 
         if (isClickEnable()) {
             adapter.doOnItemClick { recyclerView, childView, position ->
@@ -138,7 +137,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
             }
         }
 
-        adapter.registerAdapterService(TestService::class.java)
+        adapter.registerAdapterService(LogService::class.java)
 
         adapter.setupStickyHeaderHandler { position, itemData -> position % 2 == 0 }
 
@@ -146,7 +145,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
         initItemDecorations()
 
         //配置完结束最后再赋值
-        recyclerView.adapter = adapter
+        adapter.attachToRecyclerView(recyclerView)
 
         swipeRefreshLayout.isRefreshing = true
 

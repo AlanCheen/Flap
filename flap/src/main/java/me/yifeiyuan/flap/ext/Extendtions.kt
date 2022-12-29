@@ -2,6 +2,13 @@
 
 package me.yifeiyuan.flap.ext
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import me.yifeiyuan.flap.Component
 import me.yifeiyuan.flap.FlapAdapter
@@ -16,11 +23,11 @@ import me.yifeiyuan.flap.hook.AdapterHook
 
 /**
  * 在 onCreateViewHolder 之前回调
- * @see doOnCreateViewHolderEnd
+ * @see doOnPostCreate
  */
-fun FlapAdapter.doOnCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit) {
+fun FlapAdapter.doOnPreCreate(block: (adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+        override fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
             block.invoke(adapter, viewType)
         }
     })
@@ -28,11 +35,11 @@ fun FlapAdapter.doOnCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<
 
 /**
  * 在 onCreateViewHolder 之后回调
- * @see doOnCreateViewHolderStart
+ * @see doOnPreCreate
  */
-fun FlapAdapter.doOnCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit) {
+fun FlapAdapter.doOnPostCreate(block: (adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
+        override fun onPostCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
             block.invoke(adapter, viewType, component)
         }
     })
@@ -40,11 +47,11 @@ fun FlapAdapter.doOnCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>
 
 /**
  * 在 onBindViewHolder 之前回调
- * @see doOnBindViewHolderEnd
+ * @see doOnPostBind
  */
-fun FlapAdapter.doOnBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+fun FlapAdapter.doOnPreBind(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+        override fun onPreBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
             block.invoke(adapter, component, data, position, payloads)
         }
     })
@@ -52,11 +59,11 @@ fun FlapAdapter.doOnBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>
 
 /**
  * 在 onBindViewHolder 之后回调
- * @see doOnBindViewHolderStart
+ * @see doOnPreBind
  */
-fun FlapAdapter.doOnBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+fun FlapAdapter.doOnPostBind(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
     registerAdapterHook(object : AdapterHook {
-        override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+        override fun onPostBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
             block.invoke(adapter, component, data, position, payloads)
         }
     })
@@ -90,7 +97,11 @@ inline fun <reified T> Any?.ifIs(block: T.() -> Unit) {
     }
 }
 
-typealias UnitBlock = () -> Unit
-typealias BooleanBlock = () -> Boolean
-typealias ResultBlock<T> = () -> T
-typealias NullableResultBlock<T> = () -> T?
+fun <T : RecyclerView.Adapter<*>> T.attachToRecyclerView(recyclerView: RecyclerView) {
+    recyclerView.adapter = this
+}
+
+typealias UnitFunc = () -> Unit
+typealias BooleanFunc = () -> Boolean
+typealias ResultFunc<T> = () -> T
+typealias NullableResultFunc<T> = () -> T?

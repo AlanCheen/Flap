@@ -24,21 +24,21 @@ fun adapterHook(block: DslAdapterHook.() -> Unit): AdapterHook {
  */
 class DslAdapterHook : AdapterHook {
 
-    private var onCreateViewHolderStart: ((adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit)? = null
-    private var onCreateViewHolderEnd: ((adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit)? = null
+    private var onPreCreateViewHolder: ((adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit)? = null
+    private var onPostCreateViewHolder: ((adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit)? = null
 
     private var onViewAttachedToWindow: ((adapter: RecyclerView.Adapter<*>, component: Component<*>) -> Unit)? = null
     private var onViewDetachedFromWindow: ((adapter: RecyclerView.Adapter<*>, component: Component<*>) -> Unit)? = null
 
-    private var onBindViewHolderStart: ((adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
-    private var onBindViewHolderEnd: ((adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
+    private var onPreBindViewHolder: ((adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
+    private var onPostBindViewHolder: ((adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit)? = null
 
-    fun onCreateViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit) {
-        onCreateViewHolderStart = block
+    fun onPreCreateViewHolder(block: (adapter: RecyclerView.Adapter<*>, viewType: Int) -> Unit) {
+        onPreCreateViewHolder = block
     }
 
-    fun onCreateViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit) {
-        onCreateViewHolderEnd = block
+    fun onPostCreateViewHolder(block: (adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) -> Unit) {
+        onPostCreateViewHolder = block
     }
 
     fun onViewAttachedToWindow(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>) -> Unit) {
@@ -49,28 +49,28 @@ class DslAdapterHook : AdapterHook {
         onViewDetachedFromWindow = block
     }
 
-    fun onBindViewHolderStart(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
-        onBindViewHolderStart = block
+    fun onPreBindViewHolder(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+        onPreBindViewHolder = block
     }
 
-    fun onBindViewHolderEnd(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
-        onBindViewHolderEnd = block
+    fun onPostBindViewHolder(block: (adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) -> Unit) {
+        onPostBindViewHolder = block
     }
 
-    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
-        onCreateViewHolderStart?.invoke(adapter, viewType)
+    override fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+        onPreCreateViewHolder?.invoke(adapter, viewType)
     }
 
-    override fun onCreateViewHolderEnd(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
-        onCreateViewHolderEnd?.invoke(adapter, viewType, component)
+    override fun onPostCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int, component: Component<*>) {
+        onPostCreateViewHolder?.invoke(adapter, viewType, component)
     }
 
-    override fun onBindViewHolderStart(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-        onBindViewHolderStart?.invoke(adapter, component, data, position, payloads)
+    override fun onPreBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+        onPreBindViewHolder?.invoke(adapter, component, data, position, payloads)
     }
 
-    override fun onBindViewHolderEnd(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
-        onBindViewHolderEnd?.invoke(adapter, component, data, position, payloads)
+    override fun onPostBindViewHolder(adapter: RecyclerView.Adapter<*>, component: Component<*>, data: Any, position: Int, payloads: MutableList<Any>) {
+        onPostBindViewHolder?.invoke(adapter, component, data, position, payloads)
     }
 
     override fun onViewAttachedToWindow(adapter: RecyclerView.Adapter<*>, component: Component<*>) {

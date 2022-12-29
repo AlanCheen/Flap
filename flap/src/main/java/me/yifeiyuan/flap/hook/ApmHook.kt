@@ -35,11 +35,11 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
     private var createStartTime: Long = 0
     private var bindStartTime: Long = 0
 
-    override fun onCreateViewHolderStart(adapter: RecyclerView.Adapter<*>, viewType: Int) {
+    override fun onPreCreateViewHolder(adapter: RecyclerView.Adapter<*>, viewType: Int) {
         createStartTime = SystemClock.uptimeMillis()
     }
 
-    override fun onCreateViewHolderEnd(
+    override fun onPostCreateViewHolder(
             adapter: RecyclerView.Adapter<*>,
             viewType: Int,
             component: Component<*>
@@ -65,7 +65,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         FlapDebug.e(TAG, "组件创建耗时过长，请优化！")
     }
 
-    override fun onBindViewHolderStart(
+    override fun onPreBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,
@@ -75,7 +75,7 @@ open class ApmHook(private val createTimeCostThreshold: Long = 20, private val b
         bindStartTime = SystemClock.uptimeMillis()
     }
 
-    override fun onBindViewHolderEnd(
+    override fun onPostBindViewHolder(
             adapter: RecyclerView.Adapter<*>,
             component: Component<*>,
             data: Any,

@@ -137,7 +137,7 @@ open class BaseTestcaseFragment : Fragment(), Scrollable, IMenuView {
             }
         }
 
-        adapter.registerAdapterService(TestService::class.java)
+        adapter.registerAdapterService(LogService::class.java)
 
         adapter.setupStickyHeaderHandler { position, itemData -> position % 2 == 0 }
 

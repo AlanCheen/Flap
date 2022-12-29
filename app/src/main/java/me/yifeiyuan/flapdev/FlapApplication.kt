@@ -118,7 +118,7 @@ class FlapApplication : MultiDexApplication() {
                     dslAdapterHook,
             )
 
-            registerAdapterService(TestService::class.java)
+            registerAdapterService(LogService::class.java)
 
             //可选
             withContext(this@FlapApplication)

@@ -465,14 +465,14 @@ class Flap : FlapApi {
         }
     }
 
-    override fun withActivityContext(activity: Activity) = apply {
+    override fun withActivity(activity: Activity) = apply {
         this.activity = activity
         if (activity is LifecycleOwner) {
             lifecycleOwner = activity
         }
     }
 
-    override fun <T : Activity> getActivityContext(): T {
+    override fun <T : Activity> getActivity(): T {
         return activity as T
     }
 

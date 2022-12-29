@@ -119,10 +119,10 @@ interface FlapApi : FlapRegistry, FlapAdapterDelegation {
     /**
      * Set activity context.
      *
-     * @see getActivityContext
+     * @see getActivity
      * @see Flap.inflateWithApplicationContext
      */
-    fun withActivityContext(activity: Activity): FlapApi
+    fun withActivity(activity: Activity): FlapApi
 
     /**
      * Set a custom layoutInflater that will be used to inflate itemView.
@@ -130,11 +130,11 @@ interface FlapApi : FlapRegistry, FlapAdapterDelegation {
     fun withLayoutInflater(layoutInflater: LayoutInflater): FlapApi
 
     /**
-     * @see withActivityContext
+     * @see withActivity
      * @see Flap.inflateWithApplicationContext
      * @return activity context
      */
-    fun <T : Activity> getActivityContext(): T
+    fun <T : Activity> getActivity(): T
 
     /**
      * Set a custom FlapRuntime

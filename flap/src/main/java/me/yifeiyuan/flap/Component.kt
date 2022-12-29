@@ -23,7 +23,7 @@ import me.yifeiyuan.flap.service.AdapterService
  *
  * @see Flap.getParam 从 Adapter 获取额外的参数
  * @see Flap.fireEvent 发送事件给 Adapter
- * @see Flap.getActivityContext 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
+ * @see Flap.getActivity 获取 Activity 类型的 Context，因为如果你使用 Application 创建 Component，context 不是 Activity
  * @see Flap.inflateWithApplicationContext
  *
  * Created by 程序亦非猿 on 2021/9/22.
@@ -41,7 +41,7 @@ open class Component<T>(itemView: View) : RecyclerView.ViewHolder(itemView), Lif
      * 此时如果要获取 Activity Context 则需要通过 FlapAdapter#getActivityContext() 获取
      *
      * @see Flap.inflateWithApplicationContext
-     * @see Flap.getActivityContext
+     * @see Flap.getActivity
      */
     val context: Context = itemView.context
 

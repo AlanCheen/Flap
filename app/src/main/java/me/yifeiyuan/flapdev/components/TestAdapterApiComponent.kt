@@ -6,7 +6,7 @@ import me.yifeiyuan.flap.dsl.adapterDelegate
 import me.yifeiyuan.flap.event.Event
 import me.yifeiyuan.flap.ext.bindButton
 import me.yifeiyuan.flapdev.R
-import me.yifeiyuan.flapdev.TestService
+import me.yifeiyuan.flapdev.LogService
 
 /**
  * Created by 程序亦非猿 on 2022/7/29.
@@ -58,7 +58,7 @@ fun createTestAdapterApiComponentDelegate() = adapterDelegate<TestAdapterApiMode
         bindButton(R.id.testGetAdapterService) {
             setOnClickListener {
 
-                callService<TestService> {
+                callService<LogService> {
                     log("LogService Message")
                     messageTextView.text = testResult()
                 }

@@ -67,7 +67,7 @@ class Flap : FlapApi {
 
     var flapRuntime: FlapRuntime? = null
 
-    var activity: Activity? = null
+    var activityContext: Activity? = null
 
     init {
         adapterHooks.addAll(FlapInitializer.adapterHooks)
@@ -289,6 +289,10 @@ class Flap : FlapApi {
         bindingRecyclerView = recyclerView
         bindingContext = recyclerView.context
 
+        if (bindingContext is Activity) {
+            activityContext = bindingContext
+        }
+
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner
         if (lifecycleOwner == null && recyclerView.context is LifecycleOwner) {
             FlapDebug.d(TAG, "onAttachedToRecyclerView，FlapAdapter 自动设置了 recyclerView.context 为 LifecycleOwner")
@@ -466,14 +470,14 @@ class Flap : FlapApi {
     }
 
     override fun withActivity(activity: Activity) = apply {
-        this.activity = activity
+        this.activityContext = activity
         if (activity is LifecycleOwner) {
             lifecycleOwner = activity
         }
     }
 
     override fun <T : Activity> getActivity(): T {
-        return activity as T
+        return activityContext as T
     }
 
     override fun withRuntime(runtime: FlapRuntime) = apply {

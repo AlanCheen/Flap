@@ -290,7 +290,7 @@ class Flap : FlapApi {
         bindingContext = recyclerView.context
 
         if (bindingContext is Activity) {
-            activityContext = bindingContext
+            activityContext = bindingContext as Activity
         }
 
         //当没设置 lifecycleOwner 尝试获取 context 作为 LifecycleOwner

@@ -3,15 +3,17 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 
 apply plugin: 'com.github.dcendents.android-maven'
-
 group = 'me.yifeiyuan'
 
+apply from: '../config.gradle'
+
 android {
-    compileSdkVersion 29
+
+    compileSdkVersion flapCompileSdkVersion
 
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 29
+        minSdkVersion flapMinSdkVersion
+        targetSdkVersion flapTargetSdkVersion
         versionCode 1
         versionName "1.0"
 

@@ -1,0 +1,7 @@
+ext {
+
+    flapMinSdkVersion = 17
+    flapTargetSdkVersion = 29
+    flapCompileSdkVersion = 29
+
+}

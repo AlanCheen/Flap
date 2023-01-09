@@ -63,12 +63,12 @@ internal class ItemClicksHelper : RecyclerView.OnChildAttachStateChangeListener,
         //do nothing
     }
 
-    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    override fun onAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
         this.recyclerView.addOnChildAttachStateChangeListener(this)
     }
 
-    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    override fun onAdapterDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         recyclerView.removeOnChildAttachStateChangeListener(this)
     }
 }

@@ -92,11 +92,11 @@ interface AdapterHook {
      * @see FlapAdapter.onAttachedToRecyclerView
      * @since 3.1.5
      */
-    fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
+    fun onAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 
     /**
      * @see FlapAdapter.onDetachedFromRecyclerView
      * @since 3.1.5
      */
-    fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
+    fun onAdapterDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {}
 }

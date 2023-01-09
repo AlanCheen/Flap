@@ -16,7 +16,7 @@ import me.yifeiyuan.flap.hook.IAdapterHookManager
  * Created by 程序亦非猿 on 2022/6/16.
  * @since 3.0.0
  */
-class EmptyViewHelper : OnAdapterDataChangedObserver() ,AdapterHook{
+class EmptyViewHelper : OnAdapterDataChangedObserver(), AdapterHook {
 
     /**
      * 设置空状态下需要展示的 View
@@ -34,7 +34,7 @@ class EmptyViewHelper : OnAdapterDataChangedObserver() ,AdapterHook{
     private fun attachRecyclerView(targetRecyclerView: RecyclerView, checkRightNow: Boolean = false) {
         contentView = targetRecyclerView
         contentView?.adapter?.let {
-            attachAdapter(it,checkRightNow)
+            attachAdapter(it, checkRightNow)
         }
     }
 
@@ -72,11 +72,11 @@ class EmptyViewHelper : OnAdapterDataChangedObserver() ,AdapterHook{
         maybeShowEmptyView()
     }
 
-    override fun onAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
-        attachRecyclerView(recyclerView,true)
+    override fun onAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+        attachRecyclerView(recyclerView, true)
     }
 
-    override fun onDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
+    override fun onAdapterDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapter.unregisterAdapterDataObserver(this)
         } catch (e: Exception) {

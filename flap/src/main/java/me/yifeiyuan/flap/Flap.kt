@@ -314,7 +314,7 @@ class Flap : FlapApi {
     private fun dispatchOnAdapterAttachedToRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
-                it.onAttachedToRecyclerView(adapter, recyclerView)
+                it.onAdapterAttachedToRecyclerView(adapter, recyclerView)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -331,7 +331,7 @@ class Flap : FlapApi {
     private fun dispatchOnDetachedFromRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
         try {
             adapterHooks.forEach {
-                it.onDetachedFromRecyclerView(adapter, recyclerView)
+                it.onAdapterDetachedFromRecyclerView(adapter, recyclerView)
             }
         } catch (e: Exception) {
             e.printStackTrace()
